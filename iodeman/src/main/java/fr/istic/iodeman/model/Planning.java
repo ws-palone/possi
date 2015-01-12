@@ -1,5 +1,8 @@
 package fr.istic.iodeman.model;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 public class Planning {
 	
 	private TimeBox period;
@@ -8,6 +11,8 @@ public class Planning {
 	private TimeBox lunchBreak;
 	private TimeBox dayPeriod;
 	private Integer nbMaxOralDefensePerDay;
+	private Collection<Room> rooms;
+	private Collection<Participant> participants;
 	
 	public TimeBox getPeriod() {
 		return period;
@@ -45,5 +50,19 @@ public class Planning {
 	public void setNbMaxOralDefensePerDay(Integer nbMaxOralDefensePerDay) {
 		this.nbMaxOralDefensePerDay = nbMaxOralDefensePerDay;
 	}
+	public Iterator<Room> getRooms() {
+		return rooms.iterator();
+	}
+	public void setRooms(Collection<Room> rooms) {
+		this.rooms = rooms;
+	}
+	public Iterator<Participant> getParticipants() {
+		return participants.iterator();
+	}
+	public void setParticipants(Collection<Participant> participants) {
+		this.participants = participants;
+	}
+	
+	
 	
 }
