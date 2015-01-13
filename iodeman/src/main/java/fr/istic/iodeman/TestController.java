@@ -41,7 +41,7 @@ public class TestController {
 	}
 	
 	@RequestMapping("/login")
-	public void login(@RequestParam(value="ticket", defaultValue="") String ticket){
+	public void login(@RequestParam(value="ticket") String ticket){
 		
 		System.out.println(ticket);
 		
