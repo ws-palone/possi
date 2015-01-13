@@ -79,10 +79,8 @@ public class TestController {
 		 } else {
 		     errorCode = sv.getErrorCode();
 		     errorMessage = sv.getErrorMessage();
+		     return errorCode+" : "+errorMessage;
 		 }
-		 
-		 
-		return ticket;
 	}
 	
 }  
