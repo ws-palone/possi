@@ -7,6 +7,15 @@ public class TimeBox {
 	private Date from;
 	private Date to;
 	
+	public TimeBox() {
+		
+	}
+	
+	public TimeBox(Date from, Date to) {
+		setFrom(from);
+		setTo(to);
+	}
+	
 	public Date getFrom() {
 		return from;
 	}
