@@ -56,8 +56,8 @@ public class Planning {
 	public void setRooms(Collection<Room> rooms) {
 		this.rooms = rooms;
 	}
-	public Iterator<Participant> getParticipants() {
-		return participants.iterator();
+	public Collection<Participant> getParticipants() {
+		return participants;
 	}
 	public void setParticipants(Collection<Participant> participants) {
 		this.participants = participants;
