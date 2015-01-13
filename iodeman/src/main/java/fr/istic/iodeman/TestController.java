@@ -43,10 +43,7 @@ public class TestController {
 	@RequestMapping("/login")
 	public String login(@RequestParam(value="ticket", defaultValue="") String ticket){
 		
-		
-		
-		
-		 String serverName = "sso-cas.univ-rennes1.fr";
+		 String serverName = "https://sso-cas.univ-rennes1.fr";
 		 String user = null;
 		 String errorCode = null;
 		 String errorMessage = null;
