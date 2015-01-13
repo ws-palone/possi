@@ -79,8 +79,6 @@ public class TestController {
 	@RequestMapping("/user")
 	public String user(@RequestParam(value="ticket", defaultValue="") String ticket){
 		
-		
-		
 		return ticket;
 	}
 }  
