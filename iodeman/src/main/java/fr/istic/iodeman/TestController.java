@@ -43,7 +43,7 @@ public class TestController {
 	@RequestMapping("/login")
 	public ServiceTicketValidator validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
-		 String serverName = "https://sso-cas.univ-rennes1.fr/Validate";
+		 String serverName = "https://sso-cas.univ-rennes1.fr/validate";
 		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/idoeman/login";
 		 String user = null;
 		 String errorCode = null;
