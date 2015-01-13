@@ -41,43 +41,46 @@ public class TestController {
 	}
 	
 	@RequestMapping("/login")
-	public ServiceTicketValidator login(@RequestParam(value="ticket", defaultValue="") String ticket){
+	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
 		 String serverName = "https://sso-cas.univ-rennes1.fr/serviceValidate";
+		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/idoeman/login";
 		 String user = null;
 		 String errorCode = null;
 		 String errorMessage = null;
 		 String xmlResponse = null;
+		 
+		 if (ticket == null )
+			{  	
+			 	return "redirect:"+serverName + "?service=" +serviceName;
+			}
 		  
 		 ServiceTicketValidator sv = new ServiceTicketValidator();
 		  
 		 sv.setCasValidateUrl(serverName);
-		 sv.setService("http://iode-man.istic.univ-rennes1.fr:8080/idoeman/");
+		 sv.setService(serviceName);
 		 sv.setServiceTicket(ticket);
 		  
-		 try {
-			sv.validate();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		 sv.validate();
 		  
 		 xmlResponse = sv.getResponse();
 		  
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
+		     return user;
 		 } else {
 		     errorCode = sv.getErrorCode();
 		     errorMessage = sv.getErrorMessage();
+		     return xmlResponse+" / errorCode : "+errorCode+" / errorMessage : "+errorMessage;
 		 }
 		 
-		 return sv;
 	}
 	
+	@RequestMapping("/user")
+	public String user(@RequestParam(value="ticket", defaultValue="") String ticket){
+		
+		
+		
+		return ticket;
+	}
 }  
