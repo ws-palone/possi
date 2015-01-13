@@ -43,9 +43,9 @@ public class TestController {
 	@RequestMapping("/login")
 	public String login(@RequestParam(value="ticket", defaultValue="") String ticket){
 		
-		return ticket;
 		
-		/*
+		
+		
 		 String serverName = "sso-cas.univ-rennes1.fr";
 		 String user = null;
 		 String errorCode = null;
@@ -75,13 +75,14 @@ public class TestController {
 		  
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
+		     return user;
 		 } else {
 		     errorCode = sv.getErrorCode();
 		     errorMessage = sv.getErrorMessage();
 		 }
-		 */	
 		 
-		
+		 
+		return ticket;
 	}
 	
 }  
