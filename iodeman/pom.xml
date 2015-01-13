@@ -37,6 +37,11 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>cas</groupId>
+			<artifactId>casclient</artifactId>
+			<version>2.1.1</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
