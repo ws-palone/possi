@@ -41,7 +41,7 @@ public class TestController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(@RequestParam(value="ticket", defaultValue="") String ticket){
+	public ServiceTicketValidator login(@RequestParam(value="ticket", defaultValue="") String ticket){
 		
 		 String serverName = "https://sso-cas.univ-rennes1.fr";
 		 String user = null;
@@ -72,12 +72,12 @@ public class TestController {
 		  
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
-		     return user;
 		 } else {
 		     errorCode = sv.getErrorCode();
 		     errorMessage = sv.getErrorMessage();
-		     return errorCode+" : "+errorMessage;
 		 }
+		 
+		 return sv;
 	}
 	
 }  
