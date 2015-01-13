@@ -12,6 +12,7 @@ public class Planning {
 	private Integer nbMaxOralDefensePerDay;
 	private Collection<Room> rooms;
 	private Collection<Participant> participants;
+	private Collection<Priority> priorities;
 	
 	public TimeBox getPeriod() {
 		return period;
@@ -60,6 +61,12 @@ public class Planning {
 	}
 	public void setParticipants(Collection<Participant> participants) {
 		this.participants = participants;
+	}
+	public Collection<Priority> getPriorities() {
+		return priorities;
+	}
+	public void setPriorities(Collection<Priority> priorities) {
+		this.priorities = priorities;
 	}
 	
 	
