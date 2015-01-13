@@ -1,7 +1,6 @@
 package fr.istic.iodeman.model;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 public class Planning {
 	
@@ -50,8 +49,8 @@ public class Planning {
 	public void setNbMaxOralDefensePerDay(Integer nbMaxOralDefensePerDay) {
 		this.nbMaxOralDefensePerDay = nbMaxOralDefensePerDay;
 	}
-	public Iterator<Room> getRooms() {
-		return rooms.iterator();
+	public Collection<Room> getRooms() {
+		return rooms;
 	}
 	public void setRooms(Collection<Room> rooms) {
 		this.rooms = rooms;
