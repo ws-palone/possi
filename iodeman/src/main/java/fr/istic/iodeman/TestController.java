@@ -52,7 +52,7 @@ public class TestController {
 		 ServiceTicketValidator sv = new ServiceTicketValidator();
 		  
 		 sv.setCasValidateUrl(serverName);
-		 sv.setService("http://iode-man.istic.univ-rennes1.fr:8080/idoeman/");
+		 sv.setService("http://iode-man.istic.univ-rennes1.fr:8080/idoeman/login");
 		 sv.setServiceTicket(ticket);
 		  
 		 try {
