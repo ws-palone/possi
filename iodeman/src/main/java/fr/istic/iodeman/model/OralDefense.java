@@ -1,7 +1,6 @@
 package fr.istic.iodeman.model;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 public class OralDefense {
 	private Participant composition;
