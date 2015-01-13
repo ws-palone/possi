@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -142,21 +144,21 @@ public class AlgoPlanningImplV1 implements AlgoPlanning {
 				Collection<Unavailability> unavailabilities = Collections2.filter(this.unavailabilities, new Predicate<Unavailability>() {
 					public boolean apply(Unavailability a) {
 						Person p = a.getPerson();
-						if ( p.equals(participant.getStudent())) {
-							System.out.println("match found: "+p.getId());
-						}
 						return ( p.equals(participant.getStudent())
 								|| p.equals(participant.getFollowingTeacher()))
 								&& (p.getRole() == nextPriority.getRole());
 					}
 				});
 				
+				System.out.println("unavailabilities found: "+unavailabilities.size());
+				
 				if (!unavailabilities.isEmpty()) {
 					for (TimeBox timeBox : Lists.newArrayList(possibleTbs)) {
 						
 						// Check if there is no unavailabilities for that timebox
 						if (!AlgoPlanningUtils.isAvailable(unavailabilities, timeBox)) {
-							System.out.println("unavailable timebox found...");
+							System.out.println("unavailable timebox found : "
+									+(new DateTime(timeBox.getFrom()).toString("dd/MM/yyyy HH:mm")));
 							possibleTbs.remove(timeBox);
 						}
 						
@@ -216,7 +218,7 @@ public class AlgoPlanningImplV1 implements AlgoPlanning {
 			
 			oralDefense = OralDefenseFactory.createOralDefense(participant, room, timeBox);
 			System.out.println("");
-			System.out.println("new oral defense created");
+			System.out.println("new oral defense created for student "+participant.getStudent().getId());
 		
 		}catch(IllegalArgumentException ex) {
 			

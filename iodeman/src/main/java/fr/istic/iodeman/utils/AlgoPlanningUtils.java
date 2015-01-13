@@ -29,16 +29,16 @@ public class AlgoPlanningUtils {
 		
 		if (timeBox.getFrom().after(unavailability.getPeriod().getFrom())
 				&& timeBox.getFrom().before(unavailability.getPeriod().getTo())) {
-			return true;
+			return false;
 		}else if(timeBox.getTo().after(unavailability.getPeriod().getFrom())
 				&& timeBox.getTo().before(unavailability.getPeriod().getTo())) {
-			return true;
+			return false;
 		}else if (timeBox.getFrom().before(unavailability.getPeriod().getFrom())
 				&& timeBox.getTo().after(unavailability.getPeriod().getTo())) {
-			return true;
+			return false;
 		}
 		
-		return false;
+		return true;
 		
 	}
 	
