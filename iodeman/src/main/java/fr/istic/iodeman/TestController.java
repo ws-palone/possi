@@ -41,9 +41,9 @@ public class TestController {
 	}
 	
 	@RequestMapping("/login")
-	public void login(@RequestParam(value="ticket") String ticket){
+	public String login(@RequestParam(value="ticket", defaultValue="") String ticket){
 		
-		System.out.println(ticket);
+		return ticket;
 		
 		/*
 		 String serverName = "sso-cas.univ-rennes1.fr";
