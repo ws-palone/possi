@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 2, 2013 2:21:57 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="fr.istic.iodeman.model.Person" table="TEST">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="firstName" type="java.lang.String">
+            <column name="FIRSTNAME" />
+        </property>
+        
+        <property name="lastName" type="java.lang.String">
+            <column name="LASTNAME" />
+        </property>
+        
+        <property name="role" type="java.lang.String">
+            <column name="ROLE" />
+        </property>
+    </class>
+</hibernate-mapping>
