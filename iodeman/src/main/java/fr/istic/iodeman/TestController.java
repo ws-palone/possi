@@ -52,7 +52,7 @@ public class TestController {
 		 
 		 if (ticket == null )
 			{  	
-			 	//return "redirect:"+serverName + "?service=" +serviceName;
+			 	//return "redirect:"+serverName + "?service=" +serviceName; //
 			}
 		  
 		 ServiceTicketValidator sv = new ServiceTicketValidator();
