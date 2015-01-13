@@ -3,11 +3,11 @@ package fr.istic.iodeman.model;
 import java.util.Collection;
 
 public class OralDefense {
+	
 	private Participant composition;
 	private Room room;
 	private TimeBox timebox;
 	private Collection<Person> jury;
-	
 	
 	public Participant getComposition() {
 		return composition;
@@ -33,6 +33,5 @@ public class OralDefense {
 	public void setJury(Collection<Person> jury) {
 		this.jury = jury;
 	}
-	
 	
 }
