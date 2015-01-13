@@ -43,7 +43,7 @@ public class TestController {
 	@RequestMapping("/login")
 	public ServiceTicketValidator login(@RequestParam(value="ticket", defaultValue="") String ticket){
 		
-		 String serverName = "https://sso-cas.univ-rennes1.fr";
+		 String serverName = "https://sso-cas.univ-rennes1.fr/login";
 		 String user = null;
 		 String errorCode = null;
 		 String errorMessage = null;
