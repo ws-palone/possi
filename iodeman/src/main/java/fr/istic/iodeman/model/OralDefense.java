@@ -28,8 +28,8 @@ public class OralDefense {
 	public void setTimebox(TimeBox timebox) {
 		this.timebox = timebox;
 	}
-	public Iterator<Person> getJury() {
-		return jury.iterator();
+	public Collection<Person> getJury() {
+		return jury;
 	}
 	public void setJury(Collection<Person> jury) {
 		this.jury = jury;
