@@ -24,6 +24,7 @@ import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.strategy.AlgoPlanning;
 import fr.istic.iodeman.strategy.AlgoPlanningImplV1;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
+import fr.istic.iodeman.utils.TestUtils;
 
 public class TestAlgoPlanningImplV1 {
 
@@ -136,7 +137,7 @@ public class TestAlgoPlanningImplV1 {
 		
 		Collection<OralDefense> results = algo.execute(timeBoxes, unavailabilities);
 		
-		printResults(results);
+		TestUtils.printResults(results);
 		
 		// verify that there is the same number of participants than generated oral defenses
 		assertEquals(participants.size(), results.size());
@@ -166,26 +167,6 @@ public class TestAlgoPlanningImplV1 {
 		assertTrue(checkIfUnavailabilityRespected(results, ua1));
 		assertTrue(checkIfUnavailabilityRespected(results, ua2));
 		assertTrue(checkIfUnavailabilityRespected(results, ua3));
-		
-	}
-	
-	public void printResults(Collection<OralDefense> results) {
-		
-		for(OralDefense oralDefense : results) {
-			
-			DateTime date1 = new DateTime(oralDefense.getTimebox().getFrom());
-			DateTime date2 = new DateTime(oralDefense.getTimebox().getTo());
-			
-			System.out.println(
-					"oral defense for " +
-					oralDefense.getComposition().getStudent().getFirstName()
-					+ " - " + oralDefense.getComposition().getFollowingTeacher().getFirstName()
-					+ " set on " + date1.toString("dd/MM/yyyy HH:mm")
-					+ " - " + date2.toString("dd/MM/yyyy HH:mm")
-					+ " in " + oralDefense.getRoom().getName()
-		);
-			
-		}
 		
 	}
 	
