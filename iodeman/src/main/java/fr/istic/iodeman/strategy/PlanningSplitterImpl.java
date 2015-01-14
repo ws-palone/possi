@@ -55,7 +55,7 @@ public class PlanningSplitterImpl implements PlanningSplitter {
 				TimeBox tb = new TimeBox(dateFrom.toDate(), dateTo.toDate());
 				
 				// verify that the timebox is not in the lunch break period
-				if (isNotOnLunchBreak(lunchBreak, interlude, tb)) {
+				if (isNotOnLunchBreak(lunchBreak, tb)) {
 					
 					// add the timebox to the result
 					results.add(tb);	
@@ -87,7 +87,7 @@ public class PlanningSplitterImpl implements PlanningSplitter {
 		return results;
 	}
 	
-	private boolean isNotOnLunchBreak(TimeBox lunchBreak, Integer interlude, TimeBox timeBox) {
+	private boolean isNotOnLunchBreak(TimeBox lunchBreak, TimeBox timeBox) {
 		
 		if (lunchBreak != null && timeBox != null) {
 			
