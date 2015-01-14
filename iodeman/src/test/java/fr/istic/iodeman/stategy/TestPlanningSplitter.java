@@ -15,7 +15,7 @@ import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 public class TestPlanningSplitter {
 
 	@Test
-	public void test1() {
+	public void testOK1() {
 		
 		Planning planning = new Planning();
 		planning.setPeriod(new TimeBox(
@@ -48,7 +48,68 @@ public class TestPlanningSplitter {
 			
 		}
 		
-		
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithNullPlanning() {
+		
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		splitter.execute(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithNullPeriod() {
+		
+		Planning planning = new Planning();
+		planning.setPeriod(null);
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		splitter.execute(planning);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithNullDayPeriod() {
+		
+		Planning planning = new Planning();
+		planning.setPeriod(new TimeBox(
+				new DateTime(2015, 1, 15, 0, 0).toDate(),
+				new DateTime(2015, 1, 16, 0, 0).toDate()
+		));
+		planning.setDayPeriod(null);
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		splitter.execute(planning);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithNullOralDefenseDuration() {
+		
+		Planning planning = new Planning();
+		planning.setPeriod(new TimeBox(
+				new DateTime(2015, 1, 15, 0, 0).toDate(),
+				new DateTime(2015, 1, 16, 0, 0).toDate()
+		));
+		planning.setDayPeriod(new TimeBox(
+				new DateTime(2015, 1, 18, 8, 0).toDate(),
+				new DateTime(2015, 1, 18, 18, 15).toDate()
+		));
+		planning.setOralDefenseDuration(null);
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		splitter.execute(planning);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithZeroOralDefenseDuration() {
+		
+		Planning planning = new Planning();
+		planning.setPeriod(new TimeBox(
+				new DateTime(2015, 1, 15, 0, 0).toDate(),
+				new DateTime(2015, 1, 16, 0, 0).toDate()
+		));
+		planning.setDayPeriod(new TimeBox(
+				new DateTime(2015, 1, 18, 8, 0).toDate(),
+				new DateTime(2015, 1, 18, 18, 15).toDate()
+		));
+		planning.setOralDefenseDuration(0);
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		splitter.execute(planning);
+	}
 }

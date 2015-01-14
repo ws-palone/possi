@@ -2,6 +2,7 @@ package fr.istic.iodeman.strategy;
 
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
@@ -18,11 +19,23 @@ public class PlanningSplitterImpl implements PlanningSplitter {
 	
 	public List<TimeBox> execute(Planning planning) {
 		
+		Validate.notNull(planning);
+		Validate.notNull(planning.getPeriod());
+		Validate.notNull(planning.getDayPeriod());
+		Validate.notNull(planning.getOralDefenseDuration());
+		
 		this.planning = planning;
 		results = Lists.newArrayList();
 		
 		Integer duration = planning.getOralDefenseDuration();
+		
+		Validate.isTrue(duration > 0);
+		
 		Integer interlude = planning.getOralDefenseInterlude();
+		
+		if (interlude == null) {
+			interlude = 0;
+		}
 		
 		TimeBox period = planning.getPeriod();
 		TimeBox dayPeriod = planning.getDayPeriod();
