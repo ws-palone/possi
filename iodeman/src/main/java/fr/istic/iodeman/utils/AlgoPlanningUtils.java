@@ -27,19 +27,24 @@ public class AlgoPlanningUtils {
 	
 	public static boolean isAvailable(Unavailability unavailability, TimeBox timeBox) {
 		
-		if (timeBox.getFrom().after(unavailability.getPeriod().getFrom())
-				&& timeBox.getFrom().before(unavailability.getPeriod().getTo())) {
+		return isAvailable(unavailability.getPeriod(), timeBox);
+		
+	}
+	
+	public static boolean isAvailable(TimeBox unavailablePeriod, TimeBox timeBox) {
+		
+		if (timeBox.getFrom().after(unavailablePeriod.getFrom())
+				&& timeBox.getFrom().before(unavailablePeriod.getTo())) {
 			return false;
-		}else if(timeBox.getTo().after(unavailability.getPeriod().getFrom())
-				&& timeBox.getTo().before(unavailability.getPeriod().getTo())) {
+		}else if(timeBox.getTo().after(unavailablePeriod.getFrom())
+				&& timeBox.getTo().before(unavailablePeriod.getTo())) {
 			return false;
-		}else if (timeBox.getFrom().before(unavailability.getPeriod().getFrom())
-				&& timeBox.getTo().after(unavailability.getPeriod().getTo())) {
+		}else if (timeBox.getFrom().before(unavailablePeriod.getFrom())
+				&& timeBox.getTo().after(unavailablePeriod.getTo())) {
 			return false;
 		}
 		
 		return true;
-		
 	}
 	
 	public static Collection<Priority> sortPrioritiesByWeight(Collection<Priority> priorities) {
