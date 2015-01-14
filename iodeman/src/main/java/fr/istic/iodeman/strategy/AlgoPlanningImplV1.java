@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Predicate;
@@ -41,18 +42,44 @@ public class AlgoPlanningImplV1 implements AlgoPlanning {
 	
 	public void configure(Planning planning) {
 		
+		Validate.notNull(planning);
+		
 		this.planning = planning;
 		this.rooms = Lists.newArrayList(planning.getRooms());
-		this.priorities = AlgoPlanningUtils.sortPrioritiesByWeight(planning.getPriorities());
-	
+		
+		if (planning.getPriorities() != null) {
+			this.priorities = AlgoPlanningUtils.sortPrioritiesByWeight(planning.getPriorities());
+		}else{
+			this.priorities = Lists.newArrayList();
+		}
+		
 	}
 	
 	public Collection<OralDefense> execute(List<TimeBox> timeboxes, List<Unavailability> unavailabilities) {
 		
+		// verify that a planning has been configure correctly
+		Validate.notNull(planning);
+		Validate.notNull(planning.getRooms());
+		Validate.notEmpty(planning.getRooms());
+		
+		// verify that we have timeboxes
+		Validate.notNull(timeboxes);
+		Validate.notEmpty(timeboxes);
+		
+		// verify that we have participants
+		Validate.notNull(planning.getParticipants());
+		Validate.notEmpty(planning.getParticipants());
+		
+		// verify that we have enough timeboxes and rooms to create an oral defense for each participant
+		Validate.isTrue(timeboxes.size() * rooms.size() >= planning.getParticipants().size());
+		
 		this.results = Lists.newArrayList();
 		this.remainingTimeboxes = Lists.newArrayList(timeboxes);
 		this.allocationsPerTimebox = Maps.newHashMap();
-		this.unavailabilities = Lists.newArrayList(unavailabilities);
+		this.unavailabilities = Lists.newArrayList();
+		if (unavailabilities != null) {
+			this.unavailabilities.addAll(unavailabilities);
+		}
 		this.buffer = Maps.newHashMap();
 		this.remainingParticipants = Lists.newArrayList(planning.getParticipants());
 		
@@ -60,13 +87,17 @@ public class AlgoPlanningImplV1 implements AlgoPlanning {
 		
 		while (!remainingParticipants.isEmpty()) {
 			
+			// try to allocate a timebox to each participant
+			// when considering their unavailabilities
 			tryAllocation();
 			
+			// allocate a timebox to a participant from its list
+			// of available timebox
 			if (!remainingParticipants.isEmpty()) {
 				forceAllocation();
 			}
 			
-		}
+		} // loop until every participant is allocated to a timebox
 	
 		return results;
 	

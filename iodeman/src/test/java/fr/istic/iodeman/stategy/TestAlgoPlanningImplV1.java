@@ -28,12 +28,11 @@ import fr.istic.iodeman.utils.TestUtils;
 
 public class TestAlgoPlanningImplV1 {
 
-	@Test
-	public void test1() {
+	private List<Participant> createParticipants(int nb) {
 		
 		List<Participant> participants = Lists.newArrayList();
 		
-		for(int i=1; i < 15; i++) {
+		for(int i=1; i < nb+1; i++) {
 			
 			Person p1 = new Person();
 			p1.setId(i);
@@ -53,6 +52,31 @@ public class TestAlgoPlanningImplV1 {
 			
 		}
 		
+		return participants;
+	}
+	
+	private List<TimeBox> createTimeBoxes(int nb) {
+		
+		List<TimeBox> timeBoxes = Lists.newArrayList();
+		
+		DateTime dateT = new DateTime(2015, 1, 13, 8, 0);
+		
+		while(timeBoxes.size() < nb) {	
+			TimeBox tb = new TimeBox();
+			tb.setFrom(dateT.toDate());
+			dateT = dateT.plusHours(1);
+			tb.setTo(dateT.toDate());
+			timeBoxes.add(tb);
+		}
+		
+		return timeBoxes;
+	}
+	
+	@Test
+	public void testOK1() {
+		
+		List<Participant> participants = createParticipants(14);
+		
 		Room room1 = new Room();
 		room1.setName("i227");
 		Room room2 = new Room();
@@ -71,7 +95,7 @@ public class TestAlgoPlanningImplV1 {
 		planning.setRooms(Lists.newArrayList(room1, room2));
 		planning.setPriorities(Lists.newArrayList(priority1, priority2));
 		
-		List<TimeBox> timeBoxes = Lists.newArrayList();
+		List<TimeBox> timeBoxes = createTimeBoxes(8);/*Lists.newArrayList();
 		
 		timeBoxes.add(new TimeBox(
 				(new DateTime(2015,1,13,8,0)).toDate(),
@@ -104,7 +128,7 @@ public class TestAlgoPlanningImplV1 {
 		timeBoxes.add(new TimeBox(
 				(new DateTime(2015,1,14,11,0)).toDate(),
 				(new DateTime(2015,1,14,12,0)).toDate()
-		));
+		));*/
 		
 		List<Unavailability> unavailabilities = Lists.newArrayList();
 		
@@ -119,8 +143,8 @@ public class TestAlgoPlanningImplV1 {
 		Unavailability ua2 = new Unavailability();
 		ua2.setPerson(participants.get(1).getFollowingTeacher());
 		ua2.setPeriod(new TimeBox(
-				(new DateTime(2015,1,14,8,0)).toDate(),
-				(new DateTime(2015,1,14,12,0)).toDate()
+				(new DateTime(2015,1,13,12,0)).toDate(),
+				(new DateTime(2015,1,13,15,0)).toDate()
 		));
 		unavailabilities.add(ua2);
 		
@@ -167,6 +191,110 @@ public class TestAlgoPlanningImplV1 {
 		assertTrue(checkIfUnavailabilityRespected(results, ua1));
 		assertTrue(checkIfUnavailabilityRespected(results, ua2));
 		assertTrue(checkIfUnavailabilityRespected(results, ua3));
+		
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testConfigureWithNullPlanning() {
+		
+		AlgoPlanning algo = new AlgoPlanningImplV1();
+		algo.configure(null);
+	
+	}
+	
+	@Test
+	public void testExecuteWithoutUnavailabilites() {
+		
+		List<Participant> participants = createParticipants(14);
+		
+		Room room1 = new Room();
+		room1.setName("i227");
+		Room room2 = new Room();
+		room2.setName("i58");
+		
+		Priority priority1 = new Priority();
+		priority1.setRole(Role.STUDENT);
+		priority1.setWeight(1);
+		
+		Priority priority2 = new Priority();
+		priority2.setWeight(10);
+		priority2.setRole(Role.PROF);
+		
+		Planning planning = new Planning();
+		planning.setParticipants(participants);
+		planning.setRooms(Lists.newArrayList(room1, room2));
+		planning.setPriorities(Lists.newArrayList(priority1, priority2));
+		
+		List<TimeBox> timeBoxes = createTimeBoxes(8);
+		
+		AlgoPlanning algo = new AlgoPlanningImplV1();
+		algo.configure(planning);
+		
+		Collection<OralDefense> results = algo.execute(timeBoxes, null);
+		
+		TestUtils.printResults(results);
+		
+		// verify that there is the same number of participants than generated oral defenses
+		assertEquals(participants.size(), results.size());
+		
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testExecuteWithoutConfigure() {
+		
+		List<Participant> participants = createParticipants(14);
+		
+		Room room1 = new Room();
+		room1.setName("i227");
+		Room room2 = new Room();
+		room2.setName("i58");
+		
+		Priority priority1 = new Priority();
+		priority1.setRole(Role.STUDENT);
+		priority1.setWeight(1);
+		
+		Priority priority2 = new Priority();
+		priority2.setWeight(10);
+		priority2.setRole(Role.PROF);
+		
+		Planning planning = new Planning();
+		planning.setParticipants(participants);
+		planning.setRooms(Lists.newArrayList(room1, room2));
+		planning.setPriorities(Lists.newArrayList(priority1, priority2));
+		
+		List<TimeBox> timeBoxes = createTimeBoxes(8);
+		
+		AlgoPlanning algo = new AlgoPlanningImplV1();
+		Collection<OralDefense> results = algo.execute(timeBoxes, null);
+		
+	}
+	
+	@Test
+	public void testExecuteWithoutPriority() {
+		
+		List<Participant> participants = createParticipants(14);
+		
+		Room room1 = new Room();
+		room1.setName("i227");
+		Room room2 = new Room();
+		room2.setName("i58");
+		
+		Planning planning = new Planning();
+		planning.setParticipants(participants);
+		planning.setRooms(Lists.newArrayList(room1, room2));
+		planning.setPriorities(null);
+		
+		List<TimeBox> timeBoxes = createTimeBoxes(8);
+		
+		AlgoPlanning algo = new AlgoPlanningImplV1();
+		algo.configure(planning);
+		
+		Collection<OralDefense> results = algo.execute(timeBoxes, null);
+		
+		TestUtils.printResults(results);
+		
+		// verify that there is the same number of participants than generated oral defenses
+		assertEquals(participants.size(), results.size());
 		
 	}
 	
