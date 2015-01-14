@@ -11,6 +11,7 @@ import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
+import fr.istic.iodeman.utils.TestUtils;
 
 public class TestPlanningSplitter {
 
@@ -36,18 +37,50 @@ public class TestPlanningSplitter {
 		PlanningSplitter splitter = new PlanningSplitterImpl();
 		List<TimeBox> results = splitter.execute(planning);
 	
+		assertEquals(38, results.size());
+		
 		System.out.println("Timeboxes generated: "+results.size());
 		
-		for(TimeBox tb : results) {
-			
-			System.out.println(
-					(new DateTime(tb.getFrom())).toString("dd/MM/yyyy HH:mm")
-					+ " - " +
-					(new DateTime(tb.getTo())).toString("dd/MM/yyyy HH:mm")
-			);
-			
-		}
+		TestUtils.printTimeBoxes(results);
 		
+		assertEquals(new DateTime(2015, 1, 15, 8, 0).toDate(), results.get(0).getFrom());
+		assertEquals(new DateTime(2015, 1, 15, 8, 20).toDate(), results.get(0).getTo());
+		assertEquals(new DateTime(2015, 1, 15, 8, 25).toDate(), results.get(1).getFrom());
+		assertEquals(new DateTime(2015, 1, 16, 18, 5).toDate(), results.get(37).getTo());
+		
+	}
+	
+	@Test
+	public void testWithoutInterlude() {
+		
+		Planning planning = new Planning();
+		planning.setPeriod(new TimeBox(
+				new DateTime(2015, 1, 15, 0, 0).toDate(),
+				new DateTime(2015, 1, 16, 0, 0).toDate()
+		));
+		planning.setDayPeriod(new TimeBox(
+				new DateTime(2015, 1, 18, 8, 0).toDate(),
+				new DateTime(2015, 1, 18, 18, 15).toDate()
+		));
+		planning.setLunchBreak(new TimeBox(
+				new DateTime(2015, 1, 18, 12, 0).toDate(),
+				new DateTime(2015, 1, 18, 14, 0).toDate()
+		));
+		planning.setOralDefenseDuration(20);
+		
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		List<TimeBox> results = splitter.execute(planning);
+	
+		assertEquals(48, results.size());
+		
+		System.out.println("Timeboxes generated: "+results.size());
+		
+		TestUtils.printTimeBoxes(results);
+		
+		assertEquals(new DateTime(2015, 1, 15, 8, 0).toDate(), results.get(0).getFrom());
+		assertEquals(new DateTime(2015, 1, 15, 8, 20).toDate(), results.get(0).getTo());
+		assertEquals(new DateTime(2015, 1, 15, 8, 20).toDate(), results.get(1).getFrom());
+		assertEquals(new DateTime(2015, 1, 16, 18, 0).toDate(), results.get(47).getTo());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
