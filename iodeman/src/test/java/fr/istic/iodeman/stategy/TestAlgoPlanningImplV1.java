@@ -25,7 +25,7 @@ import fr.istic.iodeman.strategy.AlgoPlanning;
 import fr.istic.iodeman.strategy.AlgoPlanningImplV1;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
 
-public class AlgoPlanningImplV1Test {
+public class TestAlgoPlanningImplV1 {
 
 	@Test
 	public void test1() {
