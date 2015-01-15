@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableSortedMultiset;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 
+import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
@@ -62,6 +63,20 @@ public class AlgoPlanningUtils {
 		Collection<Priority> sortedPriorities = Ordering.from(byWeight).reverse().sortedCopy(priorities);
 		
 		return sortedPriorities;
+		
+	}
+	
+	public static Collection<OralDefense> sortOralDefensesByStartingDate(Collection<OralDefense> oralDefenses) {
+		
+		Comparator<OralDefense> byStartingDate = new Comparator<OralDefense>() {
+			public int compare(OralDefense o1, OralDefense o2) {
+				return o1.getTimebox().getFrom().compareTo(o2.getTimebox().getFrom());
+			}
+		};
+
+		Collection<OralDefense> sortedOralDefenses = Ordering.from(byStartingDate).sortedCopy(oralDefenses);
+		
+		return sortedOralDefenses;
 		
 	}
 	
