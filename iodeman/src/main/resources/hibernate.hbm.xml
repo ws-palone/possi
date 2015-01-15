@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Aug 2, 2013 2:21:57 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="fr.istic.iodeman.model.Person" table="TEST">
+    <class name="fr.istic.iodeman.model.Person" table="Person">
         <id name="id" type="long">
             <column name="ID" />
             <generator class="identity" />
