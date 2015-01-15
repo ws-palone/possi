@@ -1,9 +1,13 @@
 package fr.istic.iodeman.utils;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ImmutableSortedMultiset;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 
@@ -49,18 +53,16 @@ public class AlgoPlanningUtils {
 	
 	public static Collection<Priority> sortPrioritiesByWeight(Collection<Priority> priorities) {
 		
-		Function<Priority, Integer> getWeightFunction = new Function<Priority, Integer>() {
-		    public Integer apply(Priority p) {
-		        return p.getWeight();
-		    }
+		Comparator<Priority> byWeight = new Comparator<Priority>() {
+			public int compare(Priority o1, Priority o2) {
+				return o1.getWeight().compareTo(o2.getWeight());
+			}
 		};
 
-		Ordering<Priority> weightOrdering = Ordering.natural().reverse().onResultOf(getWeightFunction);
-
-		ImmutableSortedSet<Priority> sortedPriorities = ImmutableSortedSet.orderedBy(
-		    weightOrdering).addAll(priorities).build();
+		Collection<Priority> sortedPriorities = Ordering.from(byWeight).reverse().sortedCopy(priorities);
 		
 		return sortedPriorities;
+		
 	}
 	
 }

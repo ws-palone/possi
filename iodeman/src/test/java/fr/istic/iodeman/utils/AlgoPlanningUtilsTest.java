@@ -33,4 +33,27 @@ public class AlgoPlanningUtilsTest {
 		
 	}
 	
+	@Test
+	public void testSortingPrioritiesWithDoublons() {
+		
+		Priority priority1 = new Priority();
+		priority1.setRole(Role.STUDENT);
+		priority1.setWeight(1);
+		
+		Priority priority2 = new Priority();
+		priority2.setWeight(1);
+		priority2.setRole(Role.PROF);
+		
+		Collection<Priority> priorities = AlgoPlanningUtils.sortPrioritiesByWeight(Lists.newArrayList(priority1, priority2));
+		
+		assertEquals(2, priorities.size());
+		assertTrue(priorities.contains(priority1));
+		assertTrue(priorities.contains(priority2));
+		
+		for(Priority p : priorities) {
+			System.out.println(p.getRole().toString()+" - "+p.getWeight());
+		}
+		
+	}
+	
 }
