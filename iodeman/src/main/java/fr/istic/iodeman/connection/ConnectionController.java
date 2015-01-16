@@ -1,4 +1,4 @@
-package fr.istic.iodeman.controller;
+package fr.istic.iodeman.connection;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class ConnectionController {
 		return "Hello "+id_user;
 	}
 	
-	@RequestMapping(value= "/login", method = RequestMethod.GET)
+	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
 		 String serverName = "https://sso-cas.univ-rennes1.fr/serviceValidate";
