@@ -1,4 +1,4 @@
-package fr.istic.iodeman.connection;
+package fr.istic.iodeman.controller;
 
 import java.io.IOException;
 
