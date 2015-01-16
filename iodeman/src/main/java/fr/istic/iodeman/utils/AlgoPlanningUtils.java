@@ -3,6 +3,8 @@ package fr.istic.iodeman.utils;
 import java.util.Collection;
 import java.util.Comparator;
 
+import org.joda.time.DateTime;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableCollection;
@@ -37,6 +39,11 @@ public class AlgoPlanningUtils {
 	}
 	
 	public static boolean isAvailable(TimeBox unavailablePeriod, TimeBox timeBox) {
+		
+		timeBox = new TimeBox(
+				(new DateTime(timeBox.getFrom())).minusSeconds(1).toDate(),
+				(new DateTime(timeBox.getTo())).plusSeconds(1).toDate()
+		);
 		
 		if (timeBox.getFrom().after(unavailablePeriod.getFrom())
 				&& timeBox.getFrom().before(unavailablePeriod.getTo())) {

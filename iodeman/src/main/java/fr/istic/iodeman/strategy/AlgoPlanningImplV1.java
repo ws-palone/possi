@@ -162,7 +162,7 @@ public class AlgoPlanningImplV1 implements AlgoPlanning {
 		
 		if (!possibleTbs.isEmpty()){
 			
-			buffer.put(participant, possibleTbs);
+			buffer.put(participant, Lists.newArrayList(possibleTbs));
 			System.out.println("insert "+possibleTbs.size()+" timeboxes in the buffer");
 			
 			final Priority nextPriority = getNextPriority(priority);
@@ -182,14 +182,21 @@ public class AlgoPlanningImplV1 implements AlgoPlanning {
 				});
 				
 				System.out.println("unavailabilities found: "+unavailabilities.size());
+				System.out.println("{");
+				for(Unavailability ua : unavailabilities) {
+					System.out.println(ua.getPeriod().getFrom()+" - "+ua.getPeriod().getTo());
+				}
+				System.out.println("}");
 				
 				if (!unavailabilities.isEmpty()) {
 					for (TimeBox timeBox : Lists.newArrayList(possibleTbs)) {
 						
+						System.out.println("check unavailability "+
+								(new DateTime(timeBox.getFrom()).toString("dd/MM/yyyy HH:mm")));
+						
 						// Check if there is no unavailabilities for that timebox
 						if (!AlgoPlanningUtils.isAvailable(unavailabilities, timeBox)) {
-							System.out.println("unavailable timebox found : "
-									+(new DateTime(timeBox.getFrom()).toString("dd/MM/yyyy HH:mm")));
+							System.out.println("removing one timebox...");
 							possibleTbs.remove(timeBox);
 						}
 						
