@@ -40,11 +40,17 @@ public class TestController {
 		return g;
 	}
 	
+	@RequestMapping("/hello")
+	public String hello(@RequestParam(value="id_user", defaultValue="") String id_user){
+		
+		return "Hello "+id_user;
+	}
+	
 	@RequestMapping("/login")
-	public ServiceTicketValidator validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
+	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
 		 String serverName = "https://sso-cas.univ-rennes1.fr/serviceValidate";
-		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/login";
+		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/";
 		 String user = null;
 		 String errorCode = null;
 		 String errorMessage = null;
@@ -52,13 +58,13 @@ public class TestController {
 		 
 		 if (ticket == "" )
 			{  	
-			 	//return "redirect:"+serverName + "?service=" +serviceName; ///
+			 	return "redirect:"+serverName + "?service=" +serviceName;
 			}
 		  
 		 ServiceTicketValidator sv = new ServiceTicketValidator();
 		  
 		 sv.setCasValidateUrl(serverName);
-		 sv.setService(serviceName);
+		 sv.setService(serviceName+"login");
 		 sv.setServiceTicket(ticket);
 		  
 		 sv.validate();
@@ -72,7 +78,7 @@ public class TestController {
 		     errorMessage = sv.getErrorMessage();
 		 }
 		 
-		 return sv;
+		 return "redirect:"+serviceName+"login?user_id="+sv.getUser();
 		 
 	}
 }  
