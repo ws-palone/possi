@@ -31,8 +31,13 @@ public class ConnectionController {
 	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
-		 String serverName = "https://sso-cas.univ-rennes1.fr/serviceValidate";
+		 String serverName = "https://sso-cas.univ-rennes1.fr/";
+		 String serverNameLogin = "https://sso-cas.univ-rennes1.fr/login";
+		 String serverNameValidate = "https://sso-cas.univ-rennes1.fr/serviceValidate";
+		 
 		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/";
+		 String serviceNameLogin = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/login";
+		 
 		 String user = null;
 		 String errorCode = null;
 		 String errorMessage = null;
@@ -40,13 +45,14 @@ public class ConnectionController {
 		 
 		 if (ticket.equals(""))
 			{  	
-			 	return "redirect:"+serverName + "?service=" +serviceName;
+			 	// Redirect to ENT Log
+			 	return "redirect:"+serverNameLogin+"?service=" +serviceName;
 			}
 		  
 		 ServiceTicketValidator sv = new ServiceTicketValidator();
 		  
-		 sv.setCasValidateUrl(serverName);
-		 sv.setService(serviceName+"login");
+		 sv.setCasValidateUrl(serverNameValidate);
+		 sv.setService(serviceNameLogin);
 		 sv.setServiceTicket(ticket);
 		  
 		 sv.validate();
@@ -56,7 +62,7 @@ public class ConnectionController {
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
 		 } else {
-			 return "redirect:"+serverName + "?service=" +serviceName;
+			 return "redirect:"+serverNameLogin + "?service=" +serviceName;
 		 }
 		 
 		 return "redirect:hello?user_id="+sv.getUser();
