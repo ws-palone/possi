@@ -3,12 +3,15 @@ package fr.istic.iodeman.utils;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Role;
+import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.model.Unavailability;
 import static org.junit.Assert.*;
 
 public class AlgoPlanningUtilsTest {
@@ -54,6 +57,125 @@ public class AlgoPlanningUtilsTest {
 			System.out.println(p.getRole().toString()+" - "+p.getWeight());
 		}
 		
+	}
+	
+	@Test
+	public void testIsAvailable1() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,0)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,15)).toDate(),
+				(new DateTime(2015,1,13,8,30)).toDate()
+		);
+		
+		assertTrue(!AlgoPlanningUtils.isAvailable(ua, timeBox));
+	}
+	
+	@Test
+	public void testIsAvailable2() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,0)).toDate(),
+				(new DateTime(2015,1,13,8,30)).toDate()
+		);
+		
+		assertTrue(AlgoPlanningUtils.isAvailable(ua, timeBox));
+	}
+	
+	@Test
+	public void testIsAvailable3() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,0)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		);
+		
+		assertTrue(!AlgoPlanningUtils.isAvailable(ua, timeBox));
+	}
+	
+	@Test
+	public void testIsAvailable4() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,45)).toDate(),
+				(new DateTime(2015,1,13,10,0)).toDate()
+		);
+		
+		assertTrue(!AlgoPlanningUtils.isAvailable(ua, timeBox));
+	}
+	
+	@Test
+	public void testIsAvailable5() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,0)).toDate(),
+				(new DateTime(2015,1,13,10,0)).toDate()
+		);
+		
+		assertTrue(!AlgoPlanningUtils.isAvailable(ua, timeBox));
+	}
+	
+	@Test
+	public void testIsAvailable6() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,15)).toDate(),
+				(new DateTime(2015,1,13,8,45)).toDate()
+		);
+		
+		assertTrue(!AlgoPlanningUtils.isAvailable(ua, timeBox));
+	}
+	
+	@Test
+	public void testIsAvailable7() {
+		
+		Unavailability ua = new Unavailability();
+		ua.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		
+		TimeBox timeBox = new TimeBox(
+				(new DateTime(2015,1,13,8,30)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		);
+		
+		assertTrue(!AlgoPlanningUtils.isAvailable(ua, timeBox));
 	}
 	
 }

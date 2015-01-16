@@ -4,13 +4,8 @@ import java.util.Collection;
 import java.util.Comparator;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ImmutableSortedMultiset;
-import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 
 import fr.istic.iodeman.model.OralDefense;
@@ -40,19 +35,11 @@ public class AlgoPlanningUtils {
 	
 	public static boolean isAvailable(TimeBox unavailablePeriod, TimeBox timeBox) {
 		
-		timeBox = new TimeBox(
-				(new DateTime(timeBox.getFrom())).minusSeconds(1).toDate(),
-				(new DateTime(timeBox.getTo())).plusSeconds(1).toDate()
-		);
-		
-		if (timeBox.getFrom().after(unavailablePeriod.getFrom())
-				&& timeBox.getFrom().before(unavailablePeriod.getTo())) {
-			return false;
-		}else if(timeBox.getTo().after(unavailablePeriod.getFrom())
-				&& timeBox.getTo().before(unavailablePeriod.getTo())) {
-			return false;
-		}else if (timeBox.getFrom().before(unavailablePeriod.getFrom())
-				&& timeBox.getTo().after(unavailablePeriod.getTo())) {
+		Interval v = new Interval(new DateTime(timeBox.getFrom()), new DateTime(timeBox.getTo()));
+		Interval uaV = new Interval(new DateTime(unavailablePeriod.getFrom()), new DateTime(unavailablePeriod.getTo()));
+		if (v.contains(uaV) || uaV.contains(v)
+				|| v.overlaps(uaV) || uaV.overlaps(v)
+				|| v.equals(uaV)) {
 			return false;
 		}
 		

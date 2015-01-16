@@ -1,11 +1,10 @@
 package fr.istic.iodeman.stategy;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.istic.iodeman.model.Planning;
@@ -14,7 +13,6 @@ import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.iodeman.utils.TestUtils;
 
-@Ignore
 public class TestPlanningSplitter {
 
 	@Test
