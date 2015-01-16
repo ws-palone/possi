@@ -15,6 +15,7 @@ import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
 
+@Controller
 public class ConnectionController {
 	
 	public class Connection{
