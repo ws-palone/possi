@@ -28,7 +28,7 @@ public class ConnectionController {
 	}
 	
 	@RequestMapping("/login")
-	protected String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
+	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
 		 String serverName = "https://sso-cas.univ-rennes1.fr/serviceValidate";
 		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/";
