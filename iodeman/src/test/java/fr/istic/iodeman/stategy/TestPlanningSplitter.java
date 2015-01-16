@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.istic.iodeman.model.Planning;
@@ -15,7 +16,7 @@ import fr.istic.iodeman.utils.TestUtils;
 
 public class TestPlanningSplitter {
 
-	@Test
+	@Ignore
 	public void testOK1() {
 		
 		Planning planning = new Planning();
