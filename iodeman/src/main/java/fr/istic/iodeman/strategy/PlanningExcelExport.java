@@ -1,10 +1,8 @@
 package fr.istic.iodeman.strategy;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 
-import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -17,11 +15,9 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
-import fr.istic.iodeman.utils.TestUtils;
 
 public class PlanningExcelExport implements PlanningExport {
 
@@ -68,8 +64,6 @@ public class PlanningExcelExport implements PlanningExport {
 		 singleDates = getSingleDatesFromOralDefenses(oralDefenses);
 		// Retrieve the rooms
 		rooms = getSingleRoomsFromOralDefense(oralDefenses);
-		
-		TestUtils.printResults(oralDefenses);
 		
 		/**
 		 * BEGIN generation of excel sheet
@@ -175,6 +169,6 @@ public class PlanningExcelExport implements PlanningExport {
 	}
 
 	private void fillThePlanning() throws Exception{	
-		
+
 	}
 }
