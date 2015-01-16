@@ -23,9 +23,9 @@ public class ConnectionController {
 	}
 
 	@RequestMapping("/hello")
-	public String hello(@RequestParam(value="id_user", defaultValue="") String id_user){
+	public String hello(@RequestParam(value="user_id", defaultValue="") String user_id){
 
-		return "Hello "+id_user;
+		return "Hello "+user_id;
 	}
 	
 	@RequestMapping("/login")
@@ -60,7 +60,7 @@ public class ConnectionController {
 		     errorMessage = sv.getErrorMessage();
 		 }
 		 
-		 return "redirect:"+serviceName+"hello?user_id="+sv.getUser();
+		 return "redirect:hello?user_id="+sv.getUser();
 		 
 	}
 	
