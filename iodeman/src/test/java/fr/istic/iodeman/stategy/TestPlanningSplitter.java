@@ -14,9 +14,10 @@ import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.iodeman.utils.TestUtils;
 
+@Ignore
 public class TestPlanningSplitter {
 
-	@Ignore
+	@Test
 	public void testOK1() {
 		
 		Planning planning = new Planning();

@@ -56,8 +56,7 @@ public class ConnectionController {
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
 		 } else {
-		     errorCode = sv.getErrorCode();
-		     errorMessage = sv.getErrorMessage();
+			 return "redirect:"+serverName + "?service=" +serviceName;
 		 }
 		 
 		 return "redirect:hello?user_id="+sv.getUser();
