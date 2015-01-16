@@ -1,12 +1,10 @@
 package fr.istic.iodeman.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.naming.directory.DirContext;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,24 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
-import fr.istic.iodeman.service.LDAPServiceImpl;
 
 @Controller
 public class ConnectionController {
-	
-	@Autowired
-	public LDAPServiceImpl s;
 	
 	public class Connection{
 		
 	}
 
 	@RequestMapping("/hello")
-	public List<String> hello(@RequestParam(value="user_id", defaultValue="") String user_id){
-		
-		List<String> l = s.getAllPersonName();				
-		
-		return l;
+	public String hello(@RequestParam(value="user_id", defaultValue="") String user_id){
+		return "Hello "+user_id;
 	}
 	
 	@RequestMapping("/login")
