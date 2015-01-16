@@ -60,7 +60,7 @@ public class ConnectionController {
 		     errorMessage = sv.getErrorMessage();
 		 }
 		 
-		 return "redirect:"+serviceName+"login?user_id="+sv.getUser();
+		 return "redirect:"+serviceName+"hello?user_id="+sv.getUser();
 		 
 	}
 	
