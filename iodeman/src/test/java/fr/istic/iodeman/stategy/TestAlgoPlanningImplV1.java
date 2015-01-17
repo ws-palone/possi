@@ -23,37 +23,11 @@ import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.strategy.AlgoPlanning;
 import fr.istic.iodeman.strategy.AlgoPlanningImplV1;
+import fr.istic.iodeman.strategy.AlgoPlanningImplV2;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import fr.istic.iodeman.utils.TestUtils;
 
 public class TestAlgoPlanningImplV1 {
-
-	private List<Participant> createParticipants(int nb) {
-		
-		List<Participant> participants = Lists.newArrayList();
-		
-		for(int i=1; i < nb+1; i++) {
-			
-			Person p1 = new Person();
-			p1.setId(i);
-			p1.setFirstName("Student "+i);
-			p1.setRole(Role.STUDENT);
-			
-			Person p2 = new Person();
-			p2.setId(i);
-			p2.setFirstName("Prof "+i);
-			p2.setRole(Role.PROF);		
-			
-			Participant participant = new Participant();
-			participant.setStudent(p1);
-			participant.setFollowingTeacher(p2);
-			
-			participants.add(participant);
-			
-		}
-		
-		return participants;
-	}
 	
 	private List<TimeBox> createTimeBoxes(int nb) {
 		
@@ -75,7 +49,7 @@ public class TestAlgoPlanningImplV1 {
 	@Test
 	public void testOK1() {
 		
-		List<Participant> participants = createParticipants(14);
+		List<Participant> participants = TestUtils.createParticipants(14);
 		
 		Room room1 = new Room();
 		room1.setName("i227");
@@ -188,9 +162,91 @@ public class TestAlgoPlanningImplV1 {
 		}
 
 		// verify that the given unavailabilities have been respected
-		assertTrue(checkIfUnavailabilityRespected(results, ua1));
-		assertTrue(checkIfUnavailabilityRespected(results, ua2));
-		assertTrue(checkIfUnavailabilityRespected(results, ua3));
+		assertTrue(TestUtils.checkIfUnavailabilityRespected(results, ua1));
+		assertTrue(TestUtils.checkIfUnavailabilityRespected(results, ua2));
+		assertTrue(TestUtils.checkIfUnavailabilityRespected(results, ua3));
+		
+	}
+	
+	@Test
+	public void testOk2() {
+		
+		List<Participant> participants = TestUtils.createParticipants(3);
+		
+		Room room1 = new Room();
+		room1.setName("i227");
+		
+		Priority priority1 = new Priority();
+		priority1.setRole(Role.STUDENT);
+		priority1.setWeight(1);
+		
+		Priority priority2 = new Priority();
+		priority2.setWeight(10);
+		priority2.setRole(Role.PROF);
+		
+		Planning planning = new Planning();
+		planning.setParticipants(participants);
+		planning.setRooms(Lists.newArrayList(room1));
+		planning.setPriorities(Lists.newArrayList(priority1, priority2));
+		
+		List<TimeBox> timeBoxes = createTimeBoxes(4);
+		
+		List<Unavailability> unavailabilities = Lists.newArrayList();
+		
+		Unavailability ua1 = new Unavailability();
+		ua1.setPerson(participants.get(1).getStudent());
+		ua1.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,10,0)).toDate(),
+				(new DateTime(2015,1,13,12,0)).toDate()
+		));
+		unavailabilities.add(ua1);
+		
+		Unavailability ua2 = new Unavailability();
+		ua2.setPerson(participants.get(2).getFollowingTeacher());
+		ua2.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,8,0)).toDate(),
+				(new DateTime(2015,1,13,9,0)).toDate()
+		));
+		unavailabilities.add(ua2);
+		
+		Unavailability ua3 = new Unavailability();
+		ua3.setPerson(participants.get(2).getFollowingTeacher());
+		ua3.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,11,0)).toDate(),
+				(new DateTime(2015,1,13,12,0)).toDate()
+		));
+		unavailabilities.add(ua3);
+		
+		Unavailability ua4 = new Unavailability();
+		ua4.setPerson(participants.get(0).getFollowingTeacher());
+		ua4.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,9,0)).toDate(),
+				(new DateTime(2015,1,13,10,0)).toDate()
+		));
+		unavailabilities.add(ua4);
+		
+		Unavailability ua5 = new Unavailability();
+		ua5.setPerson(participants.get(0).getFollowingTeacher());
+		ua5.setPeriod(new TimeBox(
+				(new DateTime(2015,1,13,11,0)).toDate(),
+				(new DateTime(2015,1,13,12,0)).toDate()
+		));
+		unavailabilities.add(ua5);
+		
+		AlgoPlanning algo = new AlgoPlanningImplV1();
+		algo.configure(planning);
+		
+		Collection<OralDefense> results = algo.execute(timeBoxes, unavailabilities);
+		
+		TestUtils.printResults(results);
+		
+		// verify that there is the same number of participants than generated oral defenses
+		assertEquals(participants.size(), results.size());
+		
+		// verify that the given unavailabilities have been respected
+		for(Unavailability ua : unavailabilities) {
+			assertTrue("Unavailability not respected", TestUtils.checkIfUnavailabilityRespected(results, ua));
+		}
 		
 	}
 	
@@ -205,7 +261,7 @@ public class TestAlgoPlanningImplV1 {
 	@Test
 	public void testExecuteWithoutUnavailabilites() {
 		
-		List<Participant> participants = createParticipants(14);
+		List<Participant> participants = TestUtils.createParticipants(14);
 		
 		Room room1 = new Room();
 		room1.setName("i227");
@@ -242,7 +298,7 @@ public class TestAlgoPlanningImplV1 {
 	@Test(expected = IllegalArgumentException.class)
 	public void testExecuteWithoutConfigure() {
 		
-		List<Participant> participants = createParticipants(14);
+		List<Participant> participants = TestUtils.createParticipants(14);
 		
 		Room room1 = new Room();
 		room1.setName("i227");
@@ -272,7 +328,7 @@ public class TestAlgoPlanningImplV1 {
 	@Test
 	public void testExecuteWithoutPriority() {
 		
-		List<Participant> participants = createParticipants(14);
+		List<Participant> participants = TestUtils.createParticipants(14);
 		
 		Room room1 = new Room();
 		room1.setName("i227");
@@ -295,23 +351,6 @@ public class TestAlgoPlanningImplV1 {
 		
 		// verify that there is the same number of participants than generated oral defenses
 		assertEquals(participants.size(), results.size());
-		
-	}
-	
-	public boolean checkIfUnavailabilityRespected(Collection<OralDefense> results, Unavailability ua) {
-		
-		for(OralDefense oralDefense : results) {
-			
-			if (ua.getPerson().equals(oralDefense.getComposition().getStudent())
-					|| ua.getPerson().equals(oralDefense.getComposition().getFollowingTeacher())) {
-				
-				return AlgoPlanningUtils.isAvailable(ua, oralDefense.getTimebox());
-				
-			}
-			
-		}
-		
-		return true;
 		
 	}
 	

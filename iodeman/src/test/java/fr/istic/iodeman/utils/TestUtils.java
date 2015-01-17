@@ -1,11 +1,18 @@
 package fr.istic.iodeman.utils;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.google.common.collect.Lists;
+
 import fr.istic.iodeman.model.OralDefense;
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.model.Unavailability;
 
 public class TestUtils {
 	public static void printResults(Collection<OralDefense> results) {
@@ -39,5 +46,50 @@ public class TestUtils {
 			);
 			
 		}
+	}
+	
+	
+	public static boolean checkIfUnavailabilityRespected(Collection<OralDefense> results, Unavailability ua) {
+		
+		for(OralDefense oralDefense : results) {
+			
+			if (ua.getPerson().equals(oralDefense.getComposition().getStudent())
+					|| ua.getPerson().equals(oralDefense.getComposition().getFollowingTeacher())) {
+				
+				return AlgoPlanningUtils.isAvailable(ua, oralDefense.getTimebox());
+				
+			}
+			
+		}
+		
+		return true;
+		
+	}
+	
+	public static List<Participant> createParticipants(int nb) {
+		
+		List<Participant> participants = Lists.newArrayList();
+		
+		for(int i=1; i < nb+1; i++) {
+			
+			Person p1 = new Person();
+			p1.setId(i);
+			p1.setFirstName("Student "+i);
+			p1.setRole(Role.STUDENT);
+			
+			Person p2 = new Person();
+			p2.setId(i);
+			p2.setFirstName("Prof "+i);
+			p2.setRole(Role.PROF);		
+			
+			Participant participant = new Participant();
+			participant.setStudent(p1);
+			participant.setFollowingTeacher(p2);
+			
+			participants.add(participant);
+			
+		}
+		
+		return participants;
 	}
 }
