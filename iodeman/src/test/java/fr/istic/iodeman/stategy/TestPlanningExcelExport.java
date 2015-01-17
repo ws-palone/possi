@@ -132,7 +132,7 @@ public class TestPlanningExcelExport {
 	public void testExport() throws Exception{		
 		PlanningExport export = new PlanningExcelExport();
 		
-		export.configure(createTimeBoxes(4));
+		export.configure(createTimeBoxes(2, 4));
 		// reprendre le tri de date pour le test
 		export.execute(oralDefenses);
 
@@ -142,19 +142,49 @@ public class TestPlanningExcelExport {
 		assertTrue(f.exists());
 	}
 	
-	private List<TimeBox> createTimeBoxes(int nb) {
+	@Test
+	public void testExportWithTimeBoxBlank() throws Exception{		
+		
+		// we remove an oral defense
+		int size = oralDefenses.size();
+		OralDefense od = oralDefenses.get(3);
+		oralDefenses.remove(od);
+		assertTrue(oralDefenses.size() ==  (size-1));
+
+		
+		PlanningExport export = new PlanningExcelExport();
+		
+		export.configure(createTimeBoxes(2, 4));
+		// reprendre le tri de date pour le test
+		export.execute(oralDefenses);
+
+		// testing if file exists
+		File f = new File("/tmp/planning.xls");
+
+		assertTrue(f.exists());
+	}
+	
+	private List<TimeBox> createTimeBoxes(int nbDays, int nbTimeBoxPerDay) {
 		
 		List<TimeBox> timeBoxes = Lists.newArrayList();
 		
-		DateTime dateT = new DateTime(2015, 1, 13, 8, 0);
+		DateTime dateT = new DateTime(2015, 1, 13, 8, 0);		
 		
-		while(timeBoxes.size() < nb) {	
-			TimeBox tb = new TimeBox();
-			tb.setFrom(dateT.toDate());
-			dateT = dateT.plusHours(1);
-			tb.setTo(dateT.toDate());
-			timeBoxes.add(tb);
+		for (int i = 0;i<nbDays; i++){
+			int j = 0;
+			while(j < nbTimeBoxPerDay) {	
+				TimeBox tb = new TimeBox();
+				tb.setFrom(dateT.toDate());
+				dateT = dateT.plusHours(1);
+				tb.setTo(dateT.toDate());
+				timeBoxes.add(tb);
+				j++;
+			}
+			dateT = dateT.plusDays(1);
+			dateT = dateT.minusHours(nbTimeBoxPerDay);
 		}
+//		TestUtils.printTimeBoxes(timeBoxes);
+
 		
 		return timeBoxes;
 	}
