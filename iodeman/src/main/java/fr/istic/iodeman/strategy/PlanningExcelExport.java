@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.Collection;
 
 import jxl.Workbook;
+import jxl.format.*;
 import jxl.write.Label;
+import jxl.write.WritableCellFormat;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
@@ -155,7 +157,15 @@ public class PlanningExcelExport implements PlanningExport {
 	}
 
 	private void buildColumnHeader() throws Exception{
-
+		/**
+		 * BEGIN Style
+		 */
+		WritableCellFormat cellFormat = new WritableCellFormat();
+		cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+		/**
+		 * END style
+		 */
+		
 		for(DateTime day : singleDates){
 			// index  of column
 			int i = (1+(rooms.size()*nbHeaderColumns));
@@ -166,14 +176,14 @@ public class PlanningExcelExport implements PlanningExport {
 			sheet.mergeCells(i, j, (i+rooms.size()-1), j);
 
 			// adding of text
-			sheet.addCell(new Label(i, j, day.toString("E dd MM yyyy")));
+			sheet.addCell(new Label(i, j, day.toString("E dd MM yyyy"), cellFormat));
 
 			/**
 			 * BEGIN Rooms
 			 */
 			j++;
 			for(Room room : rooms){
-				sheet.addCell(new Label(i, j, room.getName()));
+				sheet.addCell(new Label(i, j, room.getName(), cellFormat));
 				i++;
 			}
 			j--;
@@ -181,20 +191,25 @@ public class PlanningExcelExport implements PlanningExport {
 			 * END Rooms
 			 */
 
-
-			/**
-			 * Style
-			 */
-			//			CellView cellview = sheet.getColumnView(i);
-			//			cellview.setSize(5000000);
-			//			sheet.setColumnView(i, cellview);
 			nbHeaderColumns++;
 		}
 	}
 
-
 	private void buildHeaderLines() throws Exception{
 
+		/**
+		 * BEGIN Style
+		 */
+		// border
+		WritableCellFormat cellFormat = new WritableCellFormat();
+		cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+		
+		// background color
+		
+		/**
+		 * END style
+		 */
+		
 		Collection<TimeBox> uniqueTimeBoxes = getUniqueTimeBoxByHour(timeboxes);
 
 		for(TimeBox t : uniqueTimeBoxes){
@@ -209,7 +224,7 @@ public class PlanningExcelExport implements PlanningExport {
 			DateTime from = new DateTime(t.getFrom());
 			DateTime to = new DateTime(t.getTo());
 			String format = "HH:mm";
-			sheet.addCell(new Label(i,j, from.toString(format)+ " / " + to.toString(format)));
+			sheet.addCell(new Label(i,j, from.toString(format)+ " / " + to.toString(format), cellFormat));
 
 			j+=numberOfpersons;
 			nbHeaderLines++;
@@ -219,6 +234,16 @@ public class PlanningExcelExport implements PlanningExport {
 
 	private void fillThePlanning() throws Exception{			
 
+		/**
+		 * BEGIN Style
+		 */
+		// border
+		WritableCellFormat cellFormat = new WritableCellFormat();
+		cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+		/**
+		 * END style
+		 */
+		
 		int line_top = 3;
 		int currentDay = 0;
 		int currentTimeBox = 0; 
@@ -238,9 +263,9 @@ public class PlanningExcelExport implements PlanningExport {
 			// to see if we have changed of timebox
 			if (!timeboxDate.isEqual(lastTimebox)) {
 				currentTimeBox++;
-//				lineIndex = (line_top + (currentTimeBox * numberOfpersons));
+				//				lineIndex = (line_top + (currentTimeBox * numberOfpersons));
 			}
-			
+
 			// if the day changed? Changement of the column index 
 			if (!(timeboxDate.withTimeAtStartOfDay()).isEqual(lastTimebox.withTimeAtStartOfDay())){
 				currentDay++;
@@ -255,17 +280,22 @@ public class PlanningExcelExport implements PlanningExport {
 				if (odDate.isEqual(timeboxDate)) {
 					// column index for the room
 					int indexRoom = (1+(currentDay*rooms.size()));
-					
+
 					// awarding of the right room
 					for(Room room : rooms){
 						// it matches
-						
+
 						if (o.getRoom().getName().equals(room.getName())) { // TODO compare ID!!
 							lineIndex = (line_top + (currentTimeBox * numberOfpersons));
-							sheet.addCell(new Label(indexRoom, lineIndex, o.getComposition().getStudent().getFirstName()));
+							sheet.addCell(new Label(indexRoom, lineIndex, o.getComposition().getStudent().getFirstName(), cellFormat));
 							lineIndex++;	
-							sheet.addCell(new Label(indexRoom, lineIndex, o.getComposition().getFollowingTeacher().getFirstName()));
-							
+							sheet.addCell(new Label(indexRoom, lineIndex, o.getComposition().getFollowingTeacher().getFirstName(), cellFormat));
+							lineIndex++;	
+							sheet.addCell(new Label(indexRoom, lineIndex, "", cellFormat));
+							lineIndex++;	
+							sheet.addCell(new Label(indexRoom, lineIndex, "", cellFormat));
+						
+
 							// we remove the oral defense
 							oralDefenses.remove(o);
 						}
