@@ -8,6 +8,7 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Function;
@@ -63,6 +64,7 @@ public class PlanningExcelExport implements PlanningExport {
 
 	@Override
 	public void configure(Collection<TimeBox> timeboxes) {
+		Validate.notNull(timeboxes);
 		this.timeboxes = timeboxes;
 	}
 
