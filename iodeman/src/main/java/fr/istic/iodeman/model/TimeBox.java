@@ -1,5 +1,6 @@
 package fr.istic.iodeman.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class TimeBox {
+public class TimeBox implements Serializable{
 	
 	@Id
 	@GeneratedValue

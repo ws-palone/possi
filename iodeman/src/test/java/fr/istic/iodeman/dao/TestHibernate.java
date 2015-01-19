@@ -21,7 +21,7 @@ public class TestHibernate {
 
 	}*/
 
-	//@Test
+	@Test
 	public void test() {
 		
 		Person per = new Person();
