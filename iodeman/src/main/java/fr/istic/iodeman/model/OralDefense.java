@@ -24,7 +24,7 @@ public class OralDefense {
 	private Room room;
 	@Column
 	private TimeBox timebox;
-	@OneToMany(mappedBy="person")
+	@OneToMany(mappedBy="OralDefense")
 	private Collection<Person> jury;
 	
 	public Integer getId() {

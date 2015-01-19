@@ -30,11 +30,11 @@ public class Planning {
 	private TimeBox dayPeriod;
 	@Column
 	private Integer nbMaxOralDefensePerDay;
-	@OneToMany(mappedBy="room")
+	@OneToMany(mappedBy="Room")
 	private Collection<Room> rooms;
-	@OneToMany(mappedBy="participant")
+	@OneToMany(mappedBy="Participant")
 	private Collection<Participant> participants;
-	@OneToMany(mappedBy="priority")
+	@OneToMany(mappedBy="Priority")
 	private Collection<Priority> priorities;
 	
 	public Integer getId() {
