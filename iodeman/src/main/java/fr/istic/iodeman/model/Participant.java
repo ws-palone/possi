@@ -1,5 +1,7 @@
 package fr.istic.iodeman.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Participant {
+public class Participant implements Serializable{
 	
 	@Id
 	@GeneratedValue
@@ -19,6 +21,8 @@ public class Participant {
 	private Person student;
 	@Column
 	private Person followingTeacher;
+	@Column
+	private Planning planning;
 	
 	public Integer getId() {
 		return id;
