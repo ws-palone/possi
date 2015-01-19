@@ -2,17 +2,47 @@ package fr.istic.iodeman.model;
 
 import java.util.Collection;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table
 public class Planning {
 	
+	@Id
+	@GeneratedValue
+	@Column
+	private Integer id;
+	@Column
 	private TimeBox period;
+	@Column
 	private Integer oralDefenseDuration;
+	@Column
 	private Integer oralDefenseInterlude;
+	@Column
 	private TimeBox lunchBreak;
+	@Column
 	private TimeBox dayPeriod;
+	@Column
 	private Integer nbMaxOralDefensePerDay;
+	@OneToMany(mappedBy="room")
 	private Collection<Room> rooms;
+	@OneToMany(mappedBy="participant")
 	private Collection<Participant> participants;
+	@OneToMany(mappedBy="priority")
 	private Collection<Priority> priorities;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	public TimeBox getPeriod() {
 		return period;
@@ -67,8 +97,5 @@ public class Planning {
 	}
 	public void setPriorities(Collection<Priority> priorities) {
 		this.priorities = priorities;
-	}
-	
-	
-	
+	}	
 }

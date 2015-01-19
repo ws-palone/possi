@@ -1,9 +1,31 @@
 package fr.istic.iodeman.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table
 public class Participant {
 	
+	@Id
+	@GeneratedValue
+	@Column
+	private Integer id;
+	@Column
 	private Person student;
+	@Column
 	private Person followingTeacher;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	public Person getStudent() {
 		return student;
@@ -20,5 +42,4 @@ public class Participant {
 	public void setFollowingTeacher(Person followingTeacher) {
 		this.followingTeacher = followingTeacher;
 	}	
-
 }

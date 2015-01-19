@@ -8,17 +8,17 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "person")
+@Table
 public class Person {
 	@Id
 	@GeneratedValue
-	@Column(name="ID")
+	@Column
 	private Integer id;
-	@Column(name="FIRSTNAME")
+	@Column
 	private String firstName;
-	@Column(name="LASTNAME")
+	@Column
 	private String lastName;
-	@Column(name="ROLE")
+	@Column
 	private Role role;
 	
 	public Integer getId() {

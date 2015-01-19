@@ -1,8 +1,29 @@
 package fr.istic.iodeman.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Priority {
+	@Id
+	@GeneratedValue
+	@Column
+	private Integer id;	
+	@Column
 	private Role role;
+	@Column
 	private Integer weight;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Role getRole() {
 		return role;
 	}
@@ -15,6 +36,4 @@ public class Priority {
 	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
-	
-	
 }
