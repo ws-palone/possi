@@ -15,12 +15,20 @@ import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 
 public class TestUtils {
+	
 	public static void printResults(Collection<OralDefense> results) {
 		
 		for(OralDefense oralDefense : results) {
 			
 			DateTime date1 = new DateTime(oralDefense.getTimebox().getFrom());
 			DateTime date2 = new DateTime(oralDefense.getTimebox().getTo());
+			
+			String jury;
+			if (oralDefense.getJury() != null && !oralDefense.getJury().isEmpty()) {
+				jury = oralDefense.getJury().iterator().next().getFirstName();
+			}else{
+				jury = "none";
+			}
 			
 			System.out.println(
 					"oral defense for " +
@@ -29,6 +37,7 @@ public class TestUtils {
 					+ " set on " + date1.toString("dd/MM/yyyy HH:mm")
 					+ " - " + date2.toString("dd/MM/yyyy HH:mm")
 					+ " in " + oralDefense.getRoom().getName()
+					+ " with jury " + jury
 			);
 			
 		}
@@ -92,4 +101,23 @@ public class TestUtils {
 		
 		return participants;
 	}
+	
+	
+	public static List<TimeBox> createTimeBoxes(int nb) {
+		
+		List<TimeBox> timeBoxes = Lists.newArrayList();
+		
+		DateTime dateT = new DateTime(2015, 1, 13, 8, 0);
+		
+		while(timeBoxes.size() < nb) {	
+			TimeBox tb = new TimeBox();
+			tb.setFrom(dateT.toDate());
+			dateT = dateT.plusHours(1);
+			tb.setTo(dateT.toDate());
+			timeBoxes.add(tb);
+		}
+		
+		return timeBoxes;
+	}
+	
 }

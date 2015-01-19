@@ -39,23 +39,6 @@ public class TestAlgoPlanningImplV2 {
 	
 	}
 	
-	private List<TimeBox> createTimeBoxes(int nb) {
-		
-		List<TimeBox> timeBoxes = Lists.newArrayList();
-		
-		DateTime dateT = new DateTime(2015, 1, 13, 8, 0);
-		
-		while(timeBoxes.size() < nb) {	
-			TimeBox tb = new TimeBox();
-			tb.setFrom(dateT.toDate());
-			dateT = dateT.plusHours(1);
-			tb.setTo(dateT.toDate());
-			timeBoxes.add(tb);
-		}
-		
-		return timeBoxes;
-	}
-	
 	private void checkResults(Collection<OralDefense> results, Collection<Participant> participants, Collection<Unavailability> unavailabilities) {
 		
 		// verify that there is the same number of participants than generated oral defenses
@@ -110,7 +93,7 @@ public class TestAlgoPlanningImplV2 {
 		planning.setRooms(Lists.newArrayList(room1));
 		planning.setPriorities(Lists.newArrayList(priority1, priority2));
 		
-		List<TimeBox> timeBoxes = createTimeBoxes(4);
+		List<TimeBox> timeBoxes = TestUtils.createTimeBoxes(4);
 		
 		List<Unavailability> unavailabilities = Lists.newArrayList();
 		
@@ -188,7 +171,7 @@ public class TestAlgoPlanningImplV2 {
 		planning.setRooms(Lists.newArrayList(room1, room2));
 		planning.setPriorities(Lists.newArrayList(priority1, priority2));
 		
-		List<TimeBox> timeBoxes = createTimeBoxes(8);
+		List<TimeBox> timeBoxes = TestUtils.createTimeBoxes(8);
 		
 		List<Unavailability> unavailabilities = Lists.newArrayList();
 		
@@ -241,7 +224,7 @@ public class TestAlgoPlanningImplV2 {
 		planning.setParticipants(participants);
 		planning.setRooms(Lists.newArrayList(room1, room2));
 		
-		List<TimeBox> timeBoxes = createTimeBoxes(8);
+		List<TimeBox> timeBoxes = TestUtils.createTimeBoxes(8);
 		
 		algo.configure(planning, planning.getParticipants(), timeBoxes, null);
 		
@@ -261,7 +244,7 @@ public class TestAlgoPlanningImplV2 {
 		
 		Collection<Unavailability> unavailabilities = Lists.newArrayList();
 		
-		algo.configure(null, TestUtils.createParticipants(4), createTimeBoxes(5), unavailabilities);
+		algo.configure(null, TestUtils.createParticipants(4), TestUtils.createTimeBoxes(5), unavailabilities);
 	
 	}
 	
