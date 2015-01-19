@@ -28,34 +28,22 @@ public class TestHibernate {
 		per.setFirstName("Pankaj");
 		per.setLastName("blabla");
 		per.setRole(Role.STUDENT);
-		//Get Session
+	
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		//start transaction
 		session.beginTransaction();
 		//Save the Model object
-		System.out.println(per.getId());
 		session.save(per);
-		System.out.println(per.getId());
 		//Commit transaction
 		session.getTransaction().commit();
-		//terminate session factory, otherwise program won't end
 		
+		Person personDB = (Person) session.load(Person.class, per.getId());
 		
-		
-		
-		HibernateUtil.getSessionFactory().close();
-		
-		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("test");
-		EntityManager em = emf.createEntityManager();
-		Person personDB = em.find(Person.class, per.getId());
-		
-		/*assertTrue(per.getId().equals(personDB.getId()));
+		assertTrue(per.getId().equals(personDB.getId()));
 		assertTrue(per.getFirstName().equals(personDB.getFirstName()));
 		assertTrue(per.getLastName().equals(personDB.getLastName()));
-		assertTrue(per.getRole().equals(personDB.getRole()));*/
+		assertTrue(per.getRole().equals(personDB.getRole()));
 		
+		HibernateUtil.getSessionFactory().close();
 	}
-
-
 }
