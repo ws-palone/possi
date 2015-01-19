@@ -102,7 +102,7 @@ public class PlanningExcelExport implements PlanningExport {
 
 	private Collection<DateTime> getSingleDatesFromOralDefenses(Collection<OralDefense> oralDefenses){
 		Function<OralDefense, DateTime> getDate = new Function<OralDefense, DateTime>() {
-			@Override
+			
 			public DateTime apply(OralDefense o) {
 				return (new DateTime(o.getTimebox().getFrom())).withTimeAtStartOfDay();
 			}
@@ -144,7 +144,6 @@ public class PlanningExcelExport implements PlanningExport {
 	private Collection<Room> getSingleRoomsFromOralDefense(Collection<OralDefense> oralDefenses){
 		Function<OralDefense, Room> getRoom = new Function<OralDefense, Room>() {
 
-			@Override
 			public Room apply(OralDefense o) {
 				return o.getRoom();
 			}
