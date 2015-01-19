@@ -1,5 +1,6 @@
 package fr.istic.iodeman.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Planning {
+public class Planning implements Serializable{
 	
 	@Id
 	@GeneratedValue
@@ -30,11 +31,11 @@ public class Planning {
 	private TimeBox dayPeriod;
 	@Column
 	private Integer nbMaxOralDefensePerDay;
-	@OneToMany(mappedBy="Room")
+	@OneToMany(mappedBy = "planning")
 	private Collection<Room> rooms;
-	@OneToMany(mappedBy="Participant")
+	@OneToMany(mappedBy="planning")
 	private Collection<Participant> participants;
-	@OneToMany(mappedBy="Priority")
+	@OneToMany(mappedBy="planning")
 	private Collection<Priority> priorities;
 	
 	public Integer getId() {
