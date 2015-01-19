@@ -1,5 +1,6 @@
 package fr.istic.iodeman.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -8,11 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
 @Table
-public class OralDefense {
+public class OralDefense implements Serializable {
 	
 	@Id
 	@GeneratedValue
@@ -24,7 +26,8 @@ public class OralDefense {
 	private Room room;
 	@Column
 	private TimeBox timebox;
-	@OneToMany(mappedBy="person")
+	//@OneToMany(mappedBy = "person")
+	@Transient
 	private Collection<Person> jury;
 	
 	public Integer getId() {
