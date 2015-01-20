@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.utils.HibernateUtil;
 
 @Service
 public class PlanningDAOImpl implements PlanningDAO {
@@ -87,8 +88,10 @@ public class PlanningDAOImpl implements PlanningDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Planning> findAll() {
-		List<Planning> pla = (List<Planning>) getCurrentSession().createQuery("from planning").list();
-		return pla;
+		/*List<Planning> pla = (List<Planning>) getCurrentSession().createQuery("from planning").list();
+		return pla;*/
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		return (List<Planning>) session.createCriteria(Planning.class).list();
 	}
 
 	public void deleteAll() {
