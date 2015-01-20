@@ -82,15 +82,15 @@ public class UnavailabilityDAOImpl {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<TimeBox> findAll() {
-		List<TimeBox> listTimeBox = (List<TimeBox>) getCurrentSession().createQuery("from TimeBox").list();
-		return listTimeBox;
+	public List<Unavailability> findAll() {
+		List<Unavailability> listUnavailability = (List<Unavailability>) getCurrentSession().createQuery("from Unavailability").list();
+		return listUnavailability;
 	}
 
 	public void deleteAll() {
-		List<TimeBox> listTimeBox = findAll();
-		for (TimeBox t : listTimeBox) {
-			delete(t);
+		List<Unavailability> listUnavailability = findAll();
+		for (Unavailability u : listUnavailability) {
+			delete(u);
 		}
 	}
 }
