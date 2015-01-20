@@ -18,7 +18,7 @@ import fr.istic.iodeman.model.Priority;
 	 
 	    @Override
 	    @Transactional
-	    public List<Priority> list() {
+	    public List<Priority> findAll() {
 	        @SuppressWarnings("unchecked")
 	        List<Priority> listPriority = (List<Priority>) sessionFactory.getCurrentSession()
 	                .createCriteria(Priority.class)

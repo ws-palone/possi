@@ -6,6 +6,6 @@ import fr.istic.iodeman.model.Participant;
 
 public interface ParticipantDAO {
 	
-	public List<Participant> list();
+	public List<Participant> findAll();
 
 }

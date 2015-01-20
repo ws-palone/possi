@@ -6,6 +6,6 @@ import fr.istic.iodeman.model.Priority;
 
 public interface PriorityDAO {
 	
-	public List<Priority> list();
+	public List<Priority> findAll();
 
 }

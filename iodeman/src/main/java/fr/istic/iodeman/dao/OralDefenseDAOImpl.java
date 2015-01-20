@@ -19,7 +19,7 @@ public class OralDefenseDAOImpl implements OralDefenseDAO {
  
     @Override
     @Transactional
-    public List<OralDefense> list() {
+    public List<OralDefense> findAll() {
         @SuppressWarnings("unchecked")
         List<OralDefense> listOralDefense = (List<OralDefense>) sessionFactory.getCurrentSession()
                 .createCriteria(OralDefense.class)

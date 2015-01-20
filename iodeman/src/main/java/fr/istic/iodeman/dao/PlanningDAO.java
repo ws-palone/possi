@@ -6,5 +6,5 @@ import fr.istic.iodeman.model.Planning;
 
 public interface PlanningDAO {
 
-	public List<Planning> list();
+	public List<Planning> findAll();
 }

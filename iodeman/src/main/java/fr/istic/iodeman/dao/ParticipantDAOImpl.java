@@ -18,7 +18,7 @@ public class ParticipantDAOImpl implements ParticipantDAO{
 	 
 	    @Override
 	    @Transactional
-	    public List<Participant> list() {
+	    public List<Participant> findAll() {
 	        @SuppressWarnings("unchecked")
 	        List<Participant> listParticipant = (List<Participant>) sessionFactory.getCurrentSession()
 	                .createCriteria(Participant.class)

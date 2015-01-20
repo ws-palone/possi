@@ -18,7 +18,7 @@ public class PlanningDAOImpl implements PlanningDAO {
  
     @Override
     @Transactional
-    public List<Planning> list() {
+    public List<Planning> findAll() {
         @SuppressWarnings("unchecked")
         List<Planning> listPlanning = (List<Planning>) sessionFactory.getCurrentSession()
                 .createCriteria(Planning.class)

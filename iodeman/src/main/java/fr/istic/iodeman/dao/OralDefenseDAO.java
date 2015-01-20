@@ -6,6 +6,6 @@ import fr.istic.iodeman.model.OralDefense;
 
 public interface OralDefenseDAO {
 	
-	public List<OralDefense> list();
+	public List<OralDefense> findAll();
 
 }
