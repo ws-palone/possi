@@ -23,7 +23,10 @@ public class PlanningDAOImpl implements PlanningDAO {
 	}
 	
 	private Session getCurrentSession() {
-		return HibernateUtil.getSessionFactory().openSession();
+		if (HibernateUtil.getSessionFactory().isClosed()) {
+			return HibernateUtil.getSessionFactory().openSession();
+		}
+		return HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 
 	public void persist(Planning planning) {
