@@ -20,6 +20,8 @@ public class Planning implements Serializable{
 	@Column
 	private Integer id;
 	@Column
+	private String name;
+	@Column
 	private TimeBox period;
 	@Column
 	private Integer oralDefenseDuration;
@@ -43,6 +45,13 @@ public class Planning implements Serializable{
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public TimeBox getPeriod() {
