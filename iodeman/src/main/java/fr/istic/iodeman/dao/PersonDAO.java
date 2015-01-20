@@ -34,7 +34,6 @@ public interface PersonDAO {
 	
 	public void closeCurrentSessionwithTransaction();
 
-
 	public Session getCurrentSession();
 
 	public void setCurrentSession(Session currentSession);

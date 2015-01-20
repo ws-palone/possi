@@ -18,7 +18,6 @@ public class PersonDAOImpl implements PersonDAO {
 	private Session currentSession;
 	private Transaction currentTransaction;
 
-
 	public PersonDAOImpl() {
 
 	}
@@ -100,9 +99,7 @@ public class PersonDAOImpl implements PersonDAO {
 	public Person findById(int Id) {
 
 		Person person = (Person) getCurrentSession().get(Person.class, Id);
-
 		return person;
-
 	}
 
 	public static void main (String[] args){
@@ -123,7 +120,7 @@ public class PersonDAOImpl implements PersonDAO {
 		persondao.setCurrentTransaction(tx);
 		Person person2 = new Person();
 		person2.setFirstName("islame");
-		person2.setLastName("le verge");
+		person2.setLastName("jelabri");
 		person2.setRole(Role.STUDENT);
 		persondao.persist(person2);
 		persondao.getCurrentTransaction().commit();
@@ -133,7 +130,7 @@ public class PersonDAOImpl implements PersonDAO {
 		persondao.setCurrentTransaction(tx);
 		Person person3 = new Person();
 		person3.setFirstName("david");
-		person3.setLastName("le verge");
+		person3.setLastName("Michel");
 		person3.setRole(Role.STUDENT);
 		persondao.persist(person3);
 		persondao.getCurrentTransaction().commit();
@@ -142,9 +139,9 @@ public class PersonDAOImpl implements PersonDAO {
 		persondao.findById(person2.getId());
 		persondao.findById(person3.getId());
 
-		persondao.findAll();
-
-
+		List<Person> listp = persondao.findAll();
+		for (Person p: listp){
+			System.out.println( p.getFirstName());
+		}
 	}
-
 }
