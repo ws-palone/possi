@@ -1,7 +1,8 @@
 package fr.istic.iodeman.stategy;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -22,12 +23,17 @@ import fr.istic.iodeman.strategy.AlgoJuryAssignation;
 import fr.istic.iodeman.strategy.AlgoJuryAssignationImpl;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import fr.istic.iodeman.utils.TestUtils;
-import static org.junit.Assert.*;
 
 public class TestAlgoJuryAssignation {
 
+	private Integer nbParticipants;
+	
 	private AlgoJuryAssignation algo;
+	
 	private List<OralDefense> oralDefenses;
+	private List<Room> rooms;
+	private List<Participant> participants;
+	private List<TimeBox> timeBoxes;
 	
 	@Before
 	public void setUp() {
@@ -39,26 +45,11 @@ public class TestAlgoJuryAssignation {
 		Room room2 = new Room();
 		room2.setName("i227");
 		
-		int nb = 6;
-		List<Participant> participants = TestUtils.createParticipants(nb);
-		List<TimeBox> timeBoxes = TestUtils.createTimeBoxes(nb);
+		rooms = Lists.newArrayList(room1, room2);
 		
-		int i = 0;
-		int j = 0;
-		while(i < nb) {
-			OralDefense od = new OralDefense();
-			od.setComposition(participants.get(i));
-			od.setTimebox(timeBoxes.get(j));
-			if (i%2 == 0) {
-				j++;
-				od.setRoom(room1);
-			}else{
-				od.setRoom(room2);
-			}
-			i++;
-			oralDefenses.add(od);
-		}
-		
+		nbParticipants = 6;
+		participants = TestUtils.createParticipants(nbParticipants);
+		timeBoxes = TestUtils.createTimeBoxes(nbParticipants);
 		
 		algo = new AlgoJuryAssignationImpl();
 		
@@ -66,6 +57,22 @@ public class TestAlgoJuryAssignation {
 	
 	@Test
 	public void testOk1() {
+		
+		int i = 0;
+		int j = 0;
+		while(i < nbParticipants) {
+			OralDefense od = new OralDefense();
+			od.setComposition(participants.get(i));
+			od.setTimebox(timeBoxes.get(j));
+			if (i%2 == 0) {
+				j++;
+				od.setRoom(rooms.get(0));
+			}else{
+				od.setRoom(rooms.get(1));
+			}
+			i++;
+			oralDefenses.add(od);
+		}
 		
 		List<Unavailability> unavailabilities = Lists.newArrayList();
 		
@@ -97,13 +104,92 @@ public class TestAlgoJuryAssignation {
 		
 		Collection<OralDefense> results = algo.execute();
 		
-		TestUtils.printResults(results);
+		checkResults(results, unavailabilities);
+		
+	}
+	
+	@Test
+	public void testWithoutUnavailabilities() {
+		
+		int i = 0;
+		int j = 0;
+		while(i < nbParticipants) {
+			OralDefense od = new OralDefense();
+			od.setComposition(participants.get(i));
+			od.setTimebox(timeBoxes.get(j));
+			if (i%2 == 0) {
+				j++;
+				od.setRoom(rooms.get(0));
+			}else{
+				od.setRoom(rooms.get(1));
+			}
+			i++;
+			oralDefenses.add(od);
+		}
+		
+		algo.configure(oralDefenses, null);
+		
+		Collection<OralDefense> results = algo.execute();
+		
+		List<Unavailability> unavailabilities = Lists.newArrayList();
+		
+		checkResults(results, unavailabilities);
+		
+	}
+	
+	@Test
+	public void testOnEmptyList() {
+		
+		oralDefenses = Lists.newArrayList();
+		
+		algo.configure(oralDefenses, null);
+		
+		Collection<OralDefense> results = algo.execute();
+		
+		List<Unavailability> unavailabilities = Lists.newArrayList();
+		
+		checkResults(results, unavailabilities);
+		
+	}
+	
+	@Test
+	public void testOk2() {
+		
+		OralDefense od = new OralDefense();
+		od.setComposition(participants.get(0));
+		od.setTimebox(timeBoxes.get(0));
+		od.setRoom(rooms.get(0));
+		oralDefenses.add(od);
+		
+		od = new OralDefense();
+		od.setComposition(participants.get(1));
+		od.setTimebox(timeBoxes.get(1));
+		od.setRoom(rooms.get(0));
+		oralDefenses.add(od);
+		
+		Participant p = new Participant();
+		p.setFollowingTeacher(participants.get(0).getFollowingTeacher());
+		p.setStudent(participants.get(2).getStudent());
+		
+		od = new OralDefense();
+		od.setComposition(p);
+		od.setTimebox(timeBoxes.get(2));
+		od.setRoom(rooms.get(0));
+		oralDefenses.add(od);
+		
+		algo.configure(oralDefenses, null);
+		
+		Collection<OralDefense> results = algo.execute();
+		
+		List<Unavailability> unavailabilities = Lists.newArrayList();
 		
 		checkResults(results, unavailabilities);
 		
 	}
 	
 	private void checkResults(Collection<OralDefense> results, List<Unavailability> unavailabilities) {
+		
+		TestUtils.printResults(results);
 		
 		for(OralDefense od : results) {
 			

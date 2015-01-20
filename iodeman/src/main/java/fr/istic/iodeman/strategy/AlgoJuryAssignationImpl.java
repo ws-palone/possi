@@ -84,6 +84,10 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 	public Collection<OralDefense> execute() {
 		
 		Validate.notNull(oralDefenses);
+		Validate.notNull(unavailabilities);
+		Validate.notNull(followings);
+		Validate.notNull(assignations);
+		Validate.notNull(candidates);
 		
 		while (!candidates.isEmpty()) {
 			
@@ -104,7 +108,13 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 			}
 			
 			if (!candidates.isEmpty()) {
+				
 				forceAllocation();
+				
+				if (!hasNewAssignation) {
+					// Cannot force allocation
+					return oralDefenses;
+				}
 			}
 			
 		}
@@ -190,7 +200,24 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		}
 		
 		if (selected != null) {
-			assignJury(selected, selected.getPossibleJurys().get(0));
+			if (!selected.getPossibleJurys().isEmpty()) {
+				assignJury(selected, selected.getPossibleJurys().get(0));
+			}else{
+				// select the jury with the minimum assignations
+				nb = -1;
+				Person jury = null;
+				for (Person p : assignations.keySet()) {
+					int nbAssignations = assignations.get(p).size();
+					if ((jury == null || nbAssignations < nb)
+							&& !p.equals(selected.getOralDefense().getComposition().getFollowingTeacher())) {
+						nb = nbAssignations;
+						jury = p;
+					}
+				}
+				if (jury != null) {
+					assignJury(selected, jury);
+				}
+			}
 		}
 		
 	}
