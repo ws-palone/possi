@@ -18,80 +18,40 @@ import fr.istic.iodeman.utils.HibernateUtil;
 @Service
 public class PlanningDAOImpl implements PlanningDAO {
 	
-	private Session currentSession;
-	private Transaction currentTransaction;
-
-
 	public PlanningDAOImpl() {
 
 	}
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
-	}
-
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private static SessionFactory getSessionFactory() {
-		Configuration configuration = new Configuration().configure();
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-		.applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		return sessionFactory;
-	}
-
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
+	
+	private Session getCurrentSession() {
+		return HibernateUtil.getSessionFactory().openSession();
 	}
 
 	public void persist(Planning planning) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.save(planning);
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		getCurrentSession().save(planning);
+		session.getTransaction().commit();
 	}
 
 	public void update(Planning pla) {
 		getCurrentSession().update(pla);
 	}
 
-	public Planning findById(String id) {
-		Planning pla = (Planning) getCurrentSession().get(Planning.class, id);
+	public Planning findById(Integer id) {
+		Planning pla = (Planning) getCurrentSession().load(Planning.class, id);
 		return pla; 
 	}
 
 	public void delete(Planning entity) {
-		getCurrentSession().delete(entity);
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Planning> findAll() {
-		/*List<Planning> pla = (List<Planning>) getCurrentSession().createQuery("from planning").list();
-		return pla;*/
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = getCurrentSession();
 		return (List<Planning>) session.createCriteria(Planning.class).list();
 	}
 
@@ -101,14 +61,5 @@ public class PlanningDAOImpl implements PlanningDAO {
 			delete(entity);
 		}
 	}
-
-	@Override
-	public Planning findById(int Id) {
-
-		Planning pla = (Planning) getCurrentSession().get(Planning.class, Id);
-
-		return pla;
-
-    }
 
 }

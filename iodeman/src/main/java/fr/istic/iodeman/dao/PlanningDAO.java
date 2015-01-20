@@ -14,29 +14,12 @@ public interface PlanningDAO {
 	
 	 public void persist(Planning pla);
 		
-		public void update(Planning pla);
-		
-		public Planning findById(int ID);
-		
-		public void delete(Planning pla);
-		
-		public void deleteAll();
-		
-		public Session openCurrentSession();
-
-		public Session openCurrentSessionwithTransaction() ;
-		
-		public void closeCurrentSession() ;
-		
-		public void closeCurrentSessionwithTransaction();
-
-
-		public Session getCurrentSession();
-
-		public void setCurrentSession(Session currentSession);
-		public Transaction getCurrentTransaction();
-
-		public void setCurrentTransaction(Transaction currentTransaction);
-		
+	public void update(Planning pla);
+	
+	public Planning findById(Integer ID);
+	
+	public void delete(Planning pla);
+	
+	public void deleteAll();
 
 }
