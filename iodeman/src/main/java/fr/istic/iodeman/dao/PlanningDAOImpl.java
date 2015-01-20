@@ -18,15 +18,17 @@ import fr.istic.iodeman.utils.HibernateUtil;
 @Service
 public class PlanningDAOImpl implements PlanningDAO {
 	
+	Session session;
+	
 	public PlanningDAOImpl() {
 
 	}
 	
 	private Session getCurrentSession() {
-		if (HibernateUtil.getSessionFactory().isClosed()) {
-			return HibernateUtil.getSessionFactory().openSession();
+		if (session == null) {
+			session =  HibernateUtil.getSessionFactory().openSession();
 		}
-		return HibernateUtil.getSessionFactory().getCurrentSession();
+		return session;
 	}
 
 	public void persist(Planning planning) {
