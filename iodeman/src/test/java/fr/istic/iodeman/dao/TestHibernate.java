@@ -22,7 +22,7 @@ public class TestHibernate {
 
 	}*/
 
-	@Test @Ignore
+	@Test
 	public void test() {
 		
 		Person per = new Person();
