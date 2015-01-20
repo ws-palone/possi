@@ -69,8 +69,9 @@ public class PlanningDAOImpl implements PlanningDAO {
 		this.currentTransaction = currentTransaction;
 	}
 
-	public void persist(Planning pla) {
-		getCurrentSession().save(pla);
+	public void persist(Planning planning) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.save(planning);
 	}
 
 	public void update(Planning pla) {
