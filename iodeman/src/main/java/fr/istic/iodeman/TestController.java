@@ -19,6 +19,10 @@ public class TestController {
 	public class Greeting {
 		
 		private String name;
+		
+		public Greeting(String name) {
+			setName(name);
+		}
 
 		public String getName() {
 			return name;
@@ -31,9 +35,10 @@ public class TestController {
 	}
 	
 	@RequestMapping("/greeting") 
-	public List<String> sayHello(@RequestParam(value="name", defaultValue="World") String name) {  
+	public Greeting sayHello(@RequestParam(value="name", defaultValue="World") String name) {  
 		
-		return s.getAllPersonName();
+		return new Greeting(name);
+		//return s.getAllPersonName();
 		
 	}
 }  
