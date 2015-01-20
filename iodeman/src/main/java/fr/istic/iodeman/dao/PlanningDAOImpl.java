@@ -8,11 +8,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 
+@Service
 public class PlanningDAOImpl implements PlanningDAO {
 	
 	private Session currentSession;
