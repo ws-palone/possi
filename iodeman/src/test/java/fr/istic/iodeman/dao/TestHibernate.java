@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 
 import org.hibernate.Session;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.istic.iodeman.model.Person;
@@ -21,7 +22,7 @@ public class TestHibernate {
 
 	}*/
 
-	@Test
+	@Test @Ignore
 	public void test() {
 		
 		Person per = new Person();
