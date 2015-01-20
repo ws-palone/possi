@@ -45,6 +45,12 @@ public class TestHibernate {
 		assertTrue(per.getLastName().equals(personDB.getLastName()));
 		assertTrue(per.getRole().equals(personDB.getRole()));
 		
+		session.beginTransaction();
+		//Save the Model object
+		session.delete(per);
+		//Commit transaction
+		session.getTransaction().commit();
+		
 		HibernateUtil.getSessionFactory().close();
 	}
 }
