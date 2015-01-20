@@ -7,10 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
-import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.utils.HibernateUtil;
 
 public class RoomDAOImpl {
 

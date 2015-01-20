@@ -5,8 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 
 public interface UnavailabilityDAO {
