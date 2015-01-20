@@ -13,8 +13,6 @@ import org.hibernate.cfg.Configuration;
 import fr.istic.iodeman.model.Person;
 
 public interface PersonDAO {
-	
-    public List<Person> list();
     
     public void persist(Person person);
 	

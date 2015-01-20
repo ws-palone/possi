@@ -95,21 +95,7 @@ public class PersonDAOImpl implements PersonDAO {
 			delete(entity);
 		}
 	}
-	/*@Override
-    @Transactional
-    public List<Person> list() {
-        @SuppressWarnings("unchecked")
-        List<Person> listPerson = (List<Person>) sessionFactory.getCurrentSession()
-                .createCriteria(Person.class)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 
-        return listPerson;
-    }*/
-	@Override
-	public List<Person> list() {
-
-		return null;
-	}
 	@Override
 	public Person findById(int Id) {
 
