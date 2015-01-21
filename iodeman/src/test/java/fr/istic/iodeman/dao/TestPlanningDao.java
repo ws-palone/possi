@@ -8,10 +8,16 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import fr.istic.iodeman.Application;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
-public class TestPlanningDao {
+public class TestPlanningDao extends AbstractSpringUnitTest {
 
 	PlanningDAO planningDAO;
 
