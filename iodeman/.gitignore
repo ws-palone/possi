@@ -3,3 +3,5 @@
 /.project
 /.tomcatplugin
 /.classpath
+
+hibernate.cfg.xml
