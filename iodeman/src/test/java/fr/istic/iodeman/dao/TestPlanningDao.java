@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,6 +20,7 @@ import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
 public class TestPlanningDao extends AbstractSpringUnitTest {
 
+	@Autowired
 	PlanningDAO planningDAO;
 
 	List<Planning> plannings;
@@ -26,7 +28,7 @@ public class TestPlanningDao extends AbstractSpringUnitTest {
 	@Before
 	public void setUp(){
 		// instanciate the DAO
-		planningDAO = new PlanningDAOImpl();
+		//planningDAO = new PlanningDAOImpl();
 		
 		// removing of all planning
 		planningDAO.deleteAll();

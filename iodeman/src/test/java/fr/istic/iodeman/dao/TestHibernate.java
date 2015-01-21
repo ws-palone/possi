@@ -37,7 +37,7 @@ public class TestHibernate {
 		session.save(per);
 		//Commit transaction
 		session.getTransaction().commit();
-		
+
 		Person personDB = (Person) session.load(Person.class, per.getId());
 		
 		assertTrue(per.getId().equals(personDB.getId()));
@@ -51,6 +51,7 @@ public class TestHibernate {
 		//Commit transaction
 		session.getTransaction().commit();
 		
-		HibernateUtil.getSessionFactory().close();
+		session.close();
+
 	}
 }
