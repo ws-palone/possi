@@ -2,6 +2,7 @@ package fr.istic.iodeman.dao;
 
 
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,7 +10,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Role;
 
 public class PersonDAOImpl implements PersonDAO {
 	private Session currentSession;
@@ -92,53 +92,10 @@ public class PersonDAOImpl implements PersonDAO {
 		}
 	}
 
-	@Override
 	public Person findById(int Id) {
 
 		Person person = (Person) getCurrentSession().get(Person.class, Id);
 		return person;
 	}
 
-	public static void main (String[] args){
-
-		PersonDAO persondao = new PersonDAOImpl();
-		persondao.openCurrentSession();
-		Transaction tx= persondao.openCurrentSession().beginTransaction();
-		persondao.setCurrentTransaction(tx);
-		Person person1 = new Person();
-		person1.setFirstName("pauline");
-		person1.setLastName("le verge");
-		person1.setRole(Role.STUDENT);
-		persondao.persist(person1);
-		persondao.getCurrentTransaction().commit();
-
-		persondao.openCurrentSession();
-		tx= persondao.openCurrentSession().beginTransaction();
-		persondao.setCurrentTransaction(tx);
-		Person person2 = new Person();
-		person2.setFirstName("islame");
-		person2.setLastName("jelabri");
-		person2.setRole(Role.STUDENT);
-		persondao.persist(person2);
-		persondao.getCurrentTransaction().commit();
-
-		persondao.openCurrentSession();
-		tx= persondao.openCurrentSession().beginTransaction();
-		persondao.setCurrentTransaction(tx);
-		Person person3 = new Person();
-		person3.setFirstName("david");
-		person3.setLastName("Michel");
-		person3.setRole(Role.STUDENT);
-		persondao.persist(person3);
-		persondao.getCurrentTransaction().commit();
-
-		persondao.findById(person1.getId());
-		persondao.findById(person2.getId());
-		persondao.findById(person3.getId());
-
-		List<Person> listp = persondao.findAll();
-		for (Person p: listp){
-			System.out.println( p.getFirstName());
-		}
-	}
 }

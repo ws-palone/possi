@@ -13,10 +13,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @ComponentScan
 @EnableAutoConfiguration
+@EnableTransactionManagement
 public class Application extends SpringBootServletInitializer
 {
     public static void main( String[] args )

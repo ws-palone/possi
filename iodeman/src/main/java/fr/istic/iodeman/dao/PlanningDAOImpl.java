@@ -2,34 +2,14 @@ package fr.istic.iodeman.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.utils.HibernateUtil;
 
 @Service
-public class PlanningDAOImpl implements PlanningDAO {
-	
-	Session session;
-	
-	public PlanningDAOImpl() {
-
-	}
-	
-	private Session getCurrentSession() {
-		if (session == null) {
-			session =  HibernateUtil.getSessionFactory().openSession();
-		}
-		return session;
-	}
+public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
 
 	public void persist(Planning planning) {
 		Session session = getCurrentSession();

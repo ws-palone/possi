@@ -96,7 +96,6 @@ import fr.istic.iodeman.model.Priority;
 			}
 		}
 
-		@Override
 		public Priority findById(int Id) {
 
 			Priority prio = (Priority) getCurrentSession().get(Priority.class, Id);
