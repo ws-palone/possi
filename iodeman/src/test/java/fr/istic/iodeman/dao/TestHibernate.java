@@ -1,14 +1,8 @@
 package fr.istic.iodeman.dao;
 
-import static org.junit.Assert.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import static org.junit.Assert.assertTrue;
 
 import org.hibernate.Session;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.istic.iodeman.model.Person;
