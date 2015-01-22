@@ -5,14 +5,15 @@ import java.util.List;
 import fr.istic.iodeman.model.Unavailability;
 
 public interface UnavailabilityDAO {
-	public void persist(Unavailability u);
 	
-	public Unavailability findById(int id);
-
-	public void delete(Unavailability u) ;
-
-	public List<Unavailability> findAll();
-
+     public List<Unavailability> findAll();
+	
+	public void persist(Unavailability unav);
+	
+	public Unavailability findById(Integer ID);
+	
+	public void delete(Unavailability unav);
+	
 	public void deleteAll();
 
 }

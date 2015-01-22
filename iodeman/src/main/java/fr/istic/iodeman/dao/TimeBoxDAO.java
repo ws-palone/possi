@@ -5,13 +5,14 @@ import java.util.List;
 import fr.istic.iodeman.model.TimeBox;
 
 public interface TimeBoxDAO {
-	public void persist(TimeBox r);
+
+    public List<TimeBox> findAll();
 	
-	public TimeBox findById(int id);
-
-	public void delete(TimeBox r) ;
-
-	public List<TimeBox> findAll();
-
+	public void persist(TimeBox time);
+	
+	public TimeBox findById(Integer ID);
+	
+	public void delete(TimeBox time);
+	
 	public void deleteAll();
 }

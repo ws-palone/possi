@@ -3,91 +3,43 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
+
 import fr.istic.iodeman.model.Unavailability;
 
-public class UnavailabilityDAOImpl {
+@Service
+public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements UnavailabilityDAO {
 
-	private Session currentSession;
-	private Transaction currentTransaction;
-
-	public UnavailabilityDAOImpl() {
-
-	}
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
+	public void persist(Unavailability unav) {
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		getCurrentSession().save(unav);
+		session.getTransaction().commit();
 	}
 
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
+	public Unavailability findById(Integer id) {
+		Unavailability unav = (Unavailability) getCurrentSession().load(Unavailability.class, id);
+		return unav; 
 	}
 
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private  SessionFactory getSessionFactory() {
-		Configuration configuration = new Configuration().configure();
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-		.applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		return sessionFactory;
-	}
-
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
-
-	public void persist(Unavailability u) {
-		getCurrentSession().save(u);
-	}
-
-	public void update(Unavailability u) {
-		getCurrentSession().update(u);
-	}
-
-	public Unavailability findById(int id) {
-		Unavailability unavailability = (Unavailability) getCurrentSession().get(Unavailability.class, id);
-		return unavailability; 
-	}
-
-	public void delete(Unavailability u) {
-		getCurrentSession().delete(u);
+	public void delete(Unavailability entity) {
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Unavailability> findAll() {
-		List<Unavailability> listUnavailability = (List<Unavailability>) getCurrentSession().createQuery("from Unavailability").list();
-		return listUnavailability;
+		Session session = getCurrentSession();
+		return (List<Unavailability>) session.createCriteria(Unavailability.class).list();
 	}
 
 	public void deleteAll() {
-		List<Unavailability> listUnavailability = findAll();
-		for (Unavailability u : listUnavailability) {
-			delete(u);
+		List<Unavailability> entityList = findAll();
+		for (Unavailability entity : entityList) {
+			delete(entity);
 		}
 	}
+
 }
