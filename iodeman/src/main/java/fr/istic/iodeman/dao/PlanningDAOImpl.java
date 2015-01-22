@@ -17,10 +17,6 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		session.getTransaction().commit();
 	}
 
-	public void update(Planning pla) {
-		getCurrentSession().update(pla);
-	}
-
 	public Planning findById(Integer id) {
 		Planning pla = (Planning) getCurrentSession().load(Planning.class, id);
 		return pla; 

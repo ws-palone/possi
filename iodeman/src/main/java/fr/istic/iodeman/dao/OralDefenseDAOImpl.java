@@ -1,91 +1,33 @@
 package fr.istic.iodeman.dao;
 
-
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
 
 import fr.istic.iodeman.model.OralDefense;
 
- 
-public class OralDefenseDAOImpl implements OralDefenseDAO {
-    
-	private Session currentSession;
-	private Transaction currentTransaction;
-
-
-	public OralDefenseDAOImpl() {
-
-	}
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
-	}
-
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private static SessionFactory getSessionFactory() {
-		Configuration configuration = new Configuration().configure();
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-		.applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		return sessionFactory;
-	}
-
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
+@Service
+public class OralDefenseDAOImpl extends AbstractHibernateDAO implements OralDefenseDAO {
 
 	public void persist(OralDefense oral) {
+		Session session = getCurrentSession();
+		session.beginTransaction();
 		getCurrentSession().save(oral);
-	}
-
-	public void update(OralDefense oral) {
-		getCurrentSession().update(oral);
-	}
-
-	public OralDefense findById(String id) {
-		OralDefense oral = (OralDefense) getCurrentSession().get(OralDefense.class, id);
-		return oral; 
+		session.getTransaction().commit();
 	}
 
 	public void delete(OralDefense entity) {
-		getCurrentSession().delete(entity);
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<OralDefense> findAll() {
-		List<OralDefense> oral = (List<OralDefense>) getCurrentSession().createQuery("from oraldefense").list();
-		return oral;
+		Session session = getCurrentSession();
+		return (List<OralDefense>) session.createCriteria(OralDefense.class).list();
 	}
 
 	public void deleteAll() {
@@ -95,13 +37,9 @@ public class OralDefenseDAOImpl implements OralDefenseDAO {
 		}
 	}
 
-	@Override
-	public OralDefense findById(int Id) {
-
-		OralDefense oral = (OralDefense) getCurrentSession().get(OralDefense.class, Id);
-
-		return oral;
-
-    }
+	public OralDefense findById(int id) {
+		OralDefense oral = (OralDefense) getCurrentSession().get(OralDefense.class, id);
+		return oral; 
+	}
  
 }
