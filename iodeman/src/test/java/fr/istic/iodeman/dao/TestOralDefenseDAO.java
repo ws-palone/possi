@@ -15,7 +15,7 @@ import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
-public class TestOralDefenseDao extends AbstractSpringUnitTest{
+public class TestOralDefenseDAO extends AbstractSpringUnitTest{
 
 	@Autowired
 	OralDefenseDAO oralDefenseDAO;

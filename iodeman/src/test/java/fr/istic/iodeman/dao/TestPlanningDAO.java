@@ -15,7 +15,7 @@ import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
-public class TestPlanningDao extends AbstractSpringUnitTest {
+public class TestPlanningDAO extends AbstractSpringUnitTest {
 
 	@Autowired
 	PlanningDAO planningDAO;
