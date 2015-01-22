@@ -3,16 +3,13 @@ package fr.istic.iodeman.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.springframework.transaction.annotation.Transactional;
 
 import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Person;
 
  
 public class OralDefenseDAOImpl implements OralDefenseDAO {

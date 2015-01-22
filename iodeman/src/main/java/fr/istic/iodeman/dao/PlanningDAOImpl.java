@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.utils.HibernateUtil;
 
 @Service
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
