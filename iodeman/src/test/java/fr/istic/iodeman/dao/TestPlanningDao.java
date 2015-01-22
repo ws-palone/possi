@@ -1,6 +1,7 @@
 package fr.istic.iodeman.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +9,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import fr.istic.iodeman.Application;
+import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
@@ -67,6 +64,15 @@ public class TestPlanningDao extends AbstractSpringUnitTest {
 		List<Planning> retrievedPlannings = planningDAO.findAll();
 		assertTrue(retrievedPlannings.size() == plannings.size());		
 		
+	}
+	
+	@Test
+	public void testFindById(){
+		Planning p = plannings.get(0);
+		assertTrue(p.getId() != null);
+		
+		Planning retrievedPlanning = planningDAO.findById(p.getId());
+		assertEquals(retrievedPlanning.getId(), p.getId());
 	}
 
 }
