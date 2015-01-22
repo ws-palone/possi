@@ -4,84 +4,22 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
 
 import fr.istic.iodeman.model.Person;
 
-public class PersonDAOImpl implements PersonDAO {
-	private Session currentSession;
-	private Transaction currentTransaction;
-
-	public PersonDAOImpl() {
-
-	}
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
-	}
-
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private static SessionFactory getSessionFactory() {
-		Configuration configuration = new Configuration().configure();
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-		.applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		return sessionFactory;
-	}
-
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
-
-	public void persist(Person person) {
-		getCurrentSession().save(person);
-	}
-
-	public void update(Person person) {
-		getCurrentSession().update(person);
-	}
-
-	public Person findById(String id) {
-		Person person = (Person) getCurrentSession().get(Person.class, id);
-		return person; 
-	}
-
+@Service
+public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 	public void delete(Person entity) {
-		getCurrentSession().delete(entity);
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Person> findAll() {
-		List<Person> person = (List<Person>) getCurrentSession().createQuery("from Person").list();
+		List<Person> person = (List<Person>) getCurrentSession().createCriteria(Person.class).list();
 		return person;
 	}
 
@@ -92,10 +30,16 @@ public class PersonDAOImpl implements PersonDAO {
 		}
 	}
 
-	public Person findById(int Id) {
+	public Person findById(int id) {
+		return (Person) getCurrentSession().get(Person.class, id);
+	}
 
-		Person person = (Person) getCurrentSession().get(Person.class, Id);
-		return person;
+	@Override
+	public void persist(Person person) {
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		getCurrentSession().save(person);
+		session.getTransaction().commit();
 	}
 
 }
