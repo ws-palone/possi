@@ -12,9 +12,7 @@ public interface PlanningDAO {
 
 	public List<Planning> findAll();
 	
-	 public void persist(Planning pla);
-		
-	public void update(Planning pla);
+	public void persist(Planning pla);
 	
 	public Planning findById(Integer ID);
 	
