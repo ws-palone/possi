@@ -30,10 +30,10 @@ public class TestConnection extends SpringUnitTest {
 		System.out.println(listString);
 	}
 	
-	
+	@Test
 	public void testldap2(){
-		
-		System.out.println(ldapserv.lookupPerson("11008880"));
+		assert(true);
+		//System.out.println(ldapserv.lookupPerson("11008880"));
 		
 	}
 }
