@@ -3,91 +3,42 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
+
 import fr.istic.iodeman.model.Room;
 
-public class RoomDAOImpl {
+@Service
+public class RoomDAOImpl extends AbstractHibernateDAO implements RoomDAO {
 
-	private Session currentSession;
-	private Transaction currentTransaction;
-
-	public RoomDAOImpl() {
-
-	}
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
-	}
-
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private  SessionFactory getSessionFactory() {
-		Configuration configuration = new Configuration().configure();
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-		.applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		return sessionFactory;
-	}
-
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
-
-	public void persist(Room r) {
-		getCurrentSession().save(r);
-	}
-
-	public void update(Room r) {
-		getCurrentSession().update(r);
+	public void persist(Room room) {
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		getCurrentSession().save(room);
+		session.getTransaction().commit();
 	}
 
 	public Room findById(int id) {
-		Room room = (Room) getCurrentSession().get(Room.class, id);
+		Room room = (Room) getCurrentSession().load(Room.class, id);
 		return room; 
 	}
 
-	public void delete(Room r) {
-		getCurrentSession().delete(r);
+	public void delete(Room entity) {
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Room> findAll() {
-		List<Room> listRoom = (List<Room>) getCurrentSession().createQuery("from Room").list();
-		return listRoom;
+		Session session = getCurrentSession();
+		return (List<Room>) session.createCriteria(Room.class).list();
 	}
 
 	public void deleteAll() {
-		List<Room> listRoom = findAll();
-		for (Room r : listRoom) {
-			delete(r);
+		List<Room> entityList = findAll();
+		for (Room entity : entityList) {
+			delete(entity);
 		}
 	}
 }
