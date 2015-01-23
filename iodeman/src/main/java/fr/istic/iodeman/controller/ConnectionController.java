@@ -56,8 +56,8 @@ public class ConnectionController {
 		 String serverNameLogin = "https://sso-cas.univ-rennes1.fr/login";
 		 String serverNameValidate = "https://sso-cas.univ-rennes1.fr/serviceValidate";
 		 
-		 String serviceName = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/";
-		 String serviceNameLogin = "http://iode-man.istic.univ-rennes1.fr:8080/iodeman/login";
+		 String serviceName = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/";
+		 String serviceNameLogin = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/login";
 		 
 		 String user = null;
 		 String errorCode = null;
