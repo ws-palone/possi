@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.AuthenticationSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import com.google.common.collect.Maps;
 
