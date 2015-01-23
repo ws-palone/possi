@@ -8,11 +8,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.istic.iodeman.service.LDAPServ;
-import fr.istic.iodeman.service.LDAPServiceImpl;
 
 public class TestConnection extends SpringUnitTest {
 	
-	@Autowired
+/*	@Autowired
 	private LDAPServ ldapserv;
 	
 	
@@ -29,7 +28,7 @@ public class TestConnection extends SpringUnitTest {
 
 		System.out.println(listString);
 	}
-	
+*/	
 	@Test
 	public void testldap2(){
 		assert(true);

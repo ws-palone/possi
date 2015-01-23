@@ -21,7 +21,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 @Service
 public class LDAPServ {
-	
+	/*
 	@Autowired
 	private LdapTemplate ldap;
 	
@@ -40,8 +40,6 @@ public class LDAPServ {
 		AndFilter af = new AndFilter();
 		af.and(new EqualsFilter("uid", username));
 		SearchControls sc = new SearchControls();
-		sc.setTimeLimit(2100000);
-		sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
         return ldap.search("", af.encode(), sc, new PersonAttributeMapper());
     }
 	
@@ -59,6 +57,6 @@ public class LDAPServ {
 				});
 	}
 
-
+*/
 	
 }

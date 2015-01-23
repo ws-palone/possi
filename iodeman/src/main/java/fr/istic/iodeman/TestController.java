@@ -7,14 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.istic.iodeman.service.LDAPServiceImpl;
-
 
 @RestController  
 public class TestController {  
-	
-	@Autowired
-	public LDAPServiceImpl s;
 	
 	public class Greeting {
 		
@@ -38,7 +33,6 @@ public class TestController {
 	public Greeting sayHello(@RequestParam(value="name", defaultValue="World") String name) {  
 		
 		return new Greeting(name);
-		//return s.getAllPersonName();
 		
 	}
 }  
