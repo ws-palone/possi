@@ -1,18 +1,39 @@
 package fr.istic.iodeman;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
+import javax.naming.directory.SearchControls;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import edu.yale.its.tp.cas.client.ServiceTicketValidator;
-import edu.yale.its.tp.cas.client.filter.CASFilter;
+import fr.istic.iodeman.service.LDAPServ;
+import fr.istic.iodeman.service.LDAPServiceImpl;
 
-public class TestConnection {
+public class TestConnection extends SpringUnitTest {
 	
-	@Test
-	public void sendRequest(){
-		String serverName = "https://sso-cas.univ-rennes1.fr/login?service=http://iode-man.istic.univ-rennes1.fr:8080/iodeman/";
-		assert(true);
+	@Autowired
+	private LDAPServ ldapserv;
+	
+	
+	public void testLdaP(){
+		
+		List<String> list = ldapserv.getAllPersonNames();
+		
+		String listString = "List : ";
+
+		for (String s : list)
+		{
+		    listString += s + "\t";
+		}
+
+		System.out.println(listString);
+	}
+	
+	
+	public void testldap2(){
+		
+		System.out.println(ldapserv.lookupPerson("11008880"));
+		
 	}
 }

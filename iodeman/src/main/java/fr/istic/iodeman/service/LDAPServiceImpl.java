@@ -22,10 +22,10 @@ public class LDAPServiceImpl implements LADPService {
 
 	@Override
 	public List<String> getAllPersonName(){
-		Hashtable env = new Hashtable();
+		Hashtable<String, String> env = new Hashtable<String, String>();
 	      env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 	      env.put(Context.PROVIDER_URL, "ldapglobal.univ-rennes1.fr");
-
+       
 	      DirContext ctx;
 	      try {
 	         ctx = new InitialDirContext(env);
