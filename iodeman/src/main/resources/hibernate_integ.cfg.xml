@@ -18,7 +18,6 @@
 		<mapping class="fr.istic.iodeman.model.Planning" />
 		<mapping class="fr.istic.iodeman.model.Priority" />
 		<mapping class="fr.istic.iodeman.model.Room" />
-		<mapping class="fr.istic.iodeman.model.TimeBox" />
 		<mapping class="fr.istic.iodeman.model.Unavailability" />
 		
 		
