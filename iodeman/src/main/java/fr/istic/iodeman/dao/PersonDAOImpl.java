@@ -4,12 +4,13 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import fr.istic.iodeman.model.Person;
 
-@Service
+@Repository
 public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
+	
 	public void delete(Person entity) {
 		Session session = getCurrentSession();
 		session.beginTransaction();
@@ -34,7 +35,6 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 		return (Person) getCurrentSession().get(Person.class, id);
 	}
 
-	@Override
 	public void persist(Person person) {
 		Session session = getCurrentSession();
 		session.beginTransaction();

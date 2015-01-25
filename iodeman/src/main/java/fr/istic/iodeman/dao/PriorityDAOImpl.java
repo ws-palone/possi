@@ -3,11 +3,11 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import fr.istic.iodeman.model.Priority;
 
-@Service
+@Repository
 public class PriorityDAOImpl extends AbstractHibernateDAO implements PriorityDAO {
 
 	public void persist(Priority priority) {

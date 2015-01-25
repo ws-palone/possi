@@ -3,11 +3,11 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import fr.istic.iodeman.model.Unavailability;
 
-@Service
+@Repository
 public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements UnavailabilityDAO {
 
 	public void persist(Unavailability unav) {
