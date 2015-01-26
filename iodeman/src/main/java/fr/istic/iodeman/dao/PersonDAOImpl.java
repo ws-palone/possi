@@ -4,6 +4,7 @@ package fr.istic.iodeman.dao;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import fr.istic.iodeman.model.Person;
@@ -40,6 +41,13 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 		session.beginTransaction();
 		getCurrentSession().save(person);
 		session.getTransaction().commit();
+	}
+
+	public Person findByNames(String names) {
+		Person person = (Person) getCurrentSession().createCriteria(Person.class)
+				.add(Restrictions.ilike("fullName", names.toLowerCase() + "%"))
+				.list().get(0);
+		return person;
 	}
 
 }

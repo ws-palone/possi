@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
+
 
 @Entity
 @Table
@@ -22,6 +24,9 @@ public class Person implements Serializable {
 	private String lastName;
 	@Column
 	private Role role;
+	
+	@Formula(value="firstName || ' ' || lastName")
+	private String fullName;
 	
 	public Integer getId() {
 		return id;

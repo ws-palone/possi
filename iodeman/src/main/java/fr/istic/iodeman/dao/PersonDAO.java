@@ -9,6 +9,8 @@ public interface PersonDAO {
 	public void persist(Person person);
 	
 	public Person findById(int ID);
+	
+	public Person findByNames(String names);
 
 	public void delete(Person person);
 

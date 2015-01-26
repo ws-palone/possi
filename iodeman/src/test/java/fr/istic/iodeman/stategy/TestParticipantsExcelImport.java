@@ -11,10 +11,23 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.resolver.PersonResolver;
 import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
 
 public class TestParticipantsExcelImport {
+	
+	private class PersonResolverMock implements PersonResolver {
+
+		public Person resolve(String name) {
+			Person person = new Person();
+			person.setFirstName(name);
+			return person;
+		}
+		
+	}
+	
 	@Test
 	public void testExecute() throws Exception{
 		ParticipantsImport particpantsImport = new ParticipantsExcelImport();
@@ -23,6 +36,7 @@ public class TestParticipantsExcelImport {
 		File excelFile = new File(getClass().getResource(filename).toURI());
 		assertTrue(excelFile.exists());
 		
+		particpantsImport.configure(new PersonResolverMock());
 		List<Participant> participants = Lists.newArrayList(particpantsImport.execute(excelFile));
 
 		assertTrue(participants != null);
@@ -31,20 +45,17 @@ public class TestParticipantsExcelImport {
 
 		// first one
 		Participant firstOne = participants.get(0);
-		assertEquals(firstOne.getStudent().getFirstName(), "Antoine");
-		assertEquals(firstOne.getStudent().getLastName(), "AMELINE");
+		assertEquals(firstOne.getStudent().getFirstName(), "Antoine AMELINE");
 		assertEquals(firstOne.getFollowingTeacher().getFirstName(), "Didier Certain");
 		
 		//Accent
 		Participant encodageOne = participants.get(11);
-		assertEquals(encodageOne.getStudent().getFirstName(), "Yaëlle");
-		assertEquals(encodageOne.getStudent().getLastName(), "ECHIVARD");
+		assertEquals(encodageOne.getStudent().getFirstName(), "Yaëlle ECHIVARD");
 		assertEquals(encodageOne.getFollowingTeacher().getFirstName(), "Marc Bousse");
 		
 		// lastone
 		Participant lastOne = participants.get(48);
-		assertEquals(lastOne.getStudent().getFirstName(), "Guillaume");
-		assertEquals(lastOne.getStudent().getLastName(), "YAN");
+		assertEquals(lastOne.getStudent().getFirstName(), "Guillaume YAN");
 		assertEquals(lastOne.getFollowingTeacher().getFirstName(), "Gilles Lesventes");
 		
 		

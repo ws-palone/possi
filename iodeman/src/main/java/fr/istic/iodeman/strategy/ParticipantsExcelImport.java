@@ -9,10 +9,16 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.resolver.PersonResolver;
 
 public class ParticipantsExcelImport implements ParticipantsImport {
 
-	@Override
+	private PersonResolver personResolver;
+
+	public void configure(PersonResolver personResolver) {
+		this.personResolver = personResolver;
+	}
+	
 	public Collection<Participant> execute(File file) throws Exception {
 		Collection<Participant> participants = new ArrayList<Participant>();
 		
@@ -29,12 +35,20 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 		// until we have finished parsing the file
 		while(!sheet.getCell(0, i).getContents().equals("")){
 			// Student
-			Person student = new Person();
+			/*Person student = new Person();
 			student.setLastName(sheet.getCell(1, i).getContents());
 			student.setFirstName(sheet.getCell(2, i).getContents());	
+			*/
+			String fullName = sheet.getCell(2, i).getContents() 
+					+ " " + sheet.getCell(1, i).getContents();
+			Person student = personResolver.resolve(fullName);
+			
 			// following teacher
-			Person followingTeacher = new Person();
+			/*Person followingTeacher = new Person();
 			followingTeacher.setFirstName(sheet.getCell(4, i).getContents());
+			*/
+			fullName = sheet.getCell(4, i).getContents();
+			Person followingTeacher = personResolver.resolve(fullName);
 			
 			Participant participant = new Participant();
 			participant.setStudent(student);
