@@ -1,18 +1,11 @@
 package fr.istic.iodeman;
 
-import java.util.Map;
-
-import javax.naming.directory.SearchControls;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.ldap.core.AuthenticationSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
-
-import com.google.common.collect.Maps;
 
 @Configuration
 public class LDAPConf {

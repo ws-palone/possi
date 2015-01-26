@@ -31,9 +31,7 @@ public class ConnectionController {
 	}
 
 	@RequestMapping("/hello")
-	public String hello(@RequestParam(value="user_id", defaultValue="") String user_id){
-		
-		return user_id;
+	public String hello(@RequestParam(value="name", defaultValue="") String name){
 		
 		/*List<String> list = ldapserv.getAllPersonNames();
 		
@@ -46,7 +44,7 @@ public class ConnectionController {
 
 	    return listString;*/
 	    
-	    //return ldapserv.lookupPerson(user_id);
+	    return (String) ldapserv.lookupPerson(name);
 		
 	}
 	

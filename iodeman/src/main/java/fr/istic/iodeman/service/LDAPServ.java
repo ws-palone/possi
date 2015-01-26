@@ -21,19 +21,16 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 @Service
 public class LDAPServ {
-	/*
+	
 	@Autowired
 	private LdapTemplate ldap;
 	
 	private class PersonAttributeMapper implements AttributesMapper{
-
-		@Override
-		public String mapFromAttributes(Attributes arg0)
+		public String mapFromAttributes(Attributes attrtibutes)
 				throws javax.naming.NamingException {
 			// TODO Auto-generated method stub
-			return "truc";
+			return attrtibutes.get("uid").toString();
 		}
-		
 	}
 	
 	public Object lookupPerson(String username) {
@@ -57,6 +54,6 @@ public class LDAPServ {
 				});
 	}
 
-*/
+
 	
 }
