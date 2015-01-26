@@ -32,8 +32,11 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 		}
 	}
 
-	public Person findById(int id) {
-		return (Person) getCurrentSession().get(Person.class, id);
+	public Person findByUid(String uid) {
+		Person person = (Person) getCurrentSession().createCriteria(Person.class)
+				.add(Restrictions.eq("uid", uid))
+				.list().get(0);
+		return person;
 	}
 
 	public void persist(Person person) {

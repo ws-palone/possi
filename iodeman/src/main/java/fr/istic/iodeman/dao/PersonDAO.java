@@ -8,7 +8,7 @@ public interface PersonDAO {
 
 	public void persist(Person person);
 	
-	public Person findById(int ID);
+	public Person findByUid(String ID);
 	
 	public Person findByNames(String names);
 

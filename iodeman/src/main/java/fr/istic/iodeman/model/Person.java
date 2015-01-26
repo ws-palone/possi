@@ -24,9 +24,19 @@ public class Person implements Serializable {
 	private String lastName;
 	@Column
 	private Role role;
-	
+	@Column
+	private String uid;
+
 	@Formula(value="firstName || ' ' || lastName")
 	private String fullName;
+	
+	public String getUid() {
+		return uid;
+	}
+	
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 	
 	public Integer getId() {
 		return id;

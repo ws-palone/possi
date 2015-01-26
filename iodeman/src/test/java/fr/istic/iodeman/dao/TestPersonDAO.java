@@ -31,6 +31,8 @@ public class TestPersonDAO extends AbstractSpringUnitTest {
 		
 		for(int i = 0; i<3; i++){
 			Person p = new Person();
+			p.setId(i);
+			p.setUid(Integer.toString(i+1));
 			p.setFirstName("Dummy");
 			persons.add(p);
 		}
@@ -65,9 +67,9 @@ public class TestPersonDAO extends AbstractSpringUnitTest {
 	@Test
 	public void testFindById(){
 		Person p = persons.get(0);
-		assertTrue(p.getId() != null);
+		assertTrue(p.getUid() != null);
 		
-		Person retrievedPerson = personDAO.findById(p.getId());
+		Person retrievedPerson = personDAO.findByUid(p.getUid());
 		assertEquals(retrievedPerson.getId(), p.getId());
 	}
 

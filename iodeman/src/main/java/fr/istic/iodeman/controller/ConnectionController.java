@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
-import fr.istic.iodeman.service.LDAPServ;
+import fr.istic.iodeman.service.LdapRepositoryImpl;
 
 @Controller
 public class ConnectionController {

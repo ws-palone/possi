@@ -3,11 +3,13 @@ package fr.istic.iodeman;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.istic.iodeman.service.LDAPServ;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.service.LdapRepositoryImpl;
 
 
 @RestController  
@@ -32,7 +34,7 @@ public class TestController {
 	}
 	
 	@Autowired
-	private LDAPServ ldapserv;
+	private LdapRepositoryImpl ldapserv;
 	
 	@RequestMapping("/greeting") 
 	public Greeting sayHello(@RequestParam(value="name", defaultValue="World") String name) {  
@@ -41,21 +43,19 @@ public class TestController {
 		
 	}
 	
-	@RequestMapping("/hello")
-	public String hello(@RequestParam(value="name", defaultValue="") String name){
+	@RequestMapping("/ldap/{uid}")
+	public Person ldapUID(@PathVariable("uid") String uid){
 		
-		/*List<String> list = ldapserv.getAllPersonNames();
-		
-		String listString = "List : ";
-
-		for (String s : list)
-		{
-		    listString += s + "\t";
-		}
-
-	    return listString;*/
-	    
-	    return (String) ldapserv.lookupPerson(name);
+	    return (Person) ldapserv.searchByUID(uid);
 		
 	}
+	
+	@RequestMapping("/ldap")
+	public Person ldap(@RequestParam(value="name", defaultValue="") String name){
+		
+	    return (Person) ldapserv.lookupPerson(name);
+		
+	}
+
+	
 }  

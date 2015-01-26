@@ -83,11 +83,13 @@ public class TestUtils {
 			
 			Person p1 = new Person();
 			p1.setId(i);
+			p1.setUid(Integer.toString(i));
 			p1.setFirstName("Student "+i);
 			p1.setRole(Role.STUDENT);
 			
 			Person p2 = new Person();
 			p2.setId(i);
+			p2.setUid(Integer.toString(i));
 			p2.setFirstName("Prof "+i);
 			p2.setRole(Role.PROF);		
 			

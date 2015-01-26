@@ -7,7 +7,7 @@ import javax.naming.directory.SearchControls;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.istic.iodeman.service.LDAPServ;
+import fr.istic.iodeman.service.LdapRepositoryImpl;
 
 public class TestConnection extends SpringUnitTest {
 	
