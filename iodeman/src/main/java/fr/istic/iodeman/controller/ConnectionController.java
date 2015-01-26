@@ -91,10 +91,10 @@ public class ConnectionController {
 		 
 	}
 	
-	@RequestMapping("/home")
+	@RequestMapping("/")
 	public String home() {
 		
-		return "forward:/index.html";
+		return "forward:/public/index.html";
 	}
 	
 }
