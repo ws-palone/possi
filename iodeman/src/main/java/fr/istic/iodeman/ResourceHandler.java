@@ -7,12 +7,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class ResourceHandler extends WebMvcConfigurerAdapter {
 
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	/*public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
 			registry.addResourceHandler("/**").addResourceLocations(new String[] {
 						"classpath:/META-INF/resources/", "classpath:/resources/",
 						"classpath:/static/", "classpath:/public/" 
 			});
-	}
+	}*/
 	
 }
