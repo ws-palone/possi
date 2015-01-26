@@ -91,4 +91,10 @@ public class ConnectionController {
 		 
 	}
 	
+	@RequestMapping("/home")
+	public String home() {
+		
+		return "redirect:index.html";
+	}
+	
 }
