@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.istic.iodeman.service.LDAPServ;
+
 
 @RestController  
 public class TestController {  
@@ -29,10 +31,31 @@ public class TestController {
 		
 	}
 	
+	@Autowired
+	private LDAPServ ldapserv;
+	
 	@RequestMapping("/greeting") 
 	public Greeting sayHello(@RequestParam(value="name", defaultValue="World") String name) {  
 		
 		return new Greeting(name);
+		
+	}
+	
+	@RequestMapping("/hello")
+	public String hello(@RequestParam(value="name", defaultValue="") String name){
+		
+		/*List<String> list = ldapserv.getAllPersonNames();
+		
+		String listString = "List : ";
+
+		for (String s : list)
+		{
+		    listString += s + "\t";
+		}
+
+	    return listString;*/
+	    
+	    return (String) ldapserv.lookupPerson(name);
 		
 	}
 }  

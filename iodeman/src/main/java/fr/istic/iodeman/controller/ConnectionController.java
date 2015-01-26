@@ -23,28 +23,7 @@ import fr.istic.iodeman.service.LDAPServ;
 @Controller
 public class ConnectionController {
 	
-	@Autowired
-	private LDAPServ ldapserv;
-	
 	public class Connection{
-		
-	}
-
-	@RequestMapping("/hello")
-	public String hello(@RequestParam(value="name", defaultValue="") String name){
-		
-		/*List<String> list = ldapserv.getAllPersonNames();
-		
-		String listString = "List : ";
-
-		for (String s : list)
-		{
-		    listString += s + "\t";
-		}
-
-	    return listString;*/
-	    
-	    return (String) ldapserv.lookupPerson(name);
 		
 	}
 	
