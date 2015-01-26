@@ -29,7 +29,7 @@ public class LDAPServ {
 		public String mapFromAttributes(Attributes attrtibutes)
 				throws javax.naming.NamingException {
 			// TODO Auto-generated method stub
-			return attrtibutes.get("uid").toString();
+			return attrtibutes.get("displayName").toString();
 		}
 	}
 	
@@ -37,7 +37,7 @@ public class LDAPServ {
 		AndFilter af = new AndFilter();
 		af.and(new EqualsFilter("uid", username));
 		SearchControls sc = new SearchControls();
-        return ldap.search("", af.encode(), sc, new PersonAttributeMapper());
+        return ldap.search("", af.encode(), sc, new PersonAttributeMapper()).get(0);
     }
 	
 	public List<String> getAllPersonNames() {
