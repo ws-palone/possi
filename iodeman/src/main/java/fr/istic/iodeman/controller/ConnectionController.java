@@ -94,7 +94,7 @@ public class ConnectionController {
 	@RequestMapping("/home")
 	public String home() {
 		
-		return "forward:index.html";
+		return "forward:/index.html";
 	}
 	
 }
