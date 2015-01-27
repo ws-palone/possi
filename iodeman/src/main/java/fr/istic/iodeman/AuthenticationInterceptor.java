@@ -23,7 +23,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     	boolean isValidated = false;
     	
     	 HttpSession session = request.getSession();
-	     String sessionTicket = (String) session.getAttribute("casticket");
+	     String sessionTicket = (String) session.getAttribute("cas_ticket");
 	             
 	     if(sessionTicket != null){	 
 	    	 ServiceTicketValidator ticketValidator = ticketValidatorFactory.getServiceTicketValidator(sessionTicket);
