@@ -1,8 +1,5 @@
 package fr.istic.iodeman.cas;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
