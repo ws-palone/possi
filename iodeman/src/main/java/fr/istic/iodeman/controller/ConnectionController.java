@@ -56,6 +56,9 @@ public class ConnectionController {
 		 //return "redirect:hello?user_id="+sv.getUser();
 		 return "forward:/public/index.html";
 	}
+	
+	
+	
 	/*
 	@RequestMapping("/")
 	public String home() {
