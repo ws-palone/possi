@@ -2,31 +2,39 @@ package fr.istic.iodeman;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import edu.yale.its.tp.cas.client.ServiceTicketValidator;
+import fr.istic.iodeman.cas.TicketValidatorFactory;
+
 @Component
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
+	
+	@Autowired
+	private TicketValidatorFactory ticketValidatorFactory;
 
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
-
-        // set few parameters to handle ajax request from different host
-        /*response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-        response.addHeader("Access-Control-Max-Age", "1000");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.addHeader("Cache-Control", "private");*/
-
-        //String reqUri = request.getRequestURI();
-        //String serviceName = reqUri.substring(reqUri.lastIndexOf("/") + 1, reqUri.length());
-     
-    	if (!request.getRequestURI().contains("login")) {
-    		response.sendRedirect("/login");
-    		return false;
-    	}
     	
+    	boolean isValidated = false;
+    	
+    	 HttpSession session = request.getSession();
+	     String sessionTicket = (String) session.getAttribute("casticket");
+	             
+	     if(sessionTicket != null){	 
+	    	 ServiceTicketValidator ticketValidator = ticketValidatorFactory.getServiceTicketValidator(sessionTicket);
+	    	 isValidated = ticketValidator.isAuthenticationSuccesful();
+	     }
+	     
+	     if(!isValidated){
+    		 response.sendRedirect("/login");
+    		 return false;
+    	 }
+	     
         return super.preHandle(request, response, handler);
     }
 	

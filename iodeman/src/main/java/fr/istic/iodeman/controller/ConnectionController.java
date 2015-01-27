@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,56 +15,37 @@ import org.springframework.web.util.CookieGenerator;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
+import fr.istic.iodeman.cas.TicketValidatorFactory;
 
 @Controller
 public class ConnectionController {
 	
-	public class Connection{
-		
-	}
+	@Autowired
+	private TicketValidatorFactory ticketValidatorFactory;
 	
 	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket, HttpServletRequest request) throws IOException, SAXException, ParserConfigurationException{
 		 
-		 String serverName = "https://sso-cas.univ-rennes1.fr/";
-		 String serverNameLogin = "https://sso-cas.univ-rennes1.fr/login";
-		 String serverNameValidate = "https://sso-cas.univ-rennes1.fr/serviceValidate";
-		 
-		 String serviceName = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/";
-		// String serviceNameLogin = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/login";
-		 
-		 String user = null;
-		 String errorCode = null;
-		 String errorMessage = null;
-		 String xmlResponse = null;
+		boolean redirectionNeeded = true;
 		
-		 if (ticket.equals(""))
-			{  	
-			 	// If no ticket, redirect to ENT Log
-			 	return "redirect:"+serverNameLogin+"?service=" +serviceName;
+		if (!ticket.equals("")) {
+			
+			ServiceTicketValidator validator = ticketValidatorFactory.getServiceTicketValidator(ticket);
+			
+			if (validator.isAuthenticationSuccesful()) {
+				HttpSession session = request.getSession();
+			    session.setAttribute("cas_ticket", ticket);
+			    session.setAttribute("uid", validator.getUser()); 
+			    redirectionNeeded = false;
 			}
-		  
-		 ServiceTicketValidator sv = new ServiceTicketValidator();
-		  
-		 sv.setCasValidateUrl(serverNameValidate);
-		 sv.setService(serviceName);
-		 sv.setServiceTicket(ticket);
-		  
-		 sv.validate();
-		  
-		 xmlResponse = sv.getResponse();
-		  
-		 if(sv.isAuthenticationSuccesful()) {
-		     user = sv.getUser();
-		     HttpSession session = request.getSession();
-		     session.setAttribute("uid", user);
-		 } else {
-			 
-			 return "redirect:"+serverNameLogin + "?service=" +serviceName;
-		 }
-		 
-		 //return "redirect:hello?user_id="+sv.getUser();
-		 return "forward:/public/index.html";
+			
+		}
+		
+		if (redirectionNeeded) {
+			return "redirect:"+ticketValidatorFactory.getLoginPage();
+		}
+		
+		return "forward:/public/index.html";
 	}
 	
 	

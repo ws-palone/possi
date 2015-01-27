@@ -1,5 +1,8 @@
 package fr.istic.iodeman.controller;
 
+import java.net.HttpCookie;
+
+import javax.naming.Context;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,10 +33,10 @@ public class PersonController {
 	}*/
 	
 	@RequestMapping("/user")
-	public Cookie[] user(HttpServletRequest request){
-		return request.getCookies();
-	
+	public Cookie[] user(HttpCookie cookie){
 		
+		//return request.getCookies();
+		return null;
 	}
 
 }
