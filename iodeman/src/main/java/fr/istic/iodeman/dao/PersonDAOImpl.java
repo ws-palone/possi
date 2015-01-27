@@ -31,11 +31,18 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 			delete(entity);
 		}
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public Person findByUid(String uid) {
-		Person person = (Person) getCurrentSession().createCriteria(Person.class)
+		List<Person> results = (List<Person>) getCurrentSession().createCriteria(Person.class)
 				.add(Restrictions.eq("uid", uid))
-				.list().get(0);
+				.setFirstResult(0)
+				.setMaxResults(1)
+				.list();
+		Person person = null;
+		if (results != null && results.size() > 0) {
+			person = results.get(0);
+		}
 		return person;
 	}
 
