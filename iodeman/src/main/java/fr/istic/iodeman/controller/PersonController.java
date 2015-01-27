@@ -23,20 +23,12 @@ public class PersonController {
 	@Autowired
 	PersonResolver resolver;
 	
-	/*
 	@RequestMapping("/user")
 	public Person user(HttpSession session){
 		
 		String uid = session.getAttribute("uid").toString();
 		return resolver.resolve(uid);
 		
-	}*/
-	
-	@RequestMapping("/user")
-	public Cookie[] user(HttpCookie cookie){
-		
-		//return request.getCookies();
-		return null;
 	}
 
 }
