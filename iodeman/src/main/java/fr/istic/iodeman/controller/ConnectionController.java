@@ -22,7 +22,7 @@ public class ConnectionController {
 		
 	}
 	
-	@RequestMapping("/")
+	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket, HttpServletRequest request) throws IOException, SAXException, ParserConfigurationException{
 		 
 		 String serverName = "https://sso-cas.univ-rennes1.fr/";
