@@ -4,6 +4,6 @@ import fr.istic.iodeman.model.Person;
 
 public interface PersonResolver {
 
-	public Person resolve(String name);
+	public Person resolve(String uid);
 	
 }
