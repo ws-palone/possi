@@ -22,7 +22,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
         //String reqUri = request.getRequestURI();
         //String serviceName = reqUri.substring(reqUri.lastIndexOf("/") + 1, reqUri.length());
      
-    	response.sendRedirect("/login");
+    	if (!request.getRequestURI().contains("login")) {
+    		response.sendRedirect("/login");
+    	}
     	
         return super.preHandle(request, response, handler);
     }
