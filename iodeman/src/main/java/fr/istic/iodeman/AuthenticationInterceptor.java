@@ -30,7 +30,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	    	 isValidated = ticketValidator.isAuthenticationSuccesful();
 	     }
 	     
-	     if(!isValidated && !request.getContextPath().contains("login")){
+	     if(!isValidated && !request.getRequestURI().contains("login")){
     		 //response.sendRedirect("/login");
     		 return false;
     	 }
