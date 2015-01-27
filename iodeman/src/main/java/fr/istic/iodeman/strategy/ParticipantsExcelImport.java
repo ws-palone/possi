@@ -37,12 +37,7 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 			// Student
 			String uid = sheet.getCell(1, i).getContents();
 			Person student = personResolver.resolve(uid);
-			System.out.println(student.getFirstName());
-			System.out.println(student.getLastName());
-			System.out.println(student.getUid());
-			System.out.println("++++++++++++++");
-			
-			
+
 			// following teacher
 			uid = sheet.getCell(5, i).getContents();
 			Person followingTeacher = personResolver.resolve(uid);

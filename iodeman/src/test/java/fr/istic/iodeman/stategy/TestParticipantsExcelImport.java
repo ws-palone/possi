@@ -45,18 +45,18 @@ public class TestParticipantsExcelImport {
 
 		// first one
 		Participant firstOne = participants.get(0);
-		assertEquals(firstOne.getStudent().getFirstName(), "Antoine AMELINE");
-		assertEquals(firstOne.getFollowingTeacher().getFirstName(), "Didier Certain");
+		assertEquals(firstOne.getStudent().getFirstName(), "13008385");
+		assertEquals(firstOne.getFollowingTeacher().getFirstName(), "dcertain");
 		
 		//Accent
 		Participant encodageOne = participants.get(11);
-		assertEquals(encodageOne.getStudent().getFirstName(), "Yaëlle ECHIVARD");
-		assertEquals(encodageOne.getFollowingTeacher().getFirstName(), "Marc Bousse");
+		assertEquals(encodageOne.getStudent().getFirstName(), "13008396");
+		assertEquals(encodageOne.getFollowingTeacher().getFirstName(), "mbousse");
 		
 		// lastone
 		Participant lastOne = participants.get(48);
-		assertEquals(lastOne.getStudent().getFirstName(), "Guillaume YAN");
-		assertEquals(lastOne.getFollowingTeacher().getFirstName(), "Gilles Lesventes");
+		assertEquals(lastOne.getStudent().getFirstName(), "13008433");
+		assertEquals(lastOne.getFollowingTeacher().getFirstName(), "glesventes");
 		
 		
 	}
