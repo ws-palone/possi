@@ -3,6 +3,8 @@ package fr.istic.iodeman.controller;
 import java.io.IOException;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,7 @@ public class ConnectionController {
 	}
 	
 	@RequestMapping("/")
-	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
+	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket, HttpServletRequest request) throws IOException, SAXException, ParserConfigurationException{
 		 
 		 String serverName = "https://sso-cas.univ-rennes1.fr/";
 		 String serverNameLogin = "https://sso-cas.univ-rennes1.fr/login";
@@ -53,7 +55,8 @@ public class ConnectionController {
 		  
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
-		     Cookie cookie = new Cookie("CAS_TICKET", user);
+		     HttpSession session = request.getSession();
+		     session.setAttribute("uid", user);
 		 } else {
 			 
 			 return "redirect:"+serverNameLogin + "?service=" +serviceName;
