@@ -24,6 +24,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
      
     	if (!request.getRequestURI().contains("login")) {
     		response.sendRedirect("/login");
+    		return false;
     	}
     	
         return super.preHandle(request, response, handler);
