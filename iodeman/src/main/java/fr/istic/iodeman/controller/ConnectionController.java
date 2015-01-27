@@ -1,24 +1,13 @@
 package fr.istic.iodeman.controller;
 
 import java.io.IOException;
-import java.util.List;
-
-import javax.naming.directory.DirContext;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
-import fr.istic.iodeman.service.LdapRepositoryImpl;
 
 @Controller
 public class ConnectionController {
@@ -27,7 +16,7 @@ public class ConnectionController {
 		
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
 		 String serverName = "https://sso-cas.univ-rennes1.fr/";
@@ -64,14 +53,14 @@ public class ConnectionController {
 			 return "redirect:"+serverNameLogin + "?service=" +serviceName;
 		 }
 		 
-		 return "redirect:hello?user_id="+sv.getUser();
-		 
+		 //return "redirect:hello?user_id="+sv.getUser();
+		 return "forward:/public/index.html";
 	}
-	
+	/*
 	@RequestMapping("/")
 	public String home() {
 		
 		return "forward:/public/index.html";
-	}
+	}*/
 	
 }
