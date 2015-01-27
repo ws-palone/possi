@@ -32,7 +32,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	     }
 	     
 	     if(!isValidated && !request.getRequestURI().contains("login")){
-    		 response.sendRedirect("/login_failed");
+    		 response.sendRedirect("/loginFailed");
     		 return false;
     	 }
 	     
