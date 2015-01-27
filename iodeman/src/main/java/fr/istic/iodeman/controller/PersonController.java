@@ -10,7 +10,7 @@ import fr.istic.iodeman.model.Person;
 public class PersonController {
 	
 	@RequestMapping("/user")
-	public String user(@CookieValue(value = "CASTGC", required=false) String cookie){
+	public String user(@CookieValue(value = "CAS TICKET", required=false) String cookie){
 		
 		
 		

@@ -1,10 +1,14 @@
 package fr.istic.iodeman.controller;
 
 import java.io.IOException;
+
+import javax.servlet.http.Cookie;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.CookieGenerator;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
@@ -18,7 +22,7 @@ public class ConnectionController {
 	
 	@RequestMapping("/")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
-		
+		 
 		 String serverName = "https://sso-cas.univ-rennes1.fr/";
 		 String serverNameLogin = "https://sso-cas.univ-rennes1.fr/login";
 		 String serverNameValidate = "https://sso-cas.univ-rennes1.fr/serviceValidate";
@@ -30,7 +34,7 @@ public class ConnectionController {
 		 String errorCode = null;
 		 String errorMessage = null;
 		 String xmlResponse = null;
-		 
+		
 		 if (ticket.equals(""))
 			{  	
 			 	// If no ticket, redirect to ENT Log
@@ -49,7 +53,9 @@ public class ConnectionController {
 		  
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
+		     Cookie cookie = new Cookie("CAS ticket", user);
 		 } else {
+			 
 			 return "redirect:"+serverNameLogin + "?service=" +serviceName;
 		 }
 		 
