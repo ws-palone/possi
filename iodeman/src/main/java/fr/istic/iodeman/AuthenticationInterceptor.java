@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
@@ -32,7 +31,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	     }
 	     
 	     if(!isValidated && !request.getRequestURI().contains("login")){
-    		 response.sendRedirect("/loginFailed");
+    		 response.sendRedirect("loginFailed");
     		 return false;
     	 }
 	     
