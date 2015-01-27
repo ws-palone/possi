@@ -8,7 +8,7 @@ public class LoginFailedController {
 	
 	@RequestMapping("login_failed")
 	public String LoginFailed(){
-		return "You are WRONG !!";
+		return "Error no logs";
 	}
 
 }

@@ -46,13 +46,10 @@ public class ConnectionController {
 
 	}
 	
-	
-	
-	/*
 	@RequestMapping("/")
 	public String home() {
 		
 		return "forward:/public/index.html";
-	}*/
+	}
 	
 }
