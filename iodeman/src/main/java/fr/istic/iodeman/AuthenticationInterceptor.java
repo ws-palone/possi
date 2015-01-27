@@ -31,7 +31,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	     }
 	     
 	     if(!isValidated){
-    		 response.sendRedirect("/login");
+    		 //response.sendRedirect("/login");
     		 return false;
     	 }
 	     

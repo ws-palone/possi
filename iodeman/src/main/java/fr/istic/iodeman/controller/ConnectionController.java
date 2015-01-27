@@ -25,9 +25,7 @@ public class ConnectionController {
 	
 	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket, HttpServletRequest request) throws IOException, SAXException, ParserConfigurationException{
-		 
-		boolean redirectionNeeded = true;
-		
+		 		
 		if (!ticket.equals("")) {
 			
 			ServiceTicketValidator validator = ticketValidatorFactory.getServiceTicketValidator(ticket);
@@ -36,16 +34,14 @@ public class ConnectionController {
 				HttpSession session = request.getSession();
 			    session.setAttribute("cas_ticket", ticket);
 			    session.setAttribute("uid", validator.getUser()); 
-			    redirectionNeeded = false;
+			    
+			    return "forward:/public/index.html";
 			}
 			
 		}
 		
-		if (redirectionNeeded) {
-			return "redirect:"+ticketValidatorFactory.getLoginPage();
-		}
-		
-		return "forward:/public/index.html";
+		return "redirect:"+ticketValidatorFactory.getLoginPage();
+
 	}
 	
 	
