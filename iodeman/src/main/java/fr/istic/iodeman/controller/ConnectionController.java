@@ -53,7 +53,7 @@ public class ConnectionController {
 		  
 		 if(sv.isAuthenticationSuccesful()) {
 		     user = sv.getUser();
-		     Cookie cookie = new Cookie("CAS ticket", user);
+		     Cookie cookie = new Cookie("CAS_TICKET", user);
 		 } else {
 			 
 			 return "redirect:"+serverNameLogin + "?service=" +serviceName;
