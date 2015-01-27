@@ -27,11 +27,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	             
 	     if(sessionTicket != null){	 
 	    	 ServiceTicketValidator ticketValidator = ticketValidatorFactory.getServiceTicketValidator(sessionTicket);
+	    	 ticketValidator.validate();
 	    	 isValidated = ticketValidator.isAuthenticationSuccesful();
 	     }
 	     
 	     if(!isValidated && !request.getRequestURI().contains("login")){
-    		 //response.sendRedirect("/login");
+    		 response.sendRedirect("/login_failed");
     		 return false;
     	 }
 	     
