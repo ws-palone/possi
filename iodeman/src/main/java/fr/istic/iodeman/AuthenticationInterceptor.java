@@ -11,12 +11,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
 import fr.istic.iodeman.cas.TicketValidatorFactory;
 
-@Component
+
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	
-	@Autowired
-	private TicketValidatorFactory ticketValidatorFactory;
-
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
     	
@@ -26,6 +23,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	     String sessionTicket = (String) session.getAttribute("cas_ticket");
 	             
 	     if(sessionTicket != null){	 
+	    	 TicketValidatorFactory ticketValidatorFactory = new TicketValidatorFactory();
 	    	 ServiceTicketValidator ticketValidator = ticketValidatorFactory.getServiceTicketValidator(sessionTicket);
 	    	 ticketValidator.validate();
 	    	 isValidated = ticketValidator.isAuthenticationSuccesful();
