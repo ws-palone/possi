@@ -32,6 +32,14 @@ public class PlanningServiceImpl implements PlanningService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Planning create(String name) {
+		
+		Planning planning = new Planning();
+		planning.setName(name);
+		planningDAO.persist(planning);
+		return planning;
+	}
 
 	public Planning importPartcipants(Planning planning, File file) throws Exception {
 		

@@ -11,6 +11,8 @@ public interface PlanningService {
 	
 	public Planning findById(Integer id);
 	
+	public Planning create(String name);
+	
 	public Planning importPartcipants(Planning planning, File file) throws Exception;
 	
 }
