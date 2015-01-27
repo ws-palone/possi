@@ -23,8 +23,8 @@ public class LdapRepositoryImpl implements LdapRepository {
 				throws javax.naming.NamingException {
 			
 			Person person = new Person();
-			person.setUid(attrtibutes.get("uid").getID().toString());
-			person.setFirstName(attrtibutes.get("ur1prenom").getID().toString());
+			person.setUid(attrtibutes.get("uid").get().toString());
+			person.setFirstName(attrtibutes.get("ur1prenom").get().toString());
 			person.setLastName(attrtibutes.get("sn").get().toString());
 			
 			/*if (attrtibutes.get("edu").toString().equals("teacher")) {
