@@ -21,9 +21,10 @@ public class TicketValidatorFactory {
 	public ServiceTicketValidator getServiceTicketValidator(String ticket) {
 		
 		sv = new ServiceTicketValidator();
-		sv.setServiceTicket(ticket);
+		
 		sv.setCasValidateUrl(SERVER_NAME_VALIDATE);
 		sv.setService(SERVICE_NAME);
+		sv.setServiceTicket(ticket);
 		
 		return sv;
 	}

@@ -30,6 +30,8 @@ public class ConnectionController {
 			
 			ServiceTicketValidator validator = ticketValidatorFactory.getServiceTicketValidator(ticket);
 			
+			validator.validate();
+			
 			if (validator.isAuthenticationSuccesful()) {
 				HttpSession session = request.getSession();
 			    session.setAttribute("cas_ticket", ticket);
