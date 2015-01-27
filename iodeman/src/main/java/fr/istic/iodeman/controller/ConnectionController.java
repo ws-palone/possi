@@ -2,7 +2,6 @@ package fr.istic.iodeman.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.CookieGenerator;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
@@ -36,7 +34,7 @@ public class ConnectionController {
 				HttpSession session = request.getSession();
 			    session.setAttribute("cas_ticket", ticket);
 			    session.setAttribute("uid", validator.getUser()); 
-			    
+	
 			    return "redirect:/public/index.html";
 			}
 			
