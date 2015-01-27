@@ -1,5 +1,6 @@
 package fr.istic.iodeman.service;
 
+import javax.naming.NamingEnumeration;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 
@@ -11,6 +12,7 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.stereotype.Service;
 
 import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.Role;
 
 @Service
 public class LdapRepositoryImpl implements LdapRepository {
@@ -27,11 +29,15 @@ public class LdapRepositoryImpl implements LdapRepository {
 			person.setFirstName(attrtibutes.get("ur1prenom").get().toString());
 			person.setLastName(attrtibutes.get("sn").get().toString());
 			
-			/*if (attrtibutes.get("edu").toString().equals("teacher")) {
-				person.setRole(Role.PROF);
-			}else{
+			NamingEnumeration affiliations = attrtibutes.get("eduPersonAffiliation").getAll();
+			while(affiliations.hasMore()) {
+				if (affiliations.next().equals("teacher")) {
+					person.setRole(Role.PROF);
+				}
+			}
+			if (person.getRole() == null) {
 				person.setRole(Role.STUDENT);
-			}*/
+			}
 			return person;
 		}
 	}
