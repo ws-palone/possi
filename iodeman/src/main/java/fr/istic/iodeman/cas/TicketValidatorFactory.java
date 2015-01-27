@@ -22,6 +22,7 @@ public class TicketValidatorFactory {
 		sv.setCasValidateUrl(SERVER_NAME_VALIDATE);
 		sv.setService(SERVICE_NAME);
 		sv.setServiceTicket(ticket);
+		sv.setRenew(false);
 		
 		return sv;
 	}
