@@ -16,7 +16,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private TicketValidatorFactory ticketValidatorFactory;
-
+/*
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
     	
@@ -36,6 +36,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     	 }
 	     
         return super.preHandle(request, response, handler);
-    }
+    }*/
 	
 }
