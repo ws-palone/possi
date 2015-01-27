@@ -37,7 +37,7 @@ public class ConnectionController {
 			    session.setAttribute("cas_ticket", ticket);
 			    session.setAttribute("uid", validator.getUser()); 
 			    
-			    return "forward:/public/index.html";
+			    return "redirect:/public/index.html";
 			}
 			
 		}
