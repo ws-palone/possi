@@ -11,7 +11,8 @@ public class ErrorController {
 	@RequestMapping("/loginFailed")
 	public String loginFailed(HttpSession session){
 		String ticket = (String) session.getAttribute("cas_ticket");
-		return "Error no logs : "+ticket;
+		String uid = (String) session.getAttribute("uid");
+		return "Error no logs : "+ticket+" ("+uid+")";
 	}
 
 }
