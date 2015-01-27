@@ -11,7 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
 import fr.istic.iodeman.cas.TicketValidatorFactory;
 
-@Component
+
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
