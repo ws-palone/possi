@@ -24,7 +24,7 @@ public class ConnectionController {
 		 String serverNameValidate = "https://sso-cas.univ-rennes1.fr/serviceValidate";
 		 
 		 String serviceName = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/";
-		 String serviceNameLogin = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/login";
+		// String serviceNameLogin = "http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/login";
 		 
 		 String user = null;
 		 String errorCode = null;
@@ -40,7 +40,7 @@ public class ConnectionController {
 		 ServiceTicketValidator sv = new ServiceTicketValidator();
 		  
 		 sv.setCasValidateUrl(serverNameValidate);
-		 sv.setService(serviceNameLogin);
+		 sv.setService(serviceName);
 		 sv.setServiceTicket(ticket);
 		  
 		 sv.validate();
