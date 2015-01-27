@@ -12,9 +12,9 @@ public class PersonResolverImpl implements PersonResolver {
 	@Autowired
 	private PersonDAO personDAO;
 	
-	public Person resolve(String names) {
+	public Person resolve(String uid) {
 		
-		Person person = personDAO.findByNames(names);
+		Person person = personDAO.findByUid(uid);
 		
 		if (person == null) {
 			// check in LdapRepository

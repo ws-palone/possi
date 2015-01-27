@@ -35,20 +35,17 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 		// until we have finished parsing the file
 		while(!sheet.getCell(0, i).getContents().equals("")){
 			// Student
-			/*Person student = new Person();
-			student.setLastName(sheet.getCell(1, i).getContents());
-			student.setFirstName(sheet.getCell(2, i).getContents());	
-			*/
-			String fullName = sheet.getCell(2, i).getContents() 
-					+ " " + sheet.getCell(1, i).getContents();
-			Person student = personResolver.resolve(fullName);
+			String uid = sheet.getCell(1, i).getContents();
+			Person student = personResolver.resolve(uid);
+			System.out.println(student.getFirstName());
+			System.out.println(student.getLastName());
+			System.out.println(student.getUid());
+			System.out.println("++++++++++++++");
+			
 			
 			// following teacher
-			/*Person followingTeacher = new Person();
-			followingTeacher.setFirstName(sheet.getCell(4, i).getContents());
-			*/
-			fullName = sheet.getCell(4, i).getContents();
-			Person followingTeacher = personResolver.resolve(fullName);
+			uid = sheet.getCell(5, i).getContents();
+			Person followingTeacher = personResolver.resolve(uid);
 			
 			Participant participant = new Participant();
 			participant.setStudent(student);
