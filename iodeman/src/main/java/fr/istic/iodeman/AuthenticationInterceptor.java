@@ -6,9 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import edu.yale.its.tp.cas.client.ServiceTicketValidator;
-import fr.istic.iodeman.cas.TicketValidatorFactory;
-
 
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	
@@ -20,11 +17,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     	 HttpSession session = request.getSession();
 	     String sessionTicket = (String) session.getAttribute("cas_ticket");
 	             
-	     if(sessionTicket != null){	 
-	    	 TicketValidatorFactory ticketValidatorFactory = new TicketValidatorFactory();
-	    	 ServiceTicketValidator ticketValidator = ticketValidatorFactory.getServiceTicketValidator(sessionTicket);
-	    	 ticketValidator.validate();
-	    	 isValidated = ticketValidator.isAuthenticationSuccesful();
+	     if(sessionTicket != null){
+	    	 isValidated = true;
 	     }
 	     
 	     if(!isValidated && !request.getRequestURI().contains("login")){
