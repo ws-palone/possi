@@ -20,9 +20,9 @@ public class TestParticipantsExcelImport {
 	
 	private class PersonResolverMock implements PersonResolver {
 
-		public Person resolve(String name) {
+		public Person resolve(String uid) {
 			Person person = new Person();
-			person.setFirstName(name);
+			person.setUid(uid);
 			return person;
 		}
 		
@@ -45,18 +45,18 @@ public class TestParticipantsExcelImport {
 
 		// first one
 		Participant firstOne = participants.get(0);
-		assertEquals(firstOne.getStudent().getFirstName(), "13008385");
-		assertEquals(firstOne.getFollowingTeacher().getFirstName(), "dcertain");
+		assertEquals(firstOne.getStudent().getUid(), "13008385");
+		assertEquals(firstOne.getFollowingTeacher().getUid(), "didier.certain@univ-rennes1.fr");
 		
 		//Accent
 		Participant encodageOne = participants.get(11);
-		assertEquals(encodageOne.getStudent().getFirstName(), "13008396");
-		assertEquals(encodageOne.getFollowingTeacher().getFirstName(), "mbousse");
+		assertEquals(encodageOne.getStudent().getUid(), "13008396");
+		assertEquals(encodageOne.getFollowingTeacher().getUid(), "marc.bousse@univ-rennes1.fr");
 		
 		// lastone
 		Participant lastOne = participants.get(48);
-		assertEquals(lastOne.getStudent().getFirstName(), "13008433");
-		assertEquals(lastOne.getFollowingTeacher().getFirstName(), "glesventes");
+		assertEquals(lastOne.getStudent().getUid(), "13008433");
+		assertEquals(lastOne.getFollowingTeacher().getUid(), "gilles.lesventes@univ-rennes1.fr");
 		
 		
 	}
