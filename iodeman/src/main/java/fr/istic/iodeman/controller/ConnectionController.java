@@ -21,7 +21,7 @@ public class ConnectionController {
 	@Autowired
 	private TicketValidatorFactory ticketValidatorFactory;
 	
-	@RequestMapping("/")
+	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket, HttpServletRequest request) throws IOException, SAXException, ParserConfigurationException{
 		HttpSession session = request.getSession(); 
 		
@@ -43,9 +43,13 @@ public class ConnectionController {
 		
 		session.removeAttribute("cas_ticket");
 		session.removeAttribute("uid");
-		
 		return "redirect:"+ticketValidatorFactory.getLoginPage();
 
+	}
+	
+	@RequestMapping("/")
+	public String home(){
+		return "redirect:/login";
 	}
 	
 }
