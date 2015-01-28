@@ -8,12 +8,13 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.utils.HibernateUtil;
 
 @Repository
 public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
-	
+		
 	public void delete(Person entity) {
-		Session session = getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(entity);
 		session.getTransaction().commit();
@@ -21,7 +22,8 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Person> findAll() {
-		List<Person> person = (List<Person>) getCurrentSession().createCriteria(Person.class).list();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Person> person = (List<Person>) session.createCriteria(Person.class).list();
 		return person;
 	}
 
@@ -34,7 +36,9 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 	
 	@SuppressWarnings("unchecked")
 	public Person findByUid(String uid) {
-		List<Person> results = (List<Person>) getCurrentSession().createCriteria(Person.class)
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<Person> results = (List<Person>) session.createCriteria(Person.class)
 				.add(Restrictions.eq("uid", uid))
 				.setFirstResult(0)
 				.setMaxResults(1)
@@ -47,17 +51,21 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 	}
 
 	public void persist(Person person) {
-		Session session = getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		getCurrentSession().save(person);
+		session.save(person);
 		session.getTransaction().commit();
 	}
 
 	public Person findByNames(String names) {
-		Person person = (Person) getCurrentSession().createCriteria(Person.class)
+		Session session =  HibernateUtil.getSessionFactory().openSession();
+		
+		Person person = (Person) session.createCriteria(Person.class)
 				.add(Restrictions.ilike("fullName", names.toLowerCase() + "%"))
 				.list().get(0);
 		return person;
 	}
-
+	
 }
+
+
