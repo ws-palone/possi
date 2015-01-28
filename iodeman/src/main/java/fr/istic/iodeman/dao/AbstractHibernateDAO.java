@@ -5,14 +5,13 @@ import org.hibernate.Session;
 import fr.istic.iodeman.utils.HibernateUtil;
 
 public abstract class AbstractHibernateDAO {
-
-	Session session;
-	
-	protected Session getCurrentSession() {
-		if (session == null) {
-			session =  HibernateUtil.getSessionFactory().openSession();
-		}
-		return session;
+	/**
+	 * Return a new session. 
+	 * DO NOT FORGET to close it in the finally of a try/catch
+	 * @return Session
+	 */
+	protected Session getNewSession() {
+		return HibernateUtil.getSessionFactory().openSession();
 	}
 	
 }
