@@ -37,7 +37,11 @@ public class Application extends SpringBootServletInitializer
     static public String getURL(HttpServletRequest request) {
     	String fullPath = request.getRequestURL().toString();
     	String servletPath = request.getServletPath();
-    	return fullPath.replace(fullPath, servletPath);
+    	int i = fullPath.indexOf(servletPath);
+    	if (i > 0) {
+    		return fullPath.substring(0, i+servletPath.length());
+    	}
+    	return fullPath;
     }
     
 }
