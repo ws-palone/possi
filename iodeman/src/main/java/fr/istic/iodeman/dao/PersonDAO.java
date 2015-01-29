@@ -8,9 +8,11 @@ public interface PersonDAO {
 
 	public void persist(Person person);
 	
-	public Person findByUid(String ID);
+	public Person findByUid(String uid);
 	
 	public Person findByNames(String names);
+	
+	public Person findByEmail(String email);
 
 	public void delete(Person person);
 

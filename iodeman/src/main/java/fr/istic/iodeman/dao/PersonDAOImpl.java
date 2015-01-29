@@ -37,7 +37,6 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 		
 		session.close();
 		return p;
-
 	}
 
 	public void delete(Person entity) {
@@ -70,10 +69,6 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 		}
 	}
 
-
-
-
-
 	public Person findByNames(String names) {
 		Session session =  HibernateUtil.getSessionFactory().openSession();
 
@@ -81,6 +76,17 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 				.add(Restrictions.ilike("fullName", names.toLowerCase() + "%"))
 				.list().get(0);
 		return person;
+	}
+
+	@Override
+	public Person findByEmail(String email) {
+		Session session = getNewSession();
+		Person p =  (Person) session.createCriteria(Person.class)
+				.add(Restrictions.eq("email", email))
+				.uniqueResult();
+		
+		session.close();
+		return p;
 	}
 
 }

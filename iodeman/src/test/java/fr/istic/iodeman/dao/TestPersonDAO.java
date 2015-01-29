@@ -33,6 +33,7 @@ public class TestPersonDAO extends AbstractSpringUnitTest {
 			Person p = new Person();
 			p.setId(i);
 			p.setUid(Integer.toString(i+1));
+			p.setEmail("dummy"+Integer.toString(i+1)+"@rennes.fr");
 			p.setFirstName("Dummy");
 			persons.add(p);
 		}
@@ -65,12 +66,21 @@ public class TestPersonDAO extends AbstractSpringUnitTest {
 	}
 	
 	@Test
-	public void testFindById(){
+	public void testFindByUid(){
 		Person p = persons.get(0);
 		assertTrue(p.getUid() != null);
 		
 		Person retrievedPerson = personDAO.findByUid(p.getUid());
 		assertEquals(retrievedPerson.getId(), p.getId());
+	}
+	
+	@Test
+	public void testFindByEmail(){
+		Person p = persons.get(0);
+		assertTrue(p.getEmail() != null);
+		
+		Person retrievedPerson = personDAO.findByEmail(p.getEmail());
+		assertEquals(retrievedPerson.getEmail(), p.getEmail());
 	}
 
 }
