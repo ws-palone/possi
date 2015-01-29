@@ -30,16 +30,22 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 		Sheet sheet = workbook.getSheet(0);
 		
 		// line index
-		int i = 1;
+		int i = 1;	
+		
+		int numberOfRows = sheet.getRows();
 				
 		// until we have finished parsing the file
-		while(!sheet.getCell(0, i).getContents().equals("")){
+		while(i < numberOfRows){
+			
+			// quick'n dirty | indicates the end of the array...
+			if (sheet.getCell(0, i).getContents().length() == 0) break; 
+			
 			// Student
 			String uid = sheet.getCell(1, i).getContents();
 			Person student = personResolver.resolve(uid);
-
+			
 			// following teacher
-			uid = sheet.getCell(5, i).getContents();
+			uid = sheet.getCell(3, i).getContents();
 			Person followingTeacher = personResolver.resolve(uid);
 			
 			Participant participant = new Participant();
@@ -47,7 +53,8 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 			participant.setFollowingTeacher(followingTeacher);
 			
 			participants.add(participant);
-			
+
+			// update the line index
 			i++;
 		}
 		

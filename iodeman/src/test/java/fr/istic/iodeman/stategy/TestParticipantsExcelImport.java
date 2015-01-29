@@ -20,9 +20,9 @@ public class TestParticipantsExcelImport {
 	
 	private class PersonResolverMock implements PersonResolver {
 
-		public Person resolve(String uid) {
+		public Person resolve(String email) {
 			Person person = new Person();
-			person.setUid(uid);
+			person.setEmail(email);
 			return person;
 		}
 		
@@ -31,7 +31,8 @@ public class TestParticipantsExcelImport {
 	@Test
 	public void testExecute() throws Exception{
 		ParticipantsImport particpantsImport = new ParticipantsExcelImport();
-		String filename = "/Listing_2004_M2_MIAGE_Stages_Encadrants.xls";
+//		String filename = "/Listing_2004_M2_MIAGE_Stages_Encadrants.xls";
+		String filename = "/import_couple.xls";
 
 		File excelFile = new File(getClass().getResource(filename).toURI());
 		assertTrue(excelFile.exists());
@@ -41,22 +42,17 @@ public class TestParticipantsExcelImport {
 
 		assertTrue(participants != null);
 		assertTrue(participants.size() > 0);
-		assertTrue(participants.size() == 49);
+		assertTrue(participants.size() == 5);
 
 		// first one
 		Participant firstOne = participants.get(0);
-		assertEquals(firstOne.getStudent().getUid(), "13008385");
-		assertEquals(firstOne.getFollowingTeacher().getUid(), "didier.certain@univ-rennes1.fr");
-		
-		//Accent
-		Participant encodageOne = participants.get(11);
-		assertEquals(encodageOne.getStudent().getUid(), "13008396");
-		assertEquals(encodageOne.getFollowingTeacher().getUid(), "marc.bousse@univ-rennes1.fr");
+		assertEquals(firstOne.getStudent().getEmail(), "corentin.clement@etudiant.univ-rennes1.fr");
+		assertEquals(firstOne.getFollowingTeacher().getEmail(), "didier.certain@univ-rennes1.fr");
 		
 		// lastone
-		Participant lastOne = participants.get(48);
-		assertEquals(lastOne.getStudent().getUid(), "13008433");
-		assertEquals(lastOne.getFollowingTeacher().getUid(), "gilles.lesventes@univ-rennes1.fr");
+		Participant lastOne = participants.get(participants.size() - 1);
+		assertEquals(lastOne.getStudent().getEmail(), "alexandre.lecut@etudiant.univ-rennes1.fr");
+		assertEquals(lastOne.getFollowingTeacher().getEmail(), "didier.certain@univ-rennes1.fr");
 		
 		
 	}

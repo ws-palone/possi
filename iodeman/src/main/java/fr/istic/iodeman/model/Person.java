@@ -19,6 +19,7 @@ public class Person {
 	private String lastName;
 	private Role role;
 	private String uid;
+	private String email;
 
 	@Formula(value="firstName || ' ' || lastName")
 	private String fullName;
@@ -57,5 +58,14 @@ public class Person {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	
 }
