@@ -1,21 +1,16 @@
 package fr.istic.iodeman.controller;
 
-import java.net.HttpCookie;
-
-import javax.naming.Context;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.CookieGenerator;
 
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.resolver.PersonResolver;
+import fr.istic.iodeman.service.LdapRepository;
 
 @RestController
 public class PersonController {
@@ -23,12 +18,32 @@ public class PersonController {
 	@Autowired
 	PersonResolver resolver;
 	
+	@Autowired
+	private LdapRepository ldap;
+	
 	@RequestMapping("/user")
 	public Person user(HttpSession session){
 		
 		String uid = session.getAttribute("uid").toString();
 		return resolver.resolve(uid);
 		
+	}
+	
+	@RequestMapping("/person/{uid}")
+	public Person ldapUID(@PathVariable("uid") String uid){
+		
+	    return (Person) ldap.searchByUID(uid);
+		
+	}
+	
+	@RequestMapping("/person")
+	public Person ldap(@RequestParam(value="mail", defaultValue="") String mail){
+		
+		if (!mail.equals("")) {
+			return (Person) ldap.searchByMail(mail);
+		}
+		
+	    return null;
 	}
 
 }

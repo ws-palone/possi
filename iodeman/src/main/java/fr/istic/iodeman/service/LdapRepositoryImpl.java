@@ -1,5 +1,7 @@
 package fr.istic.iodeman.service;
 
+import java.util.List;
+
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
@@ -45,15 +47,28 @@ public class LdapRepositoryImpl implements LdapRepository {
 	public Person lookupPerson(String username) {
 		AndFilter af = new AndFilter();
 		af.and(new EqualsFilter("displayName", username));
-		SearchControls sc = new SearchControls();
-        return (Person) ldap.search("", af.encode(), sc, new PersonAttributeMapper()).get(0);
+		List<Person> results = search(af);
+		return results.size() > 0 ? results.get(0) : null;
     }
 	
 	public Person searchByUID(String uid) {
 		AndFilter af = new AndFilter();
 		af.and(new EqualsFilter("uid", uid));
+		List<Person> results = search(af);
+		return results.size() > 0 ? results.get(0) : null;
+	}
+	
+	public Person searchByMail(String mail) {
+		AndFilter af = new AndFilter();
+		af.and(new EqualsFilter("mail", mail));
+		List<Person> results = search(af);
+		return results.size() > 0 ? results.get(0) : null;
+    }
+	
+	@SuppressWarnings("unchecked")
+	private List<Person> search(AndFilter af) {
 		SearchControls sc = new SearchControls();
-        return (Person) ldap.search("", af.encode(), sc, new PersonAttributeMapper()).get(0);
+        return (List<Person>) ldap.search("", af.encode(), sc, new PersonAttributeMapper());
 	}
 	
 }

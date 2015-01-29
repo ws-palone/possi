@@ -8,4 +8,6 @@ public interface LdapRepository {
 	
 	public Person searchByUID(String uid);
 	
+	public Person searchByMail(String mail);
+	
 }
