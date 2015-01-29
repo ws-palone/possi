@@ -37,7 +37,7 @@ public class TestController {
 
 	@RequestMapping("/test")
 	public String test(HttpServletRequest request) {
-		return request.getLocalName();
+		return request.getRequestURL().toString();
 	}
 	
 }  
