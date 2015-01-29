@@ -21,12 +21,25 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	    	 isValidated = true;
 	     }
 	     
-	     if(!isValidated && request.getPathInfo() != null && !request.getRequestURI().contains("login")){
+	     if(!isValidated && !isInWhiteList(request)){
     		 response.sendRedirect("loginFailed");
     		 return false;
     	 }
 	     
         return super.preHandle(request, response, handler);
+    }
+    
+    private boolean isInWhiteList(HttpServletRequest request) {
+    	
+    	String path = request.getServletPath();
+    	
+    	return (
+    			path == null 
+    			|| path.equals("") 
+    			|| path.equals("/") 
+    			|| path.contains("login")
+    	);
+    	
     }
    
 	
