@@ -37,7 +37,8 @@ public class TestController {
 
 	@RequestMapping("/test")
 	public String test(HttpServletRequest request) {
-		return request.getRequestURL().toString()+" + "+request.getServletPath();
+		//return request.getRequestURL().toString()+" + "+request.getServletPath();
+		return Application.getURL(request);
 	}
 	
 }  
