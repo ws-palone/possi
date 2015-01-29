@@ -36,7 +36,7 @@ public class PersonController {
 	@RequestMapping("/person/{uid}")
 	public Person ldapUID(@PathVariable("uid") String uid){
 		
-	    return (Person) ldap.searchByUID(uid);
+	    return resolverUID.resolve(uid);
 		
 	}
 	
