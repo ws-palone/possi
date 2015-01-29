@@ -61,6 +61,7 @@ public class LdapRepositoryImpl implements LdapRepository {
 	
 	public Person searchByMail(String mail) {
 		AndFilter af = new AndFilter();
+		af.and(new EqualsFilter("objectclass", "person"));
 		af.and(new EqualsFilter("mail", mail));
 		List<Person> results = search(af);
 		return results.size() > 0 ? results.get(0) : null;
