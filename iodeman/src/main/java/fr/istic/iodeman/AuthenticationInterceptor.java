@@ -21,12 +21,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	    	 isValidated = true;
 	     }
 	     
-	     if(!isValidated && !request.getContextPath().equals("/") && !request.getContextPath().equals("login")){
+	     if(!isValidated && request.getPathInfo() != null && !request.getRequestURI().contains("login")){
     		 response.sendRedirect("loginFailed");
     		 return false;
     	 }
 	     
         return super.preHandle(request, response, handler);
     }
+   
 	
 }
