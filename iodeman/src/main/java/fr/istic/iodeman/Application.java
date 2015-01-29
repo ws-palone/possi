@@ -1,5 +1,7 @@
 package fr.istic.iodeman;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -30,6 +32,12 @@ public class Application extends SpringBootServletInitializer
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
+    }
+    
+    static public String getURL(HttpServletRequest request) {
+    	String fullPath = request.getRequestURL().toString();
+    	String servletPath = request.getServletPath();
+    	return fullPath.replace(fullPath, servletPath);
     }
     
 }

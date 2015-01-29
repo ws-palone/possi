@@ -22,7 +22,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	     }
 	     
 	     if(!isValidated && !isInWhiteList(request)){
-    		 response.sendRedirect("loginFailed");
+    		 response.sendRedirect(Application.getURL(request)+"/loginFailed");
     		 return false;
     	 }
 	     
