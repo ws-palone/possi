@@ -30,6 +30,7 @@ public class LdapRepositoryImpl implements LdapRepository {
 			person.setUid(attrtibutes.get("uid").get().toString());
 			person.setFirstName(attrtibutes.get("ur1prenom").get().toString());
 			person.setLastName(attrtibutes.get("sn").get().toString());
+			person.setEmail(attrtibutes.get("mail").get().toString());
 			
 			NamingEnumeration affiliations = attrtibutes.get("eduPersonAffiliation").getAll();
 			while(affiliations.hasMore()) {
