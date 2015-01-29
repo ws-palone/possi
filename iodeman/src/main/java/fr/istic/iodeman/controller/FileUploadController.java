@@ -30,10 +30,13 @@ public class FileUploadController {
     	// path to save the input file
     	String name = "/tmp/"+new DateTime();
     	
+    	// output file
+    	File outputFile = new File(name);
+    	
     	if (!inputFile.isEmpty()) {
             try {
                 byte[] bytes = inputFile.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(name)));
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(outputFile));
                 stream.write(bytes);
                 stream.close();
                 result =  "Participants ajoutés" + name + "!";
@@ -44,15 +47,15 @@ public class FileUploadController {
         	result =  "Erreur car votre fichier " + name + " est vide";
         }
     	
-        // output file
-    	File outputFile = new File(name);  
-    	
     	// on l'envoie au service
-    	Planning planning = planningService.findById(new Integer(planningId));
+//    	Planning planning = planningService.findById(new Integer(planningId));
+    	Planning planning = new Planning();
+    	planning.setName("M2MIAGE 2015");
     	try {
-			planningService.importPartcipants(planning, outputFile);
+			Planning filledPlanning = planningService.importPartcipants(planning, outputFile);
 		} catch (Exception e) {
-			result =  "Erreur lors de l'import des participants : "+e.getMessage();
+			result =  "Erreur lors de l'import des participants : ";
+			e.printStackTrace();
 			// affcher erreur de format
 		} finally {
 	    	// on supprime le fichier

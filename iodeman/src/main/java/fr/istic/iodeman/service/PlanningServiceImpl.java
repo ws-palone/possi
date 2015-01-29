@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
@@ -23,14 +24,15 @@ public class PlanningServiceImpl implements PlanningService {
 	@Autowired
 	private PersonResolver personResolver;
 	
+	@Autowired
+	private PersonDAO personDAO;
+	
 	public List<Planning> findAll() {
-		
 		return planningDAO.findAll();
 	}
 
 	public Planning findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return planningDAO.findById(id);
 	}
 	
 	public Planning create(String name) {
