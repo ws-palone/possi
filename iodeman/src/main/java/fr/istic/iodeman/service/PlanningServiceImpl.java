@@ -11,6 +11,7 @@ import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.resolver.PersonResolver;
 import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
@@ -22,7 +23,7 @@ public class PlanningServiceImpl implements PlanningService {
 	private PlanningDAO planningDAO;
 	
 	@Autowired
-	private PersonResolver personResolver;
+	private PersonMailResolver personResolver;
 	
 	@Autowired
 	private PersonDAO personDAO;

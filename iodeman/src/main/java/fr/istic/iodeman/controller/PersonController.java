@@ -9,14 +9,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.resolver.PersonResolver;
+import fr.istic.iodeman.resolver.PersonMailResolver;
+import fr.istic.iodeman.resolver.PersonUidResolver;
 import fr.istic.iodeman.service.LdapRepository;
 
 @RestController
 public class PersonController {
 	
 	@Autowired
-	PersonResolver resolver;
+	PersonUidResolver resolverUID;
+	
+	@Autowired
+	PersonMailResolver resolverMail;
 	
 	@Autowired
 	private LdapRepository ldap;
@@ -25,7 +29,7 @@ public class PersonController {
 	public Person user(HttpSession session){
 		
 		String uid = session.getAttribute("uid").toString();
-		return resolver.resolve(uid);
+		return resolverUID.resolve(uid);
 		
 	}
 	
@@ -40,7 +44,7 @@ public class PersonController {
 	public Person ldap(@RequestParam(value="mail", defaultValue="") String mail){
 		
 		if (!mail.equals("")) {
-			return (Person) ldap.searchByMail(mail);
+			return resolverMail.resolve(mail);
 		}
 		
 	    return null;

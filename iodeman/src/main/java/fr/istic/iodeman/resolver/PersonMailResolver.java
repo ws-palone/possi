@@ -8,7 +8,7 @@ import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.service.LdapRepository;
 
 @Component
-public class PersonResolverImpl implements PersonResolver {
+public class PersonMailResolver implements PersonResolver {
 
 	@Autowired
 	private PersonDAO personDAO;
@@ -16,12 +16,12 @@ public class PersonResolverImpl implements PersonResolver {
 	@Autowired
 	private LdapRepository ldapRepository;
 	
-	public Person resolve(String uid) {
+	public Person resolve(String mail) {
 		
-		Person person = personDAO.findByUid(uid);
+		Person person = personDAO.findByEmail(mail);
 		
 		if (person == null) {
-			person = ldapRepository.searchByUID(uid);
+			person = ldapRepository.searchByMail(mail);
 			if (person != null) {
 				personDAO.persist(person);
 			}
@@ -29,6 +29,4 @@ public class PersonResolverImpl implements PersonResolver {
 		
 		return person;
 	}
-
-	
 }
