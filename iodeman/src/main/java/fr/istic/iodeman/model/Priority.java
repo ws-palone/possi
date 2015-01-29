@@ -1,8 +1,5 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,17 +7,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Priority implements Serializable {
+public class Priority {
 	@Id
 	@GeneratedValue
-	@Column
 	private Integer id;	
-	@Column
+
 	private Role role;
-	@Column
+
 	private Integer weight;
-	@Column
-	private Planning planning;
 	
 	public Integer getId() {
 		return id;

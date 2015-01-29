@@ -33,10 +33,10 @@ public class TestOralDefenseDAO extends AbstractSpringUnitTest{
 		for(int i = 0; i<3; i++){
 			OralDefense o = new OralDefense();
 			// creation de la room
-			Room room = new Room();
-			room.setName("i5"+i);
+//			Room room = new Room();
+//			room.setName("i5"+i);
 			// on l'ajoute
-			o.setRoom(room);
+//			o.setRoom(room);
 			// on ajoute la soutenance à la liste
 			oralDefenses.add(o);
 		}

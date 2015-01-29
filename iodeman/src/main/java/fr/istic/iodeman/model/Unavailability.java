@@ -1,24 +1,29 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
-
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 
 @Entity
-@Table
-public class Unavailability implements Serializable{
+public class Unavailability {
 	@Id
 	@GeneratedValue
-	@Column
 	private int id;
-	@Column
+	
+	@ManyToOne
 	private Person person;
-	@Column
+	
+	@Embedded
+	@AttributeOverrides( {
+		@AttributeOverride(name = "from", column = @Column(name = "period_from")),
+		@AttributeOverride(name = "to", column = @Column(name = "period_to"))
+	})
 	private TimeBox period;
 	
 	public Integer getId() {

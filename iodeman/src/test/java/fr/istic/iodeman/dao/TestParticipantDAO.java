@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
 public class TestParticipantDAO extends AbstractSpringUnitTest {
@@ -32,12 +31,7 @@ public class TestParticipantDAO extends AbstractSpringUnitTest {
 		
 		for(int i = 0; i<3; i++){
 			Participant p = new Participant();
-			
-			// creation of an student
-			Person student = new Person();
-			student.setFirstName("Dummy"+i);
-			
-			p.setStudent(student);
+
 			participants.add(p);
 		}
 		

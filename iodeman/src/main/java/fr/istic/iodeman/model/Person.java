@@ -1,8 +1,5 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,18 +10,14 @@ import org.hibernate.annotations.Formula;
 
 @Entity
 @Table
-public class Person implements Serializable {
+public class Person {
 	@Id
 	@GeneratedValue
-	@Column
 	private Integer id;
-	@Column
+	
 	private String firstName;
-	@Column
 	private String lastName;
-	@Column
 	private Role role;
-	@Column
 	private String uid;
 
 	@Formula(value="firstName || ' ' || lastName")

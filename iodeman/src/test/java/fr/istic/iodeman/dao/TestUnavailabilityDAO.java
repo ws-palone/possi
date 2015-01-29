@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
@@ -32,11 +31,6 @@ public class TestUnavailabilityDAO extends AbstractSpringUnitTest {
 		
 		for(int i = 0; i<3; i++){
 			Unavailability p = new Unavailability();
-			// creation of a person
-			Person person = new Person();
-			person.setFirstName("Dummy");
-			
-			p.setPerson(person);
 			unavailabilities.add(p);
 		}
 		

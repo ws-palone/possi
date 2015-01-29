@@ -1,33 +1,42 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 
 @Entity
 @Table
-public class OralDefense implements Serializable {
+public class OralDefense {
 	
 	@Id
 	@GeneratedValue
-	@Column
 	private Integer id;
-	@Column
+	
+	@OneToOne
 	private Participant composition;
-	@Column
+	
+	@ManyToOne
 	private Room room;
-	@Column
+	
+	@Embedded
+	@AttributeOverrides( {
+		@AttributeOverride(name = "from", column = @Column(name = "period_from")),
+		@AttributeOverride(name = "to", column = @Column(name = "period_to"))
+	})
 	private TimeBox timebox;
-	//@OneToMany(mappedBy = "person")
-	@Transient
+
+	@OneToMany
 	private Collection<Person> jury;
 	
 	public Integer getId() {

@@ -1,28 +1,21 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 
 @Entity
-@Table
-public class Participant implements Serializable{
+public class Participant {
 	
 	@Id
 	@GeneratedValue
-	@Column
 	private Integer id;
-	@Column
+	@ManyToOne
 	private Person student;
-	@Column
+	@ManyToOne
 	private Person followingTeacher;
-	@Column
-	private Planning planning;
 	
 	public Integer getId() {
 		return id;

@@ -1,44 +1,61 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 
 @Entity
-@Table
-public class Planning implements Serializable{
+public class Planning{
 	
 	@Id
 	@GeneratedValue
-	@Column
 	private Integer id;
-	@Column
+
 	private String name;
-	@Column
+
+	@Embedded
+	@AttributeOverrides( {
+		@AttributeOverride(name = "from", column = @Column(name = "period_from")),
+		@AttributeOverride(name = "to", column = @Column(name = "period_to"))
+	})
 	private TimeBox period;
-	@Column
+
 	private Integer oralDefenseDuration;
-	@Column
+
 	private Integer oralDefenseInterlude;
-	@Column
+
+	@Embedded
+	@AttributeOverrides( {
+		@AttributeOverride(name = "from", column = @Column(name = "lunchBreak_from")),
+		@AttributeOverride(name = "to", column = @Column(name = "lunchBreak_to"))
+	})
 	private TimeBox lunchBreak;
-	@Column
+	@Embedded
+	@AttributeOverrides( {
+		@AttributeOverride(name = "from", column = @Column(name = "dayPeriod_from")),
+		@AttributeOverride(name = "to", column = @Column(name = "dayPeriod_to"))
+	})
 	private TimeBox dayPeriod;
-	@Column
+
 	private Integer nbMaxOralDefensePerDay;
-	@OneToMany(mappedBy = "planning")
+	@OneToMany
 	private Collection<Room> rooms;
-	@OneToMany(mappedBy="planning")
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Participant> participants;
-	@OneToMany(mappedBy="planning")
+	@OneToMany
 	private Collection<Priority> priorities;
+	
+	@OneToMany
+	private Collection<OralDefense> oralDefenses;
 	
 	public Integer getId() {
 		return id;
@@ -107,5 +124,13 @@ public class Planning implements Serializable{
 	}
 	public void setPriorities(Collection<Priority> priorities) {
 		this.priorities = priorities;
-	}	
+	}
+	public Collection<OralDefense> getOralDefenses() {
+		return oralDefenses;
+	}
+	public void setOralDefenses(Collection<OralDefense> oralDefenses) {
+		this.oralDefenses = oralDefenses;
+	}
+	
+	
 }

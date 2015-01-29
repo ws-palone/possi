@@ -1,11 +1,12 @@
 package fr.istic.iodeman.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TimeBox implements Serializable{
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class TimeBox {
 	
-	private int id;
 	private Date from;
 	private Date to;
 	
@@ -17,14 +18,7 @@ public class TimeBox implements Serializable{
 		setFrom(from);
 		setTo(to);
 	}
-	
-	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+
 	public Date getFrom() {
 		return from;
 	}
