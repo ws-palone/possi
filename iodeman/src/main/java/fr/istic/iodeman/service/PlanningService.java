@@ -19,6 +19,11 @@ public interface PlanningService {
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms);
 	
+	public void update(Planning planning, String name, TimeBox period, Integer oralDefenseDuration, 
+			Integer oralDefenseInterlude, TimeBox lunchBreak,
+			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
+			Collection<Room> rooms);
+	
 	public Planning importPartcipants(Planning planning, File file) throws Exception;
 	
 }

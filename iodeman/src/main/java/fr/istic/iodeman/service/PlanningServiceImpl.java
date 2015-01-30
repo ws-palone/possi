@@ -69,7 +69,48 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		return planning;
 	}
-
+	
+	public void update(Planning planning, String name, TimeBox period,
+			Integer oralDefenseDuration, Integer oralDefenseInterlude,
+			TimeBox lunchBreak, TimeBox dayPeriod,
+			Integer nbMaxOralDefensePerDay, Collection<Room> rooms) {
+		
+		Validate.notNull(planning);
+		
+		if (name != null && !name.equals("")) {
+			planning.setName(name);
+		}
+		
+		if (period != null) {
+			period.validate();
+			planning.setPeriod(period);
+		}
+		
+		if (oralDefenseDuration != null && oralDefenseDuration > 0) {
+			planning.setOralDefenseDuration(oralDefenseDuration);
+		}
+		
+		if (dayPeriod != null) {
+			dayPeriod.validate();
+			planning.setDayPeriod(period);
+		}
+		
+		if (lunchBreak != null) {
+			lunchBreak.validate();
+			planning.setLunchBreak(lunchBreak);
+		}
+		
+		planning.setOralDefenseInterlude(oralDefenseInterlude);
+		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
+		
+		if (rooms != null) {
+			planning.setRooms(rooms);
+		}
+		
+		planningDAO.persist(planning);
+		
+	}
+	
 	public Planning importPartcipants(Planning planning, File file) throws Exception {
 		
 		ParticipantsImport participantsImport = new ParticipantsExcelImport();
@@ -78,12 +119,10 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		planning.setParticipants(participants);
 		
-		// check existing participants in DB
-		// check participants on LDAP
-		
 		planningDAO.persist(planning);
 		
 		return planning;
 	}
+
 
 }
