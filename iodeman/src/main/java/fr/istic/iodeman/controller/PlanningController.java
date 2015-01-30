@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,12 @@ public class PlanningController {
 	public List<Planning> listAll(){
 		
 		return planningService.findAll();
+	}
+	
+	@RequestMapping("/find/{id}")
+	public Planning findById(@PathVariable("id") Integer id) {
+		
+		return planningService.findById(id);
 	}
 	
 	@RequestMapping("/create")
