@@ -82,8 +82,18 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	
 	public Collection<Participant> findParticipants(Planning planning) {
 		Session session = getNewSession();
-		Collection<Participant> participants = planning.getParticipants();
-		session.close();
+		Collection<Participant> participants = null;
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			participants = planning.getParticipants();
+			session.getTransaction().commit();	
+		} catch (Exception e){
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 		return participants;
 	}
 
