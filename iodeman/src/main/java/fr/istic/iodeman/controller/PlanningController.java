@@ -31,15 +31,15 @@ public class PlanningController {
 	
 	@RequestMapping("/create")
 	public Planning createPlanning(
-			@RequestParam("name") String name, //
-			@RequestParam("periodStart") @DateTimeFormat(iso = ISO.DATE) Date periodStart, //
-			@RequestParam("periodEnd") @DateTimeFormat(iso = ISO.DATE) Date periodEnd, //
-			@RequestParam("oralDefenseDuration") Integer oralDefenseDuration, //
+			@RequestParam("name") String name,
+			@RequestParam("periodStart") @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
+			@RequestParam("periodEnd") @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd,
+			@RequestParam("oralDefenseDuration") Integer oralDefenseDuration,
 			@RequestParam("oralDefenseInterlude") Integer oralDefenseInterlude, 
-			@RequestParam("lunchBreakStart") @DateTimeFormat(iso = ISO.TIME) Date lunchBreakStart,
-			@RequestParam("lunchBreakEnd") @DateTimeFormat(iso = ISO.TIME) Date lunchBreakEnd, 
-			@RequestParam("dayPeriodStart") @DateTimeFormat(iso = ISO.TIME) Date dayPeriodStart,
-			@RequestParam("dayPeriodEnd") @DateTimeFormat(iso = ISO.TIME) Date dayPeriodEnd,
+			@RequestParam("lunchBreakStart") @DateTimeFormat(pattern="HH:mm") Date lunchBreakStart,
+			@RequestParam("lunchBreakEnd") @DateTimeFormat(pattern="HH:mm") Date lunchBreakEnd, 
+			@RequestParam("dayPeriodStart") @DateTimeFormat(pattern="HH:mm") Date dayPeriodStart,
+			@RequestParam("dayPeriodEnd") @DateTimeFormat(pattern="HH:mm") Date dayPeriodEnd,
 			@RequestParam("nbMaxOralDefensePerDay") Integer nbMaxOralDefensePerDay,
 			@RequestParam("rooms") Collection<Room> rooms
 			) {
