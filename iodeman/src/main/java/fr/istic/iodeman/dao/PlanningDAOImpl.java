@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
+import com.google.common.collect.Lists;
+
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 
@@ -86,7 +88,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			participants = planning.getParticipants();
+			participants = Lists.newArrayList(planning.getParticipants());
 			session.getTransaction().commit();	
 		} catch (Exception e){
 			if (transaction!=null) transaction.rollback();
