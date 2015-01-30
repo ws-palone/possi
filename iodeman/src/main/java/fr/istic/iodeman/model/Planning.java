@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -47,7 +48,7 @@ public class Planning{
 	private TimeBox dayPeriod;
 
 	private Integer nbMaxOralDefensePerDay;
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	private Collection<Room> rooms;
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Participant> participants;
