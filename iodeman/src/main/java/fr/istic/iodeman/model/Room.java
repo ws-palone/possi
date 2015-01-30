@@ -25,7 +25,7 @@ public class Room implements Comparable<Room>{
 	public int getId() {
 		return id;
 	}
-	@Override
+	
 	public int compareTo(Room o) {
 		return getName().compareTo(o.getName());
 	}

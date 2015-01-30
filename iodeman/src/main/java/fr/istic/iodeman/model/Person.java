@@ -10,7 +10,7 @@ import org.hibernate.annotations.Formula;
 
 @Entity
 @Table
-public class Person {
+public class Person implements Comparable<Person> {
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -65,6 +65,10 @@ public class Person {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int compareTo(Person p) {
+		return this.getUid().compareTo(p.getUid());
 	}
 	
 	

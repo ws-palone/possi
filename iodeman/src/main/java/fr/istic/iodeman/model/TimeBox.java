@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Embeddable;
 
+import org.apache.commons.lang.Validate;
+
 @Embeddable
 public class TimeBox {
 	
@@ -30,5 +32,12 @@ public class TimeBox {
 	}
 	public void setTo(Date to) {
 		this.to = to;
+	}
+	
+	public void validate() {
+		
+		Validate.notNull(from);
+		Validate.notNull(to);
+		Validate.isTrue(from.before(to));
 	}
 }
