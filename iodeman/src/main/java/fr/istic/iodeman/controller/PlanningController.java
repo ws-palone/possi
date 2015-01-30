@@ -1,10 +1,14 @@
 package fr.istic.iodeman.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,14 +34,14 @@ public class PlanningController {
 	@RequestMapping("/create")
 	public Planning createPlanning(
 			@RequestParam("name") String name, //
-			@RequestParam("periodStart") Date periodStart, //
-			@RequestParam("periodEnd") Date periodEnd, //
+			@RequestParam("periodStart") @DateTimeFormat(iso = ISO.DATE) Date periodStart, //
+			@RequestParam("periodEnd") @DateTimeFormat(iso = ISO.DATE) Date periodEnd, //
 			@RequestParam("oralDefenseDuration") Integer oralDefenseDuration, //
 			@RequestParam("oralDefenseInterlude") Integer oralDefenseInterlude, 
-			@RequestParam("lunchBreakStart") Date lunchBreakStart,
-			@RequestParam("lunchBreakEnd") Date lunchBreakEnd, 
-			@RequestParam("dayPeriodStart") Date dayPeriodStart,
-			@RequestParam("dayPeriodEnd") Date dayPeriodEnd,
+			@RequestParam("lunchBreakStart") @DateTimeFormat(iso = ISO.TIME) Date lunchBreakStart,
+			@RequestParam("lunchBreakEnd") @DateTimeFormat(iso = ISO.TIME) Date lunchBreakEnd, 
+			@RequestParam("dayPeriodStart") @DateTimeFormat(iso = ISO.TIME) Date dayPeriodStart,
+			@RequestParam("dayPeriodEnd") @DateTimeFormat(iso = ISO.TIME) Date dayPeriodEnd,
 			@RequestParam("nbMaxOralDefensePerDay") Integer nbMaxOralDefensePerDay,
 			@RequestParam("rooms") Collection<Room> rooms
 			) {
