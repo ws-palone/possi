@@ -27,6 +27,21 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 			session.close();
 		}
 	}
+	
+	public void update(Planning planning) {
+		Session session = getNewSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.update(planning);
+			session.getTransaction().commit();	
+		} catch (Exception e){
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 
 	public Planning findById(Integer id) {
 		Session session = getNewSession();

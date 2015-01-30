@@ -107,7 +107,7 @@ public class PlanningServiceImpl implements PlanningService {
 			planning.setRooms(rooms);
 		}
 		
-		planningDAO.persist(planning);
+		planningDAO.update(planning);
 		
 	}
 	

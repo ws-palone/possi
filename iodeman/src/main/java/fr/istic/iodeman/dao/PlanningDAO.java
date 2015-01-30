@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 
 public interface PlanningDAO {
@@ -11,6 +12,8 @@ public interface PlanningDAO {
 	public List<Planning> findAll();
 	
 	public void persist(Planning pla);
+	
+	public void update(Planning planning);
 	
 	public Planning findById(Integer ID);
 	
