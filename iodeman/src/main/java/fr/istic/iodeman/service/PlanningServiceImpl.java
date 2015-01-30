@@ -123,6 +123,11 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		return planning;
 	}
+	
+	public Collection<Participant> findParticipants(Planning planning) {
+		
+		return planningDAO.findParticipants(planning);
+	}
 
 
 }

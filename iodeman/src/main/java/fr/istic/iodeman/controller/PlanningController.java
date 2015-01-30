@@ -121,7 +121,7 @@ public class PlanningController {
 		Planning planning = planningService.findById(id);
 		
 		if (planning != null) {
-			return planning.getParticipants();
+			return planningService.findParticipants(planning);
 		}
 		
 		return Lists.newArrayList();

@@ -1,17 +1,18 @@
 package fr.istic.iodeman.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.OralDefense;
+import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 
 @Repository
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
-
+	
 	public void persist(Planning planning) {
 		Session session = getNewSession();
 		Transaction transaction = null;
@@ -62,6 +63,13 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		for (Planning entity : entityList) {
 			delete(entity);
 		}
+	}
+	
+	public Collection<Participant> findParticipants(Planning planning) {
+		Session session = getNewSession();
+		Collection<Participant> participants = planning.getParticipants();
+		session.close();
+		return participants;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
+import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
@@ -25,5 +26,7 @@ public interface PlanningService {
 			Collection<Room> rooms);
 	
 	public Planning importPartcipants(Planning planning, File file) throws Exception;
+	
+	public Collection<Participant> findParticipants(Planning planning);
 	
 }

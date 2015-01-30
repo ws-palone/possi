@@ -13,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -51,13 +54,15 @@ public class Planning{
 
 	private Integer nbMaxOralDefensePerDay;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany
 	private Collection<Room> rooms;
 	
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Participant> participants;
 	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany
 	private Collection<Priority> priorities;
 	
