@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Planning{
@@ -48,13 +50,18 @@ public class Planning{
 	private TimeBox dayPeriod;
 
 	private Integer nbMaxOralDefensePerDay;
+	
 	@OneToMany(fetch=FetchType.EAGER)
 	private Collection<Room> rooms;
+	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Participant> participants;
+	
 	@OneToMany
 	private Collection<Priority> priorities;
 	
+	@JsonIgnore
 	@OneToMany
 	private Collection<OralDefense> oralDefenses;
 	

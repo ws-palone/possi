@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 
+import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
@@ -111,6 +113,19 @@ public class PlanningController {
 		planningService.update(planning, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
 		
 		return planning;
+	}
+	
+	@RequestMapping("/{id}/participants")
+	public Collection<Participant> getParticipants(@PathVariable("id") Integer id) {
+		
+		Planning planning = planningService.findById(id);
+		
+		if (planning != null) {
+			return planning.getParticipants();
+		}
+		
+		return Lists.newArrayList();
+		
 	}
 	
 }
