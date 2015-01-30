@@ -78,7 +78,6 @@ public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {
 		return person;
 	}
 
-	@Override
 	public Person findByEmail(String email) {
 		Session session = getNewSession();
 		Person p =  (Person) session.createCriteria(Person.class)

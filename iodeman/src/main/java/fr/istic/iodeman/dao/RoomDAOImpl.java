@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Room;
 
 @Repository
@@ -62,5 +62,14 @@ public class RoomDAOImpl extends AbstractHibernateDAO implements RoomDAO {
 		for (Room entity : entityList) {
 			delete(entity);
 		}
+	}
+
+	public Room findByName(String name) {
+		Session session = getNewSession();
+		Room room =  (Room) session.createCriteria(Room.class)
+				.add(Restrictions.eq("name", name))
+				.uniqueResult();
+		session.close();
+		return room;
 	}
 }
