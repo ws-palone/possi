@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="iodeman">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Bootstrap Admin Template</title>
+    <title>Iodeman</title>
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FONTAWESOME ICONS STYLES-->
@@ -16,10 +16,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 </head>
 <body>
-    <div id="wrapper">
+    <div id="wrapper" ng-controller="mainController">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -33,26 +32,21 @@
                 <a  class="navbar-brand" href="index.html">IODE MAN 
                 </a>
             </div>
-          
-
             <div class="notifications-wrapper">
-<ul class="nav">
-               
-    
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user-plus"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user-plus"></i> Mon Profile</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out"></i> se déconnecter</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-               
+				<ul class="nav">
+	                <li class="dropdown">
+	                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	                        <i class="fa fa-user-plus"></i>  <i class="fa fa-caret-down"></i>
+	                    </a>
+	                    <ul class="dropdown-menu dropdown-user">
+	                        <li><a href="#"><i class="fa fa-user-plus"></i> Mon Profile</a>
+	                        </li>
+	                        <li class="divider"></li>
+	                        <li><a href="#"><i class="fa fa-sign-out"></i> se déconnecter</a>
+	                        </li>
+	                    </ul>
+	                </li>
+	            </ul>            
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -68,7 +62,7 @@
 
                     </li>
                      <li>
-                        <a  href="#"> <strong> pauline le verge </strong></a>
+                        <a  href="#"> <strong> {{ user.firstName }} {{ user.lastName }} </strong></a>
                     </li>
 
                     <li>
@@ -150,6 +144,11 @@
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
 
-
+	<!-- ANGULARJS -->
+	<script src="assets/js/angular.min.js"></script>
+	<script src="app/app.js"></script>
+	<script src="app/services.js"></script>
+	<script src="app/controllers.js"></script>
+	
 </body>
 </html>
