@@ -6,10 +6,12 @@ iodeman.controller('mainController', function($http, $scope, backend) {
 		console.log("user:");
 		console.log(data);
 		$scope.user = data;
+		$scope.$apply();
 	});
 	userRequest.error(function(data) {
 		console.log("Could not obtain the user");
 		$scope.user = null;
+		$scope.$apply();
 	});
 	
 });
