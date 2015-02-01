@@ -16,6 +16,8 @@ iodeman.config(function($provide) {
 			  "getUser" : function($scope) {
 				  	var response = $http.get(backendURL + 'user');
 					response.success(function(data) {
+						console.log("user:");
+						console.log(data);
 						$scope.user = data;
 					});
 					response.error(function(data) {
