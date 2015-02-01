@@ -12,6 +12,10 @@ iodeman.config(function($provide) {
 			  "greeting" : function(name) {
 				  alert("Hello, " + name);
 			  },
+			  
+			  "login" : function() {
+				  document.location.href= backendURL + "login"; 
+			  },
 		  
 			  "getUser" : function() {
 				  	return $http.get(backendURL + 'user');

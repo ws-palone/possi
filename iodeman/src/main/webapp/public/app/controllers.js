@@ -1,5 +1,5 @@
 
-iodeman.controller('mainController', function($http, $scope, backend) {
+iodeman.controller('mainController', function($scope, backend) {
 
 	var userRequest = backend.getUser();
 	userRequest.success(function(data) {
@@ -12,6 +12,7 @@ iodeman.controller('mainController', function($http, $scope, backend) {
 		console.log("Could not obtain the user");
 		$scope.user = null;
 		$scope.$apply();
+		backend.login();
 	});
 	
 });
