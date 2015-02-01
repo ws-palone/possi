@@ -13,17 +13,8 @@ iodeman.config(function($provide) {
 				  alert("Hello, " + name);
 			  },
 		  
-			  "getUser" : function($scope) {
-				  	var response = $http.get(backendURL + 'user');
-					response.success(function(data) {
-						console.log("user:");
-						console.log(data);
-						$scope.user = data;
-					});
-					response.error(function(data) {
-						console.log("Could not obtain the user");
-						$scope.user = null;
-					});
+			  "getUser" : function() {
+				  	return $http.get(backendURL + 'user');
 			  }
 			  
 		  }
