@@ -10,19 +10,21 @@
 <link href="assets/css/font-awesome.css" rel="stylesheet" />
 <!--CUSTOM STYLES-->
 <link href="assets/css/style.css" rel="stylesheet" />
+<link href="assets/css/datepicker/datepicker.css" rel="stylesheet" />
+<link href="assets/css/timepicker/timepicker.css" rel="stylesheet" />
+<!--<link href="assets/css/timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet" /> -->
+
+
 <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script
-	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+
 </head>
 <body>
-
-
-
 
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-cls-top " role="navigation"
@@ -34,7 +36,6 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-
 
 				<a class="navbar-brand" href="index.html">IODE MAN </a>
 			</div>
@@ -96,7 +97,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="panel panel-default">
-							<div class="panel-heading">BASIC FORM ELEMENTS</div>
+							<div class="panel-heading">Création planning</div>
 							<div class="panel-body">
 								<form>
 									<div class="form-group">
@@ -104,53 +105,128 @@
 											type="text" class="form-control" id="nomplanning1"
 											placeholder="Entrez nom planning" />
 									</div>
+
 									<div class="form-group">
-										<label for="debutPeriode">Début periode</label> <input
-											type="date" class="form-control" id="debutPeriode1"
-											placeholder=" Entrez la période de début" />
+										<label for="debutPeriode">Debut periode</label> <input
+											class="form-control" id="startingDate" type="text"> <span
+											class="add-on"><i class="icon-th"></i></span>
 									</div>
+
 									<div class="form-group">
-										<label for="finPeriode">Fin periode</label> <input type="date"
-											class="form-control" id="finPeriode1"
-											placeholder=" Entrez la période de fin" />
+										<label for="finPeriod">Fin periode</label> <input
+											class="form-control" id="endingDate" type="text"> <span
+											class="add-on"><i class="icon-th"></i></span>
 									</div>
-									
+
 									<div class="form-group">
-										<label for="exampleInputFile">File input</label> <input
-											type="file" id="exampleInputFile" />
-										<p class="help-block">Example block-level help text here.</p>
+										<label for="nbSoutenance">Nombre de soutenances</label> <input
+											type="text" class="form-control" id="nbsoutenance" />
 									</div>
-									<div class="checkbox">
-										<label> <input type="checkbox" /> Check me out
-										</label>
+
+									<div class="form-group">
+										<label for="intervalleSoutenance">Intervalle
+											soutenance</label> <input type="text" class="form-control"
+											id="intersoutenance" />
 									</div>
-									<button type="submit" class="btn btn-default">Submit</button>
+
+									<div class="form-group">
+										<label for="heureDebutPdj">Heure début pause déjeuner</label>
+										<div class="bootstrap-timepicker">
+											<input id="timepicker1" type="text"> <span
+												class="add-on"><i class="icon-time"></i></span>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label for="heureFinPdj">Heure fin pause déjeuner</label>
+										<div class="bootstrap-timepicker">
+											<input id="timepicker2" type="text"> <span
+												class="add-on"><i class="icon-time"></i></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="debutJourPeriod">Heure début période</label>
+										<div class="bootstrap-timepicker">
+											<input id="timepicker3" type="text"> <span
+												class="add-on"><i class="icon-time"></i></span>
+										</div>
+
+										<div class="form-group">
+											<label for="heurePdj">Heure début période</label>
+											<div class="bootstrap-timepicker">
+												<input id="timepicker4" type="text"> <span
+													class="add-on"><i class="icon-time"></i></span>
+											</div>
+
+											<div class="form-group">
+												<label for="nbMaxSoutenances">Nombre maximum de
+													soutenances/jour</label> <input type="text" class="form-control" />
+											</div>
+
+											<div class="form-group">
+												<label for="salles">Salles</label>
+												<p>Sélectionnez les salles des différentes soutenances</p>
+												<select name="salle" size=5 multiple>
+													<option>Salle i50
+													<option>Salle i52
+													<option>Salle i60
+													<option>Salle i59
+													<option>Salle i58
+													<option>Salle i57
+												</select>
+											</div>
+											<button type="submit" class="btn btn-default">Créer</button>
+										</div>
+
+									</div>
 							</div>
 
+
+
+							<!-- /. PAGE INNER  -->
 						</div>
-
+						<!-- /. PAGE WRAPPER  -->
 					</div>
-
-
-
-					<!-- /. PAGE INNER  -->
 				</div>
-				<!-- /. PAGE WRAPPER  -->
-			</div>
-		</div>
-		<!-- /. WRAPPER  -->
-		<footer>
-			&copy; 2015 YourCompany | By : <a
-				href="http://www.designbootstrap.com/" target="_blank">DesignBootstrap</a>
-		</footer>
-		<!-- /. FOOTER  -->
-		<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-		<!-- JQUERY SCRIPTS -->
-		<script src="assets/js/jquery-1.11.1.js"></script>
-		<!-- BOOTSTRAP SCRIPTS -->
-		<script src="assets/js/bootstrap.js"></script>
-		<!-- METISMENU SCRIPTS -->
-		<script src="assets/js/jquery.metisMenu.js"></script>
-		<!-- CUSTOM SCRIPTS -->
-		<script src="assets/js/custom.js"></script>
+				<!-- /. WRAPPER  -->
+				<footer>
+					&copy; 2015 YourCompany | By : <a
+						href="http://www.designbootstrap.com/" target="_blank">DesignBootstrap</a>
+				</footer>
+				<!-- /. FOOTER  -->
+				<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+				<!-- JQUERY SCRIPTS -->
+				<script src="assets/js/jquery-1.11.1.js"></script>
+				<!-- BOOTSTRAP SCRIPTS -->
+				<script src="assets/js/bootstrap.js"></script>
+				<!-- METISMENU SCRIPTS -->
+				<script src="assets/js/jquery.metisMenu.js"></script>
+				<!-- CUSTOM SCRIPTS -->
+				<script src="assets/js/custom.js"></script>
+				<script src="assets/js/datepicker/bootstrap-datepicker.js"></script>
+				<script src="assets/js/timepicker/bootstrap-timepicker.js"></script>
+				<!-- <script src="assets/js/timepicker/bootstrap-timepicker.min.js"></script>-->
+
+				<script>
+					$(function() {
+						console.log("ready!");
+						$('#startingDate').datepicker({
+							dateFormat : 'dd/MM/yyyy'
+						});
+
+						$('#endingDate').datepicker({
+							dateFormat : 'dd/MM/yyyy'
+						});
+
+						$('#timepicker1').timepicker();
+
+						$('#timepicker2').timepicker();
+						$('#timepicker3').timepicker();
+						$('#timepicker4').timepicker();
+						console.log("finish");
+
+					});
+				</script>
 </body>
