@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Unavailability;
 
 @Repository

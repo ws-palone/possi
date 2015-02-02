@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Properties;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.collect.Lists;
 
@@ -80,17 +82,25 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		return plannings;
 	}
 	
-	
 	public List<Planning> findAll(String uid) {
 		Session session = getNewSession();
 		List<Planning> plannings = new ArrayList<Planning>();
 		Criteria criteria = session.createCriteria(Planning.class);
+		criteria.createAlias("admin", "adm");
+		criteria.createAlias("participants", "parts");
+		criteria.createAlias("parts.student", "student");
+		criteria.createAlias("parts.followingTeacher", "teacher");
+		
 		
 		criteria.add(Restrictions.or(
-				Restrictions.eq("participants.uid", uid),
-				Restrictions.eq("admin.uid", uid)
+				Restrictions.eq("student.uid", uid),
+				Restrictions.eq("teacher.uid", uid),
+				Restrictions.eq("adm.uid", uid)
 				));
 		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		plannings = criteria.list();
 		session.close();
 		return plannings;
 	}
