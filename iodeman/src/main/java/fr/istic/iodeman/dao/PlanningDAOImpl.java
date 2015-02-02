@@ -8,6 +8,7 @@ import java.util.ListIterator;
 import java.util.Properties;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -112,20 +113,20 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		}
 	}
 	
+
+	@SuppressWarnings("unchecked")
 	public Collection<Participant> findParticipants(Planning planning) {
 		Session session = getNewSession();
-		Collection<Participant> participants = null;
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			participants = Lists.newArrayList(planning.getParticipants());
-			session.getTransaction().commit();	
-		} catch (Exception e){
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
+		List<Planning> plannings = session.createCriteria(Planning.class)
+				.add(Restrictions.eq("id", planning.getId()))
+				.setFetchMode("participants", FetchMode.JOIN)
+				.setMaxResults(1)
+				.list();
+		if (plannings == null || plannings.size() == 0) {
+			return Lists.newArrayList();
 		}
+		Collection<Participant> participants = Lists.newArrayList(plannings.get(0).getParticipants());
+		session.close();
 		return participants;
 	}
 

@@ -126,7 +126,8 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		assertTrue(p.getId() != null);
 		
 		Planning retrievedPlanning = planningDAO.findById(p.getId());
-		assertTrue(retrievedPlanning.getParticipants() != null);
+		List<Participant> participants = (List<Participant>) planningDAO.findParticipants(retrievedPlanning);
+		assertTrue(participants.size() > 0);
 	}
 
 }
