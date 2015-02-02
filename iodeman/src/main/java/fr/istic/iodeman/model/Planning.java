@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
@@ -69,6 +70,9 @@ public class Planning{
 	@JsonIgnore
 	@OneToMany
 	private Collection<OralDefense> oralDefenses;
+	
+	@ManyToOne
+	private Person admin;
 	
 	public Integer getId() {
 		return id;
@@ -143,6 +147,12 @@ public class Planning{
 	}
 	public void setOralDefenses(Collection<OralDefense> oralDefenses) {
 		this.oralDefenses = oralDefenses;
+	}
+	public Person getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Person admin) {
+		this.admin = admin;
 	}
 	
 	
