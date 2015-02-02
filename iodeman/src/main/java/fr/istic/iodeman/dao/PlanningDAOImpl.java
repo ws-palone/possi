@@ -120,7 +120,6 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		List<Planning> plannings = session.createCriteria(Planning.class)
 				.add(Restrictions.eq("id", planning.getId()))
 				.setFetchMode("participants", FetchMode.JOIN)
-				.setMaxResults(1)
 				.list();
 		if (plannings == null || plannings.size() == 0) {
 			return Lists.newArrayList();
