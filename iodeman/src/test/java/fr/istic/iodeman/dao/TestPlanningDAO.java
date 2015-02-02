@@ -70,17 +70,13 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		
 		// creation list of plannings
 		Planning pl1 = new Planning();pl1.setParticipants(participants1);pl1.setAdmin(p5);
-		Planning pl2 = new Planning();pl2.setParticipants(participants2);pl2.setAdmin(p6);
+		Planning pl2 = new Planning();pl2.setParticipants(participants2);pl2.setAdmin(p6);pl2.setName("CestLePlanningDeGrosAmblard");
 		plannings.add(pl1);
 		plannings.add(pl2);
 		
-		// adding in the database
-		/*
 		for(Planning p : plannings){
 			planningDAO.persist(p);
-		}*/
-		planningDAO.persist(pl1);
-		planningDAO.persist(pl2);
+		}
 		
 	}
 	
@@ -90,9 +86,22 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		planningDAO.deleteAll();
 		participantDAO.deleteAll();
 		personDAO.deleteAll();
-		assertEquals(planningDAO.findAll().size(),0);		
+		assertEquals(planningDAO.findAll().size(),0);
 	}
 	
+	@Test 
+	public void testFindAllByUid(){
+		List<Planning> plannings = planningDAO.findAll("11008880");
+		
+		assertEquals(plannings.size(), 2);
+		
+		plannings = planningDAO.findAll("grossamblardD");
+		
+		assertEquals(plannings.size(), 1);
+		
+		assertEquals(plannings.get(0).getName(), "CestLePlanningDeGrosAmblard");
+		
+	}
 	
 	@Test
 	public void testFindAll() {

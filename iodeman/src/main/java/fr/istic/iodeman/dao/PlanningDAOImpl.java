@@ -80,6 +80,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		return plannings;
 	}
 	
+	
 	public List<Planning> findAll(String uid) {
 		Session session = getNewSession();
 		List<Planning> plannings = new ArrayList<Planning>();

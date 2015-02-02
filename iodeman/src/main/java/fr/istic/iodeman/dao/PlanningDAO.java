@@ -10,6 +10,8 @@ public interface PlanningDAO {
 
 	public List<Planning> findAll();
 	
+	public List<Planning> findAll(String uid);
+	
 	public void persist(Planning pla);
 	
 	public void update(Planning planning);
