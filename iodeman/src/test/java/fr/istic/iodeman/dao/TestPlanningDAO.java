@@ -62,30 +62,25 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		Participant pa2 = new Participant();pa2.setFollowingTeacher(p5);pa2.setStudent(p2);
 		Participant pa3 = new Participant();pa3.setFollowingTeacher(p4);pa3.setStudent(p3);
 		Participant pa4 = new Participant();pa4.setFollowingTeacher(p4);pa4.setStudent(p1);
-		
+		Participant pa5 = new Participant();pa5.setFollowingTeacher(p5);pa5.setStudent(p1);
+		Participant pa6 = new Participant();pa6.setFollowingTeacher(p5);pa6.setStudent(p2);
 		
 		Collection<Participant> participants1 = Lists.newArrayList(pa1, pa2, pa3);
-		Collection<Participant> participants2 = Lists.newArrayList(pa4, pa2, pa3);
-		
-		/*for(Participant p : participants1){
-			participantDAO.persist(p);
-		}
-		for(Participant p : participants2){
-			participantDAO.persist(p);
-		}*/
-		
+		Collection<Participant> participants2 = Lists.newArrayList(pa4, pa5, pa6);
 		
 		// creation list of plannings
-		Planning pl1 = new Planning();pl1.setParticipants(participants1);//pl1.setAdmin(p5);
-		Planning pl2 = new Planning();pl2.setParticipants(participants2);//pl2.setAdmin(p6);
+		Planning pl1 = new Planning();pl1.setParticipants(participants1);pl1.setAdmin(p5);
+		Planning pl2 = new Planning();pl2.setParticipants(participants2);pl2.setAdmin(p6);
 		plannings.add(pl1);
 		plannings.add(pl2);
 		
 		// adding in the database
-		
+		/*
 		for(Planning p : plannings){
 			planningDAO.persist(p);
-		}
+		}*/
+		planningDAO.persist(pl1);
+		planningDAO.persist(pl2);
 		
 	}
 	
@@ -99,7 +94,7 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	}
 	
 	
-	
+	@Test
 	public void testFindAll() {
 		// we test if the number of retrieved planning is the same that the added ones
 		List<Planning> retrievedPlannings = planningDAO.findAll();
