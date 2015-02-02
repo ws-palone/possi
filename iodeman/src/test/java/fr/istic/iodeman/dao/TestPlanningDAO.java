@@ -119,5 +119,14 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		Planning retrievedPlanning = planningDAO.findById(p.getId());
 		assertEquals(retrievedPlanning.getId(), p.getId());
 	}
+	
+	@Test
+	public void testFindParticipants(){
+		Planning p = plannings.get(0);
+		assertTrue(p.getId() != null);
+		
+		Planning retrievedPlanning = planningDAO.findById(p.getId());
+		assertTrue(retrievedPlanning.getParticipants() != null);
+	}
 
 }
