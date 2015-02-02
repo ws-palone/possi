@@ -20,7 +20,7 @@ public class Person implements Comparable<Person> {
 	private Role role;
 	private String uid;
 	private String email;
-	private String group;
+	private String promo;
 
 	@Formula(value="firstName || ' ' || lastName")
 	private String fullName;
@@ -72,12 +72,12 @@ public class Person implements Comparable<Person> {
 		return this.getUid().compareTo(p.getUid());
 	}
 
-	public String getGroup() {
-		return group;
+	public String getPromo() {
+		return promo;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setPromo(String promo) {
+		this.promo = promo;
 	}
 	
 	
