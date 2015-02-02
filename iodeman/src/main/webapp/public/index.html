@@ -77,53 +77,10 @@
 
         </nav>
         <!-- /. SIDEBAR MENU (navbar-side) -->
-        <div id="page-wrapper" class="page-wrapper-cls">
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="page-head-line">Mes plannings</h1>
-                    </div>
-                </div>
-            
-                <div class="row">
-            <div class=" col-md-12 col-sm-=12">
-                <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Admin</th>
-                                        <th>Debut</th>
-                                        <th>Fin</th>
-                                        <th>Promo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     <tr>
-                                        <td></td>
-                                        <td><span class="label label-primary"></span></td>
-                                        <td>01 septembre 2015</td>
-                                        <td>01 septembre 2015</td>
-                                        <td>MIAGE SIAD</td>
-                                        <td> <a href="calendar.html" class="btn btn-primary btn-sm">Saisir d'indisponibilités</a> 
-                                        <br/> <br/>
-                                        <a href="gestion.html" class="btn btn-primary btn-sm">Gérer le planning</a> </td>
-                                    </tr>
-                                    <tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-               
-                        </div>
-
-                        </div>
-
-            <!-- /. PAGE INNER  -->
-        </div>
+        <div id="page-wrapper" class="page-wrapper-cls" ng-view>
         <!-- /. PAGE WRAPPER  -->
-    </div>
-        </div>
+    	</div>
+     </div>
     <!-- /. WRAPPER  -->
     <footer >
         &copy; 2015 YourCompany | By : <a href="http://www.designbootstrap.com/" target="_blank">DesignBootstrap</a>
@@ -141,7 +98,9 @@
 
 	<!-- ANGULARJS -->
 	<script src="assets/js/angular.min.js"></script>
+	<script src="assets/js/angular-route.min.js"></script>
 	<script src="app/app.js"></script>
+	<script src="app/routes.js"></script>
 	<script src="app/services.js"></script>
 	<script src="app/controllers.js"></script>
 	
