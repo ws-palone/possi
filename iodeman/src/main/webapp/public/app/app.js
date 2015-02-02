@@ -2,4 +2,4 @@
 /**
  * Define the app's main module
  */
-var iodeman = angular.module('iodeman',[]);
+var iodeman = angular.module('iodeman',['ngRoute']);

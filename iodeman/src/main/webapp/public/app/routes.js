@@ -1,0 +1,14 @@
+iodeman.config(['$routeProvider',
+    function($routeProvider) {
+
+      $routeProvider
+
+        .when('/home', {
+          templateUrl: 'home.html'
+        })
+
+        .otherwise({
+        	redirectTo: '/home'
+        });
+
+}]);
