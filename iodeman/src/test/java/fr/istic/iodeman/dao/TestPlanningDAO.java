@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -11,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.istic.iodeman.model.OralDefense;
+import com.google.common.collect.Lists;
+
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
@@ -19,29 +23,66 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 
 	@Autowired
 	PlanningDAO planningDAO;
+	
+	@Autowired
+	PersonDAO personDAO;
+	
+	@Autowired
+	ParticipantDAO participantDAO;
 
 	List<Planning> plannings;
+	
+	List<Person> persons;
 	
 	@Before
 	public void setUp(){
 		// instanciate the DAO
 		//planningDAO = new PlanningDAOImpl();
 		
-		// removing of all planning
-		planningDAO.deleteAll();
+		
 		
 		// creation of a list of planning
 		plannings = new ArrayList<Planning>();
 		
-		for(int i = 0; i<3; i++){
-			Planning p = new Planning();
-			p.setName("Planning "+i);
-			plannings.add(p);
+		persons = new ArrayList<Person>();
+		
+		// creation of lists of participants
+		Person p1 = new Person();p1.setUid("11008880");persons.add(p1);
+		Person p2 = new Person();p2.setUid("10367894");persons.add(p2);
+		Person p3 = new Person();p3.setUid("12005689");persons.add(p3);
+		Person p4 = new Person();p4.setUid("foursovM");persons.add(p4);
+		Person p5 = new Person();p5.setUid("certainD");persons.add(p5);
+		Person p6 = new Person();p6.setUid("grossamblardD");persons.add(p6);
+		
+		for(Person p : persons){
+			personDAO.persist(p);
 		}
 		
-		assertTrue(plannings.size() == 3);
+		Participant pa1 = new Participant();pa1.setFollowingTeacher(p5);pa1.setStudent(p1);
+		Participant pa2 = new Participant();pa2.setFollowingTeacher(p5);pa2.setStudent(p2);
+		Participant pa3 = new Participant();pa3.setFollowingTeacher(p4);pa3.setStudent(p3);
+		Participant pa4 = new Participant();pa4.setFollowingTeacher(p4);pa4.setStudent(p1);
+		
+		
+		Collection<Participant> participants1 = Lists.newArrayList(pa1, pa2, pa3);
+		Collection<Participant> participants2 = Lists.newArrayList(pa4, pa2, pa3);
+		
+		/*for(Participant p : participants1){
+			participantDAO.persist(p);
+		}
+		for(Participant p : participants2){
+			participantDAO.persist(p);
+		}*/
+		
+		
+		// creation list of plannings
+		Planning pl1 = new Planning();pl1.setParticipants(participants1);//pl1.setAdmin(p5);
+		Planning pl2 = new Planning();pl2.setParticipants(participants2);//pl2.setAdmin(p6);
+		plannings.add(pl1);
+		plannings.add(pl2);
 		
 		// adding in the database
+		
 		for(Planning p : plannings){
 			planningDAO.persist(p);
 		}
@@ -50,15 +91,15 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	
 	@After
 	public void after(){
-		// removing of all the plannings created
-		for(Planning p : plannings){
-			planningDAO.delete(p);
-		}
+		// removing of all planning
+		planningDAO.deleteAll();
+		participantDAO.deleteAll();
+		personDAO.deleteAll();
 		assertEquals(planningDAO.findAll().size(),0);		
 	}
 	
 	
-	@Test
+	
 	public void testFindAll() {
 		// we test if the number of retrieved planning is the same that the added ones
 		List<Planning> retrievedPlannings = planningDAO.findAll();

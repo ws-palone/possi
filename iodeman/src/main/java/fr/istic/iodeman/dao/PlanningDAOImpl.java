@@ -1,10 +1,15 @@
 package fr.istic.iodeman.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Lists;
@@ -71,6 +76,20 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	public List<Planning> findAll() {
 		Session session = getNewSession();
 		List<Planning> plannings = session.createCriteria(Planning.class).list();
+		session.close();
+		return plannings;
+	}
+	
+	public List<Planning> findAll(String uid) {
+		Session session = getNewSession();
+		List<Planning> plannings = new ArrayList<Planning>();
+		Criteria criteria = session.createCriteria(Planning.class);
+		
+		criteria.add(Restrictions.or(
+				Restrictions.eq("participants.uid", uid),
+				Restrictions.eq("admin.uid", uid)
+				));
+		
 		session.close();
 		return plannings;
 	}
