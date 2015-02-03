@@ -82,6 +82,8 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 			console.log('planning created!');
 		});
 		createRequest.error(function(data) {
+			$("#formLabel").val(data);
+			$("#formLabel").show();
 			console.log('error. cannot create planning!');
 		});
 	};
