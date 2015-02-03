@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 
 public interface PlanningDAO {
 
@@ -23,5 +24,7 @@ public interface PlanningDAO {
 	public void delete(Planning pla);
 	
 	public void deleteAll();
+	
+	public Collection<Priority> findPriorities(Planning planning);
 
 }

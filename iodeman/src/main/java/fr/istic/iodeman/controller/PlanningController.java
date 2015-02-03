@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.service.PlanningService;
@@ -122,6 +123,18 @@ public class PlanningController {
 		
 		if (planning != null) {
 			return planningService.findParticipants(planning);
+		}
+		
+		return Lists.newArrayList();
+		
+	}
+	
+	@RequestMapping("/{id}/priorities")
+	public Collection<Priority> getPriorities(@PathVariable("id") Integer id) {
+		Planning planning = planningService.findById(id);
+		
+		if (planning != null) {
+			return planningService.findPriorities(planning);
 		}
 		
 		return Lists.newArrayList();

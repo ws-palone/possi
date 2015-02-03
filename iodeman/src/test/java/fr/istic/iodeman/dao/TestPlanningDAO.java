@@ -17,6 +17,7 @@ import com.google.common.collect.Lists;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
 public class TestPlanningDAO extends AbstractSpringUnitTest {
@@ -68,8 +69,16 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		Collection<Participant> participants1 = Lists.newArrayList(pa1, pa2, pa3);
 		Collection<Participant> participants2 = Lists.newArrayList(pa4, pa5, pa6);
 		
+		// creation of priorities
+		Priority priority = new Priority();
+		priority.setWeight(5);
+		
+		Collection<Priority> priorities = Lists.newArrayList();
+		priorities.add(priority);
+		
 		// creation list of plannings
 		Planning pl1 = new Planning();pl1.setParticipants(participants1);pl1.setAdmin(p5);
+		pl1.setPriorities(priorities);
 		Planning pl2 = new Planning();pl2.setParticipants(participants2);pl2.setAdmin(p6);pl2.setName("CestLePlanningDeGrosAmblard");
 		plannings.add(pl1);
 		plannings.add(pl2);
@@ -130,4 +139,15 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		assertEquals(3, participants.size());
 	}
 
+	@Test
+	public void testFindPriorities(){
+		Planning p = plannings.get(0);
+		assertTrue(p.getId() != null);
+		
+		Planning retrievedPlanning = planningDAO.findById(p.getId());
+		List<Priority> priorities = (List<Priority>) planningDAO.findPriorities(retrievedPlanning);
+		assertTrue(priorities.size() > 0);
+		Priority priority = priorities.get(0);
+		assertTrue(priority.getWeight() == 5);
+	}
 }
