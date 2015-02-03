@@ -30,7 +30,11 @@ iodeman.config(function($provide) {
 					  },
 					  
 					  "list": function() {
-						  return $http.get(backendURL+ 'planning/list');
+						  return $http.get(backendURL + 'planning/list');
+					  },
+					  
+					  "getParticipants": function(id) {
+						  return $http.get(backendURL + 'planning/'+id+'/participants')
 					  }
 				  }
 			  }

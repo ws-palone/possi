@@ -116,4 +116,12 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		formUpload.submit();
 	});
 	
+	var participantsRequest = backend.plannings.getParticipants($scope.id);
+	participantsRequest.success(function(data) {
+		console.log("participants:");
+		console.log(data);
+		$scope.participants = $data;
+		$scope.$apply();
+	});
+	
 });
