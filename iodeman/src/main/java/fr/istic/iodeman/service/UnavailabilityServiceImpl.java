@@ -15,7 +15,7 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	private UnavailabilityDAO unavailabilityDAO;
 	
 	@Override
-	public List<Unavailability> findById(Integer idPlanning, Integer uid) {
+	public List<Unavailability> findById(Integer idPlanning, String uid) {
 		
 		return unavailabilityDAO.findById(idPlanning, uid);
 	}

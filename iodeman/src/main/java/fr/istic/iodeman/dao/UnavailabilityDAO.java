@@ -16,6 +16,6 @@ public interface UnavailabilityDAO {
 	
 	public void deleteAll();
 
-	public List<Unavailability> findById(Integer idPlanning, Integer uid);
+	public List<Unavailability> findById(Integer idPlanning, String uid);
 
 }

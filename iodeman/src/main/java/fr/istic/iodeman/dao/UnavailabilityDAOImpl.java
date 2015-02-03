@@ -67,7 +67,7 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		}
 	}
 
-	public List<Unavailability> findById(Integer idPlanning, Integer uid) {
+	public List<Unavailability> findById(Integer idPlanning, String uid) {
 		Session session = getNewSession();
 		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
 		Criteria criteria = session.createCriteria(Unavailability.class);

@@ -6,6 +6,6 @@ import fr.istic.iodeman.model.Unavailability;
 
 public interface UnavailabilityService {
 
-	public List<Unavailability> findById(Integer id, Integer idperson);
+	public List<Unavailability> findById(Integer id, String uid);
 
 }

@@ -21,7 +21,7 @@ public class UnavailabilityController {
 	private UnavailabilityService unavailabilityService;
 	
 	@RequestMapping("/{id}/")
-	public List<Unavailability> findById(@PathVariable("id") Integer id, @RequestParam("person") Integer idperson ){
+	public List<Unavailability> findById(@PathVariable("id") Integer id, @RequestParam("person") String idperson ){
 		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
 		unavailabilities = unavailabilityService.findById(id, idperson);
 
