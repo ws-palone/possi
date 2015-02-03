@@ -6,6 +6,10 @@ iodeman.config(['$routeProvider',
         .when('/home', {
           templateUrl: 'home.html'
         })
+        
+        .when('/create', {
+        	templateUrl: 'createPlanning.html'
+        })
 
         .otherwise({
         	redirectTo: '/home'
