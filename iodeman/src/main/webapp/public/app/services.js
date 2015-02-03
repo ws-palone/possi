@@ -9,9 +9,7 @@ iodeman.config(function($provide) {
 	  this.$get = function() {
 		  return {
 			  
-			  "greeting" : function(name) {
-				  alert("Hello, " + name);
-			  },
+			  "importParticipantsURL" :  backendURL + 'upload',
 			  
 			  "login" : function() {
 				  document.location.href= backendURL + "login"; 

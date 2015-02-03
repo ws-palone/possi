@@ -87,3 +87,31 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 	};
 	
 });
+
+iodeman.controller('planningController', function($scope, backend, $routeParams) {
+	
+	$scope.id = $routeParams.id;
+	$scope.uploadFileURL = backend.importParticipantsURL;
+	
+	var inputFile = $('#upload_file');
+	var formUpload = $('#formUpload');
+
+	var planningRequest = backend.listPlanning();
+	planningRequest.success(function(data) {
+		console.log("plannings:");
+		console.log(data);
+		$scope.planning = data.find(function(p) {
+			return p.id == $scope.id;
+		});
+		$scope.$apply();
+	});
+	
+	$scope.importParticipants = function() {
+		inputFile.click();
+	};
+	
+	inputFile.change(function() {
+		formUpload.submit();
+	});
+	
+});
