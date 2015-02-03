@@ -25,6 +25,10 @@ iodeman.config(function($provide) {
 				  return $http.get(backendURL + 'planning/create', {
 					  		params: planning
 				  });
+			  },
+			  
+			  "listPlanning": function() {
+				  return $http.get(backendURL+ 'planning/list');
 			  }
 			  
 		  }

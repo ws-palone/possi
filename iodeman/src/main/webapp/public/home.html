@@ -1,5 +1,5 @@
 
-<div id="page-inner">
+<div id="page-inner" ng-controller="homeController">
 	<div class="row">
 		<div class="col-md-12">
 			<h1 class="page-head-line">Mes plannings</h1>
@@ -20,15 +20,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
+						<tr ng-repeat="planning in plannings">
+							<td>{{ planning.name }}</td>
 							<td><span class="label label-primary"></span></td>
-							<td>01 septembre 2015</td>
-							<td>01 septembre 2015</td>
-							<td>MIAGE SIAD</td>
-							<td><a href="calendar.html" class="btn btn-primary btn-sm">Saisir
-									d'indisponibilités</a> <br /> <br /> <a href="gestion.html"
-								class="btn btn-primary btn-sm">Gérer le planning</a></td>
+							<td>{{ planning.period.from }}</td>
+							<td>{{ planning.period.to }}</td>
+							<td></td>
+							<td>
+								<a href="calendar.html" class="btn btn-primary btn-sm">
+									Saisir d'indisponibilités
+								</a>
+								<br /> <br /> 
+								<a href="gestion.html" class="btn btn-primary btn-sm">Gérer le planning</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>

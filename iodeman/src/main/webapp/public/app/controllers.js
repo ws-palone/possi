@@ -17,6 +17,19 @@ iodeman.controller('mainController', function($scope, backend) {
 	
 });
 
+iodeman.controller('homeController', function($scope, backend) {
+	
+	$scope.plannings = [];
+	var planningRequest = backend.listPlanning();
+	planningRequest.success(function(data) {
+		console.log("plannings:");
+		console.log(data);
+		$scope.plannings = data;
+		$scope.$apply();
+	});
+	
+});
+
 iodeman.controller('PlanningFormController', function($scope, backend) {
 	
 	var inputStartingDate = $('#startingDate');
