@@ -8,12 +8,18 @@
 
 	<div class="row">
 		<div class="col-md-12 col-sm-=12">
-			<form id="formUpload" style="margin-bottom:20px;" method="POST" enctype="multipart/form-data" action="{{ uploadFileURL }}">
-				<input id="upload_file" type="file" name="file" style="display: none;" /><br /> 
+		
+			<form id="formUpload" style="display: none;" method="POST" enctype="multipart/form-data" action="{{ uploadFileURL }}">
+				<input id="upload_file" type="file" name="file" /><br /> 
 				<input type="hidden" name="planningId" value="{{ planning.id }}" /><br /> <br />
-				<input type="button" ng-click="importParticipants()" class="btn btn-primary btn-sm" value="Importer participants"/>
 			</form>
-			<div class="table-responsive">
+			
+			<input type="button" ng-click="importParticipants()" class="btn btn-primary btn-sm" value="Importer participants"/>
+			<a href="" class="btn btn-primary btn-sm">Modifier</a>
+			<a href="" class="btn btn-primary btn-sm">Paramétrer</a>
+			<a href="" class="btn btn-primary btn-sm">Générer planning</a>
+			
+			<div class="table-responsive" style="margin-top: 20px;">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
@@ -29,6 +35,7 @@
 					</tbody>
 				</table>
 			</div>
+		
 		</div>
 	</div>
 
