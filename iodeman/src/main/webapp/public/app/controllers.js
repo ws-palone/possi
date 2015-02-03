@@ -120,7 +120,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	participantsRequest.success(function(data) {
 		console.log("participants:");
 		console.log(data);
-		$scope.participants = $data;
+		$scope.participants = data;
 		$scope.$apply();
 	});
 	
