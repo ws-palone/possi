@@ -72,12 +72,10 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
 		Criteria criteria = session.createCriteria(Unavailability.class);
 		criteria.createAlias("planning", "plan");
-		criteria.createAlias("plan.id", "planningId");
-		criteria.createAlias("person", "pers");
-		criteria.createAlias("pers.uid", "personUid");		
+		criteria.createAlias("person", "pers");	
 		
-		criteria.add(Restrictions.eq("personUid", uid));
-		criteria.add(Restrictions.eq("planningId", idPlanning));
+		criteria.add(Restrictions.eq("pers.uid", uid));
+		criteria.add(Restrictions.eq("plan.id", idPlanning));
 		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
