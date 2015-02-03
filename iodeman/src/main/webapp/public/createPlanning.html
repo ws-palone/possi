@@ -1,0 +1,97 @@
+<div id="page-inner" ng-controller="PlanningFormController">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="page-head-line">Nouveau planning</h1>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">Création planning</div>
+				<div class="panel-body">
+					<form>
+						<div class="form-group">
+							<label for="nomPlanning">Nom planning</label> 
+							<input type="text" ng-model="planning.name" class="form-control"
+								placeholder="Entrez nom planning" />
+						</div>
+
+						<div class="form-group">
+							<label for="debutPeriode">Debut periode</label> 
+							<input class="form-control" id="startingDate" type="text" ng-model="planning.periodStart"/> 
+							<span class="add-on"><i class="icon-th"></i></span>
+						</div>
+
+						<div class="form-group">
+							<label for="finPeriod">Fin periode</label> 
+							<input class="form-control" id="endingDate" type="text" ng-model="planning.periodEnd"/> 
+							<span class="add-on"><i class="icon-th"></i></span>
+						</div>
+
+						<div class="form-group">
+							<label for="nbSoutenance">Durée d'une soutenance</label> 
+							<input type="text" class="form-control" ng-model="planning.oralDefenseDuration" />
+						</div>
+
+						<div class="form-group">
+							<label for="intervalleSoutenance">Durée intervalle entre deux soutenances</label> 
+							<input type="text" class="form-control" ng-model="planning.oralDefenseInterlude" />
+						</div>
+
+						<div class="form-group">
+							<label for="debutJourPeriod">Heure début de journée</label>
+							<div class="bootstrap-timepicker">
+								<input id="timepicker3" type="text" ng-model="planning.inputDayPeriodStart"/> 
+								<span class="add-on"><i class="icon-time"></i></span>
+							</div>
+						</div>
+						<div class="form-group">
+								<label for="heurePdj">Heure fin de journée</label>
+								<div class="bootstrap-timepicker">
+									<input id="timepicker4" type="text" ng-model="planning.inputDayPeriodEnd"/> 
+									<span class="add-on"><i class="icon-time"></i></span>
+								</div>
+						</div>
+						<div class="form-group">
+							<label for="heureDebutPdj">Heure de début de la pause déjeuner</label>
+							<div class="bootstrap-timepicker">
+								<input id="timepicker1" type="text" ng-model="planning.lunchBreakStart"/> 
+								<span class="add-on"><i class="icon-time"></i></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="heureFinPdj">Heure de fin de la pause déjeuner</label>
+							<div class="bootstrap-timepicker">
+								<input id="timepicker2" type="text" ng-model="planning.lunchBreakEnd"/> 
+								<span class="add-on"><i class="icon-time"></i></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="nbMaxSoutenances">Nombre maximum de soutenances par jour</label>
+							<input type="text" class="form-control" ng-model="planning.nbMaxOralDefensePerDay" />
+						</div>
+
+						<div class="form-group">
+							<label for="salles">Salles</label>
+							<p>Sélectionnez les salles des différentes soutenances</p>
+							<select name="salle" size=5 multiple>
+								<option>Salle i50</option>
+								<option>Salle i52</option>
+								<option>Salle i60</option>
+								<option>Salle i59</option>
+								<option>Salle i58</option>
+								<option>Salle i57</option>
+							</select>
+						</div>
+						<button type="submit" class="btn btn-default" ng-click="submit()">Créer</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>		
+
+
+<!-- /. PAGE INNER  -->
+</div>

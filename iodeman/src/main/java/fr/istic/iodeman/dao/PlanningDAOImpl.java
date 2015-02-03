@@ -2,10 +2,7 @@ package fr.istic.iodeman.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Properties;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -13,12 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 
 @Repository
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
@@ -117,16 +114,35 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	@SuppressWarnings("unchecked")
 	public Collection<Participant> findParticipants(Planning planning) {
 		Session session = getNewSession();
-		List<Planning> plannings = session.createCriteria(Planning.class)
+		Planning retrievedPlanning = (Planning) session.createCriteria(Planning.class)
 				.add(Restrictions.eq("id", planning.getId()))
 				.setFetchMode("participants", FetchMode.JOIN)
-				.list();
-		if (plannings == null || plannings.size() == 0) {
+				.uniqueResult();
+		
+		if (retrievedPlanning == null) {
 			return Lists.newArrayList();
 		}
-		Collection<Participant> participants = Lists.newArrayList(plannings.get(0).getParticipants());
+		
+		Collection<Participant> participants = Lists.newArrayList(retrievedPlanning.getParticipants());
 		session.close();
 		return participants;
+	}
+
+	@Override
+	public Collection<Priority> findPriorities(Planning planning) {
+		Session session = getNewSession();
+		Planning planningRetrieved = (Planning) session.createCriteria(Planning.class)
+				.add(Restrictions.eq("id", planning.getId()))
+				.setFetchMode("priotities", FetchMode.JOIN)
+				.uniqueResult();
+		
+		if (planningRetrieved == null) {
+			return Lists.newArrayList();
+		}
+		
+		Collection<Priority> priorities = Lists.newArrayList(planningRetrieved.getPriorities());
+		session.close();
+		return priorities;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.service.PlanningService;
@@ -70,8 +72,28 @@ public class PlanningController {
 		});
 		
 		TimeBox period = new TimeBox(periodStart, periodEnd);
-		TimeBox lunch = new TimeBox(lunchBreakStart, lunchBreakEnd);
-		TimeBox dayPeriod = new TimeBox(dayPeriodStart, dayPeriodEnd);
+		
+		TimeBox dayPeriod = new TimeBox(
+				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(dayPeriodStart).getHourOfDay())
+					.withMinuteOfHour(new DateTime(dayPeriodStart).getMinuteOfHour())
+					.toDate(),
+				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(dayPeriodEnd).getHourOfDay())
+					.withMinuteOfHour(new DateTime(dayPeriodEnd).getMinuteOfHour())
+					.toDate()
+		);
+		
+		TimeBox lunch = new TimeBox(
+				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(lunchBreakStart).getHourOfDay())
+					.withMinuteOfHour(new DateTime(lunchBreakStart).getMinuteOfHour())
+					.toDate(),
+				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(lunchBreakEnd).getHourOfDay())
+					.withMinuteOfHour(new DateTime(lunchBreakEnd).getMinuteOfHour())
+					.toDate()
+		);
 		
 		return planningService.create(name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
 	}
@@ -122,6 +144,18 @@ public class PlanningController {
 		
 		if (planning != null) {
 			return planningService.findParticipants(planning);
+		}
+		
+		return Lists.newArrayList();
+		
+	}
+	
+	@RequestMapping("/{id}/priorities")
+	public Collection<Priority> getPriorities(@PathVariable("id") Integer id) {
+		Planning planning = planningService.findById(id);
+		
+		if (planning != null) {
+			return planningService.findPriorities(planning);
 		}
 		
 		return Lists.newArrayList();
