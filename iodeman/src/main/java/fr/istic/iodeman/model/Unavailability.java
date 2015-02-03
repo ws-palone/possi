@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Unavailability {
@@ -20,6 +22,7 @@ public class Unavailability {
 	private Person person;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Planning planning;
 
 	@Embedded
