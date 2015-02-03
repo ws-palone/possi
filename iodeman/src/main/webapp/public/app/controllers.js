@@ -20,7 +20,7 @@ iodeman.controller('mainController', function($scope, backend) {
 iodeman.controller('homeController', function($scope, backend) {
 	
 	$scope.plannings = [];
-	var planningRequest = backend.listPlanning();
+	var planningRequest = backend.plannings.list();
 	planningRequest.success(function(data) {
 		console.log("plannings:");
 		console.log(data);
@@ -77,7 +77,7 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 		
 		console.log($scope.planning);
 		
-		var createRequest = backend.createPlanning($scope.planning);
+		var createRequest = backend.plannings.create($scope.planning);
 		createRequest.success(function(data) {
 			console.log('planning created!');
 		});
@@ -98,7 +98,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-	var planningRequest = backend.listPlanning();
+	var planningRequest = backend.plannings.list();
 	planningRequest.success(function(data) {
 		console.log("plannings:");
 		console.log(data);

@@ -19,14 +19,20 @@ iodeman.config(function($provide) {
 				  	return $http.get(backendURL + 'user');
 			  },
 			  
-			  "createPlanning": function(planning) {
-				  return $http.get(backendURL + 'planning/create', {
-					  		params: planning
-				  });
-			  },
-			  
-			  "listPlanning": function() {
-				  return $http.get(backendURL+ 'planning/list');
+			  "plannings": new function() {
+				  
+				  return {
+					  
+					  "create": function(planning) {
+						  return $http.get(backendURL + 'planning/create', {
+						  		params: planning
+						  });
+					  },
+					  
+					  "list": function() {
+						  return $http.get(backendURL+ 'planning/list');
+					  }
+				  }
 			  }
 			  
 		  }
