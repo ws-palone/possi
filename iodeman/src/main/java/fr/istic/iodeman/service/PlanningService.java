@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
@@ -16,7 +17,7 @@ public interface PlanningService {
 	
 	public Planning findById(Integer id);
 	
-	public Planning create(String name, TimeBox period, Integer oralDefenseDuration, 
+	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, 
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms);

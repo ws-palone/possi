@@ -1,5 +1,7 @@
 package fr.istic.iodeman.service;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 
 import org.joda.time.DateTime;
@@ -14,11 +16,10 @@ import org.mockito.MockitoAnnotations;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.dao.PlanningDAO;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
-
-import static org.junit.Assert.*;
 
 public class TestPlanningService {
 
@@ -60,14 +61,18 @@ public class TestPlanningService {
 		Room room2 = new Room();
 		room2.setName("i60");
 		
+		Person admin = new Person();
+		admin.setUid("dcertain");
+		
 		Collection<Room> rooms = Lists.newArrayList(room1, room2);
 		
-		planningService.create(name, period, oralDefenseDuration, oralDefenseInterlude, lunchBreak, dayPeriod, nbMaxOralDefensePerDay, rooms);
+		planningService.create(admin, name, period, oralDefenseDuration, oralDefenseInterlude, lunchBreak, dayPeriod, nbMaxOralDefensePerDay, rooms);
 		
 		ArgumentCaptor<Planning> argument = ArgumentCaptor.forClass(Planning.class);
 		Mockito.verify(planningDAO).persist(argument.capture());
 		
 		Planning p = argument.getValue();
+		assertEquals(admin, p.getAdmin());
 		assertEquals(name, p.getName());
 		assertEquals(period, p.getPeriod());
 		assertEquals(oralDefenseDuration, p.getOralDefenseDuration());

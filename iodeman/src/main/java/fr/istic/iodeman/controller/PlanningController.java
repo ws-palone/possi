@@ -17,9 +17,12 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
+import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.service.PlanningService;
@@ -34,6 +37,9 @@ public class PlanningController {
 
 	@Autowired
 	private PlanningService planningService;
+	
+	@Autowired
+	private SessionComponent session;
 	
 	@RequestMapping("/list")
 	public List<Planning> listAll(){
@@ -63,6 +69,11 @@ public class PlanningController {
 			) {
 		
 		//URL_TEST : http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/planning/create?name=toto&periodStart=2015-01-01&periodEnd=2015-01-07&oralDefenseDuration=60&oralDefenseInterlude=15&lunchBreakStart=12:15&lunchBreakEnd=14:00&dayPeriodStart=08:00&dayPeriodEnd=18:15&nbMaxOralDefensePerDay=6&rooms=i51
+		
+		// check if the current user is a teacher
+		Person user = session.getUser();
+		Validate.notNull(user);
+		//Validate.isTrue(user.getRole() == Role.PROF);
 		
 		Collection<Room> roomsCollection = Collections2.transform(rooms, new Function<String, Room>() {
 			@Override
@@ -95,7 +106,7 @@ public class PlanningController {
 					.toDate()
 		);
 		
-		return planningService.create(name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
+		return planningService.create(user, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
 	}
 	
 	@RequestMapping("/update")
@@ -116,6 +127,11 @@ public class PlanningController {
 		
 		Planning planning = planningService.findById(planningID);
 		Validate.notNull(planning);
+		
+		// check if the current user is the admin of this planning
+		Person user = session.getUser();
+		Validate.notNull(user);
+		Validate.isTrue(planning.getAdmin().equals(user));
 		
 		Collection<Room> roomsCollection = null;
 		

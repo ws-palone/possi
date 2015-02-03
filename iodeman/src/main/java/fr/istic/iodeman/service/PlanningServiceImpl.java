@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
@@ -39,11 +40,12 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningDAO.findById(id);
 	}
 	
-	public Planning create(String name, TimeBox period, Integer oralDefenseDuration, 
+	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, 
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms) {
 		
+		Validate.notNull(admin);
 		Validate.notEmpty(name);
 		Validate.notNull(period);
 		Validate.notNull(oralDefenseDuration);
@@ -57,6 +59,7 @@ public class PlanningServiceImpl implements PlanningService {
 		}
 		
 		Planning planning = new Planning();
+		planning.setAdmin(admin);
 		planning.setName(name);
 		planning.setPeriod(period);
 		planning.setOralDefenseDuration(oralDefenseDuration);
