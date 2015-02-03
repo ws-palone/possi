@@ -75,24 +75,24 @@ public class PlanningController {
 		
 		TimeBox dayPeriod = new TimeBox(
 				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(dayPeriodStart).getHourOfDay())
 					.withMinuteOfHour(new DateTime(dayPeriodStart).getMinuteOfHour())
-					.withSecondOfMinute(new DateTime(dayPeriodStart).getSecondOfMinute())
 					.toDate(),
 				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(dayPeriodEnd).getHourOfDay())
 					.withMinuteOfHour(new DateTime(dayPeriodEnd).getMinuteOfHour())
-					.withSecondOfMinute(new DateTime(dayPeriodEnd).getSecondOfMinute())
 					.toDate()
 		);
 		
 		TimeBox lunch = new TimeBox(
-			new DateTime(periodStart)
-				.withMinuteOfHour(new DateTime(lunchBreakStart).getMinuteOfHour())
-				.withSecondOfMinute(new DateTime(lunchBreakStart).getSecondOfMinute())
-				.toDate(),
-			new DateTime(periodStart)
-				.withMinuteOfHour(new DateTime(lunchBreakEnd).getMinuteOfHour())
-				.withSecondOfMinute(new DateTime(lunchBreakEnd).getSecondOfMinute())
-				.toDate()
+				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(lunchBreakStart).getHourOfDay())
+					.withMinuteOfHour(new DateTime(lunchBreakStart).getMinuteOfHour())
+					.toDate(),
+				new DateTime(periodStart)
+					.withHourOfDay(new DateTime(lunchBreakEnd).getHourOfDay())
+					.withMinuteOfHour(new DateTime(lunchBreakEnd).getMinuteOfHour())
+					.toDate()
 		);
 		
 		return planningService.create(name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
