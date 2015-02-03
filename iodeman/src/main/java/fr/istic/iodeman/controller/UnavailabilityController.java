@@ -13,7 +13,7 @@ import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.service.UnavailabilityService;
 
 
-@RequestMapping("/unavailability") 
+@RequestMapping("/unavailabilities") 
 @RestController
 public class UnavailabilityController {
 	
@@ -24,9 +24,7 @@ public class UnavailabilityController {
 	public List<Unavailability> findById(@PathVariable("id") Integer id, @RequestParam("person") Integer idperson ){
 		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
 		unavailabilities = unavailabilityService.findById(id, idperson);
-		
-		
-		
+
 		return unavailabilities;
 	}
 
