@@ -64,7 +64,7 @@ public class Planning{
 	private Collection<Participant> participants;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Priority> priorities;
 	
 	@JsonIgnore

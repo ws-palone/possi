@@ -12,6 +12,7 @@ import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.resolver.PersonMailResolver;
@@ -129,5 +130,10 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningDAO.findParticipants(planning);
 	}
 
+	@Override
+	public Collection<Priority> findPriorities(Planning planning) {
+		return planningDAO.findPriorities(planning);
+	}
 
+	
 }
