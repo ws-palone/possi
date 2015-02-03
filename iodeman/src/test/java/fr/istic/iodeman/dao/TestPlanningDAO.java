@@ -36,11 +36,7 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	
 	@Before
 	public void setUp(){
-		// instanciate the DAO
-		//planningDAO = new PlanningDAOImpl();
-		
-		
-		
+
 		// creation of a list of planning
 		plannings = new ArrayList<Planning>();
 		

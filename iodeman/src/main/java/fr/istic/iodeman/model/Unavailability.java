@@ -19,6 +19,9 @@ public class Unavailability {
 	@ManyToOne
 	private Person person;
 	
+	@ManyToOne
+	private Planning planning;
+
 	@Embedded
 	@AttributeOverrides( {
 		@AttributeOverride(name = "from", column = @Column(name = "period_from")),
@@ -47,6 +50,13 @@ public class Unavailability {
 	
 	public void setPeriod(TimeBox period) {
 		this.period = period;
+	}
+	
+	public Planning getPlanning() {
+		return planning;
+	}
+	public void setPlanning(Planning planning) {
+		this.planning = planning;
 	}
 	
 }

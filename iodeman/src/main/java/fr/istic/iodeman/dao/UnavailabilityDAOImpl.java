@@ -1,11 +1,15 @@
 package fr.istic.iodeman.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Unavailability;
 
 @Repository
@@ -61,6 +65,25 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		for (Unavailability entity : entityList) {
 			delete(entity);
 		}
+	}
+
+	public List<Unavailability> findById(Integer idPlanning, Integer uid) {
+		Session session = getNewSession();
+		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
+		Criteria criteria = session.createCriteria(Unavailability.class);
+		criteria.createAlias("planning", "plan");
+		criteria.createAlias("plan.id", "planningId");
+		criteria.createAlias("person", "pers");
+		criteria.createAlias("pers.id", "personId");		
+		
+		criteria.add(Restrictions.eq("personId", uid));
+		criteria.add(Restrictions.eq("planningId", idPlanning));
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		unavailabilities = criteria.list();
+		session.close();
+		return unavailabilities;
 	}
 
 }
