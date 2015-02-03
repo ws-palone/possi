@@ -63,6 +63,14 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 		$scope.planning.lunchBreakEnd = inputLunchBreakEnd.val();
 		
 		console.log($scope.planning);
+		
+		var createRequest = backend.createPlanning($scope.planning);
+		createRequest.success(function(data) {
+			console.log('planning created!');
+		});
+		createRequest.error(function(data) {
+			console.log('error. cannot create planning!');
+		});
 	};
 	
 });
