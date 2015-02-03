@@ -1,5 +1,7 @@
 package fr.istic.iodeman.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,12 @@ public class RoomServiceImpl implements RoomService {
 		
 		return room;
 		
+	}
+
+	@Override
+	public List<Room> findAll() {
+		// TODO Auto-generated method stub
+		return roomDAO.findAll();
 	}
 
 }
