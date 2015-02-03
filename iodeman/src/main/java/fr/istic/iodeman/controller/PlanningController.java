@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,8 +72,28 @@ public class PlanningController {
 		});
 		
 		TimeBox period = new TimeBox(periodStart, periodEnd);
-		TimeBox lunch = new TimeBox(lunchBreakStart, lunchBreakEnd);
-		TimeBox dayPeriod = new TimeBox(dayPeriodStart, dayPeriodEnd);
+		
+		TimeBox dayPeriod = new TimeBox(
+				new DateTime(periodStart)
+					.withMinuteOfHour(new DateTime(dayPeriodStart).getMinuteOfHour())
+					.withSecondOfMinute(new DateTime(dayPeriodStart).getSecondOfMinute())
+					.toDate(),
+				new DateTime(periodStart)
+					.withMinuteOfHour(new DateTime(dayPeriodEnd).getMinuteOfHour())
+					.withSecondOfMinute(new DateTime(dayPeriodEnd).getSecondOfMinute())
+					.toDate()
+		);
+		
+		TimeBox lunch = new TimeBox(
+			new DateTime(periodStart)
+				.withMinuteOfHour(new DateTime(lunchBreakStart).getMinuteOfHour())
+				.withSecondOfMinute(new DateTime(lunchBreakStart).getSecondOfMinute())
+				.toDate(),
+			new DateTime(periodStart)
+				.withMinuteOfHour(new DateTime(lunchBreakEnd).getMinuteOfHour())
+				.withSecondOfMinute(new DateTime(lunchBreakEnd).getSecondOfMinute())
+				.toDate()
+		);
 		
 		return planningService.create(name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
 	}
