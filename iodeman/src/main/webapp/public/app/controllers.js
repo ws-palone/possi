@@ -129,6 +129,8 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 
 iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	
+	$scope.id = $routeParams.id;
+	
 	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
 		
