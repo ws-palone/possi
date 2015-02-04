@@ -78,14 +78,14 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			$scope.planning = {
 					planningID: data.id, 
 					name: data.name,
-					periodStart: data.period.from,
-					periodEnd: data.period.to,
+					periodStart: Date.create(data.period.from).format('{yyyy}-{MM}-{dd}'),
+					periodEnd: Date.create(data.period.to).format('{yyyy}-{MM}-{dd}'),
 					oralDefenseDuration: data.oralDefenseDuration,
 					oralDefenseInterlude: data.oralDefenseInterlude,
-					lunchBreakStart: data.lunchBreak.from,
-					lunchBreakEnd: data.lunchBreak.to,
-					dayPeriodStart: data.dayPeriod.from,
-					dayPeriodEnd: data.dayPeriod.to,
+					lunchBreakStart: Date.create(data.lunchBreak.from).format('{hh}:{mm}'),
+					lunchBreakEnd: Date.create(data.lunchBreak.to).format('{hh}:{mm}'),
+					dayPeriodStart: Date.create(data.dayPeriod.from).format('{hh}:{mm}'),
+					dayPeriodEnd: Date.create(data.dayPeriod.to).format('{hh}:{mm}'),
 					nbMaxOralDefensePerDay: data.nbMaxOralDefensePerDay,
 					rooms: data.rooms.map(function(r) {
 						return r.name;
