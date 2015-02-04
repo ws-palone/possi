@@ -11,6 +11,10 @@ iodeman.config(['$routeProvider',
         	templateUrl: 'createPlanning.html'
         })
         
+        .when('/update/:id', {
+        	templateUrl: 'createPlanning.html'
+        })
+        
         .when('/planning/:id', {
         	templateUrl: 'planning.html'
         })

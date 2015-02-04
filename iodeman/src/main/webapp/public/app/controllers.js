@@ -30,7 +30,9 @@ iodeman.controller('homeController', function($scope, backend) {
 	
 });
 
-iodeman.controller('PlanningFormController', function($scope, backend) {
+iodeman.controller('PlanningFormController', function($scope, backend, $routeParams) {
+	
+	$scope.id = $routeParams.id;
 	
 	var inputStartingDate = $('#startingDate');
 	var inputEndingDate = $('#endingDate');
@@ -67,6 +69,31 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 			nbMaxOralDefensePerDay: '',
 			rooms: ''
 	};
+	
+	if ($scope.id != null) {
+		var planningRequest = backend.plannings.find($scope.id);
+		planningRequest.success(function(data) {
+			console.log("planning:");
+			console.log(data);
+			$scope.planning = {
+					planningID: data.id, 
+					name: data.name,
+					periodStart: data.period.from,
+					periodEnd: data.period.to,
+					oralDefenseDuration: data.oralDefenseDuration,
+					oralDefenseInterlude: data.oralDefenseInterlude,
+					lunchBreakStart: data.lunchbreak.from,
+					lunchBreakEnd: data.lunchBreak.to,
+					dayPeriodStart: data.dayPeriod.from,
+					dayPeriodEnd: data.dayPeriod.to,
+					nbMaxOralDefensePerDay: data.nbMaxOralDefensePerDay,
+					rooms: data.rooms.map(function(r) {
+						return r.name;
+					})
+			};
+			$scope.$apply();
+		});
+	}
 	
 	$scope.submit = function() {
 		
