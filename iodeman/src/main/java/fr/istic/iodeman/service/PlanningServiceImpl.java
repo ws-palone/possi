@@ -8,6 +8,7 @@ import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.istic.iodeman.dao.ParticipantDAO;
 import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.model.Participant;
@@ -25,6 +26,9 @@ public class PlanningServiceImpl implements PlanningService {
 
 	@Autowired
 	private PlanningDAO planningDAO;
+	
+	@Autowired
+	private ParticipantDAO participantDAO;
 	
 	@Autowired
 	private PersonMailResolver personResolver;
@@ -120,6 +124,10 @@ public class PlanningServiceImpl implements PlanningService {
 		ParticipantsImport participantsImport = new ParticipantsExcelImport();
 		participantsImport.configure(personResolver);
 		Collection<Participant> participants = participantsImport.execute(file);
+		
+		for(Participant p : participants){
+			participantDAO.persist(p);
+		}
 		
 		planning.setParticipants(participants);
 		
