@@ -153,7 +153,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 		
 		if ($scope.newRoom != '' && $scope.newRoom != null) {
 			
-			var createRoomRequest = backend.rooms.create(newRoom.name);
+			var createRoomRequest = backend.rooms.create($scope.newRoom.name);
 			createRoomRequest.success(function (data) {
 				console.log("room created!");
 				console.log(data);
