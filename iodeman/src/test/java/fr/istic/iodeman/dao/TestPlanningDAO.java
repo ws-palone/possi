@@ -37,7 +37,9 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	
 	@Before
 	public void setUp(){
-
+		
+		clearDB();
+		
 		// creation of a list of planning
 		plannings = new ArrayList<Planning>();
 		
@@ -87,6 +89,10 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	
 	@After
 	public void after(){
+		clearDB();
+	}
+	
+	private void clearDB() {
 		// removing of all planning
 		planningDAO.deleteAll();
 		participantDAO.deleteAll();
