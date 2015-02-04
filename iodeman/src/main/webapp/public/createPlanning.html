@@ -5,7 +5,9 @@
 		</div>
 	</div>
 
-	<span id="formLabel" style="display:hidden"></span>
+	<div ng-show="showError" class="alert alert-danger" role="alert">
+		Impossible de créer le planning. Vérifiez la cohérence de vos données.
+	</div>
 
 	<div class="row">
 		<div class="col-md-8">

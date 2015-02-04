@@ -52,6 +52,8 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 	inputLunchBreakStart.timepicker();
 	inputLunchBreakEnd.timepicker();
 	
+	$scope.showError = false;
+	
 	$scope.planning = {
 			name: '',
 			periodStart: '',
@@ -80,10 +82,11 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 		var createRequest = backend.plannings.create($scope.planning);
 		createRequest.success(function(data) {
 			console.log('planning created!');
+			document.location.href = "index.html#/planning"+data.id; 
 		});
 		createRequest.error(function(data) {
-			$("#formLabel").val(data);
-			$("#formLabel").show();
+			$scope.showError = true;
+			$scope.$apply();
 			console.log('error. cannot create planning!');
 		});
 	};
