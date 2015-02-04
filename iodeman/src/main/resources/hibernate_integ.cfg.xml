@@ -8,7 +8,7 @@
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/iodeman</property>
 		<property name="hibernate.connection.username">iodeman</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 
 		<!-- Echo all executed SQL to stdout -->
 		<property name="show_sql">true</property>
