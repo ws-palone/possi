@@ -6,4 +6,6 @@ INSERT INTO `Participant` (`id`, `followingTeacher_id`, `student_id`) VALUES (1,
 INSERT INTO `Planning_Participant` (`Planning_id`, `participants_id`) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6);
 INSERT INTO `Priority` (`id`, `role`, `weight`) VALUES (1, 0, 1), (2, 1, 3);
 INSERT INTO `Planning_Priority` (`Planning_id`, `priorities_id`) VALUES ('1', '1'), ('1', '2');
+INSERT INTO `Planning_Room` (`Planning_id`, `rooms_id`) VALUES ('1', '1'), ('1', '2');
+
 
