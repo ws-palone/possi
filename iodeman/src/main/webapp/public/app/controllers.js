@@ -190,11 +190,12 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	$scope.submit = function() {
 		
 		var roomsChecked = $scope.rooms.find(function(r) {
-			return r.isChecked;
+			return r.isChecked == true;
 		});
 		
-		var roomsNames = roomsChecked.map(function(r) {
-			return r.name;
+		var roomsNames = [];
+		roomsChecked.each(function(r) {
+			roomsNames.add(r.name);
 		});
 		
 		var updateRequest = backend.planning.update({
