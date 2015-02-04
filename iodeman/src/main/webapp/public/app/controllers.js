@@ -131,18 +131,32 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	
 	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
+		
 		console.log("planning:");
 		console.log(data);
 		$scope.planning = data;
 		$scope.$apply();
-	});
 	
-	var roomsRequest = backend.rooms.list();
-	roomsRequest.success(function(data) {
-		console.log("rooms:");
-		console.log(data);
-		$scope.rooms = data;
-		$scope.$apply();
+		var roomsRequest = backend.rooms.list();
+		roomsRequest.success(function(data) {
+			console.log("rooms:");
+			console.log(data);
+			$scope.rooms = data.sortBy(function(r) {
+				return r.name;
+			});
+			$scope.rooms.each(function(room) {
+				var match = $scope.rooms.find(function(r) {
+					return r.name == room.name;
+				});
+				if (match != null) {
+					room.isChecked = true;
+				}else{
+					room.isChecked = false;
+				}
+			});
+			$scope.$apply();
+		});
+	
 	});
 	
 	$scope.newRoom = {
