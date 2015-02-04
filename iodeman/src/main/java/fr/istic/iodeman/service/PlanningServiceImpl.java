@@ -123,7 +123,7 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		planning.setParticipants(participants);
 		
-		planningDAO.persist(planning);
+		planningDAO.update(planning);
 		
 		return planning;
 	}
