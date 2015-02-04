@@ -36,21 +36,16 @@ public class FileUploadController {
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(outputFile));
                 stream.write(bytes);
                 stream.close();
-//                result =  "Participants ajoutés" + name + "!";
             } catch (Exception e) {
-//            	result =  "Erreur lors du téléchargement du fichier " + name + " => " + e.getMessage();
             	e.printStackTrace();
             }
-        } else {
-//        	result =  "Erreur car votre fichier " + name + " est vide";
         }
     	
     	// on l'envoie au service
     	Planning planning = planningService.findById(new Integer(planningId));
     	try {
-			Planning filledPlanning = planningService.importPartcipants(planning, outputFile);
+			planningService.importPartcipants(planning, outputFile);
 		} catch (Exception e) {
-//			result =  "Erreur lors de l'import des participants : ";
 			e.printStackTrace();
 			// affcher erreur de format
 		} finally {
