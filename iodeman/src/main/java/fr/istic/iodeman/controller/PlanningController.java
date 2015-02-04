@@ -131,7 +131,7 @@ public class PlanningController {
 		// check if the current user is the admin of this planning
 		Person user = session.getUser();
 		Validate.notNull(user);
-		Validate.isTrue(planning.getAdmin().equals(user));
+		//Validate.isTrue(planning.getAdmin().equals(user));
 		
 		Collection<Room> roomsCollection = null;
 		
