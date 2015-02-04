@@ -147,7 +147,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				return r.name;
 			});
 			$scope.rooms.each(function(room) {
-				var match = $scope.rooms.find(function(r) {
+				var match = $scope.planning.rooms.find(function(r) {
 					return r.name == room.name;
 				});
 				if (match != null) {
