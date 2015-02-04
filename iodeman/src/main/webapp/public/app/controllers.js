@@ -101,13 +101,11 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-	var planningRequest = backend.plannings.list();
+	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
-		console.log("plannings:");
+		console.log("planning:");
 		console.log(data);
-		$scope.planning = data.find(function(p) {
-			return p.id == $scope.id;
-		});
+		$scope.planning = data;
 		$scope.$apply();
 	});
 	
