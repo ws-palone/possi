@@ -91,6 +91,18 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 						return r.name;
 					})
 			};
+			inputDayPeriodStart.timepicker({ 
+				defaultTime: $scope.planning.dayPeriodStart 
+			});
+			inputDayPeriodEnd.timepicker({ 
+				defaultTime: $scope.planning.dayPeriodEnd 
+			});
+			inputLunchBreakStart.timepicker({ 
+				defaultTime: $scope.planning.lunchBreakStart 
+			});
+			inputLunchBreakEnd.timepicker({ 
+				defaultTime: $scope.planning.lunchBreakEnd 
+			});
 			$scope.$apply();
 		});
 	}
