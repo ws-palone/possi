@@ -15,7 +15,7 @@ import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.service.UnavailabilityService;
 
 
-@RequestMapping("/unavailabilities") 
+@RequestMapping("/unavailability") 
 @RestController
 public class UnavailabilityController {
 	
