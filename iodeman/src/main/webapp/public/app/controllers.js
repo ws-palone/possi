@@ -201,7 +201,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 			return r.name;
 		});
 		
-		var updateRequest = backend.planning.update({
+		var updateRequest = backend.plannings.update({
 			rooms: roomsNames
 		});
 		updateRequest.success(function(data) {
