@@ -41,6 +41,26 @@ iodeman.config(function($provide) {
 						  return $http.get(backendURL + 'planning/'+id+'/participants')
 					  }
 				  }
+			  },
+			  
+			  "rooms": new function() {
+				  
+				  return {
+					  
+					  "create": function(name) {
+						  return $http.get(backendURL + 'room/create', {
+							 params: {
+								 name: name
+							 } 
+						  });
+					  },
+					  
+					  "list": function() {
+						  return $http.get(backendURL + 'room/list');
+					  }
+					  
+				  }
+				  
 			  }
 			  
 		  }

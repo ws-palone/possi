@@ -126,3 +126,49 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	});
 	
 });
+
+iodeman.controller('roomsController', function($scope, backend, $routeParams) {
+	
+	var planningRequest = backend.plannings.find($scope.id);
+	planningRequest.success(function(data) {
+		console.log("planning:");
+		console.log(data);
+		$scope.planning = data;
+		$scope.$apply();
+	});
+	
+	var roomsRequest = backend.rooms.list();
+	roomsRequest.success(function(data) {
+		console.log("rooms:");
+		console.log(data);
+		$scope.rooms = data;
+		$scope.$apply();
+	});
+	
+	$scope.newRoom = {
+			name: ''
+	};
+	
+	$scope.addRoom = function() {
+		
+		if ($scope.newRoom != '' && $scope.newRoom != null) {
+			
+			var createRoomRequest = backend.rooms.create(newRoom.name);
+			createRoomRequest.success(function (data) {
+				console.log("room created!");
+				console.log(data);
+				var room = $scope.rooms.find(function(r) {
+					return r.name == data.name;
+				});
+				if (room == null) {
+					$scope.rooms.add(data);
+				}
+				$scope.newRoom.name = '';
+				$scope.$apply();
+			});
+			
+		}
+		
+	};
+	
+});
