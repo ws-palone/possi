@@ -29,6 +29,10 @@ iodeman.config(function($provide) {
 						  });
 					  },
 					  
+					  "find": function(id) {
+						  return $http.get(backendURL + 'planning/find/'+id);
+					  },
+					  
 					  "list": function() {
 						  return $http.get(backendURL + 'planning/list');
 					  },
