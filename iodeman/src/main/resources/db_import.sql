@@ -4,4 +4,6 @@ INSERT INTO `Person` (`id`, `email`, `firstName`, `lastName`, `promo`, `role`, `
 INSERT INTO `Planning` (`id`, `dayPeriod_from`, `dayPeriod_to`, `lunchBreak_from`, `lunchBreak_to`, `name`,`nbMaxOralDefensePerDay`,`oralDefenseDuration`, `oralDefenseInterlude`, `period_from`, `period_to`, `admin_id`) VALUES (1, '2015-02-04 08:00:00', '2015-02-04 18:15:00', '2015-02-04 12:15:00', '2015-02-04 14:00:00', 'M2 MIAGE VET', NULL, 20, NULL, '2015-02-04 00:00:00', '2015-02-12 00:00:00', 3);
 INSERT INTO `Participant` (`id`, `followingTeacher_id`, `student_id`) VALUES (1, 3, 2), (2, 4, 1), (3, 6, 5), (4, 4, 7), (5, 3, 8), (6, 10, 9);
 INSERT INTO `Planning_Participant` (`Planning_id`, `participants_id`) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6);
+INSERT INTO `Priority` (`id`, `role`, `weight`) VALUES (1, 0, 1), (2, 1, 3);
+INSERT INTO `Planning_Priority` (`Planning_id`, `priorities_id`) VALUES ('1', '1'), ('1', '2');
 
