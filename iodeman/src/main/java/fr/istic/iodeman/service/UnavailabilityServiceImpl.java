@@ -51,5 +51,17 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		
 		return unavailability;
 	}
+
+	@Override
+	public Unavailability delete(Integer id) {
+		Validate.notNull(id);
+		
+		Unavailability unavailability = unavailabilityDAO.findById(id);
+		Validate.notNull(unavailability);
+		
+		unavailabilityDAO.delete(unavailability);
+		
+		return unavailability;
+	}
 	
 }

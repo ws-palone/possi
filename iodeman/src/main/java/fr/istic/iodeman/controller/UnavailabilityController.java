@@ -30,6 +30,7 @@ public class UnavailabilityController {
 		return unavailabilities;
 	}
 	
+	// id => Planning id
 	@RequestMapping("/{id}/create/")
 	public Unavailability createUnavailability(
 			@PathVariable("id") Integer id, 
@@ -43,6 +44,15 @@ public class UnavailabilityController {
 				new DateTime(periodEnd).toDate());
 		
 		Unavailability unavailability = unavailabilityService.create(id, uidperson, period);
+		
+		return unavailability;
+	}
+	
+	// id => Unavailability id
+	@RequestMapping("/{id}/delete/")
+	public Unavailability deleteUnavailability(@PathVariable("id") Integer id){
+		
+		Unavailability unavailability = unavailabilityService.delete(id);
 		
 		return unavailability;
 	}
