@@ -1,0 +1,12 @@
+drop table OralDefense_Person;
+drop table Planning_OralDefense;
+drop table OralDefense;
+drop table Planning_Participant;
+drop table Planning_Priority;
+drop table Planning_Room;
+drop table Unavailability;
+drop table Participant;
+drop table Planning;
+drop table Priority;
+drop table Room;
+drop table Person;
