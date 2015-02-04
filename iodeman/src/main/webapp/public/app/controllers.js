@@ -82,7 +82,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 					periodEnd: data.period.to,
 					oralDefenseDuration: data.oralDefenseDuration,
 					oralDefenseInterlude: data.oralDefenseInterlude,
-					lunchBreakStart: data.lunchbreak.from,
+					lunchBreakStart: data.lunchBreak.from,
 					lunchBreakEnd: data.lunchBreak.to,
 					dayPeriodStart: data.dayPeriod.from,
 					dayPeriodEnd: data.dayPeriod.to,
