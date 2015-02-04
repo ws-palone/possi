@@ -82,7 +82,7 @@ iodeman.controller('PlanningFormController', function($scope, backend) {
 		var createRequest = backend.plannings.create($scope.planning);
 		createRequest.success(function(data) {
 			console.log('planning created!');
-			document.location.href = "index.html#/planning"+data.id; 
+			document.location.href = "index.html#/planning/"+data.id; 
 		});
 		createRequest.error(function(data) {
 			$scope.showError = true;
