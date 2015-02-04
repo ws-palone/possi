@@ -7,5 +7,6 @@ INSERT INTO `Planning_Participant` (`Planning_id`, `participants_id`) VALUES (1,
 INSERT INTO `Priority` (`id`, `role`, `weight`) VALUES (1, 0, 1), (2, 1, 3);
 INSERT INTO `Planning_Priority` (`Planning_id`, `priorities_id`) VALUES ('1', '1'), ('1', '2');
 INSERT INTO `Planning_Room` (`Planning_id`, `rooms_id`) VALUES ('1', '1'), ('1', '2');
+INSERT INTO `Unavailability` (`period_from`, `period_to`, `person_id`, `planning_id`) VALUES ('2015-02-04 08:00:00', '2015-02-04 10:00:00', '1', '1'), ('2015-02-04 10:00:00', '2015-02-04 12:00:00', '2', '1');
 
 
