@@ -187,4 +187,30 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 		
 	};
 	
+	$scope.submit = function() {
+		
+		var roomsChecked = $scope.rooms.find(function(r) {
+			return r.isChecked;
+		});
+		
+		var roomsNames = roomsChecked.map(function(r) {
+			return r.name;
+		});
+		
+		var updateRequest = backend.planning.update({
+			rooms: roomsNames
+		});
+		updateRequest.success(function(data) {
+			console.log('planning updated!');
+			console.log(data);
+			$scope.planning = data;
+			$scope.$apply();
+		});
+		updateRequest.error(function(data) {
+			console.log('error. unable to update the planning.');
+			console.log(data);
+		});
+		
+	};
+	
 });

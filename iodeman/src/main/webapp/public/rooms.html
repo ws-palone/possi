@@ -23,7 +23,7 @@
 				<div class="col-md-3">
 				    <div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
 				      <span class="input-group-addon">
-				        <input type="checkbox" aria-label="..." ng-checked="{{ room.isChecked }}" />
+				        <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
 				      </span>
 				      <label class="form-control">{{ room.name }}</label>
 				    </div><!-- /input-group -->
