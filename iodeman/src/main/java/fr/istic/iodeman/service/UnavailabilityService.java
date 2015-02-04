@@ -12,4 +12,6 @@ public interface UnavailabilityService {
 
 	public Unavailability create(Integer id, String uidperson, TimeBox period);
 
+	public Unavailability delete(Integer id);
+
 }

@@ -1,7 +1,6 @@
 package fr.istic.iodeman.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -10,7 +9,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Unavailability;
 
 @Repository
@@ -68,6 +66,7 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Unavailability> findById(Integer idPlanning, String uid) {
 		Session session = getNewSession();
 		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
