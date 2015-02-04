@@ -44,7 +44,9 @@ public class TestUnavailabilityDAO extends AbstractSpringUnitTest {
 	List<Planning> plannings;
 	
 	@Before
-	public void setUp(){		
+	public void setUp() {		
+		
+		clearDB();
 		
 		persons = new ArrayList<Person>();
 		unavailabilities = new ArrayList<Unavailability>();
@@ -84,6 +86,11 @@ public class TestUnavailabilityDAO extends AbstractSpringUnitTest {
 	@After
 	public void after(){
 
+		clearDB();
+	}
+	
+	private void clearDB() {
+		
 		unavailabilityDAO.deleteAll();
 		planningDAO.deleteAll();
 		participantDAO.deleteAll();
