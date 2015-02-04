@@ -30,7 +30,7 @@ public class UnavailabilityController {
 		return unavailabilities;
 	}
 	
-	@RequestMapping("/{id}/create")
+	@RequestMapping("/{id}/create/")
 	public Unavailability createUnavailability(
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
