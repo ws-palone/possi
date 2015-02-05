@@ -61,7 +61,8 @@ public class UnavailabilityController {
 	
 	@RequestMapping("/agenda/{planningId}/{personId}")
 	public Collection<AgendaDTO> exportAgenda(@PathVariable("planningId") Integer planningId, @PathVariable("personId") Integer personId){
-		return null;
+		Collection<AgendaDTO> agendaDtos = new ArrayList<AgendaDTO>();
+		return agendaDtos;
 	}
 
 }
