@@ -269,7 +269,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	
 });
 
-iodeman.controller('prioritiesController', function($scope, backend, $routeParams) {
+iodeman.controller('prioritiesController', function($scope, backend, $routeParams, $location) {
 	
 	$scope.id = $routeParams.id;
 	
