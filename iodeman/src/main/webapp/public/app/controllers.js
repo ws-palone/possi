@@ -303,6 +303,7 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		postRequest.success(function (data) {
 			console.log("priorities updated!");
 			console.log(data);
+			$location.path('/planning/'+$scope.planning.id);
 
 		});
 		postRequest.error(function(data) {
