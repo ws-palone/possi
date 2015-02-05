@@ -5,3 +5,6 @@
 /.classpath
 
 hibernate.cfg.xml
+
+# corentin
+deploy.sh
