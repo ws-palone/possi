@@ -8,9 +8,14 @@ import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+
 import fr.istic.iodeman.dao.ParticipantDAO;
 import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
+import fr.istic.iodeman.dao.PriorityDAO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
@@ -29,6 +34,9 @@ public class PlanningServiceImpl implements PlanningService {
 	
 	@Autowired
 	private ParticipantDAO participantDAO;
+	
+	@Autowired
+	private PriorityDAO priorityDAO;
 	
 	@Autowired
 	private PersonMailResolver personResolver;
@@ -144,6 +152,27 @@ public class PlanningServiceImpl implements PlanningService {
 	@Override
 	public Collection<Priority> findPriorities(Planning planning) {
 		return planningDAO.findPriorities(planning);
+	}
+
+	@Override
+	public Collection<Priority> updatePriorities(Planning planning,
+			Collection<Priority> priorities) {
+		
+		for(final Priority priority : priorities) {
+			Collection<Priority> result = Collections2.filter(planning.getPriorities(), new Predicate<Priority>() {
+				@Override
+				public boolean apply(Priority p) {
+					return p.getId().equals(priority.getId());
+				}
+			});
+			if (result != null && result.size() > 0) {
+				Priority p = Lists.newArrayList(result).get(0);
+				p.setWeight(priority.getWeight());
+				priorityDAO.update(priority);
+			}
+		}
+		
+		return planning.getPriorities();
 	}
 
 	

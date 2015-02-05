@@ -269,7 +269,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	
 });
 
-iodeman.controller('prioritiesController', function($scope, backend, $routeParams) {
+iodeman.controller('prioritiesController', function($scope, backend, $routeParams, $location) {
 	
 	$scope.id = $routeParams.id;
 	
@@ -292,5 +292,25 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		});
 		
 	});
+	
+	$scope.submit = function() {
+		
+		if ($scope.planning == null) {
+			return;
+		}
+		
+		var postRequest = backend.plannings.updatePriorities($scope.id, $scope.planning.priorities);
+		postRequest.success(function (data) {
+			console.log("priorities updated!");
+			console.log(data);
+			$location.path('/planning/'+$scope.planning.id).replace();
+
+		});
+		postRequest.error(function(data) {
+			console.log("error. cannot update priorities");
+			console.log(data);
+		});
+		
+	};
 	
 });

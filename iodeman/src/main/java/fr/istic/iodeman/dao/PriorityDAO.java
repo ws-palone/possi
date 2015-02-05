@@ -8,11 +8,13 @@ public interface PriorityDAO {
 
 	public List<Priority> findAll();
 
-	public void persist(Priority prio);
+	public void persist(Priority priority);
+	
+	public void update(Priority priority);
 
 	public Priority findById(int ID);
 
-	public void delete(Priority prio);
+	public void delete(Priority priority);
 
 	public void deleteAll();
 

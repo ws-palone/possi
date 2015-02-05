@@ -26,6 +26,21 @@ public class PriorityDAOImpl extends AbstractHibernateDAO implements PriorityDAO
 			session.close();
 		}
 	}
+	
+	public void update(Priority priority) {
+		Session session = getNewSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.update(priority);
+			session.getTransaction().commit();	
+		} catch (Exception e){
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 
 	public Priority findById(int id) {
 		Session session = getNewSession();

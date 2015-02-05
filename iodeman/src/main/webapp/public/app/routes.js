@@ -27,6 +27,10 @@ iodeman.config(['$routeProvider',
         	templateUrl: 'priorities.html'
         })
         
+        .when('/agenda/:id', {
+        	templateUrl: 'agenda.html'
+        })
+        
         .otherwise({
         	redirectTo: '/home'
         });

@@ -9,7 +9,9 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +24,6 @@ import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.service.PlanningService;
@@ -176,6 +177,17 @@ public class PlanningController {
 		
 		return Lists.newArrayList();
 		
+	}
+	
+	@RequestMapping(value = "/{id}/priorities/update", method = RequestMethod.POST)
+	public Collection<Priority> setPriorities(@PathVariable("id") Integer id, @RequestBody Collection<Priority> priorities) {
+		
+		Planning planning = planningService.findById(id);
+		Validate.notNull(planning);
+		
+		Collection<Priority> results = planningService.updatePriorities(planning, priorities);
+		
+		return results;
 	}
 	
 }
