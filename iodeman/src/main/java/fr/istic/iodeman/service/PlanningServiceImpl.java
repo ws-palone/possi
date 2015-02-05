@@ -162,7 +162,7 @@ public class PlanningServiceImpl implements PlanningService {
 			Collection<Priority> result = Collections2.filter(planning.getPriorities(), new Predicate<Priority>() {
 				@Override
 				public boolean apply(Priority p) {
-					return p.getWeight().equals(priority.getWeight());
+					return p.getId().equals(priority.getId());
 				}
 			});
 			if (result != null && result.size() > 0) {
