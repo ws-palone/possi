@@ -23,6 +23,10 @@ iodeman.config(['$routeProvider',
         	templateUrl: 'rooms.html'
         })
 
+        .when('/priorities/:id', {
+        	templateUrl: 'priorities.html'
+        })
+        
         .otherwise({
         	redirectTo: '/home'
         });

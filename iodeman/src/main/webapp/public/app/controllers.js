@@ -54,6 +54,16 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	inputLunchBreakStart.timepicker();
 	inputLunchBreakEnd.timepicker();
 	
+	$(".spinner").TouchSpin({
+		min: 0, // Minimum value.
+		max: 500, // Maximum value.
+		boostat: 5, // Boost at every nth step.
+		maxboostedstep: 10, // Maximum step when boosted.
+		step: 1, // Incremental/decremental step on up/down change.
+		stepinterval: 100, // Refresh rate of the spinner in milliseconds.
+		stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
+	});
+	
 	$scope.showError = false;
 	
 	$scope.planning = {
@@ -256,5 +266,31 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 		});
 		
 	};
+	
+});
+
+iodeman.controller('prioritiesController', function($scope, backend, $routeParams) {
+	
+	$scope.id = $routeParams.id;
+	
+	var planningRequest = backend.plannings.find($scope.id);
+	planningRequest.success(function(data) {
+		
+		console.log("planning:");
+		console.log(data);
+		$scope.planning = data;
+		$scope.$apply();
+		
+	});
+	
+	$(".spinner").TouchSpin({
+		min: 1, // Minimum value.
+		max: 500, // Maximum value.
+		boostat: 5, // Boost at every nth step.
+		maxboostedstep: 10, // Maximum step when boosted.
+		step: 1, // Incremental/decremental step on up/down change.
+		stepinterval: 100, // Refresh rate of the spinner in milliseconds.
+		stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
+	});
 	
 });

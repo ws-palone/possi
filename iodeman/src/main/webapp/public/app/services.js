@@ -44,8 +44,13 @@ iodeman.config(function($provide) {
 					  },
 					  
 					  "getParticipants": function(id) {
-						  return $http.get(backendURL + 'planning/'+id+'/participants')
+						  return $http.get(backendURL + 'planning/'+id+'/participants');
+					  },
+					  
+					  "getPriorities": function(id) {
+						  return $http.get(backendURL + 'planning/'+id+'/priorities');
 					  }
+					  
 				  }
 			  },
 			  
