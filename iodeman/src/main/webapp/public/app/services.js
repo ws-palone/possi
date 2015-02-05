@@ -49,7 +49,14 @@ iodeman.config(function($provide) {
 					  
 					  "getPriorities": function(id) {
 						  return $http.get(backendURL + 'planning/'+id+'/priorities');
-					  }
+					  },
+					  
+					  "updatePriorities": function (id, priorities) {
+						  return $http.post(
+								  backendURL + 'planning/'+id+'/priorities/update', 
+								  priorities
+						  );
+					}
 					  
 				  }
 			  },

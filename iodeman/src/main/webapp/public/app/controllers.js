@@ -293,4 +293,23 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		
 	});
 	
+	$scope.submit = function() {
+		
+		if ($scope.planning == null) {
+			return;
+		}
+		
+		var postRequest = backend.plannings.updatePriorities($scope.id, $scope.planning.priorities);
+		postRequest.success(function (data) {
+			console.log("priorities updated!");
+			console.log(data);
+
+		});
+		postRequest.error(function(data) {
+			console.log("error. cannot update priorities");
+			console.log(data);
+		});
+		
+	};
+	
 });
