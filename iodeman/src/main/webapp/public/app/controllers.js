@@ -281,16 +281,16 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		$scope.planning = data;
 		$scope.$apply();
 		
-	});
-	
-	$(".spinner").TouchSpin({
-		min: 1, // Minimum value.
-		max: 500, // Maximum value.
-		boostat: 5, // Boost at every nth step.
-		maxboostedstep: 10, // Maximum step when boosted.
-		step: 1, // Incremental/decremental step on up/down change.
-		stepinterval: 100, // Refresh rate of the spinner in milliseconds.
-		stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
+		$(".spinner").TouchSpin({
+			min: 1, // Minimum value.
+			max: 500, // Maximum value.
+			boostat: 5, // Boost at every nth step.
+			maxboostedstep: 10, // Maximum step when boosted.
+			step: 1, // Incremental/decremental step on up/down change.
+			stepinterval: 100, // Refresh rate of the spinner in milliseconds.
+			stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
+		});
+		
 	});
 	
 });
