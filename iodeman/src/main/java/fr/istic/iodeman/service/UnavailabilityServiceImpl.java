@@ -15,6 +15,10 @@ import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.resolver.PersonUidResolver;
+import fr.istic.iodeman.strategy.ExportAgenda;
+import fr.istic.iodeman.strategy.ExportJsonAgenda;
+import fr.istic.iodeman.strategy.PlanningSplitter;
+import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 
 @Service
 public class UnavailabilityServiceImpl implements UnavailabilityService{
@@ -67,9 +71,22 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	}
 
 	@Override
-	public Collection<AgendaDTO> exportAgenda(Planning planning, Person person) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<AgendaDTO> exportAgenda(Integer planningId, String personId) {
+		// retrieving of all unavailabilities of the given person for the given planning
+		List<Unavailability> unavailabilities = this.findById(planningId, personId);
+		
+		// retrieving of the planning 
+		Planning planning = planningDAO.findById(planningId);
+		
+		// generation of all timeboxes for the given planning
+		PlanningSplitter planningSplitter = new PlanningSplitterImpl();
+		Collection<TimeBox> timeboxes = planningSplitter.execute(planning);
+		
+		// 
+		ExportAgenda exportAgenda = new ExportJsonAgenda();
+		Collection<AgendaDTO> agendaDtos = exportAgenda.execute(timeboxes, unavailabilities);
+		
+		return agendaDtos;
 	}
 	
 }

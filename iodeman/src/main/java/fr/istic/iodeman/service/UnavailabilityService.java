@@ -17,6 +17,6 @@ public interface UnavailabilityService {
 
 	public Unavailability delete(Integer id);
 	
-	public Collection<AgendaDTO> exportAgenda(Planning planning, Person person);
+	public Collection<AgendaDTO> exportAgenda(Integer planningId, String personId);
 
 }
