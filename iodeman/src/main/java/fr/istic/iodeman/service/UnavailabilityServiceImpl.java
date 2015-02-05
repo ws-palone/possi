@@ -1,5 +1,6 @@
 package fr.istic.iodeman.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.dao.UnavailabilityDAO;
+import fr.istic.iodeman.dto.AgendaDTO;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.TimeBox;
@@ -62,6 +64,12 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		unavailabilityDAO.delete(unavailability);
 		
 		return unavailability;
+	}
+
+	@Override
+	public Collection<AgendaDTO> exportAgenda(Planning planning, Person person) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
