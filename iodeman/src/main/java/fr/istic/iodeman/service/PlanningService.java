@@ -33,4 +33,6 @@ public interface PlanningService {
 	
 	public Collection<Priority> findPriorities(Planning planning);
 	
+	public Collection<Priority> updatePriorities(Planning planning, Collection<Priority> priorities);
+	
 }
