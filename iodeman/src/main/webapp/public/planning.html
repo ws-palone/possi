@@ -15,11 +15,11 @@
 				<input type="hidden" name="redirectURL" value="/public/index.html#/planning/{{ planning.id }}" />
 			</form>
 			
-			<input type="button" ng-click="importParticipants()" class="btn btn-primary btn-sm" value="Importer participants"/>
-			<a href="index.html#/update/{{ planning.id }}" class="btn btn-primary btn-sm">Modifier</a>
-			<a href="index.html#/rooms/{{ planning.id }}" class="btn btn-primary btn-sm">Gestion des salles</a>
-			<a href="index.html#/priorities/{{ planning.id }}" class="btn btn-primary btn-sm">Gestion des priorités</a>
-			<a href="" class="btn btn-primary btn-sm">Générer planning</a>
+			<input type="button" ng-click="importParticipants()" class="btn btn-danger btn-sm" value="Importer participants"/>
+			<a href="index.html#/update/{{ planning.id }}" class="btn btn-danger btn-sm">Modifier</a>
+			<a href="index.html#/rooms/{{ planning.id }}" class="btn btn-danger btn-sm">Gestion des salles</a>
+			<a href="index.html#/priorities/{{ planning.id }}" class="btn btn-danger btn-sm">Gestion des priorités</a>
+			<a href="{{ fileURL }}" target="_blank" class="btn btn-danger btn-sm">Générer planning</a>
 			
 			<div class="table-responsive" style="margin-top: 20px;">
 				<table class="table table-striped table-bordered table-hover">

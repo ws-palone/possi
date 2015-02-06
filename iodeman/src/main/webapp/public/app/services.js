@@ -80,6 +80,10 @@ iodeman.config(function($provide) {
 									'periodEnd': dateEnd
 								 }
 						  });
+					  },
+					  
+					  "exportURL": function (planningID) {
+						  return backend + 'planning/'+planningID+'/export';
 					  }
 					  
 				  }
