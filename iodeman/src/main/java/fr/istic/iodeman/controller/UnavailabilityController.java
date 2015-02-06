@@ -2,10 +2,12 @@ package fr.istic.iodeman.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +39,8 @@ public class UnavailabilityController {
 	public Unavailability createUnavailability(
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
-			@RequestParam("periodStart") Integer periodStart,
-			@RequestParam("periodEnd") Integer periodEnd
+			@RequestParam("periodStart") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodStart,
+			@RequestParam("periodEnd") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodEnd
 			){
 		
 		TimeBox period = new TimeBox(
@@ -63,8 +65,8 @@ public class UnavailabilityController {
 	public Collection<Unavailability> makeAvailable(			
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
-			@RequestParam("periodStart") Integer periodStart,
-			@RequestParam("periodEnd") Integer periodEnd
+			@RequestParam("periodStart") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodStart,
+			@RequestParam("periodEnd") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodEnd
 			){
 		
 		TimeBox timeBox = new TimeBox(
