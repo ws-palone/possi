@@ -63,19 +63,23 @@ iodeman.config(function($provide) {
 					  },
 					  
 					  "addUnavailabiliy": function (planningID, uid, dateStart, dateEnd) {
-						  return $http.get(backendURL + 'unavailability/'+planningID+"/create", {
-							 'person': uid,
-							 'periodStart': dateStart,
-							 'periodEnd': dateEnd
-						  });
+						  return $http.get(backendURL + 'unavailability/'+planningID+"/create", 
+								  params: {
+									  'person': uid,
+									  'periodStart': dateStart,
+									  'periodEnd': dateEnd
+								  }
+						  );
 					  },
 					  
 					  "deleteUnavailability": function(planningID, uid, dateStart, dateEnd)  {
-						  return $http.get(backendURL + 'unavailability/'+planningID+"/delete", {
-								 'person': uid,
-								 'periodStart': dateStart,
-								 'periodEnd': dateEnd
-						  });
+						  return $http.get(backendURL + 'unavailability/'+planningID+"/delete",
+								  params: {
+								 	'person': uid,
+								 	'periodStart': dateStart,
+									'periodEnd': dateEnd
+								 }
+						  );
 					  }
 					  
 				  }
