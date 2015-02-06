@@ -51,12 +51,28 @@ public class UnavailabilityController {
 	}
 	
 	// id => Unavailability id
-	@RequestMapping("/{id}/delete/")
+	@RequestMapping("/delete/{id}/")
 	public Unavailability deleteUnavailability(@PathVariable("id") Integer id){
 		
 		Unavailability unavailability = unavailabilityService.delete(id);
 		
 		return unavailability;
+	}
+	
+	@RequestMapping("/{id}/delete/")
+	public Collection<Unavailability> makeAvailable(			
+			@PathVariable("id") Integer id, 
+			@RequestParam("person") String uidperson,
+			@RequestParam("periodStart") String periodStart,
+			@RequestParam("periodEnd") String periodEnd
+			){
+		
+		TimeBox timeBox = new TimeBox(
+				new DateTime(periodStart).toDate(),
+				new DateTime(periodEnd).toDate()
+		);
+		
+		return unavailabilityService.delete(id, uidperson, timeBox);
 	}
 	
 	@RequestMapping("/agenda/{planningId}/{personId}")
