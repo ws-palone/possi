@@ -337,14 +337,14 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 			d.submit = function() {
 				var request = null;
 				if (d.checked) {
-					request = backend.addUnavailabiliy(
+					request = backend.plannings.addUnavailabiliy(
 							$scope.id, 
 							$scope.uid,
 							d.timebox.from,
 							d.timebox.to
 					);
 				}else{
-					request = backend.deleteUnavailability(
+					request = backend.plannings.deleteUnavailability(
 							$scope.id, 
 							$scope.uid,
 							d.timebox.from,
