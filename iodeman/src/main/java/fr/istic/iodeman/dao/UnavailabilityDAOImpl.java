@@ -86,4 +86,21 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		return unavailabilities;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Unavailability> findByPlanningId(Integer idPlanning) {
+		Session session = getNewSession();
+		List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
+		Criteria criteria = session.createCriteria(Unavailability.class);
+		criteria.createAlias("planning", "planning");
+		
+		criteria.add(Restrictions.eq("planning.id", idPlanning));
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		unavailabilities = criteria.list();
+		session.close();
+		return unavailabilities;
+	}
+
 }

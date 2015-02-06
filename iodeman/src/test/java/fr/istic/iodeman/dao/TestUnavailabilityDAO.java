@@ -127,5 +127,16 @@ public class TestUnavailabilityDAO extends AbstractSpringUnitTest {
 		
 		assertEquals(dtDAO, dt);
 	}
+	
+	@Test
+	public void testFindByPlanningId(){
+		Planning p = plannings.get(0);
+		assertTrue(p!=null);
+		
+		List<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(p.getId());
+		assertTrue(unavailabilities != null);
+		assertTrue(unavailabilities.size() == 1);
+		assertTrue(unavailabilities.get(0).getPerson().getId() == persons.get(0).getId());
+	}
 
 }

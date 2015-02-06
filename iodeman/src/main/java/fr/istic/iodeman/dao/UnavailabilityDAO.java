@@ -1,6 +1,5 @@
 package fr.istic.iodeman.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import fr.istic.iodeman.model.Unavailability;
@@ -18,5 +17,7 @@ public interface UnavailabilityDAO {
 	public void deleteAll();
 
 	public List<Unavailability> findById(Integer idPlanning, String uid);
+	
+	public List<Unavailability> findByPlanningId(Integer idPlanning);
 
 }
