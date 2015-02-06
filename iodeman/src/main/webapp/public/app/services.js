@@ -60,6 +60,22 @@ iodeman.config(function($provide) {
 					  
 					  "getAgenda": function(planningID, uid) {
 						  return $http.get(backendURL + 'unavailability/agenda/'+planningID+'/'+uid);
+					  },
+					  
+					  "addUnavailabiliy": function (planningID, uid, dateStart, dateEnd) {
+						  return $http.get(backendURL + 'unavailability/'+planningID+"/create", {
+							 'person': uid,
+							 'periodStart': dateStart,
+							 'periodEnd': dateEnd
+						  });
+					  },
+					  
+					  "deleteUnavailability": function(planningID, uid, dateStart, dateEnd)  {
+						  return $http.get(backendURL + 'unavailability/'+planningID+"/delete", {
+								 'person': uid,
+								 'periodStart': dateStart,
+								 'periodEnd': dateEnd
+						  });
 					  }
 					  
 				  }

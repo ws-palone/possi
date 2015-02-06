@@ -318,8 +318,9 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 iodeman.controller('agendaController', function($scope, backend, $routeParams, $location) {
 	
 	$scope.id = $routeParams.id;
+	$scope.uid = $scope.$parent.user.uid;
 
-	var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.$parent.user.uid);
+	var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);
 	agendaRequest.success(function (data) {
 		console.log("agenda found!");
 		console.log(data);
@@ -329,6 +330,37 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 				return d.day;
 			});
 		}).flatten().unique();
+		var days = data.map(function(l) {
+			return l.days;
+		}).flatten();
+		days.each(function (d) {
+			d.submit = function() {
+				var request = null;
+				if (d.checked) {
+					request = backend.addUnavailabiliy(
+							$scope.id, 
+							$scope.uid,
+							d.timebox.from,
+							d.timebox.to
+					);
+				}else{
+					request = backend.deleteUnavailability(
+							$scope.id, 
+							$scope.uid,
+							d.timebox.from,
+							d.timebox.to
+					);
+				}
+				request.success(function(data){
+					console.log("unavailabilities updated!");
+					console.log(data);
+				});
+				request.error(function(data){
+					console.log("error. cannot update unavailabilities");
+					console.log(data);
+				});
+			};
+		});
 		$scope.$apply();
 	});
 	agendaRequest.error(function(data) {
