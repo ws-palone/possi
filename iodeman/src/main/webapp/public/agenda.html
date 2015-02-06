@@ -20,17 +20,13 @@
   					</th>
   				</thead>
   				<tbody>
-  					<tr>
-  						<td><button type="button" class="btn btn-default">8h00 - 8h30</button></td>
-  						<td><input type="checkbox" /></td>
-  						<td><input type="checkbox" /></td>
-  						<td><input type="checkbox" /></td>
-  					</tr>
-  					<tr>
-  						<td><button type="button" class="btn btn-default">8h30 - 9h00</button></td>
-  						<td><input type="checkbox" /></td>
-  						<td><input type="checkbox" /></td>
-  						<td><input type="checkbox" /></td>
+  					<tr ng-repeat="entry in agenda">
+  						<td>
+  							<button type="button" class="btn btn-default">{{ entry.line }}</button>
+  						</td>
+  						<td ng-repeat="day in entry.days">
+  							<input type="checkbox" ng-model="day.checked"/>
+  						</td>
   					</tr>
   				</tbody>
   			</table>
