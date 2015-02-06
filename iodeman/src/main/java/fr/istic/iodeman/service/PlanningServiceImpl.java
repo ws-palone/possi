@@ -12,6 +12,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
+import fr.istic.iodeman.builder.PlanningExportBuilder;
 import fr.istic.iodeman.dao.ParticipantDAO;
 import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
@@ -191,18 +192,37 @@ public class PlanningServiceImpl implements PlanningService {
 
 	@Override
 	public File exportExcel(Integer planningId) {		
+		
 		// retrieving the planning 
 		Planning planning = planningDAO.findById(planningId);
 		Validate.notNull(planning);
+		
+		// retrieving of the unavailabilities
+		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
 				
+		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
+		builder.setParticipants(planningDAO.findParticipants(planning));
+		builder.setUnavailabilities(unavailabilities);
+		
+		File file = null;
+		try {
+			file = builder.split().build().toExcel();
+		} catch (Exception e) {
+			System.out.println("Erreur de l'exportation lors de la fonction exportExcel: "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		Validate.isTrue(file.exists());
+	
+		/**
+		
 		// the splitter to obtain the timeboxes
 		PlanningSplitter planningSplitter = new PlanningSplitterImpl();
 		List<TimeBox> timeboxes = planningSplitter.execute(planning);
 		Validate.notEmpty(timeboxes);
 				
 		// algorithme
-		// retrieving of the unavailabilities
-		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
+		
 		
 		AlgoPlanningV2 algo = new AlgoPlanningImplV2();
 		algo.configure(
@@ -232,8 +252,29 @@ public class PlanningServiceImpl implements PlanningService {
 			e.printStackTrace();
 		}
 		
-		Validate.isTrue(file.exists());
+		Validate.isTrue(file.exists()); */
 		
 		return file;
 	}
+
+	@Override
+	public Collection<OralDefense> export(Integer planningId) {
+		
+		// retrieving the planning 
+		Planning planning = planningDAO.findById(planningId);
+		Validate.notNull(planning);
+		
+		// retrieving of the unavailabilities
+		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
+				
+		// initialize builder
+		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
+		builder.setParticipants(planningDAO.findParticipants(planning));
+		builder.setUnavailabilities(unavailabilities);
+		
+		// build & return
+		return builder.split().build().getOralDefenses();
+		
+	}
+	
 }
