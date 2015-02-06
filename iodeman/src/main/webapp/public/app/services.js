@@ -58,7 +58,7 @@ iodeman.config(function($provide) {
 						  );
 					  },
 					  
-					  "getAgenda": function(planninID, uid) {
+					  "getAgenda": function(planningID, uid) {
 						  return $http.get(backendURL + 'unavaibility/agenda/'+planningID+'/'+uid);
 					  }
 					  
