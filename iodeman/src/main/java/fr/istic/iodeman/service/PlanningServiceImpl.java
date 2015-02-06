@@ -16,15 +16,26 @@ import fr.istic.iodeman.dao.ParticipantDAO;
 import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.dao.PriorityDAO;
+import fr.istic.iodeman.dao.UnavailabilityDAO;
+import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.resolver.PersonMailResolver;
+import fr.istic.iodeman.strategy.AlgoJuryAssignation;
+import fr.istic.iodeman.strategy.AlgoJuryAssignationImpl;
+import fr.istic.iodeman.strategy.AlgoPlanningImplV2;
+import fr.istic.iodeman.strategy.AlgoPlanningV2;
 import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
+import fr.istic.iodeman.strategy.PlanningExcelExport;
+import fr.istic.iodeman.strategy.PlanningExport;
+import fr.istic.iodeman.strategy.PlanningSplitter;
+import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 
 @Service
 public class PlanningServiceImpl implements PlanningService {
@@ -43,6 +54,9 @@ public class PlanningServiceImpl implements PlanningService {
 	
 	@Autowired
 	private PersonDAO personDAO;
+	
+	@Autowired
+	private UnavailabilityDAO unavailabilityDAO;
 	
 	public List<Planning> findAll() {
 		return planningDAO.findAll();
@@ -175,5 +189,51 @@ public class PlanningServiceImpl implements PlanningService {
 		return planning.getPriorities();
 	}
 
-	
+	@Override
+	public File exportExcel(Integer planningId) {		
+		// retrieving the planning 
+		Planning planning = planningDAO.findById(planningId);
+		Validate.notNull(planning);
+				
+		// the splitter to obtain the timeboxes
+		PlanningSplitter planningSplitter = new PlanningSplitterImpl();
+		List<TimeBox> timeboxes = planningSplitter.execute(planning);
+		Validate.notEmpty(timeboxes);
+				
+		// algorithme
+		// retrieving of the unavailabilities
+		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
+		
+		AlgoPlanningV2 algo = new AlgoPlanningImplV2();
+		algo.configure(
+				planning,
+				planningDAO.findParticipants(planning),
+				timeboxes, 
+				unavailabilities
+		);
+		
+		Collection<OralDefense> oralDefenses = algo.execute();
+		Validate.notEmpty(oralDefenses);
+				
+		// jury assignation
+		AlgoJuryAssignation algoJury = new AlgoJuryAssignationImpl();
+		algoJury.configure(oralDefenses, unavailabilities);
+		Collection<OralDefense> oralDefensesWithJury = algoJury.execute();
+		
+		//export excel
+		PlanningExport planningExport = new PlanningExcelExport();
+		planningExport.configure(timeboxes);
+
+		File file = null;
+		try {
+			file = planningExport.execute(oralDefensesWithJury);
+		} catch (Exception e) {
+			System.out.println("Erreur de l'exportation lors de la fonction exportExcel: "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		Validate.isTrue(file.exists());
+		
+		return file;
+	}
 }

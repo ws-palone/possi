@@ -25,7 +25,6 @@ import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.strategy.PlanningExcelExport;
 import fr.istic.iodeman.strategy.PlanningExport;
-import fr.istic.iodeman.utils.TestUtils;
 
 public class TestPlanningExcelExport {
 
@@ -140,10 +139,7 @@ public class TestPlanningExcelExport {
 
 		export.configure(createTimeBoxes(2, 4));
 		// reprendre le tri de date pour le test
-		export.execute(oralDefenses);
-
-		// testing if file exists
-		File f = new File("/tmp/planning.xls");
+		File f = export.execute(oralDefenses);		
 
 		assertTrue(f.exists());
 		
@@ -155,8 +151,8 @@ public class TestPlanningExcelExport {
 		
 		// verification of the data of the first timebox
 		OralDefense od = oralDefenses.get(2);
-		assertTrue(sheet.getCell(1, 3).getContents().equals(od.getComposition().getStudent().getFirstName()));
-		assertTrue(sheet.getCell(1, 4).getContents().equals(od.getComposition().getFollowingTeacher().getFirstName()));
+		assertTrue(sheet.getCell(1, 3).getContents().equals(od.getComposition().getStudent().getFirstName() + " " +od.getComposition().getStudent().getLastName() ));
+		assertTrue(sheet.getCell(1, 4).getContents().equals(od.getComposition().getFollowingTeacher().getFirstName() + " " + od.getComposition().getFollowingTeacher().getLastName()));
 //		assertTrue(sheet.getCell(3, 5).getContents().equals(""));
 //		assertTrue(sheet.getCell(3, 6).getContents().equals(""));
 	}
@@ -186,10 +182,7 @@ public class TestPlanningExcelExport {
 
 		export.configure(createTimeBoxes(2, 4));
 		// reprendre le tri de date pour le test
-		export.execute(oralDefenses);
-
-		// testing if file exists
-		File f = new File("/tmp/planning.xls");
+		File f = export.execute(oralDefenses);
 
 		assertTrue(f.exists());
 		

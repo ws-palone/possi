@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
+import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
@@ -34,5 +35,7 @@ public interface PlanningService {
 	public Collection<Priority> findPriorities(Planning planning);
 	
 	public Collection<Priority> updatePriorities(Planning planning, Collection<Priority> priorities);
+	
+	public File exportExcel(Integer planningId);
 	
 }

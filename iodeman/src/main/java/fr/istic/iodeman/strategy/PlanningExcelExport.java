@@ -4,7 +4,8 @@ import java.io.File;
 import java.util.Collection;
 
 import jxl.Workbook;
-import jxl.format.*;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableSheet;
@@ -18,6 +19,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.OralDefense;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
@@ -71,7 +73,7 @@ public class PlanningExcelExport implements PlanningExport {
 	}
 
 	@Override
-	public void execute(Collection<OralDefense> oralDefensesRaw) throws Exception {	
+	public File execute(Collection<OralDefense> oralDefensesRaw) throws Exception {	
 		// Ordering the oral defenses by starting date
 		oralDefenses = AlgoPlanningUtils.sortOralDefensesByStartingDate(oralDefensesRaw);
 		// Retrieve the single dates of the set of oral defenses, in order to write the hearder of the sheet
@@ -82,8 +84,10 @@ public class PlanningExcelExport implements PlanningExport {
 		/**
 		 * BEGIN generation of excel sheet
 		 */
+		// creation of the file
+		File file = new File("/tmp/planning.xls");
 		// creation of the workbook
-		WritableWorkbook workbook = Workbook.createWorkbook(new File("/tmp/planning.xls"));
+		WritableWorkbook workbook = Workbook.createWorkbook(file);
 		// creation of the sheet
 		sheet = workbook.createSheet("Planning", 0);
 
@@ -98,6 +102,7 @@ public class PlanningExcelExport implements PlanningExport {
 		 * END generation of excel sheet
 		 */
 
+		return file;
 	}
 
 	private Collection<DateTime> getSingleDatesFromOralDefenses(Collection<OralDefense> oralDefenses){
@@ -285,13 +290,25 @@ public class PlanningExcelExport implements PlanningExport {
 						// it matches
 
 						if (o.getRoom().getName().equals(room.getName())) { // TODO compare ID!!
+							// student
 							lineIndex = (line_top + (currentTimeBox * numberOfpersons));
-							sheet.addCell(new Label(indexRoom, lineIndex, o.getComposition().getStudent().getFirstName(), cellFormat));
+							Person student = o.getComposition().getStudent();
+							sheet.addCell(new Label(indexRoom, lineIndex, student.getFirstName() + " "+ student.getLastName(), cellFormat));
+							
+							// following teacher
 							lineIndex++;	
-							sheet.addCell(new Label(indexRoom, lineIndex, o.getComposition().getFollowingTeacher().getFirstName(), cellFormat));
+							Person followingTeacher = o.getComposition().getFollowingTeacher();
+							sheet.addCell(new Label(indexRoom, lineIndex, followingTeacher.getFirstName()+ " "+ followingTeacher.getLastName(), cellFormat));
+							
+							// jury
 							lineIndex++;	
-							sheet.addCell(new Label(indexRoom, lineIndex, "", cellFormat));
-							lineIndex++;	
+							if (o.getJury().size() > 0){
+								Person jury = Lists.newArrayList(o.getJury()).get(0);
+								sheet.addCell(new Label(indexRoom, lineIndex, jury.getFirstName() + " "+ jury.getLastName(), cellFormat));
+							}
+							
+							// tuteur
+							lineIndex++;
 							sheet.addCell(new Label(indexRoom, lineIndex, "", cellFormat));
 						
 
