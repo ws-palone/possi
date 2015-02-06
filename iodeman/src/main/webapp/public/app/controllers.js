@@ -336,4 +336,4 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 		console.log(data);
 	});
 	
-}
+});
