@@ -39,8 +39,8 @@ public class UnavailabilityController {
 	public Unavailability createUnavailability(
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
-			@RequestParam("periodStart") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodStart,
-			@RequestParam("periodEnd") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodEnd
+			@RequestParam("periodStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodStart,
+			@RequestParam("periodEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodEnd
 			){
 		
 		TimeBox period = new TimeBox(
@@ -65,8 +65,8 @@ public class UnavailabilityController {
 	public Collection<Unavailability> makeAvailable(			
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
-			@RequestParam("periodStart") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodStart,
-			@RequestParam("periodEnd") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date periodEnd
+			@RequestParam("periodStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodStart,
+			@RequestParam("periodEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodEnd
 			){
 		
 		TimeBox timeBox = new TimeBox(
