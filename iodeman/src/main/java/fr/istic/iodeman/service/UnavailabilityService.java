@@ -17,6 +17,8 @@ public interface UnavailabilityService {
 
 	public Unavailability delete(Integer id);
 	
+	public Collection<Unavailability> delete(Integer planningId, String uid, TimeBox period);
+	
 	public Collection<AgendaDTO> exportAgenda(Integer planningId, String personId);
 
 }
