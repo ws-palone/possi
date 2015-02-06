@@ -340,8 +340,8 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 					request = backend.plannings.addUnavailabiliy(
 							$scope.id, 
 							$scope.uid,
-							d.timebox.from,
-							d.timebox.to
+							Date.create(d.timebox.from).toISOString(),
+							Date.create(d.timebox.to).toISOString()
 					);
 				}else{
 					request = backend.plannings.deleteUnavailability(
