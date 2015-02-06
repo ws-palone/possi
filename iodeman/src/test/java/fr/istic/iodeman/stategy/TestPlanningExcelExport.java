@@ -155,6 +155,9 @@ public class TestPlanningExcelExport {
 		assertTrue(sheet.getCell(1, 4).getContents().equals(od.getComposition().getFollowingTeacher().getFirstName() + " " + od.getComposition().getFollowingTeacher().getLastName()));
 //		assertTrue(sheet.getCell(3, 5).getContents().equals(""));
 //		assertTrue(sheet.getCell(3, 6).getContents().equals(""));
+		
+		// remove the file
+		f.delete();
 	}
 
 	@Test
@@ -210,6 +213,9 @@ public class TestPlanningExcelExport {
 		
 		// we verify if there is a title
 		assertFalse(sheet.getCell(1, 1).getContents().equals(""));
+		
+		// remove the file
+		f.delete();
 	}
 
 	private List<TimeBox> createTimeBoxes(int nbDays, int nbTimeBoxPerDay) {

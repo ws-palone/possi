@@ -1,7 +1,9 @@
 package fr.istic.iodeman.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,9 +22,6 @@ public class FileDownloadController {
 	
 	@RequestMapping(value="/planning/{planningId}/export")
 	public void downloadPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
-		// retrieving of the generating file containing the agenda
-		File file = planningService.exportExcel(planningId);		
-		
 		// mime type
 		response.setContentType("application/vnd.ms-excel");
 		
@@ -34,6 +33,25 @@ public class FileDownloadController {
         String headerValue = String.format("attachment; filename=\"%s\"",
         		filename);
         response.setHeader(headerKey, headerValue);
+        
+		// retrieving of the generating file containing the agenda
+		File file = planningService.exportExcel(planningId);		
+		
+		// BEGIN write the file
+		FileInputStream in = new FileInputStream(file);
+		OutputStream out = response.getOutputStream();
+
+		byte[] buffer= new byte[8192]; 
+		int length = 0;
+
+		while ((length = in.read(buffer)) > 0){
+		     out.write(buffer, 0, length);
+		}
+		in.close();
+		out.close();
+		// END write the file
+		
+		file.delete();
 	}
 	
 }
