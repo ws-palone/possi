@@ -150,7 +150,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	
 	$scope.id = $routeParams.id;
 	$scope.uploadFileURL = backend.importParticipantsURL;
-	$scope.fileURL = backend.exportURL($scope.id);
+	$scope.fileURL = backend.plannings.exportURL($scope.id);
 	
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
