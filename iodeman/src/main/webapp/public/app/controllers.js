@@ -328,7 +328,7 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 			return l.days.map(function(d) {
 				return d.day;
 			});
-		}).unique();
+		}).flatten().unique();
 		$scope.$apply();
 	});
 	agendaRequest.error(function(data) {
