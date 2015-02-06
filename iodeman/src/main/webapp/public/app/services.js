@@ -56,7 +56,11 @@ iodeman.config(function($provide) {
 								  backendURL + 'planning/'+id+'/priorities/update', 
 								  priorities
 						  );
-					}
+					  },
+					  
+					  "getAgenda": function(planninID, uid) {
+						  return $http.get(backendURL + 'unavaibility/agenda/'+planningID+'/'+uid);
+					  }
 					  
 				  }
 			  },

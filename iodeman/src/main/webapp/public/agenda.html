@@ -1,5 +1,5 @@
 
-<div id="page-inner" ng-controller="prioritiesController">
+<div id="page-inner" ng-controller="agendaController">
 	
 	<div class="row">
 		<div class="col-md-12">
@@ -15,9 +15,9 @@
 			<table class="table" style="text-align:center;">
   				<thead>
   					<th></th>
-  					<th style="text-align:center;"><button type="button" class="btn btn-default">04/02</button></th>
-  					<th style="text-align:center;"><button type="button" class="btn btn-default">05/02</button></th>
-  					<th style="text-align:center;"><button type="button" class="btn btn-default">06/02</button></th>
+  					<th ng-repeat="column in columns" style="text-align:center;">
+  						<button type="button" class="btn btn-default">{{ column }}</button>
+  					</th>
   				</thead>
   				<tbody>
   					<tr>

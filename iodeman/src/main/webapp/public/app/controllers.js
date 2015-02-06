@@ -314,3 +314,26 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 	};
 	
 });
+
+iodeman.controller('agendaController', function($scope, backend, $routeParams, $location) {
+	
+	$scope.id = $routeParams.id;
+
+	var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.$parent.user.uid);
+	agendaRequest.success(function (data) {
+		console.log("agenda found!");
+		console.log(data);
+		$scope.agenda = data;
+		$scope.columns = data.map(function(l) {
+			return l.days.map(function(d) {
+				return d.day;
+			});
+		}).unique();
+		$scope.$apply();
+	});
+	agendaRequest.error(function(data) {
+		console.log("error. cannot find agenda.");
+		console.log(data);
+	});
+	
+}
