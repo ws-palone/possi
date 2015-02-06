@@ -117,6 +117,17 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			});
 			$scope.$apply();
 		});
+	} else {
+		// day period
+		inputDayPeriodStart.val("09:00");
+		inputDayPeriodEnd.val("17:00");
+		// lunch period
+		inputLunchBreakStart.val("12:15");
+		inputLunchBreakEnd.val("14:00");
+		// oral defense duration
+		inputDuration.val(40);
+		inputInterlude.val(10);
+		
 	}
 	
 	$scope.submit = function() {
