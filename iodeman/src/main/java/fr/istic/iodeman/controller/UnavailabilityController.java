@@ -33,12 +33,12 @@ public class UnavailabilityController {
 	}
 	
 	// id => Planning id
-	@RequestMapping("/{id}/create/")
+	@RequestMapping("/{id}/create")
 	public Unavailability createUnavailability(
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
-			@RequestParam("periodStart") String periodStart,
-			@RequestParam("periodEnd") String periodEnd
+			@RequestParam("periodStart") Integer periodStart,
+			@RequestParam("periodEnd") Integer periodEnd
 			){
 		
 		TimeBox period = new TimeBox(
@@ -59,12 +59,12 @@ public class UnavailabilityController {
 		return unavailability;
 	}
 	
-	@RequestMapping("/{id}/delete/")
+	@RequestMapping("/{id}/delete")
 	public Collection<Unavailability> makeAvailable(			
 			@PathVariable("id") Integer id, 
 			@RequestParam("person") String uidperson,
-			@RequestParam("periodStart") String periodStart,
-			@RequestParam("periodEnd") String periodEnd
+			@RequestParam("periodStart") Integer periodStart,
+			@RequestParam("periodEnd") Integer periodEnd
 			){
 		
 		TimeBox timeBox = new TimeBox(
