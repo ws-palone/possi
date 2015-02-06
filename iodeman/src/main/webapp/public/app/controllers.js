@@ -40,6 +40,8 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	var inputDayPeriodEnd = $('#timepicker4');
 	var inputLunchBreakStart = $('#timepicker1');
 	var inputLunchBreakEnd = $('#timepicker2');
+	var inputDuration = $('#inputDuration');
+	var inputInterlude = $('#inputInterlude');
 	
 	inputStartingDate.datepicker({
 		dateFormat : 'dd/MM/yyyy'
@@ -125,7 +127,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		$scope.planning.dayPeriodEnd = inputDayPeriodEnd.val();
 		$scope.planning.lunchBreakStart = inputLunchBreakStart.val();
 		$scope.planning.lunchBreakEnd = inputLunchBreakEnd.val();
-		
+		$scope.planning.oralDefenseDuration = inputDuration.val();
+		$scope.planning.oralDefenseInterlude = inputInterlude.val();
+			
 		console.log($scope.planning);
 		
 		var createRequest = backend.plannings.create($scope.planning);
