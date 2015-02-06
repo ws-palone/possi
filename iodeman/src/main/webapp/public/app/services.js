@@ -83,7 +83,7 @@ iodeman.config(function($provide) {
 					  },
 					  
 					  "exportURL": function (planningID) {
-						  return backend + 'planning/'+planningID+'/export';
+						  return backendURL + 'planning/'+planningID+'/export';
 					  }
 					  
 				  }
