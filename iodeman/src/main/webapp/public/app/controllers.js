@@ -141,18 +141,55 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		$scope.planning.oralDefenseDuration = inputDuration.val();
 		$scope.planning.oralDefenseInterlude = inputInterlude.val();
 			
-		console.log($scope.planning);
+		console.log($scope.planning.dayPeriodStart);
+		console.log($scope.planning.dayPeriodStart > $scope.planning.lunchBreakStart)
 		
-		var createRequest = backend.plannings.create($scope.planning);
-		createRequest.success(function(data) {
-			console.log('planning created!');
-			document.location.href = "index.html#/planning/"+data.id; 
-		});
-		createRequest.error(function(data) {
-			$scope.showError = true;
-			$scope.$apply();
-			console.log('error. cannot create planning!');
-		});
+		var validate = true;
+		
+		// BEGIN validation
+		// period
+		if ($scope.planning.periodStart > $scope.planning.periodEnd) {
+			console.log("in");
+			$("#showErrorInfo").text("Dates de période sont incohérentes");
+			validation = false; 
+		} else if ($scope.planning.dayPeriodStart >= $scope.planning.dayPeriodEnd) {
+			$("#showErrorInfo").text("Heures de début et de fin de journée incohérentes");
+			validation = false; 
+		} else if ($scope.planning.lunchBreakStart > $scope.planning.lunchBreakStart) {
+			$("#showErrorInfo").text("Heures de repas incohérentes");
+			validation = false; 
+		} else if (
+				($scope.planning.dayPeriodStart >= $scope.planning.lunchBreakStart)
+				||
+				($scope.planning.dayPeriodEnd <= $scope.planning.lunchBreakEnd)
+		){
+			$("#showErrorInfo").text("Heures incohérentes");
+			validation = false; 
+		}
+		
+		// END validation
+		
+		if (validate){
+			console.log($scope.planning);
+			
+			var createRequest = backend.plannings.create($scope.planning);
+			createRequest.success(function(data) {
+				console.log('planning created!');
+				document.location.href = "index.html#/planning/"+data.id; 
+			});
+			createRequest.error(function(data) {
+				$("#showError").show();
+//				$scope.showError = true;
+//				$scope.$apply();
+				console.log('error. cannot create planning!');
+			});
+		} else {
+			// I prefer use jQuery rather angular
+			// There were some errors with angular
+			$("#showError").show();
+			console.log('Unvalidate');
+		}
+		
 	};
 	
 });

@@ -5,8 +5,10 @@
 		</div>
 	</div>
 
-	<div ng-show="showError" class="alert alert-danger" role="alert">
-		Impossible de créer le planning. Vérifiez la cohérence de vos données.
+<!-- 	<div ng-show="showError" id="showError" class="alert alert-danger" role="alert"> -->
+	<div id="showError" class="alert alert-danger" style="display:none" role="alert">
+		Impossible de créer le planning. Vérifiez la cohérence de vos données. <br />
+		Info : <span id="showErrorInfo"></span>
 	</div>
 
 	<div class="row">
