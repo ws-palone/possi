@@ -1,6 +1,6 @@
 
 <div id="page-inner" ng-controller="prioritiesController">
-	
+
 	<div class="row">
 		<div class="col-md-12">
 			<h1 class="page-head-line">{{ planning.name }}</h1>
@@ -9,20 +9,24 @@
 
 	<div class="panel panel-danger">
 		<div class="panel-heading">
-    		<h3 class="panel-title">Priorités</h3>
-  		</div>
-		<div class="panel-body">
-			<div ng-repeat="priority in planning.priorities" class="row" style="margin-bottom: 15px;">
+			<h3 class="panel-title">Priorités</h3>
+		</div>
+		 <div class="panel-body">
+		<!-- 	<div ng-repeat="priority in planning.priorities" class="row" style="margin-bottom: 15px;">
 				<div class="col-md-3">
 					<div class="input-group">
 						<span class="input-group-addon">{{ priority.role }}</span>
 					 	<input type="text" class="form-control spinner" ng-model="priority.weight" />
 					</div>
 				</div>
-			</div>
-			<button class="btn btn-danger btn-sm pull-right" ng-click="submit()">Valider</button>
-		</div>
-	</div>
+			</div>-->
+		<ul id="sortable">
+			<li ng-repeat="priority in planning.priorities" class="ui-state-default" id="{{ priority.role }}">{{ priority.role }}</li>
+		</ul>
 
-	<!-- /. PAGE INNER  -->
+		<button class="btn btn-danger btn-sm pull-right" ng-click="submit()">Valider</button>
+	</div>
+</div>
+
+<!-- /. PAGE INNER  -->
 </div>

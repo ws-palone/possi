@@ -341,7 +341,7 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		$scope.planning = data;
 		$scope.$apply();
 
-		$(".spinner").TouchSpin({
+		/*$(".spinner").TouchSpin({
 			min: 1, // Minimum value.
 			max: 500, // Maximum value.
 			boostat: 5, // Boost at every nth step.
@@ -349,16 +349,35 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 			step: 1, // Incremental/decremental step on up/down change.
 			stepinterval: 100, // Refresh rate of the spinner in milliseconds.
 			stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
-		});
+		});*/
 
+		 $( "#sortable" ).sortable({ 
+	         placeholder: "ui-sortable-placeholder" 
+	     });
 	});
 
+	
+	
 	$scope.submit = function() {
+		var i =0;
 
+		var sortedIDs = $( "#sortable" ).sortable( "toArray" );
+		console.log(sortedIDs);
+		//traitement
+		
 		if ($scope.planning == null) {
 			return;
 		}
 
+		sortedIDs.each(function(role){
+			var priority = $scope.planning.priorities.find(function(priority){
+				return priority.role==role;
+			});
+			
+			priority.weight= sortedIDs.length - i;
+			i++;
+		});
+		
 		var postRequest = backend.plannings.updatePriorities($scope.id, $scope.planning.priorities);
 		postRequest.success(function (data) {
 			console.log("priorities updated!");
