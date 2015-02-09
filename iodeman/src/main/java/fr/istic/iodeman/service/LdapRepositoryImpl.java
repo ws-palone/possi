@@ -43,7 +43,7 @@ public class LdapRepositoryImpl implements LdapRepository {
 			}
 				
 			// HACK
-			if (person.getUid().equals("13006294")) {
+			if (person.getUid().equals("13006294") || person.getUid().equals("13006294") ) {
 				person.setRole(Role.PROF);
 			}
 			
