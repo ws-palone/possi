@@ -69,11 +69,13 @@ public class PlanningController {
 			@RequestParam("rooms") List<String> rooms
 			) {
 		
+		session.teacherOnly();
+		
 		//URL_TEST : http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/planning/create?name=toto&periodStart=2015-01-01&periodEnd=2015-01-07&oralDefenseDuration=60&oralDefenseInterlude=15&lunchBreakStart=12:15&lunchBreakEnd=14:00&dayPeriodStart=08:00&dayPeriodEnd=18:15&nbMaxOralDefensePerDay=6&rooms=i51
 		
 		// check if the current user is a teacher
 		Person user = session.getUser();
-		Validate.notNull(user);
+		//Validate.notNull(user);
 		//Validate.isTrue(user.getRole() == Role.PROF);
 		
 		Collection<Room> roomsCollection = Collections2.transform(rooms, new Function<String, Room>() {
