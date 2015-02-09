@@ -53,7 +53,9 @@ public class ConnectionController {
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(){
+	public String logout(HttpSession session){
+		session.removeAttribute("cas_ticket");
+		session.removeAttribute("uid");
 		return "redirect:"+ticketValidatorFactory.getLogoutPage();
 	}
 	
