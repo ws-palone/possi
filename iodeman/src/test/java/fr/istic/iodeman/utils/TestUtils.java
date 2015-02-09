@@ -60,10 +60,21 @@ public class TestUtils {
 	
 	public static boolean checkIfUnavailabilityRespected(Collection<OralDefense> results, Unavailability ua) {
 		
+		System.out.println("checking unavailability for "+ua.getPerson().getFirstName()+" on "
+				+(new DateTime(ua.getPeriod().getFrom())).toString("dd/MM/yyyy HH:mm")
+				+ " - " +
+				(new DateTime(ua.getPeriod().getTo())).toString("dd/MM/yyyy HH:mm")
+		);	
+		
 		for(OralDefense oralDefense : results) {
 			
 			if (ua.getPerson().equals(oralDefense.getComposition().getStudent())
 					|| ua.getPerson().equals(oralDefense.getComposition().getFollowingTeacher())) {
+				
+				System.out.println("timebox found for this person on "
+						+(new DateTime(oralDefense.getTimebox().getFrom())).toString("dd/MM/yyyy HH:mm")
+						+ " - " +
+						(new DateTime(oralDefense.getTimebox().getTo())).toString("dd/MM/yyyy HH:mm"));
 				
 				return AlgoPlanningUtils.isAvailable(ua, oralDefense.getTimebox());
 				

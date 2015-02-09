@@ -6,10 +6,16 @@ import java.util.Comparator;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 
 import fr.istic.iodeman.model.OralDefense;
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 
@@ -72,6 +78,23 @@ public class AlgoPlanningUtils {
 		
 		return sortedOralDefenses;
 		
+	}
+	
+	public static Collection<Unavailability> extractUnavailabilities(Collection<Unavailability> unavailabilities, final Participant participant, final Role role) {
+		
+		if (unavailabilities != null && !unavailabilities.isEmpty()) {
+			return Collections2.filter(unavailabilities, new Predicate<Unavailability>() {
+				public boolean apply(Unavailability a) {
+					Person p = a.getPerson();
+					if (p.getRole() == role) {
+						return (p.equals(participant.getStudent()) 
+								|| p.equals(participant.getFollowingTeacher()));
+					}
+					return false;
+				}
+			});
+		}
+		return Lists.newArrayList();
 	}
 	
 }

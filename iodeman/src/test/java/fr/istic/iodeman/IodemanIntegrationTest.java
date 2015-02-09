@@ -1,5 +1,6 @@
 package fr.istic.iodeman;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -25,6 +26,8 @@ import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.resolver.PersonMailResolver;
@@ -57,11 +60,23 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 		public Person resolve(String email) {
 			Person person = personDAO.findByEmail(email);
 
+			List<String> profMails = Lists.newArrayList(
+					"didier.certain@univ-rennes1.fr",
+					"mickael.foursov@univ-rennes1.fr",
+					"sebastien.ferre@univ-rennes1.fr",
+					"gilles.lesventes@univ-rennes1.fr"
+			);
+			
 			if (person == null) {
 				person = new Person();
 				person.setFirstName(email);
 				person.setUid(email);
 				person.setEmail(email);
+				if (profMails.contains(email)) {
+					person.setRole(Role.PROF);
+				}else{
+					person.setRole(Role.STUDENT);
+				}
 				personDAO.persist(person);
 			}
 
@@ -126,6 +141,17 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 				planning.getRooms()
 		);
 		assertTrue(planning != null);
+		
+		// Update the priorities of the planning
+		List<Priority> priorities = Lists.newArrayList(
+				new Priority(Role.STUDENT, 1), 
+				new Priority(Role.PROF, 3)
+		);
+		planningService.updatePriorities(planning, priorities);
+		
+		// Check if the priorities have been successfully updated
+		planning = planningService.findById(planning.getId());
+		assertEquals(2, planning.getPriorities().size());
 		
 		// Verify that the excel exits
 		String filename = "/import_couple.xls";
@@ -196,6 +222,9 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 		
 		TestUtils.printResults(oralDefenses);
 		
+		for(Unavailability ua : unavailabilities) {
+			assertTrue(TestUtils.checkIfUnavailabilityRespected(oralDefenses, ua));
+		}
 	}
 	
 }

@@ -80,5 +80,7 @@ public class Person implements Comparable<Person> {
 		this.promo = promo;
 	}
 	
-	
+	public boolean equals(Person p) {
+		return this.uid.equals(p.getUid());
+	}
 }

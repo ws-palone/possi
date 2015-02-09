@@ -105,14 +105,19 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 	
 	private void tryAllocation() {
 		
-		hasNewAllocations = false;
+		hasNewAllocations = true;
 		
-		boolean b = true;
-		while (b) {
+		while (hasNewAllocations) {
+			
+			hasNewAllocations = false;
 			
 			for(Participant p : Lists.newArrayList(remainingParticipants)) {
 				
-				System.out.println("check possibles timeboxes for student "+p.getStudent().getId());
+				System.out.println(
+						"check possibles timeboxes for student "
+						+p.getStudent().getId()
+						+"["+p.getStudent().getUid()+"]"
+				);
 				checkPossiblesTimeboxes(p, Lists.newArrayList(remainingTimeboxes), null);
 				
 			}
@@ -120,9 +125,7 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 			if (hasNewAllocations) {
 				System.out.println("try allocation : success");
 			}
-			
-			b = hasNewAllocations;
-			hasNewAllocations = false;
+		
 		}
 		
 	}
@@ -146,7 +149,7 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 			
 			int bestCost = -1;
 			
-			System.out.println(buffer.get(badLuckBryan).size()+" iterations needed!");
+			System.out.println(buffer.get(badLuckBryan).size()+" iterations max needed!");
 			
 			for (int i=0; i<buffer.get(badLuckBryan).size(); i++) {
 				
@@ -193,14 +196,16 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 				System.out.println("set priority level to : "+nextPriority.getRole());
 				
 				// filter the unavaibilities to get only the ones matching the current priority level
-				Collection<Unavailability> unavailabilities = Collections2.filter(this.unavailabilities, new Predicate<Unavailability>() {
+				Collection<Unavailability> unavailabilities = AlgoPlanningUtils.extractUnavailabilities(this.unavailabilities, participant, nextPriority.getRole());
+						
+						/*Collections2.filter(this.unavailabilities, new Predicate<Unavailability>() {
 					public boolean apply(Unavailability a) {
 						Person p = a.getPerson();
 						return ( p.equals(participant.getStudent())
 								|| p.equals(participant.getFollowingTeacher()))
 								&& (p.getRole() == nextPriority.getRole());
 					}
-				});
+				});*/
 				
 				System.out.println("unavailabilities found: "+unavailabilities.size());
 				/*System.out.println("{");
@@ -277,7 +282,7 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 			
 			oralDefense = OralDefenseFactory.createOralDefense(participant, room, timeBox);
 			System.out.println("");
-			System.out.println("new oral defense created for student "+participant.getStudent().getId());
+			System.out.println("new oral defense created for student "+participant.getStudent().getId()+"["+participant.getStudent().getFirstName()+"]");
 		
 		}catch(IllegalArgumentException ex) {
 			

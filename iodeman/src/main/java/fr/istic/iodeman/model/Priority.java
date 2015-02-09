@@ -16,6 +16,15 @@ public class Priority {
 
 	private Integer weight;
 	
+	public Priority() {
+		
+	}
+	
+	public Priority(Role role, Integer weight) {
+		setRole(role);
+		setWeight(weight);
+	}
+	
 	public Integer getId() {
 		return id;
 	}

@@ -23,6 +23,7 @@ import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
@@ -87,6 +88,11 @@ public class PlanningServiceImpl implements PlanningService {
 		planning.setDayPeriod(dayPeriod);
 		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
 		planning.setRooms(rooms);
+		
+		planning.setPriorities(Lists.newArrayList(
+				new Priority(Role.STUDENT, 1),
+				new Priority(Role.PROF, 1)
+		));
 		
 		planningDAO.persist(planning);
 		
