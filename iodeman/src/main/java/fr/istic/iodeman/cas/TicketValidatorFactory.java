@@ -32,7 +32,7 @@ public class TicketValidatorFactory {
 	}
 	
 	public String getLogoutPage(){
-		return SERVER_NAME+"Logout";
+		return SERVER_NAME+"logout";
 	}
 
 }
