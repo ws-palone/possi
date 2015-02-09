@@ -30,7 +30,7 @@
 								<a href="#/agenda/{{ planning.id }}" class="btn btn-danger btn-sm">
 									Saisir indisponibilités
 								</a>
-								<a href="#/planning/{{ planning.id }}" class="btn btn-danger btn-sm">
+								<a ng-show="planning.show_gerer" href="#/planning/{{ planning.id }}" class="btn btn-danger btn-sm">
 									Gérer le planning
 								</a>
 							</td>

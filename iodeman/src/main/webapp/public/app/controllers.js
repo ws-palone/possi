@@ -15,26 +15,32 @@ iodeman.controller('mainController', function($scope, backend) {
 		$scope.$apply();
 		//backend.login();
 	});
-	
+
 });
 
 iodeman.controller('homeController', function($scope, backend) {
-	
+
 	$scope.plannings = [];
 	var planningRequest = backend.plannings.list();
 	planningRequest.success(function(data) {
 		console.log("plannings:");
 		console.log(data);
 		$scope.plannings = data;
+		$scope.plannings.each(function(planning){
+			var adminUid= $scope.planning.admin.uid;
+			if($scope.$parent.user.uid == adminUid){ 
+				$scope.planning.show_gerer = true;
+			}
+		});
 		$scope.$apply();
 	});
-	
+
 });
 
 iodeman.controller('PlanningFormController', function($scope, backend, $routeParams) {
-	
+
 	$scope.id = $routeParams.id;
-	
+
 	var inputStartingDate = $('#startingDate');
 	var inputEndingDate = $('#endingDate');
 	var inputDayPeriodStart = $('#timepicker3');
@@ -43,7 +49,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	var inputLunchBreakEnd = $('#timepicker2');
 	var inputDuration = $('#inputDuration');
 	var inputInterlude = $('#inputInterlude');
-	
+
 	inputStartingDate.datepicker({
 		dateFormat : 'dd/MM/yyyy'
 	});
@@ -56,7 +62,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	inputDayPeriodEnd.timepicker();
 	inputLunchBreakStart.timepicker();
 	inputLunchBreakEnd.timepicker();
-	
+
 	$(".spinner").TouchSpin({
 		min: 0, // Minimum value.
 		max: 500, // Maximum value.
@@ -66,9 +72,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		stepinterval: 100, // Refresh rate of the spinner in milliseconds.
 		stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
 	});
-	
+
 	$scope.showError = false;
-	
+
 	$scope.planning = {
 			name: '',
 			periodStart: '',
@@ -82,7 +88,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			nbMaxOralDefensePerDay: '',
 			rooms: ''
 	};
-	
+
 	if ($scope.id != null) {
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
@@ -128,11 +134,11 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		// oral defense duration
 		inputDuration.val(40);
 		inputInterlude.val(10);
-		
+
 	}
-	
+
 	$scope.submit = function() {
-		
+
 		$scope.planning.periodStart = Date.create(inputStartingDate.val()).format('{yyyy}-{MM}-{dd}');
 		$scope.planning.periodEnd = Date.create(inputEndingDate.val()).format('{yyyy}-{MM}-{dd}');
 		$scope.planning.dayPeriodStart = inputDayPeriodStart.val();
@@ -141,12 +147,12 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		$scope.planning.lunchBreakEnd = inputLunchBreakEnd.val();
 		$scope.planning.oralDefenseDuration = inputDuration.val();
 		$scope.planning.oralDefenseInterlude = inputInterlude.val();
-			
+
 		console.log($scope.planning.dayPeriodStart);
 		console.log($scope.planning.dayPeriodStart > $scope.planning.lunchBreakStart)
-		
+
 		var validate = true;
-		
+
 		// BEGIN validation
 		// period
 		if ($scope.planning.periodStart > $scope.planning.periodEnd) {
@@ -167,12 +173,12 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			$("#showErrorInfo").text("Heures incohérentes");
 			validation = false; 
 		}
-		
+
 		// END validation
-		
+
 		if (validate){
 			console.log($scope.planning);
-			
+
 			var createRequest = backend.plannings.create($scope.planning);
 			createRequest.success(function(data) {
 				console.log('planning created!');
@@ -190,17 +196,17 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			$("#showError").show();
 			console.log('Unvalidate');
 		}
-		
+
 	};
-	
+
 });
 
 iodeman.controller('planningController', function($scope, backend, $routeParams) {
-	
+
 	$scope.id = $routeParams.id;
 	$scope.uploadFileURL = backend.importParticipantsURL;
 	$scope.fileURL = backend.plannings.exportURL($scope.id);
-	
+
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
@@ -211,15 +217,15 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		$scope.planning = data;
 		$scope.$apply();
 	});
-	
+
 	$scope.importParticipants = function() {
 		inputFile.click();
 	};
-	
+
 	inputFile.change(function() {
 		formUpload.submit();
 	});
-	
+
 	var participantsRequest = backend.plannings.getParticipants($scope.id);
 	participantsRequest.success(function(data) {
 		console.log("participants:");
@@ -227,21 +233,21 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		$scope.participants = data;
 		$scope.$apply();
 	});
-	
+
 });
 
 iodeman.controller('roomsController', function($scope, backend, $routeParams) {
-	
+
 	$scope.id = $routeParams.id;
-	
+
 	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
-		
+
 		console.log("planning:");
 		console.log(data);
 		$scope.planning = data;
 		$scope.$apply();
-	
+
 		var roomsRequest = backend.rooms.list();
 		roomsRequest.success(function(data) {
 			console.log("rooms:");
@@ -261,17 +267,17 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 			});
 			$scope.$apply();
 		});
-	
+
 	});
-	
+
 	$scope.newRoom = {
 			name: ''
 	};
-	
+
 	$scope.addRoom = function() {
-		
+
 		if ($scope.newRoom != '' && $scope.newRoom != null) {
-			
+
 			var createRoomRequest = backend.rooms.create($scope.newRoom.name);
 			createRoomRequest.success(function (data) {
 				console.log("room created!");
@@ -285,25 +291,25 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				$scope.newRoom.name = '';
 				$scope.$apply();
 			});
-			
+
 		}
-		
+
 	};
-	
+
 	$scope.submit = function() {
-		
+
 		console.log($scope.rooms);
-		
+
 		var roomsChecked = $scope.rooms.findAll(function(r) {
 			return r.isChecked == true;
 		});
-		
+
 		console.log(roomsChecked);
-		
+
 		var roomsNames = roomsChecked.map(function(r) {
 			return r.name;
 		});
-		
+
 		var updateRequest = backend.plannings.update({
 			planningID: $scope.planning.id,
 			rooms: roomsNames
@@ -318,23 +324,23 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 			console.log('error. unable to update the planning.');
 			console.log(data);
 		});
-		
+
 	};
-	
+
 });
 
 iodeman.controller('prioritiesController', function($scope, backend, $routeParams, $location) {
-	
+
 	$scope.id = $routeParams.id;
-	
+
 	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
-		
+
 		console.log("planning:");
 		console.log(data);
 		$scope.planning = data;
 		$scope.$apply();
-		
+
 		$(".spinner").TouchSpin({
 			min: 1, // Minimum value.
 			max: 500, // Maximum value.
@@ -344,15 +350,15 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 			stepinterval: 100, // Refresh rate of the spinner in milliseconds.
 			stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
 		});
-		
+
 	});
-	
+
 	$scope.submit = function() {
-		
+
 		if ($scope.planning == null) {
 			return;
 		}
-		
+
 		var postRequest = backend.plannings.updatePriorities($scope.id, $scope.planning.priorities);
 		postRequest.success(function (data) {
 			console.log("priorities updated!");
@@ -364,13 +370,13 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 			console.log("error. cannot update priorities");
 			console.log(data);
 		});
-		
+
 	};
-	
+
 });
 
 iodeman.controller('agendaController', function($scope, backend, $routeParams, $location) {
-	
+
 	$scope.id = $routeParams.id;
 	$scope.uid = $scope.$parent.user.uid;
 
@@ -421,5 +427,5 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 		console.log("error. cannot find agenda.");
 		console.log(data);
 	});
-	
+
 });
