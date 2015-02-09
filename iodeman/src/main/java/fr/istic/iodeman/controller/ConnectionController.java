@@ -52,4 +52,9 @@ public class ConnectionController {
 		return "redirect:/login";
 	}
 	
+	@RequestMapping("/logout")
+	public String logout(){
+		return ticketValidatorFactory.getLogoutPage();
+	}
+	
 }

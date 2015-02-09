@@ -30,5 +30,9 @@ public class TicketValidatorFactory {
 	public String getLoginPage(){
 		return SERVER_NAME_LOGIN+"?service="+SERVICE_NAME;
 	}
+	
+	public String getLogoutPage(){
+		return SERVER_NAME+"Logout";
+	}
 
 }
