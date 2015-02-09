@@ -44,6 +44,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     			|| path.equals("") 
     			|| path.equals("/") 
     			|| path.contains("login")
+    			|| path.contains("logout")
     	);
     	
     }
