@@ -27,16 +27,8 @@ import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.resolver.PersonMailResolver;
-import fr.istic.iodeman.strategy.AlgoJuryAssignation;
-import fr.istic.iodeman.strategy.AlgoJuryAssignationImpl;
-import fr.istic.iodeman.strategy.AlgoPlanningImplV2;
-import fr.istic.iodeman.strategy.AlgoPlanningV2;
 import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
-import fr.istic.iodeman.strategy.PlanningExcelExport;
-import fr.istic.iodeman.strategy.PlanningExport;
-import fr.istic.iodeman.strategy.PlanningSplitter;
-import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 
 @Service
 public class PlanningServiceImpl implements PlanningService {
@@ -140,6 +132,10 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		planningDAO.update(planning);
 		
+	}
+	
+	public List<Planning> findAllByUid(String uid){
+		return planningDAO.findAll(uid);
 	}
 	
 	public Planning importPartcipants(Planning planning, File file) throws Exception {

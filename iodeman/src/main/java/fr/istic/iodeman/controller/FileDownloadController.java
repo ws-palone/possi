@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.service.PlanningService;
 
 @Controller
@@ -20,8 +21,12 @@ public class FileDownloadController {
 	@Autowired
 	PlanningService planningService;
 	
+	@Autowired
+	private SessionComponent session;
+	
 	@RequestMapping(value="/planning/{planningId}/export")
 	public void downloadPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
+		session.teacherOnly();
 		// mime type
 		response.setContentType("application/vnd.ms-excel");
 		

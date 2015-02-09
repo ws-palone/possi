@@ -45,7 +45,7 @@ public class PlanningController {
 	@RequestMapping("/list")
 	public List<Planning> listAll(){
 		
-		return planningService.findAll();
+		return planningService.findAllByUid(session.getUserUID());
 	}
 	
 	@RequestMapping("/find/{id}")
@@ -128,6 +128,8 @@ public class PlanningController {
 			@RequestParam(value="rooms", required=false) List<String> rooms
 			) {
 		
+		session.teacherOnly();
+		
 		Planning planning = planningService.findById(planningID);
 		Validate.notNull(planning);
 		
@@ -159,6 +161,8 @@ public class PlanningController {
 	@RequestMapping("/{id}/participants")
 	public Collection<Participant> getParticipants(@PathVariable("id") Integer id) {
 		
+		session.teacherOnly();
+		
 		Planning planning = planningService.findById(id);
 		
 		if (planning != null) {
@@ -171,6 +175,7 @@ public class PlanningController {
 	
 	@RequestMapping("/{id}/priorities")
 	public Collection<Priority> getPriorities(@PathVariable("id") Integer id) {
+		session.teacherOnly();
 		Planning planning = planningService.findById(id);
 		
 		if (planning != null) {
@@ -183,7 +188,7 @@ public class PlanningController {
 	
 	@RequestMapping(value = "/{id}/priorities/update", method = RequestMethod.POST)
 	public Collection<Priority> setPriorities(@PathVariable("id") Integer id, @RequestBody Collection<Priority> priorities) {
-		
+		session.teacherOnly();
 		Planning planning = planningService.findById(id);
 		Validate.notNull(planning);
 		

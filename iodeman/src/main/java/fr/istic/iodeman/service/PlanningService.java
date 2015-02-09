@@ -39,5 +39,7 @@ public interface PlanningService {
 	public File exportExcel(Integer planningId);
 	
 	public Collection<OralDefense> export(Integer planningId);
+
+	public List<Planning> findAllByUid(String uid);
 	
 }

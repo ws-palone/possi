@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.service.PlanningService;
 
@@ -21,9 +22,14 @@ public class FileUploadController {
 	@Autowired
 	PlanningService planningService;
 	
+	@Autowired
+	private SessionComponent session;
+	
     @SuppressWarnings("finally")
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile, @RequestParam(value="redirectURL", required=false) String redirectURL){    	
+    	
+    	session.teacherOnly();
     	// path to save the input file
     	String name = "/tmp/"+new DateTime();
     	
