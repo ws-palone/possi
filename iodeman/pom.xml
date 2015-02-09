@@ -58,11 +58,11 @@
 			<artifactId>casclient</artifactId>
 			<version>2.1.1</version>
 		</dependency>
-	    <dependency>
-	        <groupId>org.springframework.ldap</groupId>
-	        <artifactId>spring-ldap-core</artifactId>
-	        <version>2.0.2.RELEASE</version>
-	    </dependency>
+		<dependency>
+			<groupId>org.springframework.ldap</groupId>
+			<artifactId>spring-ldap-core</artifactId>
+			<version>2.0.2.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -89,18 +89,23 @@
 			<version>2.6</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>3.1.2.RELEASE</version>
-        </dependency>
-        
-        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-ldap</artifactId>
 			<version>3.2.5.RELEASE</version>
 		</dependency>
-        
-        
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+		</dependency>
+
 	</dependencies>
 
 	<properties>
