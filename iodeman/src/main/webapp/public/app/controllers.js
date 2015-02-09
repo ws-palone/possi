@@ -6,6 +6,7 @@ iodeman.controller('mainController', function($scope, backend) {
 		console.log("user:");
 		console.log(data);
 		$scope.user = data;
+		if($scope.user.role == "PROF")$scope.show_menu = true;
 		$scope.$apply();
 	});
 	userRequest.error(function(data) {
