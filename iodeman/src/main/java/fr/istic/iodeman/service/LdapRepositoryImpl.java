@@ -41,6 +41,12 @@ public class LdapRepositoryImpl implements LdapRepository {
 			if (person.getRole() == null) {
 				person.setRole(Role.STUDENT);
 			}
+				
+			// HACK
+			if (person.getUid().equals("13006294")) {
+				person.setRole(Role.PROF);
+			}
+			
 			return person;
 		}
 	}
