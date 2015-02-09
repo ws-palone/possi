@@ -17,7 +17,7 @@ public class MailController {
 		MAIL_TYPE = "new";
 		MAIL_TO = "lecut.alexandre@gmail.com";
 		
-		return MAIL_SERVER+"?type"+MAIL_TYPE+"&to="+MAIL_TO;
+		return "redirect:"+MAIL_SERVER+"?type="+MAIL_TYPE+"&to="+MAIL_TO;
 		
 	}
 
