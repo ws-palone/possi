@@ -54,7 +54,7 @@ public class ConnectionController {
 	
 	@RequestMapping("/logout")
 	public String logout(){
-		return ticketValidatorFactory.getLogoutPage();
+		return "redirect:"+ticketValidatorFactory.getLogoutPage();
 	}
 	
 }
