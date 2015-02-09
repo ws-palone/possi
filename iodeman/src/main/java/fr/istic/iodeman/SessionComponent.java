@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -18,6 +20,11 @@ import fr.istic.iodeman.resolver.PersonUidResolver;
 
 @Component
 public class SessionComponent {
+	
+	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+	private class PermissionDeniedException extends RuntimeException{
+		
+	}
 
 	@Autowired
 	private PersonUidResolver personResolver;
@@ -29,16 +36,9 @@ public class SessionComponent {
 	}
 	
 	public void teacherOnly(){
-		ServletWebRequest servletWebRequest = (ServletWebRequest) RequestContextHolder.getRequestAttributes();
-		HttpServletResponse httpServletResponse = servletWebRequest.getResponse();
 		
 		if(getUser().getRole() != Role.PROF){
-			try {
-				httpServletResponse.sendError(403);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			throw new PermissionDeniedException();
 		}
 	}
 	
