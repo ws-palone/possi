@@ -339,6 +339,9 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		console.log("planning:");
 		console.log(data);
 		$scope.planning = data;
+		$scope.planning.priorities.sortBy(function(p) {
+			return p.weight;
+		}, true);	
 		$scope.$apply();
 
 		/*$(".spinner").TouchSpin({
