@@ -362,7 +362,7 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 	});
 	
 	$scope.submit = function() {
-		
+
 		var i =0;
 
 		var sortedIDs = $( "#sortable" ).sortable( "toArray" );
@@ -386,7 +386,7 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 			console.log("priorities updated!");
 			console.log(data);
 			// redirection
-			document.location.href = '/planning/'+$scope.planning.id;
+			document.location.href = '#/planning/'+$scope.planning.id;
 		});
 		postRequest.error(function(data, code) {
 			console.log("error. cannot update priorities");
