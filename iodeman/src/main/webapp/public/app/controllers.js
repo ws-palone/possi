@@ -29,7 +29,7 @@ iodeman.controller('homeController', function($scope, backend) {
 		$scope.plannings.each(function(planning){
 			var adminUid= planning.admin.uid;
 			if($scope.$parent.user.uid == adminUid){ 
-				$scope.planning.show_gerer = true;
+				planning.show_gerer = true;
 			}
 		});
 		$scope.$apply();
