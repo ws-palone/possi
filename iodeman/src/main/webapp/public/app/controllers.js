@@ -333,6 +333,8 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 
 	$scope.id = $routeParams.id;
 
+	$scope.showError = false;
+	
 	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
 
@@ -358,15 +360,13 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 	         placeholder: "ui-sortable-placeholder" 
 	     });
 	});
-
-	
 	
 	$scope.submit = function() {
+		
 		var i =0;
 
 		var sortedIDs = $( "#sortable" ).sortable( "toArray" );
 		console.log(sortedIDs);
-		//traitement
 		
 		if ($scope.planning == null) {
 			return;
@@ -385,12 +385,19 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 		postRequest.success(function (data) {
 			console.log("priorities updated!");
 			console.log(data);
-			$location.path('/planning/'+$scope.planning.id).replace();
-
+			// redirection
+			document.location.href = '/planning/'+$scope.planning.id;
 		});
-		postRequest.error(function(data) {
+		postRequest.error(function(data, code) {
 			console.log("error. cannot update priorities");
 			console.log(data);
+			$scope.showError = true;
+			if (code == 401 || code == 403) {
+				$scope.errorMessage = "Vous n'êtes pas autorisé à effectuer cette opération";
+			}else{
+				$scope.errorMessage = "Impossible de contacter le serveur. Veuillez réessayer plus tard.";
+			}
+			$scope.$apply();
 		});
 
 	};
