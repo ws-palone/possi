@@ -16,7 +16,6 @@ import com.google.common.collect.Maps;
 import fr.istic.iodeman.factory.OralDefenseFactory;
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
@@ -37,6 +36,8 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 	
 	private Map<TimeBox, Integer> allocationsPerTimebox;
 	private Map<Participant, List<TimeBox>> buffer;
+	
+	private Integer nbMaxAllocPerDay;
 	
 	private boolean isReady = false;
 	private boolean hasNewAllocations;
@@ -79,6 +80,9 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 		}
 		this.buffer = Maps.newHashMap();
 		this.remainingParticipants = Lists.newArrayList(participants);
+		
+		this.nbMaxAllocPerDay = planning.getNbMaxOralDefensePerDay();
+		if (this.nbMaxAllocPerDay == null) this.nbMaxAllocPerDay = 0;
 		
 		isReady = true;
 		
@@ -156,6 +160,7 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 				AlgoPlanningImplV2 algo = new AlgoPlanningImplV2();
 				algo.configure(planning, remainingParticipants, remainingTimeboxes, unavailabilities);
 				algo.setAllocationsPerTimebox(allocationsPerTimebox);
+				algo.results.addAll(this.results);
 				algo.allocateTimeBox(buffer.get(badLuckBryan).get(i), badLuckBryan);
 				Collection<OralDefense> res = algo.execute();
 				
@@ -163,7 +168,8 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 				
 				if(bestCost == -1 || cost < bestCost) {
 					System.out.println("better path detected with cost: "+cost);
-					results.addAll(res);
+					this.results.clear();
+					this.results.addAll(res);
 				}
 				
 				if (cost == 0) {	
@@ -264,12 +270,6 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 	
 	
 	protected boolean allocateTimeBox(TimeBox timeBox, Participant participant) {
-
-		/*if (!remainingTimeboxes.contains(timeBox)) {
-			remainingTimeboxes.remove(timeBox);
-			System.out.println("error, trying to allocate a timebox that is already allocated!");
-			return false;
-		}*/
 		
 		Integer a = allocationsPerTimebox.get(timeBox);
 		if (a == null) a = 0;
@@ -280,6 +280,7 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 		
 		try {
 			
+			// create the oral defense
 			oralDefense = OralDefenseFactory.createOralDefense(participant, room, timeBox);
 			System.out.println("");
 			System.out.println("new oral defense created for student "+participant.getStudent().getId()+"["+participant.getStudent().getFirstName()+"]");
@@ -287,27 +288,63 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 		}catch(IllegalArgumentException ex) {
 			
 			return false;
-		
 		}
 		
+		// increment the number of allocations for this timebox
 		a++;
 		allocationsPerTimebox.put(timeBox, a);
 		
+		// check if all the rooms has been used on this timebox
 		if (a == rooms.size()) {
 			remainingTimeboxes.remove(timeBox);
 		}
 		
+		// remove the participant from the list
 		remainingParticipants.remove(participant);
 		System.out.println("remaining students : "+remainingParticipants.size());
 		System.out.println("");
 		
+		// clear the buffer
 		buffer.remove(participant);
 
+		// add the result
 		results.add(oralDefense);
+		
+		// handle max allocations per day
+		handleMaxAllocPerDay(timeBox);
 		
 		hasNewAllocations = true;
 		
 		return true;
+	}
+	
+	private void handleMaxAllocPerDay(TimeBox timeBox) {
+		
+		if (nbMaxAllocPerDay > 0) {
+			
+			final int day = new DateTime(timeBox.getFrom()).dayOfYear().get();
+			
+			// extract the oral defense on the same day
+			Collection<OralDefense> oralDefensesOnSameDay = Collections2.filter(results, new Predicate<OralDefense>() {
+				@Override
+				public boolean apply(OralDefense od) {
+					return (day == new DateTime(od.getTimebox().getFrom()).dayOfYear().get());
+				}
+			});
+			
+			if (oralDefensesOnSameDay.size() == nbMaxAllocPerDay) {
+				
+				// remove all timeboxes left on this day
+				for(TimeBox tb : Lists.newArrayList(remainingTimeboxes)) {
+					if (day == new DateTime(tb.getFrom()).dayOfYear().get()) {
+						remainingTimeboxes.remove(tb);
+					}
+				}
+				
+			}
+			
+		}
+		
 	}
 	
 	protected void setAllocationsPerTimebox(Map<TimeBox, Integer> mapAllocationsPerTimeBox) {

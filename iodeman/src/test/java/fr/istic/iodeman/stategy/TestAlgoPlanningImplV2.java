@@ -12,6 +12,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -137,6 +139,7 @@ public class TestAlgoPlanningImplV2 {
 		));
 		unavailabilities.add(ua5);
 		
+		algo = new AlgoPlanningImplV2();
 		algo.configure(planning, planning.getParticipants(), timeBoxes, unavailabilities);
 		
 		Collection<OralDefense> results = algo.execute();
@@ -199,6 +202,7 @@ public class TestAlgoPlanningImplV2 {
 		));
 		unavailabilities.add(ua3);
 		
+		algo = new AlgoPlanningImplV2();
 		algo.configure(planning, planning.getParticipants(), timeBoxes, unavailabilities);
 		
 		Collection<OralDefense> results = algo.execute();
@@ -252,6 +256,76 @@ public class TestAlgoPlanningImplV2 {
 	public void testExecuteWithoutConfigure() {
 		
 		algo.execute();
+		
+	}
+	
+	@Test
+	public void testWithNbMaxAllocsPerDay() {
+		
+		List<Participant> participants = TestUtils.createParticipants(4);
+		
+		Room room1 = new Room();
+		room1.setName("i227");
+		Room room2 = new Room();
+		room2.setName("i58");
+		
+		Priority priority1 = new Priority();
+		priority1.setRole(Role.STUDENT);
+		priority1.setWeight(1);
+		
+		Priority priority2 = new Priority();
+		priority2.setWeight(10);
+		priority2.setRole(Role.PROF);
+		
+		Planning planning = new Planning();
+		planning.setParticipants(participants);
+		planning.setRooms(Lists.newArrayList(room1, room2));
+		planning.setPriorities(Lists.newArrayList(priority1, priority2));
+		
+		planning.setNbMaxOralDefensePerDay(2);
+		
+		List<TimeBox> timeBoxes = Lists.newArrayList(
+				new TimeBox(new DateTime(2015, 1, 13, 8, 0).toDate(), new DateTime(2015, 1, 13, 8, 30).toDate()),
+				new TimeBox(new DateTime(2015, 1, 13, 8, 30).toDate(), new DateTime(2015, 1, 13, 9, 0).toDate()),
+				new TimeBox(new DateTime(2015, 1, 13, 9, 0).toDate(), new DateTime(2015, 1, 13, 9, 30).toDate()),
+				new TimeBox(new DateTime(2015, 1, 13, 9, 30).toDate(), new DateTime(2015, 1, 13, 10, 0).toDate()),
+				new TimeBox(new DateTime(2015, 1, 14, 8, 0).toDate(), new DateTime(2015, 1, 14, 8, 30).toDate()),
+				new TimeBox(new DateTime(2015, 1, 14, 8, 30).toDate(), new DateTime(2015, 1, 14, 9, 0).toDate()),
+				new TimeBox(new DateTime(2015, 1, 14, 9, 0).toDate(), new DateTime(2015, 1, 14, 9, 30).toDate()),
+				new TimeBox(new DateTime(2015, 1, 14, 9, 30).toDate(), new DateTime(2015, 1, 14, 10, 0).toDate())
+		);
+		
+		Collection<Unavailability> unavailabilities = Lists.newArrayList();
+		
+		algo = new AlgoPlanningImplV2();
+		algo.configure(planning, planning.getParticipants(), timeBoxes, unavailabilities);
+		
+		Collection<OralDefense> results = algo.execute();
+		
+		TestUtils.printResults(results);
+		
+		// verification
+		checkResults(results, participants, unavailabilities);
+		
+		final int day1 = new DateTime(2015, 1, 13, 0, 0).dayOfYear().get();
+		final int day2 = new DateTime(2015, 1, 14, 0, 0).dayOfYear().get();
+		
+		Collection<OralDefense> resultsForDay1 = Collections2.filter(results, new Predicate<OralDefense>() {
+			@Override
+			public boolean apply(OralDefense od) {
+				return day1 == new DateTime(od.getTimebox().getFrom()).dayOfYear().get();
+			}
+		});
+		
+		Collection<OralDefense> resultsForDay2 = Collections2.filter(results, new Predicate<OralDefense>() {
+			@Override
+			public boolean apply(OralDefense od) {
+				return day2 == new DateTime(od.getTimebox().getFrom()).dayOfYear().get();
+			}
+		});
+		
+		assertEquals(2, resultsForDay1.size());
+		assertEquals(2, resultsForDay2.size());
 		
 	}
 	
