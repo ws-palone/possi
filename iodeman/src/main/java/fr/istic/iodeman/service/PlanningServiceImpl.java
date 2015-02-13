@@ -290,7 +290,7 @@ public class PlanningServiceImpl implements PlanningService {
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
 		
-		builder.validate(); // throw exception if not validated
+		builder.split().validate(); // throw exception if not validated
 		
 	}
 	
