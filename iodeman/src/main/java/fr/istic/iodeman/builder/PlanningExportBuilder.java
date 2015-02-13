@@ -59,7 +59,7 @@ public class PlanningExportBuilder {
 	
 	public PlanningExportBuilder validate() {
 		this.validator.configure(planning, participants, timeboxes);
-		this.validate();
+		this.validator.validate();
 		return this;
 	}
 	
