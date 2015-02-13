@@ -15,6 +15,10 @@ iodeman.controller('mainController', function($scope, backend) {
 		$scope.$apply();
 		//backend.login();
 	});
+	
+	$scope.logout = function() {
+		backend.logout();
+	};
 
 });
 

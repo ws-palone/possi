@@ -12,7 +12,11 @@ iodeman.config(function($provide) {
 			  "importParticipantsURL" :  backendURL + 'upload',
 			  
 			  "login" : function() {
-				  document.location.href= backendURL + "login"; 
+				  document.location.href = backendURL + "login"; 
+			  },
+			  
+			  "logout": function() {
+				  document.location.href = backendURL + 'logout';
 			  },
 		  
 			  "getUser" : function() {
