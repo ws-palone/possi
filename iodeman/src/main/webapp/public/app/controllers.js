@@ -233,6 +233,32 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		$scope.participants = data;
 		$scope.$apply();
 	});
+	
+	$scope.validate = function() {
+		
+		$scope.errorValidate = false;
+		$scope.errorNoParticipant = false;
+		$scope.errorNoRoom = false;
+		
+		if ($scope.participants == null || $scope.participants.length == 0) {
+			$scope.errorNoParticipant = true;
+			return;
+		}
+		
+		if ($scope.planning.rooms == null || $scope.planning.rooms.length == 0) {
+			$scope.errorNoRoom = true;
+			return;
+		}
+		
+		var validation = backend.plannings.validate($scope.id);
+		validation.success(function(data) {
+			document.location.href = $scope.fileURL;
+		});
+		validation.error(function(data) {
+			$scope.errorValidate = true;
+		});
+		
+	};
 
 });
 

@@ -82,6 +82,10 @@ iodeman.config(function($provide) {
 						  });
 					  },
 					  
+					  "validate": function(planningID) {
+						  return $http.get(backendURL + 'planning/'+planningID+'/validate');
+					  },
+					  
 					  "exportURL": function (planningID) {
 						  return backendURL + 'planning/'+planningID+'/export';
 					  }
