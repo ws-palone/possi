@@ -45,7 +45,7 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 	public void configure(Planning planning,
 			Collection<Participant> participants, Collection<TimeBox> timeboxes,
 			Collection<Unavailability> unavailabilities) {
-		
+		/*
 		// verify that a planning has been configure correctly
 		Validate.notNull(planning);
 		Validate.notNull(planning.getRooms());
@@ -61,6 +61,11 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 		
 		// verify that we have enough timeboxes and rooms to create an oral defense for each participant
 		Validate.isTrue(timeboxes.size() * planning.getRooms().size() >= participants.size());
+		*/
+		PlanningDataValidator validator = new PlanningDataValidatorImpl();
+		validator.configure(planning, participants, timeboxes);
+		validator.validate();
+		
 				
 		this.planning = planning;
 		this.rooms = Lists.newArrayList(planning.getRooms());

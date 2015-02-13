@@ -197,4 +197,12 @@ public class PlanningController {
 		return results;
 	}
 	
+	@RequestMapping(value = "/{id}/validate")
+	public void validate(@PathVariable("id") Integer id) {
+		
+		session.teacherOnly();
+		
+		planningService.validate(id);
+	}
+	
 }

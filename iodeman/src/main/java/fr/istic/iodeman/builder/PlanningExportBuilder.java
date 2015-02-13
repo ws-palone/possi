@@ -15,6 +15,8 @@ import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.strategy.AlgoJuryAssignation;
 import fr.istic.iodeman.strategy.AlgoJuryAssignationImpl;
 import fr.istic.iodeman.strategy.AlgoPlanningImplV2;
+import fr.istic.iodeman.strategy.PlanningDataValidator;
+import fr.istic.iodeman.strategy.PlanningDataValidatorImpl;
 import fr.istic.iodeman.strategy.PlanningExcelExport;
 import fr.istic.iodeman.strategy.PlanningExport;
 import fr.istic.iodeman.strategy.PlanningSplitter;
@@ -26,6 +28,7 @@ public class PlanningExportBuilder {
 	private AlgoPlanningImplV2 algoPlanning = new AlgoPlanningImplV2();
 	private AlgoJuryAssignation algoJuryAssignation = new AlgoJuryAssignationImpl();
 	private PlanningExport planningExport = new PlanningExcelExport();
+	private PlanningDataValidator validator = new PlanningDataValidatorImpl();
 	
 	private Planning planning;
 	private Collection<Unavailability> unavailabilities;
@@ -51,6 +54,12 @@ public class PlanningExportBuilder {
 	
 	public PlanningExportBuilder split() {
 		timeboxes = splitter.execute(planning);
+		return this;
+	}
+	
+	public PlanningExportBuilder validate() {
+		this.validator.configure(planning, participants, timeboxes);
+		this.validate();
 		return this;
 	}
 	

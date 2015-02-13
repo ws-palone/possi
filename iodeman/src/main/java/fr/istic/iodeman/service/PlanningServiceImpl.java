@@ -278,5 +278,20 @@ public class PlanningServiceImpl implements PlanningService {
 		return builder.split().build().getOralDefenses();
 		
 	}
+
+	@Override
+	public void validate(Integer planningId) {
+		
+		// retrieving the planning 
+		Planning planning = planningDAO.findById(planningId);
+		Validate.notNull(planning);
+		
+		// initialize builder
+		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
+		builder.setParticipants(planningDAO.findParticipants(planning));
+		
+		builder.validate(); // throw exception if not validated
+		
+	}
 	
 }
