@@ -80,6 +80,8 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		Planning pl2 = new Planning();pl2.setParticipants(participants2);pl2.setAdmin(p6);pl2.setName("CestLePlanningDeGrosAmblard");
 		plannings.add(pl1);
 		plannings.add(pl2);
+		Planning pl3 = new Planning();pl3.setAdmin(p5);
+		plannings.add(pl3);
 		
 		for(Planning p : plannings){
 			planningDAO.persist(p);
@@ -111,6 +113,15 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		assertEquals(plannings.size(), 1);
 		
 		assertEquals(plannings.get(0).getName(), "CestLePlanningDeGrosAmblard");
+		
+	}
+	
+	@Test 
+	public void testFindAllByUidWithLeftJoin(){
+		
+		List<Planning> plannings = planningDAO.findAll("certainD");
+		
+		assertEquals(plannings.size(), 3);
 		
 	}
 	

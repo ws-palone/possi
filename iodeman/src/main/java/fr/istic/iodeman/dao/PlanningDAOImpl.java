@@ -9,6 +9,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Lists;
@@ -81,14 +82,14 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	}
 	
 	public List<Planning> findAll(String uid) {
+		
 		Session session = getNewSession();
 		List<Planning> plannings = new ArrayList<Planning>();
 		Criteria criteria = session.createCriteria(Planning.class);
 		criteria.createAlias("admin", "adm");
-		criteria.createAlias("participants", "parts");
-		criteria.createAlias("parts.student", "student");
-		criteria.createAlias("parts.followingTeacher", "teacher");
-		
+		criteria.createAlias("participants", "parts", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("parts.student", "student", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("parts.followingTeacher", "teacher", JoinType.LEFT_OUTER_JOIN);
 		
 		criteria.add(Restrictions.or(
 				Restrictions.eq("student.uid", uid),
