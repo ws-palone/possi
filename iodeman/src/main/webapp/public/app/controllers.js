@@ -242,11 +242,13 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		
 		if ($scope.participants == null || $scope.participants.length == 0) {
 			$scope.errorNoParticipant = true;
+			$scope.$apply();
 			return;
 		}
 		
 		if ($scope.planning.rooms == null || $scope.planning.rooms.length == 0) {
 			$scope.errorNoRoom = true;
+			$scope.$apply();
 			return;
 		}
 		
@@ -256,6 +258,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		});
 		validation.error(function(data) {
 			$scope.errorValidate = true;
+			$scope.$apply();
 		});
 		
 	};
