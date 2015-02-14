@@ -151,7 +151,18 @@ public class PlanningController {
 		
 		TimeBox period = (periodStart != null && periodEnd != null) ? new TimeBox(periodStart, periodEnd) : null;
 		TimeBox lunch = (lunchBreakStart != null && lunchBreakEnd != null) ? new TimeBox(lunchBreakStart, lunchBreakEnd) : null;
-		TimeBox dayPeriod = (dayPeriodStart != null && dayPeriodEnd != null) ? new TimeBox(dayPeriodStart, dayPeriodEnd) : null;
+		//TimeBox dayPeriod = (dayPeriodStart != null && dayPeriodEnd != null) ? new TimeBox(dayPeriodStart, dayPeriodEnd) : null;
+		
+		TimeBox dayPeriod = new TimeBox(
+				new DateTime(planning.getDayPeriod().getFrom())
+					.withHourOfDay(new DateTime(dayPeriodStart).getHourOfDay())
+					.withMinuteOfHour(new DateTime(dayPeriodStart).getMinuteOfHour())
+					.toDate(),
+				new DateTime(planning.getDayPeriod().getFrom())
+					.withHourOfDay(new DateTime(dayPeriodEnd).getHourOfDay())
+					.withMinuteOfHour(new DateTime(dayPeriodEnd).getMinuteOfHour())
+					.toDate()
+		);
 		
 		planningService.update(planning, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
 		
