@@ -54,14 +54,6 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	var inputDuration = $('#inputDuration');
 	var inputInterlude = $('#inputInterlude');
 
-	inputStartingDate.datepicker({
-		dateFormat : 'dd/MM/yyyy'
-	});
-
-	inputEndingDate.datepicker({
-		dateFormat : 'dd/MM/yyyy'
-	});
-
 	inputDayPeriodStart.timepicker();
 	inputDayPeriodEnd.timepicker();
 	inputLunchBreakStart.timepicker();
@@ -93,7 +85,8 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			rooms: ''
 	};
 
-	if ($scope.id != null) {
+	if ($scope.id != null) {	// EDITION MODE
+		
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
 			console.log("planning:");
@@ -101,8 +94,8 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			$scope.planning = {
 					planningID: data.id, 
 					name: data.name,
-					periodStart: Date.create(data.period.from).format('{yyyy}-{MM}-{dd}'),
-					periodEnd: Date.create(data.period.to).format('{yyyy}-{MM}-{dd}'),
+					periodStart: Date.create(data.period.from).format('{dd}/{MM}/{yyyy}'),
+					periodEnd: Date.create(data.period.to).format('{dd}/{MM}/{yyyy}'),
 					oralDefenseDuration: data.oralDefenseDuration,
 					oralDefenseInterlude: data.oralDefenseInterlude,
 					lunchBreakStart: Date.create(data.lunchBreak.from).format('{hh}:{mm}'),
@@ -114,21 +107,21 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 						return r.name;
 					})
 			};
-			inputDayPeriodStart.timepicker({ 
-				defaultTime: $scope.planning.dayPeriodStart 
-			});
-			inputDayPeriodEnd.timepicker({ 
-				defaultTime: $scope.planning.dayPeriodEnd 
-			});
-			inputLunchBreakStart.timepicker({ 
-				defaultTime: $scope.planning.lunchBreakStart 
-			});
-			inputLunchBreakEnd.timepicker({ 
-				defaultTime: $scope.planning.lunchBreakEnd 
-			});
+			inputDayPeriodStart.val($scope.planning.dayPeriodStart);
+			inputDayPeriodEnd.val($scope.planning.dayPeriodEnd);
+			inputLunchBreakStart.val($scope.planning.lunchBreakStart);
+			inputLunchBreakEnd.val($scope.planning.lunchBreakEnd);
+			inputDuration.val($scope.planning.oralDefenseDuration);
+			inputInterlude.val($scope.planning.oralDefenseInterlude);
+			inputStartingDate.val($scope.planning.periodStart);
+			inputStartingDate.datepicker();
+			inputEndingDate.val($scope.planning.periodEnd);
+			inputEndingDate.datepicker();
 			$scope.$apply();
 		});
-	} else {
+		
+	} else {	// CREATION MODE
+		
 		// day period
 		inputDayPeriodStart.val("09:00");
 		inputDayPeriodEnd.val("17:00");
@@ -138,6 +131,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		// oral defense duration
 		inputDuration.val(40);
 		inputInterlude.val(10);
+		
+		inputStartingDate.datepicker();
+		inputEndingDate.datepicker();
 
 	}
 
