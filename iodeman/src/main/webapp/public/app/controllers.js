@@ -94,14 +94,14 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			$scope.planning = {
 					planningID: data.id, 
 					name: data.name,
-					periodStart: Date.create(data.period.from).format('{dd}/{MM}/{yyyy}'),
-					periodEnd: Date.create(data.period.to).format('{dd}/{MM}/{yyyy}'),
+					periodStart: Date.utc.create(data.period.from).format('{dd}/{MM}/{yyyy}'),
+					periodEnd: Date.utc.create(data.period.to).format('{dd}/{MM}/{yyyy}'),
 					oralDefenseDuration: data.oralDefenseDuration,
 					oralDefenseInterlude: data.oralDefenseInterlude,
-					lunchBreakStart: Date.create(data.lunchBreak.from).format('{hh}:{mm}'),
-					lunchBreakEnd: Date.create(data.lunchBreak.to).format('{HH}:{mm}'),
-					dayPeriodStart: Date.create(data.dayPeriod.from).format('{HH}:{mm}'),
-					dayPeriodEnd: Date.create(data.dayPeriod.to).format('{HH}:{mm}'),
+					lunchBreakStart: Date.utc.create(data.lunchBreak.from).format('{HH}:{mm}'),
+					lunchBreakEnd: Date.utc.create(data.lunchBreak.to).format('{HH}:{mm}'),
+					dayPeriodStart: Date.utc.create(data.dayPeriod.from).format('{HH}:{mm}'),
+					dayPeriodEnd: Date.utc.create(data.dayPeriod.to).format('{HH}:{mm}'),
 					nbMaxOralDefensePerDay: data.nbMaxOralDefensePerDay,
 					rooms: data.rooms.map(function(r) {
 						return r.name;
