@@ -181,17 +181,37 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 
 		if (validate){
 
-			var createRequest = backend.plannings.create($scope.planning);
-			createRequest.success(function(data) {
-				console.log('planning created!');
-				document.location.href = "index.html#/planning/"+data.id; 
-			});
-			createRequest.error(function(data) {
-				$("#showError").show();
-//				$scope.showError = true;
-//				$scope.$apply();
-				console.log('error. cannot create planning!');
-			});
+			if ($scope.id != null) {
+				
+				$scope.planning.planningID = $scope.id; 
+				var updateRequest = backend.plannings.update($scope.planning);
+				updateRequest.success(function(data) {
+					console.log('planning updated!');
+					document.location.href = "index.html#/planning/"+$scope.id; 
+				});
+				updateRequest.error(function(data) {
+					$("#showError").show();
+//					$scope.showError = true;
+//					$scope.$apply();
+					console.log('error. cannot update this planning!');
+				});
+				
+			}else{
+			
+				var createRequest = backend.plannings.create($scope.planning);
+				createRequest.success(function(data) {
+					console.log('planning created!');
+					document.location.href = "index.html#/planning/"+data.id; 
+				});
+				createRequest.error(function(data) {
+					$("#showError").show();
+//					$scope.showError = true;
+//					$scope.$apply();
+					console.log('error. cannot create planning!');
+				});
+				
+			}
+			
 		} else {
 			// I prefer use jQuery rather angular
 			// There were some errors with angular
