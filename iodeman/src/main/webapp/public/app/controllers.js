@@ -42,7 +42,7 @@ iodeman.controller('homeController', function($scope, backend) {
 });
 
 iodeman.controller('PlanningFormController', function($scope, backend, $routeParams) {
-
+	
 	$scope.id = $routeParams.id;
 
 	var inputStartingDate = $('#startingDate');
@@ -99,9 +99,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 					oralDefenseDuration: data.oralDefenseDuration,
 					oralDefenseInterlude: data.oralDefenseInterlude,
 					lunchBreakStart: Date.create(data.lunchBreak.from).format('{hh}:{mm}'),
-					lunchBreakEnd: Date.create(data.lunchBreak.to).format('{hh}:{mm}'),
-					dayPeriodStart: Date.create(data.dayPeriod.from).format('{hh}:{mm}'),
-					dayPeriodEnd: Date.create(data.dayPeriod.to).format('{hh}:{mm}'),
+					lunchBreakEnd: Date.create(data.lunchBreak.to).format('{HH}:{mm}'),
+					dayPeriodStart: Date.create(data.dayPeriod.from).format('{HH}:{mm}'),
+					dayPeriodEnd: Date.create(data.dayPeriod.to).format('{HH}:{mm}'),
 					nbMaxOralDefensePerDay: data.nbMaxOralDefensePerDay,
 					rooms: data.rooms.map(function(r) {
 						return r.name;
@@ -139,8 +139,11 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 
 	$scope.submit = function() {
 
-		$scope.planning.periodStart = Date.create(inputStartingDate.val()).format('{yyyy}-{MM}-{dd}');
-		$scope.planning.periodEnd = Date.create(inputEndingDate.val()).format('{yyyy}-{MM}-{dd}');
+		console.log($scope.planning);
+		console.log(inputStartingDate.val());
+		
+		$scope.planning.periodStart = Date.create(inputStartingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
+		$scope.planning.periodEnd = Date.create(inputEndingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
 		$scope.planning.dayPeriodStart = inputDayPeriodStart.val();
 		$scope.planning.dayPeriodEnd = inputDayPeriodEnd.val();
 		$scope.planning.lunchBreakStart = inputLunchBreakStart.val();
@@ -158,26 +161,25 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		if ($scope.planning.periodStart > $scope.planning.periodEnd) {
 			console.log("in");
 			$("#showErrorInfo").text("Dates de période sont incohérentes");
-			validation = false; 
+			validate = false; 
 		} else if ($scope.planning.dayPeriodStart >= $scope.planning.dayPeriodEnd) {
 			$("#showErrorInfo").text("Heures de début et de fin de journée incohérentes");
-			validation = false; 
+			validate = false; 
 		} else if ($scope.planning.lunchBreakStart > $scope.planning.lunchBreakStart) {
 			$("#showErrorInfo").text("Heures de repas incohérentes");
-			validation = false; 
+			validate = false; 
 		} else if (
 				($scope.planning.dayPeriodStart >= $scope.planning.lunchBreakStart)
 				||
 				($scope.planning.dayPeriodEnd <= $scope.planning.lunchBreakEnd)
 		){
 			$("#showErrorInfo").text("Heures incohérentes");
-			validation = false; 
+			validate = false; 
 		}
 
 		// END validation
 
 		if (validate){
-			console.log($scope.planning);
 
 			var createRequest = backend.plannings.create($scope.planning);
 			createRequest.success(function(data) {
