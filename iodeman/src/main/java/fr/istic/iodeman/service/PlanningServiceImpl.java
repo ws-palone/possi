@@ -121,7 +121,7 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		if (dayPeriod != null) {
 			dayPeriod.validate();
-			planning.setDayPeriod(period);
+			planning.setDayPeriod(dayPeriod);
 		}
 		
 		if (lunchBreak != null) {
