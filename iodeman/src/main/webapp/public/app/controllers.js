@@ -502,7 +502,6 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 		});
 		$scope.submitColumn = function(c) {
 			// add an action for each clic on a column
-			alert('hi');
 			var daysOfColumn = days.filter(function(d) {
 				return d.day == c;
 			});
