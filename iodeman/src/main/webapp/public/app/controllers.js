@@ -500,21 +500,22 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 				});
 			};
 		});
-		$scope.columns.each(function(c) {
+		$scope.submitColumn = function(c) {
 			// add an action for each clic on a column
-			c.submit = function() {
-				var daysOfColumn = days.filter(function(d) {
-					return d.day == c;
-				});
-				daysOfColumn.each(function(d) {
-					d.submit();
-				});
-			};
-		});
+			alert('hi');
+			var daysOfColumn = days.filter(function(d) {
+				return d.day == c;
+			});
+			daysOfColumn.each(function(d) {
+				d.checked = !d.checked;
+				d.submit();
+			});
+		};
 		$scope.agenda.each(function(l) {
 			// add an action for each clic on a line
 			l.submit = function() {
 				l.days.each(function(d) {
+					d.checked = !d.checked;
 					d.submit();
 				});
 			};
