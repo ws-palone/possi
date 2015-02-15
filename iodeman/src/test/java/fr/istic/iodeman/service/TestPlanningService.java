@@ -3,6 +3,7 @@ package fr.istic.iodeman.service;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -16,8 +17,11 @@ import org.mockito.MockitoAnnotations;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.dao.PlanningDAO;
+import fr.istic.iodeman.dao.PriorityDAO;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 
@@ -28,6 +32,9 @@ public class TestPlanningService {
 	
 	@Mock
 	private PlanningDAO planningDAO;
+	
+	@Mock
+	private PriorityDAO priorityDAO;
 	
 	@Before
 	public void setUp() {
@@ -131,6 +138,45 @@ public class TestPlanningService {
 		assertEquals(dayPeriod, p.getDayPeriod());
 		assertEquals(nbMaxOralDefensePerDay, p.getNbMaxOralDefensePerDay());
 		assertEquals(rooms.size(), p.getRooms().size());
+		
+	}
+	
+	@Test
+	public void testUpdatePriorities() {
+		
+		Planning planning = new Planning();
+		
+		List<Priority> prioritiesBefore = Lists.newArrayList(
+				new Priority(Role.STUDENT, 1),
+				new Priority(Role.PROF, 2)
+		);
+		
+		List<Priority> prioritiesAfter = Lists.newArrayList(
+				new Priority(Role.STUDENT, 2),
+				new Priority(Role.PROF, 1)
+		);
+		
+		for(int i=0; i<prioritiesBefore.size(); i++) {
+			prioritiesBefore.get(i).setId(i+1);
+			prioritiesAfter.get(i).setId(i+1);
+		}
+		
+		planning.setPriorities(prioritiesBefore);
+		
+		planningService.updatePriorities(planning, prioritiesAfter);
+		
+		ArgumentCaptor<Priority> argument = ArgumentCaptor.forClass(Priority.class);
+		Mockito.verify(priorityDAO, Mockito.times(2)).update(argument.capture());
+		
+		List<Priority> results = argument.getAllValues();
+		
+		for(Priority p : results) {
+			if (p.getRole() == Role.STUDENT) {
+				assertEquals(2, p.getWeight().intValue());
+			}else{
+				assertEquals(1, p.getWeight().intValue());
+			}
+		}
 		
 	}
 	
