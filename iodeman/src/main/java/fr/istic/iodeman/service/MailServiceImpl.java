@@ -20,6 +20,7 @@ public class MailServiceImpl implements MailService{
 	private String MAIL_SERVER;
 	private String MAIL_TYPE;
 	private String MAIL_TO;
+	private String MAIL_OBJECT;
 
 	@Override
 	public String sendToEveryParticipant(Integer idPlanning) {
@@ -28,6 +29,7 @@ public class MailServiceImpl implements MailService{
 		
 		MAIL_SERVER = "https://webmail.etudiant.univ-rennes1.fr/dimp/compose.php";
 		MAIL_TYPE = "new";
+		MAIL_OBJECT = "Notification : Soutenance de stage";
 		MAIL_TO = "";
 		
 		Planning planning = planningDAO.findById(idPlanning);
@@ -43,7 +45,7 @@ public class MailServiceImpl implements MailService{
 			MAIL_TO+= p.getStudent().getEmail()+",";
 		}
 		
-		return "redirect:"+MAIL_SERVER+"?type="+MAIL_TYPE+"&to="+MAIL_TO;
+		return "redirect:"+MAIL_SERVER+"?type="+MAIL_TYPE+"&subject="+MAIL_OBJECT+"&to="+MAIL_TO;
 	}
 	
 	
