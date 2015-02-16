@@ -14,9 +14,9 @@ public class MailController {
 	private MailService mailService;
 	
 	@RequestMapping("/mail/{id}")
-	public String senMailToEveryParticipant(@PathVariable("planningID") Integer planningID){
+	public String senMailToEveryParticipant(@PathVariable("id") Integer id){
 		
-		return mailService.sendToEveryParticipant(planningID);
+		return mailService.sendToEveryParticipant(id);
 		
 	}
 
