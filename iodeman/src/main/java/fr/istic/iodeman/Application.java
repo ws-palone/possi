@@ -1,22 +1,13 @@
 package fr.istic.iodeman;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-/**
- * Hello world!
- *
- */
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @ComponentScan
 @EnableAutoConfiguration
@@ -34,14 +25,12 @@ public class Application extends SpringBootServletInitializer
         return application.sources(Application.class);
     }
     
-    static public String getURL(HttpServletRequest request) {
-    	String fullPath = request.getRequestURL().toString();
-    	String servletPath = request.getServletPath();
-    	int i = fullPath.indexOf(servletPath);
-    	if (i > 0) {
-    		return fullPath.substring(0, i+servletPath.length());
-    	}
-    	return fullPath;
+    @Controller
+    public static class FaviconController {
+        @RequestMapping("favicon.ico")
+        public String favicon() {
+            return "forward:/public/assets/img/favicon.ico";
+        }
     }
     
 }
