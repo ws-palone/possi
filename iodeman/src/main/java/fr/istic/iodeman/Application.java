@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @ComponentScan
 @EnableAutoConfiguration
@@ -23,14 +21,6 @@ public class Application extends SpringBootServletInitializer
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
-    }
-    
-    @Controller
-    public static class FaviconController {
-        @RequestMapping("favicon.ico")
-        public String favicon() {
-            return "forward:/public/assets/img/favicon.ico";
-        }
     }
     
 }
