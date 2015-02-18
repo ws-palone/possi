@@ -2,12 +2,17 @@ package fr.istic.iodeman.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
@@ -17,6 +22,7 @@ import com.google.common.collect.Lists;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Unavailability;
 
 @Repository
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
@@ -144,6 +150,59 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		Collection<Priority> priorities = Lists.newArrayList(planningRetrieved.getPriorities());
 		session.close();
 		return priorities;
+	}
+
+	@Override
+	public Map<String, Integer> findParticipantsAndUnavailabilitiesNumber(
+			Planning planning, Collection<String> uids) {
+		Session session = getNewSession();
+		
+//		SELECT Person.uid, count(Unavailability.person_id) as nbUnavailabilities
+//		FROM Unavailability, Person 
+//		WHERE Unavailability.person_id=Person.id
+//		AND planning_id=1
+//		AND Person.uid IN ("13008385", "13006294")
+//		GROUP BY Unavailability.person_id
+
+		Criteria criteria = session.createCriteria(Unavailability.class);
+		
+		// create alias for Person table
+		criteria.createAlias("person", "person1");
+		
+		// projections
+		criteria.setProjection(Projections.projectionList()
+				.add(Property.forName("person1.uid"))
+				.add(Projections.rowCount())
+				.add(Projections.groupProperty("person1.id").as("person1.id"))
+		);
+		
+		// restrictions
+		criteria.add(Restrictions.and(
+				Restrictions.eq("planning.id", planning.getId()),
+				Restrictions.in("person1.uid", uids)
+				)
+		);
+			
+		Iterator it = criteria
+				.list()
+				.iterator();
+		
+		session.close();
+		
+		
+		// processing
+		Map<String, Integer> map = new HashMap<String, Integer>();	
+		
+		// 0 : uid
+		// 1 : number of unavailabilities
+		while(it.hasNext()){
+			Object[] tuple = (Object[])it.next();
+			String uid = String.valueOf(tuple[0]);
+			Integer nb = Integer.valueOf(String.valueOf(tuple[1]));
+			map.put(uid, nb);
+		}
+		
+		return map;
 	}
 
 }

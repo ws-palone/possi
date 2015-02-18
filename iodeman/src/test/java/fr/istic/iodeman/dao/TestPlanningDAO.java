@@ -5,7 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +21,7 @@ import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.utils.AbstractSpringUnitTest;
 
 public class TestPlanningDAO extends AbstractSpringUnitTest {
@@ -30,6 +34,9 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	
 	@Autowired
 	ParticipantDAO participantDAO;
+	
+	@Autowired
+	UnavailabilityDAO unavailabilityDAO;
 
 	List<Planning> plannings;
 	
@@ -87,6 +94,21 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 			planningDAO.persist(p);
 		}
 		
+		
+		// creation of unavailabilities
+		Collection<Unavailability> unavailabilities = new ArrayList<Unavailability>();
+		Unavailability u1 = new Unavailability(); u1.setPerson(p1); u1.setPlanning(pl1);
+		Unavailability u2 = new Unavailability(); u2.setPerson(p1); u2.setPlanning(pl1);
+		Unavailability u3 = new Unavailability(); u3.setPerson(p2); u3.setPlanning(pl1);
+		
+		unavailabilities.add(u1);
+		unavailabilities.add(u2);
+		unavailabilities.add(u3);
+		
+		for(Unavailability u : unavailabilities){
+			unavailabilityDAO.persist(u);
+		}
+		
 	}
 	
 	@After
@@ -96,6 +118,7 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 	
 	private void clearDB() {
 		// removing of all planning
+		unavailabilityDAO.deleteAll();
 		planningDAO.deleteAll();
 		participantDAO.deleteAll();
 		personDAO.deleteAll();
@@ -162,5 +185,42 @@ public class TestPlanningDAO extends AbstractSpringUnitTest {
 		assertTrue(priorities.size() > 0);
 		Priority priority = priorities.get(0);
 		assertTrue(priority.getWeight() == 5);
+	}
+
+	@Test
+	public void testFindParticipantsAndUnavailabilitiesNumber(){
+		// retrieving the planning
+		Planning planning = plannings.get(0);
+		assertTrue(planning.getId() != null);
+		Planning retrievedPlanning = planningDAO.findById(planning.getId());
+		
+		// get participants
+		Collection<Participant> participants = planningDAO.findParticipants(retrievedPlanning);
+		
+		Collection<String> uids = Lists.newArrayList();
+		for(Participant p : participants){
+			// TODO replace with immutableSet
+			if (!uids.contains(p.getStudent().getUid())) uids.add(p.getStudent().getUid());
+			if (!uids.contains(p.getStudent().getUid())) uids.add(p.getFollowingTeacher().getUid());
+		}
+		
+		Map<String, Integer> map = (HashMap<String, Integer>) planningDAO.findParticipantsAndUnavailabilitiesNumber(retrievedPlanning, uids);
+		assertTrue(map != null);
+		assertTrue(map.size() >= 2);
+		
+		// test
+		Iterator<String> it = map.keySet().iterator();
+		// get the first person
+		Person p1 = persons.get(0);
+		Person p2 = persons.get(1);
+		
+		while(it.hasNext()){
+			String uid = (String)it.next();
+			if (uid.equals(p1.getUid())) {
+				assertTrue(map.get(uid) == 2);
+			} else if (uid.equals(p2.getUid())) {
+				assertTrue(map.get(uid) == 1);
+			}
+		}
 	}
 }

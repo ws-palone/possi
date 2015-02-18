@@ -133,5 +133,4 @@ public class TestPlanningService {
 		assertEquals(rooms.size(), p.getRooms().size());
 		
 	}
-	
 }

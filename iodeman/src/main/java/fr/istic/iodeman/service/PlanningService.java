@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
+import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
@@ -44,4 +45,5 @@ public interface PlanningService {
 
 	public List<Planning> findAllByUid(String uid);
 	
+	public Collection<ParticipantDTO> findParticipantsAndUnavailabilitiesNumber(Planning planning);
 }

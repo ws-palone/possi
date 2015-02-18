@@ -20,6 +20,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.SessionComponent;
+import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
@@ -178,6 +179,21 @@ public class PlanningController {
 		
 		if (planning != null) {
 			return planningService.findParticipants(planning);
+		}
+		
+		return Lists.newArrayList();
+		
+	}
+	
+	@RequestMapping("/{id}/participants/unavailabilities")
+	public Collection<ParticipantDTO> getParticipantsAndUnavailabilitiesNumber(@PathVariable("id") Integer id) {
+		
+		session.teacherOnly();
+		
+		Planning planning = planningService.findById(id);
+		
+		if (planning != null) {
+			return planningService.findParticipantsAndUnavailabilitiesNumber(planning);
 		}
 		
 		return Lists.newArrayList();

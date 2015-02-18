@@ -2,7 +2,9 @@ package fr.istic.iodeman.service;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import fr.istic.iodeman.dao.PersonDAO;
 import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.dao.PriorityDAO;
 import fr.istic.iodeman.dao.UnavailabilityDAO;
+import fr.istic.iodeman.dto.ParticipantDTO;
+import fr.istic.iodeman.dto.PersonDTO;
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
@@ -292,6 +296,67 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		builder.split().validate(); // throw exception if not validated
 		
+	}
+
+	@Override
+	public Collection<ParticipantDTO> findParticipantsAndUnavailabilitiesNumber(Planning planning) {
+		// retrieving of participants
+		Collection<Participant> participants = planningDAO.findParticipants(planning);
+		
+		// parsing for getting uids or person
+		Collection<String> uids = Lists.newArrayList();
+		for(Participant p : participants){
+			// TODO replace with immutableSet
+			if (!uids.contains(p.getStudent().getUid())) uids.add(p.getStudent().getUid());
+			if (!uids.contains(p.getStudent().getUid())) uids.add(p.getFollowingTeacher().getUid());
+		}
+		
+		// retrieved map<Person, Integer> from parsing result
+		Map<String, Integer> map = (HashMap<String, Integer>)planningDAO.findParticipantsAndUnavailabilitiesNumber(planning, uids);
+		
+		// create collection of ParticipantDTO
+		Collection<ParticipantDTO> participantsDTO = Lists.newArrayList();
+		
+		for(Participant p : participants){
+			// DTO structure
+			ParticipantDTO participantDTO = new ParticipantDTO();
+			PersonDTO studentDTO = new PersonDTO();
+			PersonDTO followingTeacherDTO = new PersonDTO();
+			participantDTO.setStudent(studentDTO);
+			participantDTO.setFollowingTeacher(followingTeacherDTO);
+			participantsDTO.add(participantDTO);
+			
+			// student data 
+			studentDTO.setPerson(p.getStudent());
+			studentDTO.setUnavailabilitiesNumber(
+					getUnavailabilitiesNumber(
+							p.getStudent().getUid(),
+							map
+					)
+			);
+			
+			// followingTeacher data
+			followingTeacherDTO.setPerson(p.getFollowingTeacher());
+			followingTeacherDTO.setUnavailabilitiesNumber(
+					getUnavailabilitiesNumber(
+							p.getFollowingTeacher().getUid(),
+							map
+					)
+			);
+		}
+		
+		// if the result is not null
+		if (participantsDTO != null) return participantsDTO;
+		
+		return Lists.newArrayList();
+	}
+	
+	private Integer getUnavailabilitiesNumber(String uid, Map<String, Integer> map){
+		Integer nb = 0;
+		if (map.containsKey(uid)){
+			nb = map.get(uid);
+		} 
+		return nb;
 	}
 	
 }
