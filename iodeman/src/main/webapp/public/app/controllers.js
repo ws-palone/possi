@@ -255,7 +255,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		formUpload.submit();
 	});
 
-	var participantsRequest = backend.plannings.getParticipants($scope.id);
+	var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
 	participantsRequest.success(function(data) {
 		console.log("participants:");
 		console.log(data);
