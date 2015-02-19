@@ -48,7 +48,12 @@ public class MailServiceImpl implements MailService{
 		StringBuilder builder = new StringBuilder();
 		for(String p : participantsMails){
 			builder.append(p).append(',');
-		}		
+		}	
+		
+		if (builder.length() > 0) {
+			builder.deleteCharAt(builder.length()-1);
+		}
+		
 		MAIL_TO = builder.toString();
 		
 		return MAIL_SERVER+"?type="+MAIL_TYPE+"&subject="+MAIL_OBJECT+"&to="+MAIL_TO;
@@ -58,7 +63,5 @@ public class MailServiceImpl implements MailService{
 
 		return Lists.newArrayList(ImmutableSortedSet.copyOf(participantMail));
 	}
-	
-	
 
 }
