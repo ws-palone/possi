@@ -51,182 +51,188 @@ iodeman.controller('homeController', function($scope, backend) {
 iodeman.controller('PlanningFormController', function($scope, backend, $routeParams) {
 	
 	$scope.id = $routeParams.id;
-
-	var inputStartingDate = $('#startingDate');
-	var inputEndingDate = $('#endingDate');
-	var inputDayPeriodStart = $('#timepicker3');
-	var inputDayPeriodEnd = $('#timepicker4');
-	var inputLunchBreakStart = $('#timepicker1');
-	var inputLunchBreakEnd = $('#timepicker2');
-	var inputDuration = $('#inputDuration');
-	var inputInterlude = $('#inputInterlude');
-
-	inputDayPeriodStart.timepicker();
-	inputDayPeriodEnd.timepicker();
-	inputLunchBreakStart.timepicker();
-	inputLunchBreakEnd.timepicker();
-
-	$(".spinner").TouchSpin({
-		min: 0, // Minimum value.
-		max: 500, // Maximum value.
-		boostat: 5, // Boost at every nth step.
-		maxboostedstep: 10, // Maximum step when boosted.
-		step: 1, // Incremental/decremental step on up/down change.
-		stepinterval: 100, // Refresh rate of the spinner in milliseconds.
-		stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
-	});
-
-	$scope.showError = false;
-
-	$scope.planning = {
-			name: '',
-			periodStart: '',
-			periodEnd: '',
-			oralDefenseDuration: '',
-			oralDefenseInterlude: '',
-			lunchBreakStart: '',
-			lunchBreakEnd: '',
-			dayPeriodStart: '',
-			dayPeriodEnd: '',
-			nbMaxOralDefensePerDay: '',
-			rooms: ''
-	};
-
-	if ($scope.id != null) {	// EDITION MODE
+	
+	$scope.$on('init', function() {
 		
-		var planningRequest = backend.plannings.find($scope.id);
-		planningRequest.success(function(data) {
-			console.log("planning:");
-			console.log(data);
-			$scope.planning = {
-					planningID: data.id, 
-					name: data.name,
-					periodStart: Date.utc.create(data.period.from).format('{dd}/{MM}/{yyyy}'),
-					periodEnd: Date.utc.create(data.period.to).format('{dd}/{MM}/{yyyy}'),
-					oralDefenseDuration: data.oralDefenseDuration,
-					oralDefenseInterlude: data.oralDefenseInterlude,
-					lunchBreakStart: Date.utc.create(data.lunchBreak.from).format('{HH}:{mm}'),
-					lunchBreakEnd: Date.utc.create(data.lunchBreak.to).format('{HH}:{mm}'),
-					dayPeriodStart: Date.utc.create(data.dayPeriod.from).format('{HH}:{mm}'),
-					dayPeriodEnd: Date.utc.create(data.dayPeriod.to).format('{HH}:{mm}'),
-					nbMaxOralDefensePerDay: data.nbMaxOralDefensePerDay,
-					rooms: data.rooms.map(function(r) {
-						return r.name;
-					})
-			};
-			inputDayPeriodStart.val($scope.planning.dayPeriodStart);
-			inputDayPeriodEnd.val($scope.planning.dayPeriodEnd);
-			inputLunchBreakStart.val($scope.planning.lunchBreakStart);
-			inputLunchBreakEnd.val($scope.planning.lunchBreakEnd);
-			inputDuration.val($scope.planning.oralDefenseDuration);
-			inputInterlude.val($scope.planning.oralDefenseInterlude);
-			inputStartingDate.val($scope.planning.periodStart);
-			inputStartingDate.datepicker();
-			inputEndingDate.val($scope.planning.periodEnd);
-			inputEndingDate.datepicker();
-			$scope.$apply();
+		$scope.mailService = backend.plannings.mail($scope.id);
+	
+		var inputStartingDate = $('#startingDate');
+		var inputEndingDate = $('#endingDate');
+		var inputDayPeriodStart = $('#timepicker3');
+		var inputDayPeriodEnd = $('#timepicker4');
+		var inputLunchBreakStart = $('#timepicker1');
+		var inputLunchBreakEnd = $('#timepicker2');
+		var inputDuration = $('#inputDuration');
+		var inputInterlude = $('#inputInterlude');
+	
+		inputDayPeriodStart.timepicker();
+		inputDayPeriodEnd.timepicker();
+		inputLunchBreakStart.timepicker();
+		inputLunchBreakEnd.timepicker();
+	
+		$(".spinner").TouchSpin({
+			min: 0, // Minimum value.
+			max: 500, // Maximum value.
+			boostat: 5, // Boost at every nth step.
+			maxboostedstep: 10, // Maximum step when boosted.
+			step: 1, // Incremental/decremental step on up/down change.
+			stepinterval: 100, // Refresh rate of the spinner in milliseconds.
+			stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
 		});
-		
-	} else {	// CREATION MODE
-		
-		// day period
-		inputDayPeriodStart.val("09:00");
-		inputDayPeriodEnd.val("17:00");
-		// lunch period
-		inputLunchBreakStart.val("12:15");
-		inputLunchBreakEnd.val("14:00");
-		// oral defense duration
-		inputDuration.val(40);
-		inputInterlude.val(10);
-		
-		inputStartingDate.datepicker();
-		inputEndingDate.datepicker();
-
-	}
-
-	$scope.submit = function() {
-
-		console.log($scope.planning);
-		console.log(inputStartingDate.val());
-		
-		$scope.planning.periodStart = Date.create(inputStartingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
-		$scope.planning.periodEnd = Date.create(inputEndingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
-		$scope.planning.dayPeriodStart = inputDayPeriodStart.val();
-		$scope.planning.dayPeriodEnd = inputDayPeriodEnd.val();
-		$scope.planning.lunchBreakStart = inputLunchBreakStart.val();
-		$scope.planning.lunchBreakEnd = inputLunchBreakEnd.val();
-		$scope.planning.oralDefenseDuration = inputDuration.val();
-		$scope.planning.oralDefenseInterlude = inputInterlude.val();
-
-		console.log($scope.planning.dayPeriodStart);
-		console.log($scope.planning.dayPeriodStart > $scope.planning.lunchBreakStart)
-
-		var validate = true;
-
-		// BEGIN validation
-		// period
-		if ($scope.planning.periodStart > $scope.planning.periodEnd) {
-			console.log("in");
-			$("#showErrorInfo").text("Dates de période sont incohérentes");
-			validate = false; 
-		} else if ($scope.planning.dayPeriodStart >= $scope.planning.dayPeriodEnd) {
-			$("#showErrorInfo").text("Heures de début et de fin de journée incohérentes");
-			validate = false; 
-		} else if ($scope.planning.lunchBreakStart > $scope.planning.lunchBreakStart) {
-			$("#showErrorInfo").text("Heures de repas incohérentes");
-			validate = false; 
-		} else if (
-				($scope.planning.dayPeriodStart >= $scope.planning.lunchBreakStart)
-				||
-				($scope.planning.dayPeriodEnd <= $scope.planning.lunchBreakEnd)
-		){
-			$("#showErrorInfo").text("Heures incohérentes");
-			validate = false; 
-		}
-
-		// END validation
-
-		if (validate){
-
-			if ($scope.id != null) {
-				
-				$scope.planning.planningID = $scope.id; 
-				var updateRequest = backend.plannings.update($scope.planning);
-				updateRequest.success(function(data) {
-					console.log('planning updated!');
-					document.location.href = "index.html#/planning/"+$scope.id; 
-				});
-				updateRequest.error(function(data) {
-					$("#showError").show();
-//					$scope.showError = true;
-//					$scope.$apply();
-					console.log('error. cannot update this planning!');
-				});
-				
-			}else{
+	
+		$scope.showError = false;
+	
+		$scope.planning = {
+				name: '',
+				periodStart: '',
+				periodEnd: '',
+				oralDefenseDuration: '',
+				oralDefenseInterlude: '',
+				lunchBreakStart: '',
+				lunchBreakEnd: '',
+				dayPeriodStart: '',
+				dayPeriodEnd: '',
+				nbMaxOralDefensePerDay: '',
+				rooms: ''
+		};
+	
+		if ($scope.id != null) {	// EDITION MODE
 			
-				var createRequest = backend.plannings.create($scope.planning);
-				createRequest.success(function(data) {
-					console.log('planning created!');
-					document.location.href = "index.html#/planning/"+data.id; 
-				});
-				createRequest.error(function(data) {
-					$("#showError").show();
-//					$scope.showError = true;
-//					$scope.$apply();
-					console.log('error. cannot create planning!');
-				});
-				
+			var planningRequest = backend.plannings.find($scope.id);
+			planningRequest.success(function(data) {
+				console.log("planning:");
+				console.log(data);
+				$scope.planning = {
+						planningID: data.id, 
+						name: data.name,
+						periodStart: Date.utc.create(data.period.from).format('{dd}/{MM}/{yyyy}'),
+						periodEnd: Date.utc.create(data.period.to).format('{dd}/{MM}/{yyyy}'),
+						oralDefenseDuration: data.oralDefenseDuration,
+						oralDefenseInterlude: data.oralDefenseInterlude,
+						lunchBreakStart: Date.utc.create(data.lunchBreak.from).format('{HH}:{mm}'),
+						lunchBreakEnd: Date.utc.create(data.lunchBreak.to).format('{HH}:{mm}'),
+						dayPeriodStart: Date.utc.create(data.dayPeriod.from).format('{HH}:{mm}'),
+						dayPeriodEnd: Date.utc.create(data.dayPeriod.to).format('{HH}:{mm}'),
+						nbMaxOralDefensePerDay: data.nbMaxOralDefensePerDay,
+						rooms: data.rooms.map(function(r) {
+							return r.name;
+						})
+				};
+				inputDayPeriodStart.val($scope.planning.dayPeriodStart);
+				inputDayPeriodEnd.val($scope.planning.dayPeriodEnd);
+				inputLunchBreakStart.val($scope.planning.lunchBreakStart);
+				inputLunchBreakEnd.val($scope.planning.lunchBreakEnd);
+				inputDuration.val($scope.planning.oralDefenseDuration);
+				inputInterlude.val($scope.planning.oralDefenseInterlude);
+				inputStartingDate.val($scope.planning.periodStart);
+				inputStartingDate.datepicker();
+				inputEndingDate.val($scope.planning.periodEnd);
+				inputEndingDate.datepicker();
+				$scope.$apply();
+			});
+			
+		} else {	// CREATION MODE
+			
+			// day period
+			inputDayPeriodStart.val("09:00");
+			inputDayPeriodEnd.val("17:00");
+			// lunch period
+			inputLunchBreakStart.val("12:15");
+			inputLunchBreakEnd.val("14:00");
+			// oral defense duration
+			inputDuration.val(40);
+			inputInterlude.val(10);
+			
+			inputStartingDate.datepicker();
+			inputEndingDate.datepicker();
+	
+		}
+	
+		$scope.submit = function() {
+	
+			console.log($scope.planning);
+			console.log(inputStartingDate.val());
+			
+			$scope.planning.periodStart = Date.create(inputStartingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
+			$scope.planning.periodEnd = Date.create(inputEndingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
+			$scope.planning.dayPeriodStart = inputDayPeriodStart.val();
+			$scope.planning.dayPeriodEnd = inputDayPeriodEnd.val();
+			$scope.planning.lunchBreakStart = inputLunchBreakStart.val();
+			$scope.planning.lunchBreakEnd = inputLunchBreakEnd.val();
+			$scope.planning.oralDefenseDuration = inputDuration.val();
+			$scope.planning.oralDefenseInterlude = inputInterlude.val();
+	
+			console.log($scope.planning.dayPeriodStart);
+			console.log($scope.planning.dayPeriodStart > $scope.planning.lunchBreakStart)
+	
+			var validate = true;
+	
+			// BEGIN validation
+			// period
+			if ($scope.planning.periodStart > $scope.planning.periodEnd) {
+				console.log("in");
+				$("#showErrorInfo").text("Dates de période sont incohérentes");
+				validate = false; 
+			} else if ($scope.planning.dayPeriodStart >= $scope.planning.dayPeriodEnd) {
+				$("#showErrorInfo").text("Heures de début et de fin de journée incohérentes");
+				validate = false; 
+			} else if ($scope.planning.lunchBreakStart > $scope.planning.lunchBreakStart) {
+				$("#showErrorInfo").text("Heures de repas incohérentes");
+				validate = false; 
+			} else if (
+					($scope.planning.dayPeriodStart >= $scope.planning.lunchBreakStart)
+					||
+					($scope.planning.dayPeriodEnd <= $scope.planning.lunchBreakEnd)
+			){
+				$("#showErrorInfo").text("Heures incohérentes");
+				validate = false; 
 			}
-			
-		} else {
-			// I prefer use jQuery rather angular
-			// There were some errors with angular
-			$("#showError").show();
-			console.log('Unvalidate');
-		}
-
-	};
+	
+			// END validation
+	
+			if (validate){
+	
+				if ($scope.id != null) {
+					
+					$scope.planning.planningID = $scope.id; 
+					var updateRequest = backend.plannings.update($scope.planning);
+					updateRequest.success(function(data) {
+						console.log('planning updated!');
+						document.location.href = "index.html#/planning/"+$scope.id; 
+					});
+					updateRequest.error(function(data) {
+						$("#showError").show();
+	//					$scope.showError = true;
+	//					$scope.$apply();
+						console.log('error. cannot update this planning!');
+					});
+					
+				}else{
+				
+					var createRequest = backend.plannings.create($scope.planning);
+					createRequest.success(function(data) {
+						console.log('planning created!');
+						document.location.href = "index.html#/planning/"+data.id; 
+					});
+					createRequest.error(function(data) {
+						$("#showError").show();
+	//					$scope.showError = true;
+	//					$scope.$apply();
+						console.log('error. cannot create planning!');
+					});
+					
+				}
+				
+			} else {
+				// I prefer use jQuery rather angular
+				// There were some errors with angular
+				$("#showError").show();
+				console.log('Unvalidate');
+			}
+	
+		};
+		
+	});
 
 });
 

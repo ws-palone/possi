@@ -96,6 +96,10 @@ iodeman.config(function($provide) {
 					  
 					  "exportURL": function (planningID) {
 						  return backendURL + 'planning/'+planningID+'/export';
+					  },
+					  
+					  "mail": function(planningID) {
+						  return backendURL + '/mail/'+planningID;
 					  }
 					  
 				  }
