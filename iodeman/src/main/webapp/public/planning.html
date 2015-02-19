@@ -46,9 +46,9 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="participant in participants">
-							<td>{{ participant.student.firstName }} {{ participant.student.lastName }}</td>
+							<td>{{ participant.student.person.firstName }} {{ participant.student.person.lastName }}</td>
 							<td>{{ participant.student.unavailabilitiesNumber }}</td>
-							<td>{{ participant.followingTeacher.firstName }} {{ participant.followingTeacher.lastName }}</td>
+							<td>{{ participant.followingTeacher.person.firstName }} {{ participant.followingTeacher.person.lastName }}</td>
 							<td>{{ participant.followingTeacher.unavailabilitiesNumber }}</td>
 						</tr>
 					</tbody>
