@@ -52,8 +52,6 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	
 	$scope.id = $routeParams.id;
 	
-	$scope.mailService = backend.plannings.mail($scope.id);
-	
 	$scope.$on('init', function() {
 	
 		var inputStartingDate = $('#startingDate');
@@ -241,16 +239,29 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	$scope.id = $routeParams.id;
 	$scope.uploadFileURL = backend.importParticipantsURL;
 	$scope.fileURL = backend.plannings.exportURL($scope.id);
+	$scope.mailService = backend.plannings.mail($scope.id);
 
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-	var planningRequest = backend.plannings.find($scope.id);
-	planningRequest.success(function(data) {
-		console.log("planning:");
-		console.log(data);
-		$scope.planning = data;
-		$scope.$apply();
+	$scope.$on('init', function() {
+		
+		var planningRequest = backend.plannings.find($scope.id);
+		planningRequest.success(function(data) {
+			console.log("planning:");
+			console.log(data);
+			$scope.planning = data;
+			$scope.$apply();
+		});
+		
+		var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
+		participantsRequest.success(function(data) {
+			console.log("participants:");
+			console.log(data);
+			$scope.participants = data;
+			$scope.$apply();
+		});
+		
 	});
 
 	$scope.importParticipants = function() {
@@ -259,14 +270,6 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 
 	inputFile.change(function() {
 		formUpload.submit();
-	});
-
-	var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
-	participantsRequest.success(function(data) {
-		console.log("participants:");
-		console.log(data);
-		$scope.participants = data;
-		$scope.$apply();
 	});
 	
 	$scope.validate = function() {
