@@ -129,15 +129,11 @@ public class PlanningController {
 			@RequestParam(value="rooms", required=false) List<String> rooms
 			) {
 		
-		session.teacherOnly();
-		
 		Planning planning = planningService.findById(planningID);
 		Validate.notNull(planning);
 		
 		// check if the current user is the admin of this planning
-		Person user = session.getUser();
-		Validate.notNull(user);
-		//Validate.isTrue(planning.getAdmin().equals(user));
+		session.acceptOnly(planning.getAdmin());
 		
 		Collection<Room> roomsCollection = null;
 		
@@ -214,9 +210,12 @@ public class PlanningController {
 	
 	@RequestMapping(value = "/{id}/priorities/update", method = RequestMethod.POST)
 	public Collection<Priority> setPriorities(@PathVariable("id") Integer id, @RequestBody Collection<Priority> priorities) {
-		session.teacherOnly();
+		
 		Planning planning = planningService.findById(id);
 		Validate.notNull(planning);
+		
+		// check if the current user is the admin of this planning
+		session.acceptOnly(planning.getAdmin());
 		
 		Collection<Priority> results = planningService.updatePriorities(planning, priorities);
 		
@@ -225,10 +224,14 @@ public class PlanningController {
 	
 	@RequestMapping(value = "/{id}/validate")
 	public void validate(@PathVariable("id") Integer id) {
+
+		Planning planning = planningService.findById(id);
+		Validate.notNull(planning);
 		
-		session.teacherOnly();
+		// check if the current user is the admin of this planning
+		session.acceptOnly(planning.getAdmin());
 		
-		planningService.validate(id);
+		planningService.validate(planning);
 	}
 	
 }

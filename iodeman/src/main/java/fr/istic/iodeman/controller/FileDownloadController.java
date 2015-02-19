@@ -7,12 +7,14 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import fr.istic.iodeman.SessionComponent;
+import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.service.PlanningService;
 
 @Controller
@@ -26,7 +28,14 @@ public class FileDownloadController {
 	
 	@RequestMapping(value="/planning/{planningId}/export")
 	public void downloadPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
-		session.teacherOnly();
+		
+		// retrieve planning
+		Planning planning = planningService.findById(planningId);
+		Validate.notNull(planning);
+		
+		// check if the current user is the admin of this planning
+		session.acceptOnly(planning.getAdmin());
+		
 		// mime type
 		response.setContentType("application/vnd.ms-excel");
 		
@@ -40,7 +49,7 @@ public class FileDownloadController {
         response.setHeader(headerKey, headerValue);
         
 		// retrieving of the generating file containing the agenda
-		File file = planningService.exportExcel(planningId);		
+		File file = planningService.exportExcel(planning);		
 		
 		// BEGIN write the file
 		FileInputStream in = new FileInputStream(file);

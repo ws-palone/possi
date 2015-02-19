@@ -37,11 +37,11 @@ public interface PlanningService {
 	
 	public Collection<Priority> updatePriorities(Planning planning, Collection<Priority> priorities);
 	
-	public File exportExcel(Integer planningId);
+	public File exportExcel(Planning planning);
 	
 	public Collection<OralDefense> export(Integer planningId);
 	
-	public void validate(Integer planningId);
+	public void validate(Planning planning);
 
 	public List<Planning> findAllByUid(String uid);
 	

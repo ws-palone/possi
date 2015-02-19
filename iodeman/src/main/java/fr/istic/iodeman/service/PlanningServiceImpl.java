@@ -197,10 +197,9 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
-	public File exportExcel(Integer planningId) {		
+	public File exportExcel(Planning planning) {		
 		
-		// retrieving the planning 
-		Planning planning = planningDAO.findById(planningId);
+		// verify the planning is not null
 		Validate.notNull(planning);
 		
 		// retrieving of the unavailabilities
@@ -219,46 +218,6 @@ public class PlanningServiceImpl implements PlanningService {
 		}
 		
 		Validate.isTrue(file.exists());
-	
-		/**
-		
-		// the splitter to obtain the timeboxes
-		PlanningSplitter planningSplitter = new PlanningSplitterImpl();
-		List<TimeBox> timeboxes = planningSplitter.execute(planning);
-		Validate.notEmpty(timeboxes);
-				
-		// algorithme
-		
-		
-		AlgoPlanningV2 algo = new AlgoPlanningImplV2();
-		algo.configure(
-				planning,
-				planningDAO.findParticipants(planning),
-				timeboxes, 
-				unavailabilities
-		);
-		
-		Collection<OralDefense> oralDefenses = algo.execute();
-		Validate.notEmpty(oralDefenses);
-				
-		// jury assignation
-		AlgoJuryAssignation algoJury = new AlgoJuryAssignationImpl();
-		algoJury.configure(oralDefenses, unavailabilities);
-		Collection<OralDefense> oralDefensesWithJury = algoJury.execute();
-		
-		//export excel
-		PlanningExport planningExport = new PlanningExcelExport();
-		planningExport.configure(timeboxes);
-
-		File file = null;
-		try {
-			file = planningExport.execute(oralDefensesWithJury);
-		} catch (Exception e) {
-			System.out.println("Erreur de l'exportation lors de la fonction exportExcel: "+e.getMessage());
-			e.printStackTrace();
-		}
-		
-		Validate.isTrue(file.exists()); */
 		
 		return file;
 	}
@@ -284,10 +243,8 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
-	public void validate(Integer planningId) {
+	public void validate(Planning planning) {
 		
-		// retrieving the planning 
-		Planning planning = planningDAO.findById(planningId);
 		Validate.notNull(planning);
 		
 		// initialize builder

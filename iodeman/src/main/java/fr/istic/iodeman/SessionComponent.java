@@ -1,9 +1,5 @@
 package fr.istic.iodeman;
 
-import java.io.IOException;
-
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Role;
@@ -21,6 +16,7 @@ import fr.istic.iodeman.resolver.PersonUidResolver;
 @Component
 public class SessionComponent {
 	
+	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	private class PermissionDeniedException extends RuntimeException{
 		
@@ -54,6 +50,12 @@ public class SessionComponent {
 			return personResolver.resolve(uid);
 		}
 		return null;
+	}
+	
+	public void acceptOnly(Person p) {
+		if (!p.equals(getUser())) {
+			throw new PermissionDeniedException();
+		}
 	}
 	
 }
