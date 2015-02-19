@@ -1,9 +1,6 @@
 package fr.istic.iodeman.service;
 
-import static org.junit.Assert.*;
-
-import java.util.Collection;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,10 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import com.google.common.collect.Lists;
-
 import fr.istic.iodeman.dao.RoomDAO;
-import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Room;
 
 public class TestRoomService {
