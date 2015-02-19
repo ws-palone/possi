@@ -6,15 +6,15 @@ iodeman.controller('mainController', function($scope, backend) {
 		console.log("user:");
 		console.log(data);
 		$scope.user = data;
-		if($scope.user.role == "PROF")$scope.show_menu = true;
-		$scope.$broadcast('init');
+		if($scope.user.role == "PROF") $scope.show_menu = true;
+		$scope.$broadcast('init', $scope.user);
 		$scope.$apply();
 	});
 	userRequest.error(function(data) {
 		console.log("Could not obtain the user");
 		$scope.user = null;
 		$scope.$apply();
-		//backend.login();
+		backend.login();
 	});
 	
 	$scope.logout = function() {
@@ -23,7 +23,7 @@ iodeman.controller('mainController', function($scope, backend) {
 	
 	$scope.$on('$viewContentLoaded', function() {
 		if ($scope.user) {
-			$scope.$broadcast('init');
+			$scope.$broadcast('init', $scope.user);
 		}
 	});
 
@@ -32,18 +32,21 @@ iodeman.controller('mainController', function($scope, backend) {
 iodeman.controller('homeController', function($scope, backend) {
 
 	$scope.plannings = [];
-	var planningRequest = backend.plannings.list();
-	planningRequest.success(function(data) {
-		console.log("plannings:");
-		console.log(data);
-		$scope.plannings = data;
-		$scope.plannings.each(function(planning){
-			var adminUid= planning.admin.uid;
-			if($scope.$parent.user.uid == adminUid){ 
-				planning.show_gerer = true;
-			}
+	
+	$scope.$on('init', function(user) {
+		var planningRequest = backend.plannings.list();
+		planningRequest.success(function(data) {
+			console.log("plannings:");
+			console.log(data);
+			$scope.plannings = data;
+			$scope.plannings.each(function(planning){
+				var adminUid= planning.admin.uid;
+				if(user.uid == adminUid){ 
+					planning.show_gerer = true;
+				}
+			});
+			$scope.$apply();
 		});
-		$scope.$apply();
 	});
 
 });
@@ -52,7 +55,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	
 	$scope.id = $routeParams.id;
 	
-	$scope.$on('init', function() {
+	$scope.$on('init', function(user) {
 	
 		var inputStartingDate = $('#startingDate');
 		var inputEndingDate = $('#endingDate');
@@ -244,7 +247,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-	$scope.$on('init', function() {
+	$scope.$on('init', function(user) {
 		
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
@@ -304,35 +307,38 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 
 	$scope.id = $routeParams.id;
-
-	var planningRequest = backend.plannings.find($scope.id);
-	planningRequest.success(function(data) {
-
-		console.log("planning:");
-		console.log(data);
-		$scope.planning = data;
-		$scope.$apply();
-
-		var roomsRequest = backend.rooms.list();
-		roomsRequest.success(function(data) {
-			console.log("rooms:");
+	
+	$scope.$on('init', function(user) {
+		
+		var planningRequest = backend.plannings.find($scope.id);
+		planningRequest.success(function(data) {
+	
+			console.log("planning:");
 			console.log(data);
-			$scope.rooms = data.sortBy(function(r) {
-				return r.name;
-			});
-			$scope.rooms.each(function(room) {
-				var match = $scope.planning.rooms.find(function(r) {
-					return r.name == room.name;
-				});
-				if (match != null) {
-					room.isChecked = true;
-				}else{
-					room.isChecked = false;
-				}
-			});
+			$scope.planning = data;
 			$scope.$apply();
+	
+			var roomsRequest = backend.rooms.list();
+			roomsRequest.success(function(data) {
+				console.log("rooms:");
+				console.log(data);
+				$scope.rooms = data.sortBy(function(r) {
+					return r.name;
+				});
+				$scope.rooms.each(function(room) {
+					var match = $scope.planning.rooms.find(function(r) {
+						return r.name == room.name;
+					});
+					if (match != null) {
+						room.isChecked = true;
+					}else{
+						room.isChecked = false;
+					}
+				});
+				$scope.$apply();
+			});
+	
 		});
-
 	});
 
 	$scope.newRoom = {
@@ -400,30 +406,24 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 
 	$scope.showError = false;
 	
-	var planningRequest = backend.plannings.find($scope.id);
-	planningRequest.success(function(data) {
-
-		console.log("planning:");
-		console.log(data);
-		$scope.planning = data;
-		$scope.planning.priorities = data.priorities.sortBy(function(p) {
-			return p.weight;
-		}, true);	
-		$scope.$apply();
-
-		/*$(".spinner").TouchSpin({
-			min: 1, // Minimum value.
-			max: 500, // Maximum value.
-			boostat: 5, // Boost at every nth step.
-			maxboostedstep: 10, // Maximum step when boosted.
-			step: 1, // Incremental/decremental step on up/down change.
-			stepinterval: 100, // Refresh rate of the spinner in milliseconds.
-			stepintervaldelay: 500 // Time in milliseconds before the spinner starts to spin.
-		});*/
-
-		 $( "#sortable" ).sortable({ 
-	         placeholder: "ui-sortable-placeholder" 
-	     });
+	$scope.$on('init', function(user) {
+		
+		var planningRequest = backend.plannings.find($scope.id);
+		planningRequest.success(function(data) {
+	
+			console.log("planning:");
+			console.log(data);
+			$scope.planning = data;
+			$scope.planning.priorities = data.priorities.sortBy(function(p) {
+				return p.weight;
+			}, true);	
+			$scope.$apply();
+	
+			 $( "#sortable" ).sortable({ 
+		         placeholder: "ui-sortable-placeholder" 
+		     });
+		});
+		
 	});
 	
 	$scope.submit = function() {
@@ -473,9 +473,9 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 
 	$scope.id = $routeParams.id;
 	
-	$scope.$on('init', function() {
+	$scope.$on('init', function(user) {
 			
-		$scope.uid = $scope.$parent.user.uid;
+		$scope.uid = user.uid;
 	
 		var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);
 		agendaRequest.success(function (data) {
