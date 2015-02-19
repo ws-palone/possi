@@ -376,7 +376,7 @@
 	        monthsShort: ["Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jul", "Aou", "Sep", "Oct", "Nov", "Déc"],
 	        today: "Aujourd'hui",
 	        clear: "Effacer",
-	        weekStart: 2,
+	        weekStart: 1,
 	        format: "dd/mm/yyyy"
 		},
 		isLeapYear: function (year) {
