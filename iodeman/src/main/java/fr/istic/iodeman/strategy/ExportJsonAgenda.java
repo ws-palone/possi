@@ -41,8 +41,8 @@ public class ExportJsonAgenda implements ExportAgenda{
 			}					
 						
 			// line header
-			String line = from.toString("hh")+"h"+from.toString("mm");
-			line += " - "+to.toString("hh")+"h"+to.toString("mm");
+			String line = from.toString("HH")+"h"+from.toString("mm");
+			line += " - "+to.toString("HH")+"h"+to.toString("mm");
 			
 			// agenda DTO
 			AgendaDTO a = new AgendaDTO();
