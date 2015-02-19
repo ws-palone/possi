@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.xml.sax.SAXException;
 
 import edu.yale.its.tp.cas.client.ServiceTicketValidator;
+import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.cas.TicketValidatorFactory;
 
 @Controller
@@ -21,9 +22,12 @@ public class ConnectionController {
 	@Autowired
 	private TicketValidatorFactory ticketValidatorFactory;
 	
+	@Autowired
+	private SessionComponent session;
+	
 	@RequestMapping("/login")
-	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket, HttpServletRequest request) throws IOException, SAXException, ParserConfigurationException{
-		HttpSession session = request.getSession(); 
+	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
+		//HttpSession session = request.getSession(); 
 		
 		if (!ticket.equals("")) {
 			
@@ -33,16 +37,19 @@ public class ConnectionController {
 			
 			if (validator.isAuthenticationSuccesful()) {
 				
-			    session.setAttribute("cas_ticket", ticket);
-			    session.setAttribute("uid", validator.getUser()); 
+				session.init(ticket, validator.getUser());
+				
+			    //session.setAttribute("cas_ticket", ticket);
+			    //session.setAttribute("uid", validator.getUser()); 
 	
 			    return "redirect:/public/index.html";
 			}
 			
 		}
 		
-		session.removeAttribute("cas_ticket");
-		session.removeAttribute("uid");
+		session.destroy();
+		//session.removeAttribute("cas_ticket");
+		//session.removeAttribute("uid");
 		return "redirect:"+ticketValidatorFactory.getLoginPage();
 
 	}
@@ -53,9 +60,11 @@ public class ConnectionController {
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(HttpSession session){
-		session.removeAttribute("cas_ticket");
-		session.removeAttribute("uid");
+	public String logout(){
+		
+		session.destroy();
+		//session.removeAttribute("cas_ticket");
+		//session.removeAttribute("uid");
 		return "redirect:"+ticketValidatorFactory.getLogoutPage();
 	}
 	

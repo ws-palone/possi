@@ -25,6 +25,16 @@ public class SessionComponent {
 	@Autowired
 	private PersonUidResolver personResolver;
 	
+	public void init(String ticket, String uid) {
+		getSession().setAttribute("cas_ticket", ticket);
+	    getSession().setAttribute("uid", uid); 
+	}
+	
+	public void destroy() {
+		getSession().removeAttribute("cas_ticket");
+		getSession().removeAttribute("uid");
+	}
+	
 	public HttpSession getSession() {
 		
 	    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
