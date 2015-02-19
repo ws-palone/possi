@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Function;
@@ -23,7 +24,9 @@ public class MailServiceImpl implements MailService{
 	@Autowired
 	private PlanningDAO planningDAO;
 	
+	@Value("${MAIL_SERVICE}")
 	private String MAIL_SERVER;
+	
 	private String MAIL_TYPE;
 	private String MAIL_TO;
 	private String MAIL_OBJECT;
@@ -34,7 +37,6 @@ public class MailServiceImpl implements MailService{
 		
 		Validate.notNull(idPlanning);
 		
-		MAIL_SERVER = "https://webmail.etudiant.univ-rennes1.fr/dimp/compose.php";
 		MAIL_TYPE = "new";
 		MAIL_OBJECT = "Notification : Soutenance de stage";
 		MAIL_TO = "";
