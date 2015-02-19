@@ -41,7 +41,7 @@ iodeman.controller('homeController', function($scope, backend) {
 			$scope.plannings = data;
 			$scope.plannings.each(function(planning){
 				var adminUid= planning.admin.uid;
-				if(user.uid == adminUid){ 
+				if($scope.$parent.user.uid == adminUid){ 
 					planning.show_gerer = true;
 				}
 			});
@@ -475,7 +475,7 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 	
 	$scope.$on('init', function(user) {
 			
-		$scope.uid = user.uid;
+		$scope.uid = $scope.$parent.user.uid;
 	
 		var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);
 		agendaRequest.success(function (data) {
