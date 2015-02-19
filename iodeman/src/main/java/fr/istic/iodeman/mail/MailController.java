@@ -1,23 +1,22 @@
 package fr.istic.iodeman.mail;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import fr.istic.iodeman.service.MailService;
 
 @Controller
 public class MailController {
 	
-	private String MAIL_SERVER;
-	private String MAIL_TYPE;
-	private String MAIL_TO;
+	@Autowired
+	private MailService mailService;
 	
-	@RequestMapping("/mail")
-	public String redirectToNewMail(){
+	@RequestMapping("/mail/{id}")
+	public String senMailToEveryParticipant(@PathVariable("id") Integer id){
 		
-		MAIL_SERVER = "https://webmail.etudiant.univ-rennes1.fr/dimp/compose.php";
-		MAIL_TYPE = "new";
-		MAIL_TO = "lecut.alexandre@gmail.com";
-		
-		return "redirect:"+MAIL_SERVER+"?type="+MAIL_TYPE+"&to="+MAIL_TO;
+		return mailService.sendToEveryParticipant(id);
 		
 	}
 

@@ -472,6 +472,7 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 			return l.days;
 		}).flatten();
 		days.each(function (d) {
+			// add an action for each clic on a checkbox
 			d.submit = function() {
 				var request = null;
 				if (d.checked) {
@@ -496,6 +497,25 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 				request.error(function(data){
 					console.log("error. cannot update unavailabilities");
 					console.log(data);
+				});
+			};
+		});
+		$scope.submitColumn = function(c) {
+			// add an action for each clic on a column
+			var daysOfColumn = days.filter(function(d) {
+				return d.day == c;
+			});
+			daysOfColumn.each(function(d) {
+				d.checked = !d.checked;
+				d.submit();
+			});
+		};
+		$scope.agenda.each(function(l) {
+			// add an action for each clic on a line
+			l.submit = function() {
+				l.days.each(function(d) {
+					d.checked = !d.checked;
+					d.submit();
 				});
 			};
 		});

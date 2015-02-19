@@ -55,24 +55,19 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 	@Mock
 	private PersonMailResolver personMailResolver;
 	
+	private PersonResolver personResolver;
+	
 	private class PersonResolverMock implements PersonResolver {
 
 		public Person resolve(String email) {
 			Person person = personDAO.findByEmail(email);
-
-			List<String> profMails = Lists.newArrayList(
-					"didier.certain@univ-rennes1.fr",
-					"mickael.foursov@univ-rennes1.fr",
-					"sebastien.ferre@univ-rennes1.fr",
-					"gilles.lesventes@univ-rennes1.fr"
-			);
 			
 			if (person == null) {
 				person = new Person();
 				person.setFirstName(email);
 				person.setUid(email);
 				person.setEmail(email);
-				if (profMails.contains(email)) {
+				if (!email.contains("@etudiant.univ-rennes1.fr")) {
 					person.setRole(Role.PROF);
 				}else{
 					person.setRole(Role.STUDENT);
@@ -87,12 +82,14 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 	@Before
 	public void setUp() {
 		
+		personResolver = new PersonResolverMock();
+		
 		MockitoAnnotations.initMocks(this);
 		Mockito.when(personMailResolver.resolve(Matchers.anyString())).thenAnswer(new Answer<Person>() {
 			@Override
 			public Person answer(InvocationOnMock invocation) throws Throwable {
 				String mail = invocation.getArgumentAt(0, String.class);
-				return (new PersonResolverMock()).resolve(mail);
+				return personResolver.resolve(mail);
 			}
 		});
 	}
@@ -124,8 +121,6 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 			)	
 		);
 		
-		PersonResolver personResolver = new PersonResolverMock();
-		
 		Person admin = personResolver.resolve("13006394");
 		
 		// Create a new planning
@@ -155,6 +150,134 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 		
 		// Verify that the excel exits
 		String filename = "/import_couple.xls";
+		File excelFile = new File(getClass().getResource(filename).toURI());
+		assertTrue(excelFile.exists());
+		
+		// Import participants from the excel file
+		planning = planningService.importPartcipants(planning, excelFile);
+		assertTrue(planning != null);
+		
+		// Verify if the participants have been imported
+		List<Participant> participants = Lists.newArrayList(planningService.findParticipants(planning));
+		assertTrue(participants.size() > 0);
+		
+		List<Unavailability> unavailabilities = Lists.newArrayList();
+		
+		Unavailability ua1 = unavailabilityService.create(
+				planning.getId(), 
+				participants.get(1).getStudent().getUid(),
+				new TimeBox(
+						(new DateTime(2015,1,15,10,0)).toDate(),
+						(new DateTime(2015,1,15,12,0)).toDate()
+				)
+		);
+		unavailabilities.add(ua1);
+		
+		Unavailability ua2 = unavailabilityService.create(
+				planning.getId(), 
+				participants.get(2).getFollowingTeacher().getUid(),
+				new TimeBox(
+						(new DateTime(2015,1,15,8,0)).toDate(),
+						(new DateTime(2015,1,15,9,0)).toDate()
+				)
+		);
+		unavailabilities.add(ua2);
+		
+		Unavailability ua3 = unavailabilityService.create(
+				planning.getId(), 
+				participants.get(2).getFollowingTeacher().getUid(),
+				new TimeBox(
+						(new DateTime(2015,1,15,11,0)).toDate(),
+						(new DateTime(2015,1,15,12,0)).toDate()
+				)
+		);
+		unavailabilities.add(ua3);
+		
+		Unavailability ua4 = unavailabilityService.create(
+				planning.getId(), 
+				participants.get(0).getFollowingTeacher().getUid(),
+				new TimeBox(
+						(new DateTime(2015,1,15,11,0)).toDate(),
+						(new DateTime(2015,1,15,12,0)).toDate()
+				)
+		);
+		unavailabilities.add(ua4);
+		
+		Unavailability ua5 = unavailabilityService.create(
+				planning.getId(), 
+				participants.get(3).getFollowingTeacher().getUid(),
+				new TimeBox(
+						(new DateTime(2015,1,15,11,0)).toDate(),
+						(new DateTime(2015,1,15,12,0)).toDate()
+				)
+		);
+		unavailabilities.add(ua5);
+		
+		Collection<OralDefense> oralDefenses = planningService.export(planning.getId());
+		
+		TestUtils.printResults(oralDefenses);
+		
+		for(Unavailability ua : unavailabilities) {
+			assertTrue(TestUtils.checkIfUnavailabilityRespected(oralDefenses, ua));
+		}
+	}
+	
+	@Test
+	public void test2() throws Exception {
+		
+		// Create a planning
+		Planning planning = new Planning();
+		planning.setName("IT Planning");
+		planning.setPeriod(new TimeBox(
+				new DateTime(2015, 1, 15, 0, 0).toDate(),
+				new DateTime(2015, 1, 17, 0, 0).toDate()
+		));
+		planning.setDayPeriod(new TimeBox(
+				new DateTime(2015, 1, 18, 9, 0).toDate(),
+				new DateTime(2015, 1, 18, 17, 30).toDate()
+		));
+		planning.setLunchBreak(new TimeBox(
+				new DateTime(2015, 1, 18, 12, 15).toDate(),
+				new DateTime(2015, 1, 18, 14, 0).toDate()
+		));
+		planning.setOralDefenseDuration(30);
+		planning.setOralDefenseInterlude(10);
+		planning.setRooms(
+			Lists.newArrayList(
+				roomService.findOrCreate("i51"),
+				roomService.findOrCreate("i227")
+			)	
+		);
+		
+		Person admin = personResolver.resolve("13006394");
+		
+		// Create a new planning
+		planning = planningService.create(
+				admin, 
+				planning.getName(), 
+				planning.getPeriod(), 
+				planning.getOralDefenseDuration(), 
+				planning.getOralDefenseInterlude(),
+				planning.getLunchBreak(), 
+				planning.getDayPeriod(), 
+				planning.getNbMaxOralDefensePerDay(), 
+				planning.getRooms()
+		);
+		assertTrue(planning != null);
+		
+		// Update the priorities of the planning
+		List<Priority> priorities = Lists.newArrayList(
+				new Priority(Role.STUDENT, 1), 
+				new Priority(Role.PROF, 3)
+		);
+		planningService.updatePriorities(planning, priorities);
+		
+		// Check if the priorities have been successfully updated
+		planning = planningService.findById(planning.getId());
+		assertEquals(2, planning.getPriorities().size());
+		
+		// Verify that the excel exits
+		String filename = "/import_couple_m2miage.xls";
 		File excelFile = new File(getClass().getResource(filename).toURI());
 		assertTrue(excelFile.exists());
 		

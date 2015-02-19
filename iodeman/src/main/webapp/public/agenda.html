@@ -16,13 +16,13 @@
   				<thead>
   					<th></th>
   					<th ng-repeat="column in columns" style="text-align:center;">
-  						<button type="button" class="btn btn-default">{{ column }}</button>
+  						<button type="button" class="btn btn-default" ng-click="submitColumn(column)">{{ column }}</button>
   					</th>
   				</thead>
   				<tbody>
   					<tr ng-repeat="entry in agenda">
   						<td>
-  							<button type="button" class="btn btn-default">{{ entry.line }}</button>
+  							<button type="button" class="btn btn-default" ng-click="entry.submit()">{{ entry.line }}</button>
   						</td>
   						<td ng-repeat="day in entry.days">
   							<input type="checkbox" ng-model="day.checked" ng-click="day.submit()"/>
