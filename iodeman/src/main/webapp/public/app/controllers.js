@@ -20,6 +20,12 @@ iodeman.controller('mainController', function($scope, backend) {
 	$scope.logout = function() {
 		backend.logout();
 	};
+	
+	$scope.$on('$viewContentLoaded', function() {
+		if ($scope.user) {
+			$scope.$broadcast('init');
+		}
+	});
 
 });
 
