@@ -2,8 +2,6 @@ package fr.istic.iodeman.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ public class ConnectionController {
 	
 	@RequestMapping("/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
-		//HttpSession session = request.getSession(); 
 		
 		if (!ticket.equals("")) {
 			
@@ -38,9 +35,6 @@ public class ConnectionController {
 			if (validator.isAuthenticationSuccesful()) {
 				
 				session.init(ticket, validator.getUser());
-				
-			    //session.setAttribute("cas_ticket", ticket);
-			    //session.setAttribute("uid", validator.getUser()); 
 	
 			    return "redirect:/public/index.html";
 			}
@@ -48,8 +42,6 @@ public class ConnectionController {
 		}
 		
 		session.destroy();
-		//session.removeAttribute("cas_ticket");
-		//session.removeAttribute("uid");
 		return "redirect:"+ticketValidatorFactory.getLoginPage();
 
 	}
@@ -63,8 +55,6 @@ public class ConnectionController {
 	public String logout(){
 		
 		session.destroy();
-		//session.removeAttribute("cas_ticket");
-		//session.removeAttribute("uid");
 		return "redirect:"+ticketValidatorFactory.getLogoutPage();
 	}
 	

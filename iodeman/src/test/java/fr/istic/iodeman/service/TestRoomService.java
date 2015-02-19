@@ -36,7 +36,7 @@ public class TestRoomService {
 	}
 
 	@Test
-	public void testFindOrCreate() {
+	public void testCreate() {
 		String nameRoom= "i50";
 
 		roomService.findOrCreate(nameRoom);
@@ -48,6 +48,21 @@ public class TestRoomService {
 
 		assertEquals(nameRoom, r.getName());
 
+	}
+	
+	@Test
+	public void testFind() {
+		
+		Room room = new Room();
+		room.setId(1);
+		room.setName("i50");
+		
+		Mockito.when(roomDAO.findByName(room.getName())).thenReturn(room);
+		
+		Room result = roomService.findOrCreate(room.getName());
+		
+		assertEquals(room, result);
+		
 	}
 
 	@Test
