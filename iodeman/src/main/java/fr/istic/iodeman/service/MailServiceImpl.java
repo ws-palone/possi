@@ -22,50 +22,36 @@ public class MailServiceImpl implements MailService{
 	
 	@Value("${MAIL_SERVICE}")
 	private String MAIL_SERVER;
-	
-	private String MAIL_TYPE;
-	private String MAIL_TO;
-	private String MAIL_OBJECT;
 
-	@SuppressWarnings("null")
 	@Override
-	public String sendToEveryParticipant(Integer idPlanning) {
-		
-		Validate.notNull(idPlanning);
-		
-		MAIL_TYPE = "new";
-		MAIL_OBJECT = "Notification : Soutenance de stage";
-		MAIL_TO = "";
-		
-		Planning planning = planningDAO.findById(idPlanning);
+	public String sendToEveryParticipant(Planning planning) {
 		
 		Validate.notNull(planning);
 		
-		Collection<Participant> participants = null;
-		participants = planningDAO.findParticipants(planning);
+		String  MAIL_TYPE = "new";
+		String MAIL_OBJECT = "Notification : Soutenance de stage";
+		String MAIL_TO = "";
+
+		Collection<Participant> participants = planningDAO.findParticipants(planning);
 		
-		Collection<String> participantMailStudent = null;
-		Collection<String> participantMailTeacher = null;
+		Collection<String> participantsMails = Lists.newArrayList();
 
 		Validate.notNull(participants);
 		
 		for(Participant p : participants){
-			participantMailStudent.add(p.getStudent().getEmail());
-			participantMailTeacher.add(p.getFollowingTeacher().getEmail());
+			participantsMails.add(p.getStudent().getEmail());
+			participantsMails.add(p.getFollowingTeacher().getEmail());
 		}
 		
-		participantMailStudent = getSingleMailFromMailList(participantMailStudent);
-		participantMailTeacher = getSingleMailFromMailList(participantMailTeacher);
+		participantsMails = getSingleMailFromMailList(participantsMails);
 		
-		for(String p : participantMailStudent){
-			MAIL_TO+= p+",";
-		}
+		StringBuilder builder = new StringBuilder();
+		for(String p : participantsMails){
+			builder.append(p).append(',');
+		}		
+		MAIL_TO = builder.toString();
 		
-		for(String p : participantMailTeacher){
-			MAIL_TO+= p+",";
-		}
-		
-		return "redirect:"+MAIL_SERVER+"?type="+MAIL_TYPE+"&subject="+MAIL_OBJECT+"&to="+MAIL_TO;
+		return MAIL_SERVER+"?type="+MAIL_TYPE+"&subject="+MAIL_OBJECT+"&to="+MAIL_TO;
 	}
 	
 	private Collection<String> getSingleMailFromMailList(Collection<String> participantMail){
