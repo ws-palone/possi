@@ -52,9 +52,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	
 	$scope.id = $routeParams.id;
 	
+	$scope.mailService = backend.plannings.mail($scope.id);
+	
 	$scope.$on('init', function() {
-		
-		$scope.mailService = backend.plannings.mail($scope.id);
 	
 		var inputStartingDate = $('#startingDate');
 		var inputEndingDate = $('#endingDate');
