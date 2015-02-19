@@ -8,7 +8,7 @@ import edu.yale.its.tp.cas.client.ServiceTicketValidator;
 @Component
 public class TicketValidatorFactory {
 	
-	@Value("${SERVER_NAME}")
+	@Value("${IODEMAN_URL}")
 	private String IODEMAN_SERVER_NAME;
 	
 	@Value("${CAS_SERVICE_LOGIN}")
