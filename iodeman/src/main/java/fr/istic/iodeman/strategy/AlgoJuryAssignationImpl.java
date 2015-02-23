@@ -135,7 +135,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 					nbAssignations = juryAssignations.size();
 					// check if the jury is not assignated to another oral defense on this timebox
 					for(OralDefense assignated : juryAssignations) {
-						if (candidate.getOralDefense().getTimebox().equals(assignated.getTimebox())) {
+						if (candidate.getOralDefense().getTimebox().getFrom().equals(assignated.getTimebox().getFrom())) {
 							return false;
 						}
 					}
@@ -145,7 +145,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 				Integer nbFollowings = juryFollowings.size();
 				// check if the jury is not present at another oral defense as follower on this timebox
 				for(OralDefense followed : juryFollowings) {
-					if (candidate.getOralDefense().getTimebox().equals(followed.getTimebox())) {
+					if (candidate.getOralDefense().getTimebox().getFrom().equals(followed.getTimebox().getFrom())) {
 						return false;
 					}
 				}
