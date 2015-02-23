@@ -120,14 +120,31 @@ public class AlgoPlanningImplV2 implements AlgoPlanningV2 {
 			
 			hasNewAllocations = false;
 			
-			for(Participant p : Lists.newArrayList(remainingParticipants)) {
+			for(final Participant p : Lists.newArrayList(remainingParticipants)) {
 				
 				System.out.println(
 						"check possibles timeboxes for student "
 						+p.getStudent().getId()
 						+"["+p.getStudent().getUid()+"]"
 				);
-				checkPossiblesTimeboxes(p, Lists.newArrayList(remainingTimeboxes), null);
+				
+				// Get the remaining timeboxes where every participant is free
+				List<TimeBox> possibleTbs = Lists.newArrayList();
+				for(final TimeBox tb : remainingTimeboxes) {
+					Collection<OralDefense> alreadyAssigned = Collections2.filter(results, new Predicate<OralDefense>() {
+						@Override
+						public boolean apply(OralDefense od) {
+							return (od.getComposition().getStudent().equals(p.getStudent())
+									|| od.getComposition().getFollowingTeacher().equals(p.getFollowingTeacher()))
+									&& (od.getTimebox().getFrom().equals(tb.getFrom()));
+						}			
+					});
+					if (alreadyAssigned.isEmpty()) {
+						possibleTbs.add(tb);
+					}
+				}
+				
+				checkPossiblesTimeboxes(p, possibleTbs, null);
 				
 			}
 			
