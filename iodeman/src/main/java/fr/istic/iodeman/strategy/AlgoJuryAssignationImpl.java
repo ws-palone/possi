@@ -136,6 +136,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 					// check if the jury is not assignated to another oral defense on this timebox
 					for(OralDefense assignated : juryAssignations) {
 						if (candidate.getOralDefense().getTimebox().getFrom().equals(assignated.getTimebox().getFrom())) {
+							System.out.println("remove "+jury.getFirstName());
 							return false;
 						}
 					}
@@ -146,6 +147,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 				// check if the jury is not present at another oral defense as follower on this timebox
 				for(OralDefense followed : juryFollowings) {
 					if (candidate.getOralDefense().getTimebox().getFrom().equals(followed.getTimebox().getFrom())) {
+						System.out.println("remove "+jury.getFirstName());
 						return false;
 					}
 				}
@@ -196,6 +198,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		for(AssignationCandidate candidate : candidates) {
 			if (nb == -1 || (candidate.getPossibleJurys().size() < nb && nb > 0)) {
 				selected = candidate;
+				nb = candidate.getPossibleJurys().size();
 			}
 		}
 		
