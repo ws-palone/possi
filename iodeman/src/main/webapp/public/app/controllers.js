@@ -363,12 +363,16 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 
 	};
 	
-	$scope.deleteRoom = function(roomID) {
+	$scope.deleteRoom = function(room) {
+		
+			var idx = $scope.rooms.indexOf(room);
 
-			var deleteRoomRequest = backend.rooms.remove(roomID);
+			var deleteRoomRequest = backend.rooms.remove(room.id);
 			deleteRoomRequest.success(function (roomToDelete) {
 				console.log("room deleted!");
-				$scope.rooms.splice(roomToDelete, 1);
+				if(roomToDelete != null){
+					$scope.rooms.splice(idx, 1);
+				}
 				$scope.$apply();
 			});
 
