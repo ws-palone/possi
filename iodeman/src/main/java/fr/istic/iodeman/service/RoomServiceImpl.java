@@ -51,10 +51,17 @@ public class RoomServiceImpl implements RoomService {
 		
 		List<Planning> plannings = planningDAO.findAll();
 		
+		System.out.println(room.getId());
+		
 		for(Planning p : plannings){
 			Collection<Room> rooms = p.getRooms();
 			
+			System.out.println("Planning :"+p.getName());
+			
 			for(Room r : rooms){
+				
+				System.out.println("Room :"+r.getName());
+				
 				if(room.equals(r)){
 					isNotInPlanning = false;
 				}
