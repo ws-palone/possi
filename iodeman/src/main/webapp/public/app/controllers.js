@@ -297,6 +297,10 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 		});
 		
 	};
+	
+	$scope.remove = function() {
+		backend.plannings.remove($scope.id);
+	}
 
 });
 
