@@ -34,6 +34,17 @@
 			<a href="{{ mailService }}" target="_blank" class="btn btn-danger btn-sm">Envoyer un mail</a>
 			<a ng-click="validate()" class="btn btn-danger btn-sm">Générer planning</a>
 			
+			<div>
+				<h3>Informations concernant le fichier excel d'import de participants</h3>
+				<p>
+					Les têtes du fichiers doivent être strictement dans l'ordre suivant: 
+					<i>Numéro | Adresse mail de l'étudiant | Adresse mail du suiveur | Nom prénom du tuteur de stage | Entreprise + lieu</i>
+				</p>
+				<p>
+					Le fichier d'import doit être de type <b>.xls</b>
+				</p>
+			</div>
+			
 			<div class="table-responsive" style="margin-top: 20px;">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
