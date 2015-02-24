@@ -362,6 +362,17 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 		}
 
 	};
+	
+	$scope.deleteRoom = function() {
+
+			var deleteRoomRequest = backend.rooms.remove($scope.id);
+			deleteRoomRequest.success(function (data) {
+				console.log("room deleted!");
+				console.log(data);
+				$scope.$apply();
+			});
+
+	};
 
 	$scope.submit = function() {
 

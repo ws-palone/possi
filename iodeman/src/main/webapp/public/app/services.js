@@ -117,6 +117,14 @@ iodeman.config(function($provide) {
 						  });
 					  },
 					  
+					  "remove": function(id) {
+						  return $http.get(backendURL + 'room/delete', {
+							 params: {
+								 id: id
+							 } 
+						  });
+					  },
+					  
 					  "list": function() {
 						  return $http.get(backendURL + 'room/list');
 					  }

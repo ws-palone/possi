@@ -9,6 +9,7 @@
 	<div class="row">
 		<div class="col-md-12 col-sm-=12">
 		
+		
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-6">		
 					<div class="input-group" style="margin-bottom: 10px;">
@@ -23,6 +24,7 @@
 				<div class="col-md-3">
 				    <div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
 				      <span class="input-group-addon">
+				        <button ng-click="deleteRoom()" class="btn btn-default" type="button">X</button>
 				        <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
 				      </span>
 				      <label class="form-control">{{ room.name }}</label>

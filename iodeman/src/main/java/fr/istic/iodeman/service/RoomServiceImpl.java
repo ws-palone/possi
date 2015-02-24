@@ -56,21 +56,11 @@ public class RoomServiceImpl implements RoomService {
 		for(Planning p : plannings){
 			Collection<Room> rooms = p.getRooms();
 			
-			System.out.println("Planning :"+p.getName());
-			
 			for(Room r : rooms){
-				
-				System.out.println("Room :"+r.getName());
-				
 				if(room.getId() == r.getId()){
 					isNotInPlanning = false;
 				}
 			}
-			
-			/*
-			if(rooms.contains(room)){
-				isNotInPlanning = false;
-			}*/
 		}
 
 		if(isNotInPlanning){
