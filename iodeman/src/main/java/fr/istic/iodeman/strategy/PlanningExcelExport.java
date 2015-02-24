@@ -309,7 +309,8 @@ public class PlanningExcelExport implements PlanningExport {
 							
 							// tuteur
 							lineIndex++;
-							sheet.addCell(new Label(indexRoom, lineIndex, "", cellFormat));
+							String tutorCompany = o.getComposition().getTutor().getFirstName() + " - "+o.getComposition().getCompany();
+							sheet.addCell(new Label(indexRoom, lineIndex, tutorCompany, cellFormat));
 						
 
 							// we remove the oral defense
