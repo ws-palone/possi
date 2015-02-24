@@ -11,6 +11,6 @@ public interface RoomService {
 	
 	public List<Room> findAll();
 	
-	
+	public Room delete(int roomID);
 	
 }

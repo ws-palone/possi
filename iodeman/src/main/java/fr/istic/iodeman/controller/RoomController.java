@@ -32,5 +32,11 @@ public class RoomController {
 		session.teacherOnly();
 		return roomService.findOrCreate(name);
 	}
+	
+	@RequestMapping("/delete")
+	public Room create(@RequestParam("id") int id) {
+		session.teacherOnly();
+		return roomService.delete(id);
+	}
 
 }
