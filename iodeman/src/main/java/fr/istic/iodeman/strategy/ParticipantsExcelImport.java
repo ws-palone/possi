@@ -55,10 +55,8 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 			// Tutor
 			if (sheet.getCell(3, i).getContents() != null) {
 				String tutorFullName = sheet.getCell(3, i).getContents();
-				Person tutor = new Person();
-				tutor.setFirstName(tutorFullName);
 				
-				participant.setTutor(tutor);
+				participant.setTutorFullName(tutorFullName);
 				// Compagny
 				if (sheet.getCell(4, i).getContents() != null) {
 					String company = sheet.getCell(4, i).getContents();

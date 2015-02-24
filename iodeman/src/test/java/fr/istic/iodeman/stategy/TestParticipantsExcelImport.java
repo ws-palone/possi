@@ -70,14 +70,14 @@ public class TestParticipantsExcelImport extends AbstractSpringUnitTest{
 		Participant firstOne = participants.get(0);
 		assertEquals(firstOne.getStudent().getEmail(), "geoffrey.alexandre@etudiant.univ-rennes1.fr");
 		assertEquals(firstOne.getFollowingTeacher().getEmail(), "cedric.gueguen@univ-rennes1.fr");
-		assertEquals(firstOne.getTutor().getFirstName(), "David Gilmour");
+		assertEquals(firstOne.getTutorFullName(), "David Gilmour");
 		assertEquals(firstOne.getCompany(), "Capgemni (Rennes)");
 
 		// lastone
 		Participant lastOne = participants.get(participants.size() - 1);
 		assertEquals(lastOne.getStudent().getEmail(), "hodabalo-esso-solam.tiadema@etudiant.univ-rennes1.fr");
 		assertEquals(lastOne.getFollowingTeacher().getEmail(), "Finn.Jorgensen@univ-rennes1.fr");
-		assertEquals(lastOne.getTutor().getFirstName(), "Vincent Moscato");
+		assertEquals(lastOne.getTutorFullName(), "Vincent Moscato");
 		assertEquals(lastOne.getCompany(), "Capgemni (Rennes)");
 
 

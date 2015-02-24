@@ -309,7 +309,7 @@ public class PlanningExcelExport implements PlanningExport {
 							
 							// tuteur
 							lineIndex++;
-							String tutorCompany = o.getComposition().getTutor().getFirstName() + " - "+o.getComposition().getCompany();
+							String tutorCompany = o.getComposition().getTutorFullName() + " - "+o.getComposition().getCompany();
 							sheet.addCell(new Label(indexRoom, lineIndex, tutorCompany, cellFormat));
 						
 
