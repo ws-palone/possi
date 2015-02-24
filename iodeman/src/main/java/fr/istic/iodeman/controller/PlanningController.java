@@ -250,14 +250,6 @@ public class PlanningController {
 		// remove all depsendencies
 		// unavailabilities
 		unavailabilityService.deleteByPlanning(id);
-		// rooms
-		
-		// participants
-		
-		// oralDefense
-		
-		// priority
-		
 		// planning
 		planningService.delete(planning);
 	}
