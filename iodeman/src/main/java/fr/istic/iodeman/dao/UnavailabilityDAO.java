@@ -20,4 +20,5 @@ public interface UnavailabilityDAO {
 	
 	public List<Unavailability> findByPlanningId(Integer idPlanning);
 
+	public void deleteByPlanning(Integer planningId);
 }

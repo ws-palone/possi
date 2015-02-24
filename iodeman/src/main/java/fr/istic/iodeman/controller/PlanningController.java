@@ -29,6 +29,7 @@ import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.service.PlanningService;
 import fr.istic.iodeman.service.RoomService;
+import fr.istic.iodeman.service.UnavailabilityService;
 
 @RequestMapping("/planning") 
 @RestController
@@ -39,6 +40,10 @@ public class PlanningController {
 
 	@Autowired
 	private PlanningService planningService;
+	
+	@Autowired
+	private UnavailabilityService unavailabilityService;
+	
 	
 	@Autowired
 	private SessionComponent session;
@@ -232,6 +237,29 @@ public class PlanningController {
 		session.acceptOnly(planning.getAdmin());
 		
 		planningService.validate(planning);
+	}
+	
+	@RequestMapping(value = "/{id}/delete")
+	public void deletePlanning(@PathVariable("id") Integer id){
+		Planning planning = planningService.findById(id);
+		Validate.notNull(planning);
+		
+		// check if the current user is the admin of this planning
+		session.acceptOnly(planning.getAdmin());
+		
+		// remove all depsendencies
+		// unavailabilities
+		unavailabilityService.deleteByPlanning(id);
+		// rooms
+		
+		// participants
+		
+		// oralDefense
+		
+		// priority
+		
+		// planning
+		planningService.delete(planning);
 	}
 	
 }

@@ -103,4 +103,12 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		return unavailabilities;
 	}
 
+	@Override
+	public void deleteByPlanning(Integer planningId) {
+		// TODO quick n dirty
+		for(Unavailability u : findByPlanningId(planningId)){
+			delete(u);
+		}
+	}
+
 }

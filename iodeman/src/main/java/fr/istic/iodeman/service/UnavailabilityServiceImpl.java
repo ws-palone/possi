@@ -115,5 +115,10 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		return deleted;
 		
 	}
+
+	@Override
+	public void deleteByPlanning(Integer planningId) {
+		unavailabilityDAO.deleteByPlanning(planningId);
+	}
 	
 }

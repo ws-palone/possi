@@ -46,4 +46,6 @@ public interface PlanningService {
 	public List<Planning> findAllByUid(String uid);
 	
 	public Collection<ParticipantDTO> findParticipantsAndUnavailabilitiesNumber(Planning planning);
+	
+	public void delete(Planning planning);
 }

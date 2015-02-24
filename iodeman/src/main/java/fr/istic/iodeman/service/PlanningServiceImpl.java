@@ -317,5 +317,10 @@ public class PlanningServiceImpl implements PlanningService {
 		} 
 		return nb;
 	}
+
+	@Override
+	public void delete(Planning planning) {
+		planningDAO.delete(planning);
+	}
 	
 }
