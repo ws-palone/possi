@@ -23,8 +23,8 @@
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-3">
 				    <div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
+				      <button ng-click="deleteRoom(room.id)" type="button">X</button>
 				      <span class="input-group-addon">
-				        <button ng-click="deleteRoom()" class="btn btn-default" type="button">X</button>
 				        <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
 				      </span>
 				      <label class="form-control">{{ room.name }}</label>
