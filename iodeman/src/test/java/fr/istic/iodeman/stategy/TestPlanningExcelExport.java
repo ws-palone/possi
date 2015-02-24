@@ -94,21 +94,29 @@ public class TestPlanningExcelExport {
 
 		for(int i=1; i < 17; i++) {
 
-			Person p1 = new Person();
-			p1.setId(i);
-			p1.setUid(Integer.toString(i));
-			p1.setFirstName("Student "+i);
-			p1.setRole(Role.STUDENT);
+			Person student = new Person();
+			student.setId(i);
+			student.setUid(Integer.toString(i));
+			student.setFirstName("Student "+i);
+			student.setRole(Role.STUDENT);
 
-			Person p2 = new Person();
-			p2.setId(i);
-			p2.setUid(Integer.toString(i));
-			p2.setFirstName("Prof "+i);
-			p2.setRole(Role.PROF);		
+			Person teacher = new Person();
+			teacher.setId(i);
+			teacher.setUid(Integer.toString(i));
+			teacher.setFirstName("Prof "+i);
+			teacher.setRole(Role.PROF);		
+			
+			Person tutor = new Person();
+			tutor.setId(i);
+			tutor.setUid(Integer.toString(i));
+			tutor.setFirstName("Tutor "+i);
+			tutor.setRole(Role.PROF);
 
 			Participant participant = new Participant();
-			participant.setStudent(p1);
-			participant.setFollowingTeacher(p2);
+			participant.setStudent(student);
+			participant.setFollowingTeacher(teacher);
+			participant.setTutor(tutor);
+			participant.setCompany("Istic");
 
 			participants.add(participant);
 
@@ -154,7 +162,8 @@ public class TestPlanningExcelExport {
 		assertTrue(sheet.getCell(1, 3).getContents().equals(od.getComposition().getStudent().getFirstName() + " " +od.getComposition().getStudent().getLastName() ));
 		assertTrue(sheet.getCell(1, 4).getContents().equals(od.getComposition().getFollowingTeacher().getFirstName() + " " + od.getComposition().getFollowingTeacher().getLastName()));
 //		assertTrue(sheet.getCell(3, 5).getContents().equals(""));
-//		assertTrue(sheet.getCell(3, 6).getContents().equals(""));
+		String tutorCompany = od.getComposition().getTutor().getFirstName() + " - "+od.getComposition().getCompany();
+		assertTrue(sheet.getCell(1, 6).getContents().equals(tutorCompany));
 		
 		// remove the file
 		f.delete();
