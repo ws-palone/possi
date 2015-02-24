@@ -102,6 +102,9 @@ iodeman.config(function($provide) {
 						  return backendURL + '/mail/'+planningID;
 					  }
 					  
+					  "remove": function(planningID) {
+						  return backendURL + '/delete/'+planningID;
+					  }					  
 				  }
 			  },
 			  
