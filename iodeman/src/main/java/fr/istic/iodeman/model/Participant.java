@@ -16,6 +16,10 @@ public class Participant {
 	private Person student;
 	@ManyToOne
 	private Person followingTeacher;
+	@ManyToOne
+	private Person tutor;
+	
+	private String company;
 	
 	public Integer getId() {
 		return id;
@@ -38,5 +42,19 @@ public class Participant {
 	
 	public void setFollowingTeacher(Person followingTeacher) {
 		this.followingTeacher = followingTeacher;
+	}
+	
+	public Person getTutor() {
+		return tutor;
+	}
+	public void setTutor(Person tutor) {
+		this.tutor = tutor;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
 	}	
+	
 }

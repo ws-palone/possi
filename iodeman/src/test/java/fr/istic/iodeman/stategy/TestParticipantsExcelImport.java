@@ -54,7 +54,7 @@ public class TestParticipantsExcelImport extends AbstractSpringUnitTest{
 	@Test
 	public void testExecute() throws Exception{
 		ParticipantsImport particpantsImport = new ParticipantsExcelImport();
-		String filename = "/import_couple.xls";
+		String filename = "/import_couple_m2miage.xls";
 
 		File excelFile = new File(getClass().getResource(filename).toURI());
 		assertTrue(excelFile.exists());
@@ -64,17 +64,21 @@ public class TestParticipantsExcelImport extends AbstractSpringUnitTest{
 
 		assertTrue(participants != null);
 		assertTrue(participants.size() > 0);
-		assertTrue(participants.size() == 6);
+		assertTrue(participants.size() == 41);
 
 		// first one
 		Participant firstOne = participants.get(0);
-		assertEquals(firstOne.getStudent().getEmail(), "corentin.clement@etudiant.univ-rennes1.fr");
-		assertEquals(firstOne.getFollowingTeacher().getEmail(), "didier.certain@univ-rennes1.fr");
+		assertEquals(firstOne.getStudent().getEmail(), "geoffrey.alexandre@etudiant.univ-rennes1.fr");
+		assertEquals(firstOne.getFollowingTeacher().getEmail(), "cedric.gueguen@univ-rennes1.fr");
+		assertEquals(firstOne.getTutor().getFirstName(), "David Gilmour");
+		assertEquals(firstOne.getCompany(), "Capgemni (Rennes)");
 
 		// lastone
 		Participant lastOne = participants.get(participants.size() - 1);
-		assertEquals(lastOne.getStudent().getEmail(), "maxime.bourdel@etudiant.univ-rennes1.fr");
-		assertEquals(lastOne.getFollowingTeacher().getEmail(), "gilles.lesventes@univ-rennes1.fr");
+		assertEquals(lastOne.getStudent().getEmail(), "hodabalo-esso-solam.tiadema@etudiant.univ-rennes1.fr");
+		assertEquals(lastOne.getFollowingTeacher().getEmail(), "Finn.Jorgensen@univ-rennes1.fr");
+		assertEquals(lastOne.getTutor().getFirstName(), "Vincent Moscato");
+		assertEquals(lastOne.getCompany(), "Capgemni (Rennes)");
 
 
 	}

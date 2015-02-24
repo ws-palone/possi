@@ -40,15 +40,32 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 			// quick'n dirty | indicates the end of the array...
 			if (sheet.getCell(0, i).getContents().length() == 0) break; 
 			
+			// create participants
+			Participant participant = new Participant();
+			
 			// Student
 			String uid = sheet.getCell(1, i).getContents();
 			Person student = personResolver.resolve(uid);
 			
 			// following teacher
-			uid = sheet.getCell(3, i).getContents();
+			uid = sheet.getCell(2, i).getContents();
 			Person followingTeacher = personResolver.resolve(uid);
 			
-			Participant participant = new Participant();
+			// optional. if is an internship oral defense
+			// Tutor
+			if (sheet.getCell(3, i).getContents() != null) {
+				String tutorFullName = sheet.getCell(3, i).getContents();
+				Person tutor = new Person();
+				tutor.setFirstName(tutorFullName);
+				
+				participant.setTutor(tutor);
+				// Compagny
+				if (sheet.getCell(4, i).getContents() != null) {
+					String company = sheet.getCell(4, i).getContents();
+					participant.setCompany(company);
+				}
+			}
+			
 			participant.setStudent(student);
 			participant.setFollowingTeacher(followingTeacher);
 			
