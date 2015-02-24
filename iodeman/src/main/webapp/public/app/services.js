@@ -100,7 +100,7 @@ iodeman.config(function($provide) {
 					  
 					  "mail": function(planningID) {
 						  return backendURL + '/mail/'+planningID;
-					  }
+					  },
 					  
 					  "remove": function(planningID) {
 						  return backendURL + '/delete/'+planningID;
