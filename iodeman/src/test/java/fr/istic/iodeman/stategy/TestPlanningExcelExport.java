@@ -105,17 +105,11 @@ public class TestPlanningExcelExport {
 			teacher.setUid(Integer.toString(i));
 			teacher.setFirstName("Prof "+i);
 			teacher.setRole(Role.PROF);		
-			
-			Person tutor = new Person();
-			tutor.setId(i);
-			tutor.setUid(Integer.toString(i));
-			tutor.setFirstName("Tutor "+i);
-			tutor.setRole(Role.PROF);
 
 			Participant participant = new Participant();
 			participant.setStudent(student);
 			participant.setFollowingTeacher(teacher);
-			participant.setTutor(tutor);
+			participant.setTutorFullName("Tutor "+i);
 			participant.setCompany("Istic");
 
 			participants.add(participant);
@@ -162,7 +156,7 @@ public class TestPlanningExcelExport {
 		assertTrue(sheet.getCell(1, 3).getContents().equals(od.getComposition().getStudent().getFirstName() + " " +od.getComposition().getStudent().getLastName() ));
 		assertTrue(sheet.getCell(1, 4).getContents().equals(od.getComposition().getFollowingTeacher().getFirstName() + " " + od.getComposition().getFollowingTeacher().getLastName()));
 //		assertTrue(sheet.getCell(3, 5).getContents().equals(""));
-		String tutorCompany = od.getComposition().getTutor().getFirstName() + " - "+od.getComposition().getCompany();
+		String tutorCompany = od.getComposition().getTutorFullName() + " - "+od.getComposition().getCompany();
 		assertTrue(sheet.getCell(1, 6).getContents().equals(tutorCompany));
 		
 		// remove the file
