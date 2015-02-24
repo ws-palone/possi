@@ -281,6 +281,8 @@ public class PlanningServiceImpl implements PlanningService {
 			PersonDTO followingTeacherDTO = new PersonDTO();
 			participantDTO.setStudent(studentDTO);
 			participantDTO.setFollowingTeacher(followingTeacherDTO);
+			participantDTO.setTutorFullName(p.getTutorFullName());
+			participantDTO.setCompany(p.getCompany());
 			participantsDTO.add(participantDTO);
 			
 			// student data 
