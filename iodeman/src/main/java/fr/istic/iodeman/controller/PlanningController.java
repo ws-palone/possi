@@ -241,7 +241,9 @@ public class PlanningController {
 	
 	@RequestMapping(value = "/{id}/delete")
 	public void deletePlanning(@PathVariable("id") Integer id){
+		System.out.println(id);
 		Planning planning = planningService.findById(id);
+		System.out.println(planning);
 		Validate.notNull(planning);
 		
 		// check if the current user is the admin of this planning
