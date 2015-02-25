@@ -103,7 +103,7 @@ iodeman.config(function($provide) {
 					  },
 					  
 					  "remove": function(planningID) {
-						  return $http.get(backendURL + '/'+planningID+'/delete');
+						  return $http.get(backendURL + 'planning/'+planningID+'/delete');
 					  }					  
 				  }
 			  },
