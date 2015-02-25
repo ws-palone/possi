@@ -33,7 +33,7 @@
 			<a href="index.html#/priorities/{{ planning.id }}" class="btn btn-danger btn-sm">Gestion des priorités</a>
 			<a href="{{ mailService }}" target="_blank" class="btn btn-danger btn-sm">Envoyer un mail</a>
 			<a ng-click="validate()" class="btn btn-danger btn-sm">Générer planning</a>
-			<a ng-click="remove()" style="float:right" class="btn btn-danger btn-sm">Supprimer planning</a>
+			<a confirmed-click="remove()" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?"  style="float:right" class="btn btn-danger btn-sm">Supprimer planning</a>
 			
 			<div class="alert alert-info" role="alert">
 				<h3>Informations concernant le fichier excel d'import de participants</h3>
