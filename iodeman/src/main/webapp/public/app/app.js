@@ -8,3 +8,18 @@ iodeman.config(function($sceProvider) {
 	  // Completely disable SCE
 	  $sceProvider.enabled(false);
 });
+
+app.directive('ngConfirmClick', [
+     function(){
+         return {
+             link: function (scope, element, attr) {
+                 var msg = attr.ngConfirmClick || "Êtes-vous sûr?";
+                 var clickAction = attr.confirmedClick;
+                 element.bind('click',function (event) {
+                     if ( window.confirm(msg) ) {
+                         scope.$eval(clickAction)
+                     }
+                 });
+             }
+         };
+ }])
