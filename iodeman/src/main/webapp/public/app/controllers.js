@@ -299,7 +299,13 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	};
 	
 	$scope.remove = function() {
-		backend.plannings.remove($scope.id);
+		var validation = backend.plannings.remove($scope.id);
+		validation.success(function(data) {
+			console.log("removing succes");
+		});
+		validation.error(function(data) {
+			console.log("removing error");
+		});
 	}
 
 });

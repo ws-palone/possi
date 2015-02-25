@@ -9,7 +9,7 @@ iodeman.config(function($sceProvider) {
 	  $sceProvider.enabled(false);
 });
 
-app.directive('ngConfirmClick', [
+iodeman.directive('ngConfirmClick', [
      function(){
          return {
              link: function (scope, element, attr) {
