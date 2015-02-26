@@ -80,6 +80,16 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 			candidates.add(new AssignationCandidate(od));
 			
 		}
+
+		// Sort the list of candidates by the number of oral defenses followed
+		Comparator<AssignationCandidate> byNbFollowings = new Comparator<AssignationCandidate>() {
+			public int compare(AssignationCandidate a1, AssignationCandidate a2) {
+				Integer nb1 = followings.get(a1.getOralDefense().getComposition().getFollowingTeacher()).size();
+				Integer nb2 = followings.get(a2.getOralDefense().getComposition().getFollowingTeacher()).size();
+				return nb2.compareTo(nb1);
+			}
+		};
+		candidates = Ordering.from(byNbFollowings).sortedCopy(candidates);
 		
 	}
 
