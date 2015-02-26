@@ -32,11 +32,13 @@
 				<div class="col-md-3">
 					
 					<div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
-						<div class="row">
-							<button ng-click="deleteRoom(room)" class="input-group-addon" type="button">X</button>
-							<span class="input-group-addon"> <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" /></span>
-							<label class="form-control">{{ room.name }}</label>
-						</div>
+						<table>
+							<tr><td><button ng-click="deleteRoom(room)" class="input-group-addon" type="button">X</button></td>
+							<td>
+								<span class="input-group-addon"> <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" /></span>
+								<label class="form-control">{{ room.name }}</label>
+							</td></tr>
+						</table>
 					</div>
 					
 				</div>
