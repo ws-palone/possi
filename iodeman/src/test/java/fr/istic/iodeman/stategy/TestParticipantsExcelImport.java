@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.junit.After;
@@ -80,6 +81,37 @@ public class TestParticipantsExcelImport extends AbstractSpringUnitTest{
 		assertEquals(lastOne.getTutorFullName(), "Vincent Moscato");
 		assertEquals(lastOne.getCompany(), "Capgemni (Rennes)");
 
+
+	}
+	
+	@Test
+	public void testExecuteWithBadData() throws Exception{
+		ParticipantsImport particpantsImport = new ParticipantsExcelImport();
+		String filename = "/Listing_Test30_M2_MIAGE_stagiaires_ens-suiveurs_BAD.xls";
+
+		File excelFile = new File(getClass().getResource(filename).toURI());
+		assertTrue(excelFile.exists());
+
+		particpantsImport.configure(new PersonResolverMock());
+		List<Participant> participants = Lists.newArrayList(particpantsImport.execute(excelFile));
+
+		assertTrue(participants != null);
+		assertTrue(participants.size() > 0);
+		assertTrue(participants.size() == 41);
+
+		// first one
+		Participant firstOne = participants.get(0);
+		assertEquals(firstOne.getStudent().getEmail(), "geoffrey.alexandre@etudiant.univ-rennes1.fr");
+		assertEquals(firstOne.getFollowingTeacher().getEmail(), "didier.certain@univ-rennes1.fr");
+		assertEquals(firstOne.getTutorFullName(), "Einstein");
+		assertEquals(firstOne.getCompany(), "Paramount (Los Angeles)");
+
+		// lastone
+		Participant lastOne = participants.get(participants.size() - 1);
+		assertEquals(lastOne.getStudent().getEmail(), "hodabalo-esso-solam.tiadema@etudiant.univ-rennes1.fr");
+		assertEquals(lastOne.getFollowingTeacher().getEmail(), "didier.certain@univ-rennes1.fr");
+		assertEquals(lastOne.getTutorFullName(), "Edison");
+		assertEquals(lastOne.getCompany(), "Actedev (St Malo)");
 
 	}
 }

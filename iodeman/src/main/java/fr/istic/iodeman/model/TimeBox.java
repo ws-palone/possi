@@ -38,6 +38,6 @@ public class TimeBox {
 		
 		Validate.notNull(from);
 		Validate.notNull(to);
-		Validate.isTrue(from.before(to));
+		Validate.isTrue(from.before(to) || from.equals(to));
 	}
 }

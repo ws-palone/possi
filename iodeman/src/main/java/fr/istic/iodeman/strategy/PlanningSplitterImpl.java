@@ -6,6 +6,8 @@ import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 import fr.istic.iodeman.model.Planning;
@@ -97,7 +99,19 @@ public class PlanningSplitterImpl implements PlanningSplitter {
 			
 		}
 		
-		return results;
+		return Lists.newArrayList(Collections2.filter(results, new Predicate<TimeBox>(){
+
+			@Override
+			public boolean apply(TimeBox tb) {
+				DateTime from = new DateTime(tb.getFrom());
+				if (from.getDayOfWeek() == 6 || from.getDayOfWeek() == 7){
+					return false;
+				}
+				return true;
+			}
+			
+		}));
+		
 	}
 	
 	private boolean isNotOnLunchBreak(TimeBox lunchBreak, TimeBox timeBox) {
