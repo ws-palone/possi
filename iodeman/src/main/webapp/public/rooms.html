@@ -11,6 +11,11 @@
 		
 		
 			<div class="row" style="margin-top: 20px;">
+			
+				<div ng-show="errorCantDeleteRoom" class="alert alert-danger" role="alert">
+					La salle est liée à un projet et ne peut être supprimée.	
+				</div>
+				
 				<div class="col-md-6">		
 					<div class="input-group" style="margin-bottom: 10px;">
 				      	<span class="input-group-btn">

@@ -313,6 +313,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 
 	$scope.id = $routeParams.id;
+	$scope.errorCantDeleteRoom = false;
 	
 	$scope.$on('init', function(user) {
 		
@@ -364,6 +365,9 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				});
 				if (room == null) {
 					$scope.rooms.add(data);
+				}
+				else{
+					$scope.errorCantDeleteRoom = true;
 				}
 				$scope.newRoom.name = '';
 				$scope.$apply();
