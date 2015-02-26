@@ -145,4 +145,30 @@ public class TestPlanningSplitter {
 		PlanningSplitter splitter = new PlanningSplitterImpl();
 		splitter.execute(planning);
 	}
+	
+	@Test
+	public void testWithWeekend(){
+		Planning planning = new Planning();
+		planning.setPeriod(new TimeBox(
+				new DateTime(2015, 2, 27, 0, 0).toDate(),
+				new DateTime(2015, 3, 9, 0, 0).toDate()
+		));
+		planning.setDayPeriod(new TimeBox(
+				new DateTime(2015, 1, 18, 8, 0).toDate(),
+				new DateTime(2015, 1, 18, 18, 15).toDate()
+		));
+		planning.setLunchBreak(new TimeBox(
+				new DateTime(2015, 1, 18, 12, 0).toDate(),
+				new DateTime(2015, 1, 18, 14, 0).toDate()
+		));
+		planning.setOralDefenseDuration(20);
+		planning.setOralDefenseInterlude(5);
+		
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		List<TimeBox> results = splitter.execute(planning);
+		
+		assertEquals(133, results.size());
+		
+		
+	}
 }
