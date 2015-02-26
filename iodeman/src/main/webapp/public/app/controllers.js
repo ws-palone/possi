@@ -369,7 +369,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 
 	$scope.deleteRoom = function(room) {
 
-		scope.errorCantDeleteRoom = false;
+		$scope.errorCantDeleteRoom = false;
 
 		var idx = $scope.rooms.indexOf(room);
 
@@ -381,7 +381,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				$scope.rooms.splice(idx, 1);
 			}
 			else{
-				scope.errorCantDeleteRoom = true;
+				$scope.errorCantDeleteRoom = true;
 			}
 
 			$scope.$apply();
