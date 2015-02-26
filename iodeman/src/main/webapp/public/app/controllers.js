@@ -301,10 +301,11 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	$scope.remove = function() {
 		var validation = backend.plannings.remove($scope.id);
 		validation.success(function(data) {
-			console.log("removing succes");
+			document.location.href = "#/home";
 		});
 		validation.error(function(data) {
-			console.log("removing error");
+			$scope.errorValidate = true;
+			$scope.$apply();
 		});
 	}
 
