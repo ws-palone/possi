@@ -6,10 +6,6 @@
 		</div>
 	</div>
 
-	<div ng-show="errorCantDeleteRoom" class="alert alert-danger"
-		role="alert">La salle est liée à un projet et ne peut être
-		supprimée.</div>
-
 	<div class="row">
 		<div class="col-md-12 col-sm-=12">
 
@@ -17,6 +13,11 @@
 			<div class="row" style="margin-top: 20px;">
 
 				<div class="col-md-6">
+
+					<div ng-show="errorCantDeleteRoom" class="alert alert-danger"
+						role="alert">La salle est liée à un projet et ne peut être
+						supprimée.</div>
+
 					<div class="input-group" style="margin-bottom: 10px;">
 						<span class="input-group-btn">
 							<button ng-click="addRoom()" class="btn btn-default"
@@ -28,7 +29,7 @@
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px;">
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<div ng-repeat="room in rooms" class="input-group"
 						style="margin-bottom: 10px;">
 						<button ng-click="deleteRoom(room)" class="input-group-addon"
