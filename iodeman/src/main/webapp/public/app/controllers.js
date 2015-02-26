@@ -269,14 +269,12 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	
 	$scope.notZeroUnaivability = function(dispoNumber) {
 		var greenStyle = "background-color : green";
-		var whiteStyle = "background-color : white";
 		
 		if(dispoNumber > 0){
 			return greenStyle;
 		}
 		
-		return whiteStyle;
-		
+		return "";
 	};
 
 	inputFile.change(function() {
