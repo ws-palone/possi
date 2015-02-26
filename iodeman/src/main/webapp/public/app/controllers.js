@@ -16,11 +16,11 @@ iodeman.controller('mainController', function($scope, backend) {
 		$scope.$apply();
 		backend.login();
 	});
-	
+
 	$scope.logout = function() {
 		backend.logout();
 	};
-	
+
 	$scope.$on('$viewContentLoaded', function() {
 		if ($scope.user) {
 			$scope.$broadcast('init', $scope.user);
@@ -32,7 +32,7 @@ iodeman.controller('mainController', function($scope, backend) {
 iodeman.controller('homeController', function($scope, backend) {
 
 	$scope.plannings = [];
-	
+
 	$scope.$on('init', function(user) {
 		var planningRequest = backend.plannings.list();
 		planningRequest.success(function(data) {
@@ -52,9 +52,9 @@ iodeman.controller('homeController', function($scope, backend) {
 });
 
 iodeman.controller('PlanningFormController', function($scope, backend, $routeParams) {
-	
+
 	$scope.id = $routeParams.id;
-	
+
 	var inputStartingDate = $('#startingDate');
 	var inputEndingDate = $('#endingDate');
 	var inputDayPeriodStart = $('#timepicker3');
@@ -96,7 +96,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 	};
 
 	if ($scope.id != null) {	// EDITION MODE
-		
+
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
 			console.log("planning:");
@@ -129,9 +129,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 			inputEndingDate.datepicker();
 			$scope.$apply();
 		});
-		
+
 	} else {	// CREATION MODE
-		
+
 		// day period
 		inputDayPeriodStart.val("09:00");
 		inputDayPeriodEnd.val("17:00");
@@ -141,7 +141,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		// oral defense duration
 		inputDuration.val(40);
 		inputInterlude.val(10);
-		
+
 		inputStartingDate.datepicker();
 		inputEndingDate.datepicker();
 
@@ -151,7 +151,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 
 		console.log($scope.planning);
 		console.log(inputStartingDate.val());
-		
+
 		$scope.planning.periodStart = Date.create(inputStartingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
 		$scope.planning.periodEnd = Date.create(inputEndingDate.val(),'{dd}/{MM}/{yyyy}').format('{yyyy}-{MM}-{dd}');
 		$scope.planning.dayPeriodStart = inputDayPeriodStart.val();
@@ -192,7 +192,7 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 		if (validate){
 
 			if ($scope.id != null) {
-				
+
 				$scope.planning.planningID = $scope.id; 
 				var updateRequest = backend.plannings.update($scope.planning);
 				updateRequest.success(function(data) {
@@ -205,9 +205,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 //					$scope.$apply();
 					console.log('error. cannot update this planning!');
 				});
-				
+
 			}else{
-			
+
 				var createRequest = backend.plannings.create($scope.planning);
 				createRequest.success(function(data) {
 					console.log('planning created!');
@@ -219,9 +219,9 @@ iodeman.controller('PlanningFormController', function($scope, backend, $routePar
 //					$scope.$apply();
 					console.log('error. cannot create planning!');
 				});
-				
+
 			}
-			
+
 		} else {
 			// I prefer use jQuery rather angular
 			// There were some errors with angular
@@ -244,7 +244,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	var formUpload = $('#formUpload');
 
 	$scope.$on('init', function(user) {
-		
+
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
 			console.log("planning:");
@@ -252,7 +252,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 			$scope.planning = data;
 			$scope.$apply();
 		});
-		
+
 		var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
 		participantsRequest.success(function(data) {
 			console.log("participants:");
@@ -260,7 +260,7 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 			$scope.participants = data;
 			$scope.$apply();
 		});
-		
+
 	});
 
 	$scope.importParticipants = function() {
@@ -270,23 +270,23 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	inputFile.change(function() {
 		formUpload.submit();
 	});
-	
+
 	$scope.validate = function() {
-		
+
 		$scope.errorValidate = false;
 		$scope.errorNoParticipant = false;
 		$scope.errorNoRoom = false;
-		
+
 		if ($scope.participants == null || $scope.participants.length == 0) {
 			$scope.errorNoParticipant = true;
 			return;
 		}
-		
+
 		if ($scope.planning.rooms == null || $scope.planning.rooms.length == 0) {
 			$scope.errorNoRoom = true;
 			return;
 		}
-		
+
 		var validation = backend.plannings.validate($scope.id);
 		validation.success(function(data) {
 			document.location.href = $scope.fileURL;
@@ -295,17 +295,11 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 			$scope.errorValidate = true;
 			$scope.$apply();
 		});
-		
+
 	};
-	
+
 	$scope.remove = function() {
-		var validation = backend.plannings.remove($scope.id);
-		validation.success(function(data) {
-			console.log("removing succes");
-		});
-		validation.error(function(data) {
-			console.log("removing error");
-		});
+		backend.plannings.remove($scope.id);
 	}
 
 });
@@ -313,18 +307,17 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 
 	$scope.id = $routeParams.id;
-	$scope.errorCantDeleteRoom = false;
-	
+
 	$scope.$on('init', function(user) {
-		
+
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
-	
+
 			console.log("planning:");
 			console.log(data);
 			$scope.planning = data;
 			$scope.$apply();
-	
+
 			var roomsRequest = backend.rooms.list();
 			roomsRequest.success(function(data) {
 				console.log("rooms:");
@@ -344,7 +337,7 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				});
 				$scope.$apply();
 			});
-	
+
 		});
 	});
 
@@ -366,9 +359,6 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				if (room == null) {
 					$scope.rooms.add(data);
 				}
-				else{
-					$scope.errorCantDeleteRoom = true;
-				}
 				$scope.newRoom.name = '';
 				$scope.$apply();
 			});
@@ -376,21 +366,26 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 		}
 
 	};
-	
-	$scope.deleteRoom = function(room) {
-		
-			var idx = $scope.rooms.indexOf(room);
 
-			var deleteRoomRequest = backend.rooms.remove(room.id);
-			deleteRoomRequest.success(function (roomToDelete) {
-				
-				if(roomToDelete.id != null){
-					console.log(roomToDelete);
-					$scope.rooms.splice(idx, 1);
-				}
-				
-				$scope.$apply();
-			});
+	$scope.deleteRoom = function(room) {
+
+		scope.errorCantDeleteRoom = false;
+
+		var idx = $scope.rooms.indexOf(room);
+
+		var deleteRoomRequest = backend.rooms.remove(room.id);
+		deleteRoomRequest.success(function (roomToDelete) {
+
+			if(roomToDelete.id != null){
+				console.log(roomToDelete);
+				$scope.rooms.splice(idx, 1);
+			}
+			else{
+				scope.errorCantDeleteRoom = true;
+			}
+
+			$scope.$apply();
+		});
 
 	};
 
@@ -432,12 +427,12 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 	$scope.id = $routeParams.id;
 
 	$scope.showError = false;
-	
+
 	$scope.$on('init', function(user) {
-		
+
 		var planningRequest = backend.plannings.find($scope.id);
 		planningRequest.success(function(data) {
-	
+
 			console.log("planning:");
 			console.log(data);
 			$scope.planning = data;
@@ -445,21 +440,21 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 				return p.weight;
 			}, true);	
 			$scope.$apply();
-	
-			 $( "#sortable" ).sortable({ 
-		         placeholder: "ui-sortable-placeholder" 
-		     });
+
+			$( "#sortable" ).sortable({ 
+				placeholder: "ui-sortable-placeholder" 
+			});
 		});
-		
+
 	});
-	
+
 	$scope.submit = function() {
 
 		var i =0;
 
 		var sortedIDs = $( "#sortable" ).sortable( "toArray" );
 		console.log(sortedIDs);
-		
+
 		if ($scope.planning == null) {
 			return;
 		}
@@ -468,11 +463,11 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 			var priority = $scope.planning.priorities.find(function(priority){
 				return priority.role==role;
 			});
-			
+
 			priority.weight= sortedIDs.length - i;
 			i++;
 		});
-		
+
 		var postRequest = backend.plannings.updatePriorities($scope.id, $scope.planning.priorities);
 		postRequest.success(function (data) {
 			console.log("priorities updated!");
@@ -499,11 +494,11 @@ iodeman.controller('prioritiesController', function($scope, backend, $routeParam
 iodeman.controller('agendaController', function($scope, backend, $routeParams, $location) {
 
 	$scope.id = $routeParams.id;
-	
+
 	$scope.$on('init', function(user) {
-			
+
 		$scope.uid = $scope.$parent.user.uid;
-	
+
 		var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);
 		agendaRequest.success(function (data) {
 			console.log("agenda found!");
@@ -572,5 +567,5 @@ iodeman.controller('agendaController', function($scope, backend, $routeParams, $
 			console.log(data);
 		});
 	});
-	
+
 });
