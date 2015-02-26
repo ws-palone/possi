@@ -63,9 +63,9 @@
 						<tr ng-repeat="participant in participants">
 							<td>{{ $index+1 }}</td>
 							<td>{{ participant.student.person.firstName }} {{ participant.student.person.lastName }}</td>
-							<td>{{ participant.student.unavailabilitiesNumber }}</td>
+							<td ng-class="{ 'unavailabilitiesIndicator' : participant.student.unavailabilitiesNumber > 0 }">{{ participant.student.unavailabilitiesNumber }}</td>
 							<td>{{ participant.followingTeacher.person.firstName }} {{ participant.followingTeacher.person.lastName }}</td>
-							<td>{{ participant.followingTeacher.unavailabilitiesNumber }}</td>
+							<td ng-class="{ 'unavailabilitiesIndicator' : participant.student.unavailabilitiesNumber > 0 }">{{ participant.followingTeacher.unavailabilitiesNumber }}</td>
 							<td>{{ participant.tutorFullName }}</td>
 							<td>{{ participant.company }}</td>
 						</tr>
