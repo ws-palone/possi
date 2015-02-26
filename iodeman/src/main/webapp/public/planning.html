@@ -63,7 +63,7 @@
 						<tr ng-repeat="participant in participants">
 							<td>{{ $index+1 }}</td>
 							<td>{{ participant.student.person.firstName }} {{ participant.student.person.lastName }}</td>
-							<td ng-style="participant.student.unavailabilitiesNumber != 0 && {'color': 'green'}"><span>{{ participant.student.unavailabilitiesNumber }}</span></td>
+							<td ng-style="participant.student.unavailabilitiesNumber == 0 && {'color': 'red'}"><span>{{ participant.student.unavailabilitiesNumber }}</span></td>
 							<td>{{ participant.followingTeacher.person.firstName }} {{ participant.followingTeacher.person.lastName }}</td>
 							<td ng-style="{{notZeroUnaivability(participant.followingTeacher.unavailabilitiesNumber)}}"><span>{{ participant.followingTeacher.unavailabilitiesNumber }}</span></td>
 							<td>{{ participant.tutorFullName }}</td>
