@@ -15,8 +15,8 @@
 				<div class="col-md-6">
 
 					<div ng-show="errorCantDeleteRoom" class="alert alert-danger"
-						role="alert">La salle est li&eacute;e &agrave; un projet et ne peut &ecirc;tre
-						supprim&eacute;e.</div>
+						role="alert">La salle est li&eacute;e &agrave; un projet et
+						ne peut &ecirc;tre supprim&eacute;e.</div>
 
 					<div class="input-group" style="margin-bottom: 10px;">
 						<span class="input-group-btn">
@@ -29,15 +29,12 @@
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px;">
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<div ng-repeat="room in rooms" class="input-group"
 						style="margin-bottom: 10px;">
-						<button ng-click="deleteRoom(room)" class="input-group-addon"
-							type="button">X</button>
-						<span class="input-group-addon"> <input type="checkbox"
-							aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
-						</span> <label class="form-control">{{ room.name }}</label>
-					</div>
+						<button ng-click="deleteRoom(room)" class="input-group-addon" type="button">X</button>
+						<span class="input-group-addon"> <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
+						<label class="form-control">{{ room.name }}</label>
 					<!-- /input-group -->
 				</div>
 				<!-- /.col-lg-6 -->

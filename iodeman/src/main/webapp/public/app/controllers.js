@@ -353,6 +353,8 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	};
 
 	$scope.addRoom = function() {
+		
+		$scope.errorCantDeleteRoom = false;
 
 		if ($scope.newRoom != '' && $scope.newRoom != null) {
 
