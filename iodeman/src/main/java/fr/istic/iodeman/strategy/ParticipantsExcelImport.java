@@ -1,6 +1,7 @@
 package fr.istic.iodeman.strategy;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -45,11 +46,13 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 			
 			// Student
 			String email = sheet.getCell(1, i).getContents().trim();
-			Person student = personResolver.resolve(email);
+			String normedEmail = normalize(email);
+			Person student = personResolver.resolve(normedEmail);
 			
 			// following teacher
 			email = sheet.getCell(2, i).getContents().trim();
-			Person followingTeacher = personResolver.resolve(email);
+			normedEmail = normalize(email);
+			Person followingTeacher = personResolver.resolve(normedEmail);
 			
 			// optional. if is an internship oral defense
 			// Tutor
@@ -74,6 +77,10 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 		}
 		
 		return participants;
+	}
+	
+	private String normalize(String input){
+		return Normalizer.normalize(input, Normalizer.Form.NFC).replaceAll("[^\\p{ASCII}]", "");
 	}
 
 }
