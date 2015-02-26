@@ -268,10 +268,10 @@ iodeman.controller('planningController', function($scope, backend, $routeParams)
 	};
 	
 	$scope.notZeroUnaivability = function(dispoNumber) {
-		var greenStyle = "background-color : green";
+		var greenStyle = "'background-color' : 'green'";
 		
 		if(dispoNumber > 0){
-			return greenStyle;
+			return "{"+greenStyle+"}";
 		}
 		
 		return "";
