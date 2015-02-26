@@ -251,6 +251,13 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 			}
 		}
 		
+		// hack to assign a jury if each jury has reached his maximum number of assignations
+		for(Person p : possibilities) {
+			if (!p.equals(followingTeacher)) {
+				return p;
+			}
+		}
+		
 		return null;
 	}
 	
