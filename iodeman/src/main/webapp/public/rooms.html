@@ -30,14 +30,15 @@
 			</div>
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-3">
-					<div class="row">
-						<button ng-click="deleteRoom(room)" class="input-group-addon" type="button">X</button>
 					
-						<div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
+					<div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
+						<div class="row">
+							<button ng-click="deleteRoom(room)" class="input-group-addon" type="button">X</button>
 							<span class="input-group-addon"> <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" /></span>
 							<label class="form-control">{{ room.name }}</label>
-						<!-- /input-group -->
+						</div>
 					</div>
+					
 				</div>
 				<!-- /.col-lg-6 -->
 			</div>
