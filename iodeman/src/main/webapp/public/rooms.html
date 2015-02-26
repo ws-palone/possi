@@ -6,35 +6,40 @@
 		</div>
 	</div>
 
+	<div ng-show="errorCantDeleteRoom" class="alert alert-danger"
+		role="alert">La salle est liée à un projet et ne peut être
+		supprimée.</div>
+
 	<div class="row">
 		<div class="col-md-12 col-sm-=12">
-		
-		
+
+
 			<div class="row" style="margin-top: 20px;">
-			
-				<div ng-show="errorCantDeleteRoom" class="alert alert-danger" role="alert">
-					La salle est liée à un projet et ne peut être supprimée.	
-				</div>
-				
-				<div class="col-md-6">		
+
+				<div class="col-md-6">
 					<div class="input-group" style="margin-bottom: 10px;">
-				      	<span class="input-group-btn">
-        					<button ng-click="addRoom()" class="btn btn-default" type="button">Ajouter</button>
-      					</span>
-				      <input ng-model="newRoom.name" type="text" value="" class="form-control" />
-				    </div><!-- /input-group -->
+						<span class="input-group-btn">
+							<button ng-click="addRoom()" class="btn btn-default"
+								type="button">Ajouter</button>
+						</span> <input ng-model="newRoom.name" type="text" value=""
+							class="form-control" />
+					</div>
+					<!-- /input-group -->
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-md-3">
-				    <div ng-repeat="room in rooms" class="input-group" style="margin-bottom: 10px;">
-				      <button ng-click="deleteRoom(room)" class="input-group-addon" type="button">X</button>
-				      <span class="input-group-addon">
-				        <input type="checkbox" aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
-				      </span>
-				      <label class="form-control">{{ room.name }}</label>
-				    </div><!-- /input-group -->
-				</div><!-- /.col-lg-6 -->
+					<div ng-repeat="room in rooms" class="input-group"
+						style="margin-bottom: 10px;">
+						<button ng-click="deleteRoom(room)" class="input-group-addon"
+							type="button">X</button>
+						<span class="input-group-addon"> <input type="checkbox"
+							aria-label="..." ng-model="room.isChecked" ng-click="submit()" />
+						</span> <label class="form-control">{{ room.name }}</label>
+					</div>
+					<!-- /input-group -->
+				</div>
+				<!-- /.col-lg-6 -->
 			</div>
 
 		</div>
