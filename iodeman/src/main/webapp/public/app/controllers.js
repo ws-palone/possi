@@ -353,6 +353,8 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 	};
 
 	$scope.addRoom = function() {
+		
+		$scope.errorCantDeleteRoom = false;
 
 		if ($scope.newRoom != '' && $scope.newRoom != null) {
 
@@ -388,7 +390,6 @@ iodeman.controller('roomsController', function($scope, backend, $routeParams) {
 				$scope.rooms.splice(idx, 1);
 			}
 			else{
-				$scope.errorCantDeleteRoom.text("La salle est liée à un projet et ne peut être	supprimée.");
 				$scope.errorCantDeleteRoom = true;
 			}
 
