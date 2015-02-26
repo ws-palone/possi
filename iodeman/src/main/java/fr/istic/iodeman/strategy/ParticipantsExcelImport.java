@@ -44,11 +44,11 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 			Participant participant = new Participant();
 			
 			// Student
-			String uid = sheet.getCell(1, i).getContents();
+			String uid = sheet.getCell(1, i).getContents().trim();
 			Person student = personResolver.resolve(uid);
 			
 			// following teacher
-			uid = sheet.getCell(2, i).getContents();
+			uid = sheet.getCell(2, i).getContents().trim();
 			Person followingTeacher = personResolver.resolve(uid);
 			
 			// optional. if is an internship oral defense
