@@ -246,7 +246,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		for(Person p : possibilities) {
 			int nbAssignations = assignations.get(p).size();
 			int nbFollowed = followings.get(p).size();
-			if (nbAssignations < nbFollowed * 2 && !p.equals(followingTeacher)) {
+			if (nbAssignations < nbFollowed && !p.equals(followingTeacher)) {
 				return p;
 			}
 		}
