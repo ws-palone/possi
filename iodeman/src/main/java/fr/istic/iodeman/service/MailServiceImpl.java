@@ -79,7 +79,7 @@ public class MailServiceImpl implements MailService{
 		DateTime dateTo = new DateTime(unavailability.getPeriod().getTo());
 		
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo("contact@davidmichel.fr"); //message.setTo(planning.getAdmin().getEmail());
+		message.setTo(planning.getAdmin().getEmail());
 		message.setFrom("IODEMAN");
 		message.setSubject("[IODEMAN] "+planning.getName()+" : modifications détectées");
 		

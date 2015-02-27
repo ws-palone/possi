@@ -252,7 +252,7 @@ public class TestIodemanIntegration extends SpringUnitTest {
 		planning.setOralDefenseInterlude(10);
 		planning.setRooms(
 			Lists.newArrayList(
-				roomService.findOrCreate("i51"),
+				roomService.findOrCreate("i60"),
 				roomService.findOrCreate("i227"),
 				roomService.findOrCreate("i225")
 			)	
