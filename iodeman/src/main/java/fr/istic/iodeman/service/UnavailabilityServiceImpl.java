@@ -35,6 +35,9 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	@Autowired
 	private PersonUidResolver personUidResolver;
 	
+	@Autowired
+	private MailService mailService;
+	
 	public List<Unavailability> findById(Integer idPlanning, String uid) {
 		return unavailabilityDAO.findById(idPlanning, uid);
 	}
@@ -57,6 +60,8 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		unavailability.setPlanning(planning);
 		
 		unavailabilityDAO.persist(unavailability);
+
+		mailService.notifyNewUnavailability(unavailability);
 		
 		return unavailability;
 	}

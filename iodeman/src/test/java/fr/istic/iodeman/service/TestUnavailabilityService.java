@@ -41,6 +41,9 @@ public class TestUnavailabilityService {
 	@Mock
 	private PlanningDAO planningDAO;
 	
+	@Mock
+	private MailService MailService;
+	
 	@Before
 	public void setUp() {
 		unavailabilityService = new UnavailabilityServiceImpl();

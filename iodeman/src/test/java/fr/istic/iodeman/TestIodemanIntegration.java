@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
@@ -32,12 +33,14 @@ import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.resolver.PersonResolver;
+import fr.istic.iodeman.service.MailService;
 import fr.istic.iodeman.service.PlanningService;
 import fr.istic.iodeman.service.RoomService;
 import fr.istic.iodeman.service.UnavailabilityService;
+import fr.istic.iodeman.stategy.TestAlgoJuryAssignation;
 import fr.istic.iodeman.utils.TestUtils;
 
-public class IodemanIntegrationTest extends SpringUnitTest {
+public class TestIodemanIntegration extends SpringUnitTest {
 
 	@Autowired
 	@InjectMocks
@@ -47,6 +50,7 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 	private PersonDAO personDAO;
 	
 	@Autowired
+	@InjectMocks
 	private UnavailabilityService unavailabilityService;
 	
 	@Autowired
@@ -54,6 +58,9 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 	
 	@Mock
 	private PersonMailResolver personMailResolver;
+	
+	@Mock
+	private MailService mailService;
 	
 	private PersonResolver personResolver;
 	
@@ -95,6 +102,7 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 	}
 	
 	@Test
+	@Ignore
 	public void test() throws Exception {
 		
 		// Create a planning
@@ -230,7 +238,7 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 		planning.setName("IT Planning");
 		planning.setPeriod(new TimeBox(
 				new DateTime(2015, 1, 15, 0, 0).toDate(),
-				new DateTime(2015, 1, 17, 0, 0).toDate()
+				new DateTime(2015, 1, 18, 0, 0).toDate()
 		));
 		planning.setDayPeriod(new TimeBox(
 				new DateTime(2015, 1, 18, 9, 0).toDate(),
@@ -245,7 +253,8 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 		planning.setRooms(
 			Lists.newArrayList(
 				roomService.findOrCreate("i51"),
-				roomService.findOrCreate("i227")
+				roomService.findOrCreate("i227"),
+				roomService.findOrCreate("i225")
 			)	
 		);
 		
@@ -348,6 +357,8 @@ public class IodemanIntegrationTest extends SpringUnitTest {
 		for(Unavailability ua : unavailabilities) {
 			assertTrue(TestUtils.checkIfUnavailabilityRespected(oralDefenses, ua));
 		}
+		
+		TestAlgoJuryAssignation.checkResults(oralDefenses, unavailabilities);
 	}
 	
 }

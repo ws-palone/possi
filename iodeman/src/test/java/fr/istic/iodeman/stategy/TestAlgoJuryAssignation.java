@@ -188,7 +188,7 @@ public class TestAlgoJuryAssignation {
 		
 	}
 	
-	private void checkResults(Collection<OralDefense> results, List<Unavailability> unavailabilities) {
+	public static void checkResults(Collection<OralDefense> results, List<Unavailability> unavailabilities) {
 		
 		TestUtils.printResults(results);
 		
