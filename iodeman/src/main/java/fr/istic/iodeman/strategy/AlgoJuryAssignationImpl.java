@@ -15,6 +15,7 @@ import com.google.common.collect.Ordering;
 
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
 
@@ -141,7 +142,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 			
 			public boolean apply(final Person jury) {
 				
-				Integer nbAssignations = 0;
+				/*Integer nbAssignations = 0;
 				List<OralDefense> juryAssignations = assignations.get(jury);
 				if (juryAssignations != null) {
 					nbAssignations = juryAssignations.size();
@@ -162,6 +163,16 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 						System.out.println("remove "+jury.getFirstName());
 						return false;
 					}
+				}*/
+				
+				List<OralDefense> juryAssignations = assignations.get(jury);
+				Integer nbAssignations = juryAssignations != null ? juryAssignations.size() : 0;
+				List<OralDefense> juryFollowings = followings.get(jury);
+				Integer nbFollowings = juryFollowings.size();
+				
+				if (!isFree(candidate.getOralDefense().getTimebox(), jury)) {
+					System.out.println("remove "+jury.getFirstName());
+					return false;
 				}
 				
 				if (withUnavailabilities) {
@@ -256,19 +267,46 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		for(Person p : possibilities) {
 			int nbAssignations = assignations.get(p).size();
 			int nbFollowed = followings.get(p).size();
-			if (nbAssignations < nbFollowed && !p.equals(followingTeacher)) {
+			if (nbAssignations < nbFollowed 
+					&& !p.equals(followingTeacher)
+					&& isFree(selected.getOralDefense().getTimebox(), p)) {
 				return p;
 			}
 		}
 		
 		// hack to assign a jury if each jury has reached his maximum number of assignations
 		for(Person p : possibilities) {
-			if (!p.equals(followingTeacher)) {
+			if (!p.equals(followingTeacher) && isFree(selected.getOralDefense().getTimebox(), p)) {
 				return p;
 			}
 		}
 		
 		return null;
+	}
+	
+	private boolean isFree(TimeBox timebox, Person jury) {
+		
+		List<OralDefense> juryAssignations = assignations.get(jury);
+		if (juryAssignations != null) {
+			// check if the jury is not assignated to another oral defense on this timebox
+			for(OralDefense assignated : juryAssignations) {
+				if (timebox.getFrom().equals(assignated.getTimebox().getFrom())) {
+					System.out.println("remove "+jury.getFirstName());
+					return false;
+				}
+			}
+		}
+		
+		List<OralDefense> juryFollowings = followings.get(jury);
+		// check if the jury is not present at another oral defense as follower on this timebox
+		for(OralDefense followed : juryFollowings) {
+			if (timebox.getFrom().equals(followed.getTimebox().getFrom())) {
+				System.out.println("remove "+jury.getFirstName());
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private void assignJury(AssignationCandidate candidate, Person jury) {
