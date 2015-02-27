@@ -117,6 +117,10 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 			}
 		}
 		
+		for(Unavailability ua : deleted) {
+			mailService.notifyUnavailabityRemoved(ua);
+		}
+		
 		return deleted;
 		
 	}

@@ -96,6 +96,31 @@ public class MailServiceImpl implements MailService{
 		javaMailSender.send(message);
 
 	}
+
+	@Override
+	public void notifyUnavailabityRemoved(Unavailability unavailability) {
+		
+		Planning planning = unavailability.getPlanning();
+		DateTime dateFrom = new DateTime(unavailability.getPeriod().getFrom());
+		DateTime dateTo = new DateTime(unavailability.getPeriod().getTo());
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(planning.getAdmin().getEmail());
+		message.setFrom("IODEMAN");
+		message.setSubject("[IODEMAN] "+planning.getName()+" : modifications détectées");
+		
+		StringBuilder contentBuilder = new StringBuilder();
+		contentBuilder.append(unavailability.getPerson().getFirstName());
+		contentBuilder.append(" ").append(unavailability.getPerson().getLastName());
+		contentBuilder.append(" a supprimé son indisponibilité du ");
+		contentBuilder.append(dateFrom.toString("dd/MM/yyyy"));
+		contentBuilder.append(" de ").append(dateFrom.toString("HH:mm"));
+		contentBuilder.append(" à ").append(dateTo.toString("HH:mm"));
+		
+		message.setText(contentBuilder.toString());
+		
+		javaMailSender.send(message);
+	}
 	
 
 }

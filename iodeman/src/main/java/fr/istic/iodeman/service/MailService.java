@@ -8,5 +8,7 @@ public interface MailService {
 	public String sendToEveryParticipant(Planning planning);
 	
 	public void notifyNewUnavailability(Unavailability unavailability);
+	
+	public void notifyUnavailabityRemoved(Unavailability unavailability);
 
 }
