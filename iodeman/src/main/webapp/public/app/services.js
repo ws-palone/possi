@@ -2,7 +2,7 @@ iodeman.config(function($provide) {
 	
   $provide.provider('backend', function() {
     
-	  var backendURL = 'http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/';
+	  var backendURL = 'http://localhost:8080/';
 	  
 	  var $http = angular.injector(["ng"]).get("$http");
 	  
