@@ -32,6 +32,7 @@ import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.resolver.PersonMailResolver;
+import fr.istic.iodeman.strategy.ParticipantsCSVImport;
 import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
 
@@ -150,7 +151,7 @@ public class PlanningServiceImpl implements PlanningService {
 	
 	public Planning importPartcipants(Planning planning, File file) throws Exception {
 		
-		ParticipantsImport participantsImport = new ParticipantsExcelImport();
+		ParticipantsImport participantsImport = new ParticipantsCSVImport();
 		participantsImport.configure(personResolver);
 		Collection<Participant> participants = participantsImport.execute(file);
 		
