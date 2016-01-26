@@ -12,7 +12,7 @@
 			<form id="formUpload" style="display: none;" method="POST" enctype="multipart/form-data" action="{{ uploadFileURL }}">
 				<input id="upload_file" type="file" name="file" /><br /> 
 				<input type="hidden" name="planningId" value="{{ planning.id }}" />
-				<input type="hidden" name="redirectURL" value="/public/index.html#/planning/{{ planning.id }}" />
+				<input type="hidden" name="redirectURL" value="/planning/{{ planning.id }}" />
 			</form>
 			
 			<div ng-show="errorValidate" class="alert alert-danger" role="alert">

@@ -43,7 +43,7 @@ public class TicketValidatorFactory {
 		if (builder.charAt(builder.length()-1) != '/') {
 			builder.append('/');
 		}
-		builder.append("login");
+		builder.append("api/auth/login");
 		return builder.toString();
 	}
 	

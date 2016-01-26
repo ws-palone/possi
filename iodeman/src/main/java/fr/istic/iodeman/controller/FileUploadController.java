@@ -29,6 +29,8 @@ public class FileUploadController {
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile, @RequestParam(value="redirectURL", required=false) String redirectURL){    	
     	
+    	System.err.println("CA PASSE ICI");
+    	
     	session.teacherOnly();
     	// path to save the input file
     	String name = "/tmp/"+new DateTime();

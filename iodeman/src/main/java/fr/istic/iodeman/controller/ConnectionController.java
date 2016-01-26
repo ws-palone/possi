@@ -23,36 +23,20 @@ public class ConnectionController {
 	@Autowired
 	private SessionComponent session;
 	
-	@RequestMapping("/login")
+	@RequestMapping("/api/auth/login")
 	public String validate(@RequestParam(value="ticket", defaultValue="") String ticket) throws IOException, SAXException, ParserConfigurationException{
 		
-		System.err.println("Le ticket est égal à '" + ticket + "'");
-		
 		if (!ticket.equals("")) {
-			
-			System.err.println("Si le ticket n'est pas vide, call ServiceTickerValidator");
 			
 			ServiceTicketValidator validator = ticketValidatorFactory.getServiceTicketValidator(ticket);
 			
 			validator.validate();
 			
 			if (validator.isAuthenticationSuccesful()) {
-				
-				System.err.println("Si authentification success");
-				
 				session.init(ticket, validator.getUser());
-				
-				System.err.println("On redirige vers /");
-	
 			    return "redirect:/";
 			}
-			
-			System.err.println("Si authentication fail");
-			
 		}
-		
-		System.err.println("On détruit la session");
-		
 		session.destroy();
 		return "redirect:"+ticketValidatorFactory.getLoginPage();
 
@@ -64,7 +48,7 @@ public class ConnectionController {
 		return "/app/index.html";
 	}
 	
-	@RequestMapping("/logout")
+	@RequestMapping("/api/auth/logout")
 	public String logout(){
 		System.err.println("On redirige vers logout");
 		session.destroy();
