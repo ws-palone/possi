@@ -1,0 +1,45 @@
+<div id="page-inner">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="page-head-line">Mes plannings</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class=" col-md-12 col-sm-=12">
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>Planning</th>
+							<th>Admin</th>
+							<th>Debut</th>
+							<th>Fin</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="planning in plannings">
+							<td>{{ planning.name }}</td>
+							<td>
+								{{ planning.admin.firstName }} {{ planning.admin.lastName }}
+							</td>
+							<td>{{ planning.period.from | date:'dd/MM/yyyy' }}</td>
+							<td>{{ planning.period.to | date:'dd/MM/yyyy' }}</td>
+							<td>
+								<a href="#/unavailabilities/{{ planning.id }}" class="btn btn-danger btn-sm">
+									Saisir indisponibilités
+								</a>
+								<a ng-show="planning.show_gerer" href="#/planning/{{ planning.id }}" class="btn btn-danger btn-sm">
+									Gérer le planning
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- /. PAGE INNER  -->
+</div>

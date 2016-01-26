@@ -42,9 +42,9 @@ public class ConnectionController {
 				
 				session.init(ticket, validator.getUser());
 				
-				System.err.println("On redirige vers /public/index.html");
+				System.err.println("On redirige vers /");
 	
-			    return "redirect:/public/index.html";
+			    return "redirect:/";
 			}
 			
 			System.err.println("Si authentication fail");
@@ -60,8 +60,8 @@ public class ConnectionController {
 	
 	@RequestMapping("/")
 	public String home(){
-		System.err.println("On redirige vers login");
-		return "redirect:/login";
+		//System.err.println("On redirige vers login");
+		return "/app/index.html";
 	}
 	
 	@RequestMapping("/logout")

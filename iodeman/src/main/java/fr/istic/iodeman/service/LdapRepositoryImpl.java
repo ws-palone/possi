@@ -54,6 +54,7 @@ public class LdapRepositoryImpl implements LdapRepository {
     }
 	
 	public Person searchByUID(String uid) {
+		System.err.println("UID : On cherche pour " + uid);
 		AndFilter af = new AndFilter();
 		af.and(new EqualsFilter("uid", uid));
 		List<Person> results = search(af);
@@ -71,6 +72,9 @@ public class LdapRepositoryImpl implements LdapRepository {
 	@SuppressWarnings("unchecked")
 	private List<Person> search(AndFilter af) {
 		SearchControls sc = new SearchControls();
+		System.err.println("Requête LDAP : af " + af.encode());
+		System.err.println("Requête LDAP : sc " + sc);
+		
         return (List<Person>) ldap.search("", af.encode(), sc, new PersonAttributeMapper());
 	}
 	

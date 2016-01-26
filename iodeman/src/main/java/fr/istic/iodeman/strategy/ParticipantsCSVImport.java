@@ -27,7 +27,7 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 		
 		BufferedReader br = null;
         String line = "";
-        String cvsSplitBy = ",";
+        String cvsSplitBy = ";";
         
         System.err.println("debut");
         

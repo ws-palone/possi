@@ -25,8 +25,6 @@ public class LDAPConf {
         LdapContextSource contextSource= new LdapContextSource();
         contextSource.setUrl(LDAP_URL);
         contextSource.setBase(LDAP_BASE);
-        //contextSource.setUrl("ldap://ldapglobal.univ-rennes1.fr:389");
-        //contextSource.setBase("ou=people,dc=univ-rennes1,dc=fr");
         contextSource.setAnonymousReadOnly(true);
         contextSource.afterPropertiesSet();
  

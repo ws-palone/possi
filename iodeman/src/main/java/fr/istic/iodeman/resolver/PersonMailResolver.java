@@ -18,11 +18,17 @@ public class PersonMailResolver implements PersonResolver {
 	
 	public Person resolve(String mail) {
 		
+		System.err.println("Mail : On cherche pour " + mail);
+		
 		Person person = personDAO.findByEmail(mail);
+		
+		System.err.println("On cherche via personDAO " + person);
 		
 		if (person == null) {
 			person = ldapRepository.searchByMail(mail);
+			System.err.println("On cherche via ldapRepository " + person);
 			if (person != null) {
+				System.err.println("On a trouvé, donc on persiste");
 				personDAO.persist(person);
 			}
 		}

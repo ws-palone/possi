@@ -1,0 +1,76 @@
+
+<div id="page-inner">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="page-head-line">{{ planning.name }}</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 col-sm-=12">
+		
+			<form id="formUpload" style="display: none;" method="POST" enctype="multipart/form-data" action="{{ uploadFileURL }}">
+				<input id="upload_file" type="file" name="file" /><br /> 
+				<input type="hidden" name="planningId" value="{{ planning.id }}" />
+				<input type="hidden" name="redirectURL" value="/public/index.html#/planning/{{ planning.id }}" />
+			</form>
+			
+			<div ng-show="errorValidate" class="alert alert-danger" role="alert">
+				Impossible de générer ce planning. Veuillez vérifier que ce planning comporte suffisamment de salles et que la période est suffisamment large pour pouvoir gérer autant de participants
+			</div>
+			
+			<div ng-show="errorNoParticipant" class="alert alert-danger" role="alert">
+				Veuillez importer une liste de participants.	
+			</div>
+			
+			<div ng-show="errorNoRoom" class="alert alert-danger" role="alert">
+				Veuillez indiquer une liste de salles disponibles.	
+			</div>
+			
+			<input type="button" ng-click="importParticipants()" class="btn btn-danger btn-sm" value="Importer participants"/>
+			<a href="/rooms/{{ planning.id }}" class="btn btn-danger btn-sm">Gestion des salles</a>
+			<a href="/priorities/{{ planning.id }}" class="btn btn-danger btn-sm">Gestion des priorités</a>
+			<a ng-click="validate()" class="btn btn-danger btn-sm">Générer planning</a>
+			<a confirmed-click="remove()" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?"  style="float:right" class="btn btn-danger btn-sm">Supprimer planning</a>
+			
+			<div class="alert alert-info" role="alert" style="margin-top:5px">
+				<h3>Informations concernant le fichier CSV d'import de participants</h3>
+				<ul>
+					<li>Le fichier d'import doit être de type <b>.csv</b></li>
+					<li>Les têtes de colonnes sont <b>obligatoires</b> et doivent être strictement dans l'ordre suivant: <br />
+					<b>Adresse mail de l'étudiant | Nom de l'étudiant | Prénom de l'étudiant | Entreprise + lieu | Adresse mail du tuteur enseignant | Nom prénom du tuteur entreprise | </b></li>
+				</ul>
+			</div>
+			
+			<div class="table-responsive" style="margin-top: 20px;">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Etudiant</th>
+							<th>Nb d'indispo</th>
+							<th>Suiveur</th>
+							<th>Nb d'indispo</th>
+							<th>Tuteur</th>
+							<th>Entreprise</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="participant in participants">
+							<td>{{ $index+1 }}</td>
+							<td>{{ participant.student.person.firstName }} {{ participant.student.person.lastName }}</td>
+							<td ng-style="participant.student.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}"><span>{{ participant.student.unavailabilitiesNumber }}</span></td>
+							<td>{{ participant.followingTeacher.person.firstName }} {{ participant.followingTeacher.person.lastName }}</td>
+							<td ng-style="participant.followingTeacher.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}"><span>{{ participant.followingTeacher.unavailabilitiesNumber }}</span></td>
+							<td>{{ participant.tutorFullName }}</td>
+							<td>{{ participant.company }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		
+		</div>
+	</div>
+
+	<!-- /. PAGE INNER  -->
+</div>
