@@ -60,7 +60,7 @@ public class FileUploadController {
 	    	// on supprime le fichier
 	    	outputFile.delete();
 	    	
-	    	return "redirect:"+redirectURL;
+	    	return "redirect:/#/planning/"+planningId;
 		}
 
     }

@@ -21,37 +21,38 @@ angular.module('publicApp')
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-	$scope.$on('init', function(user) {
 
-		var planningRequest = backend.plannings.find($scope.id);
-		planningRequest.success(function(data) {
-			console.log("planning:");
-			console.log(data);
-			$scope.planning = data;
-			$scope.$apply();
-		});
+	var planningRequest = backend.plannings.find($scope.id);
+	planningRequest.success(function(data) {
+		console.log("planning:");
+		console.log(data);
+		$scope.planning = data;
+		$scope.$apply();
+	});
 
-		var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
-		participantsRequest.success(function(data) {
-			console.log("participants:");
-			console.log(data);
-			$scope.participants = data;
-			$scope.$apply();
-		});
-
+	var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
+	participantsRequest.success(function(data) {
+		console.log("participants:");
+		console.log(data);
+		$scope.participants = data;
+		$scope.$apply();
+	});
+	
+	participantsRequest.error(function(error) {
+		console.log(error);
 	});
 
 	$scope.importParticipants = function() {
 		inputFile.click();
 	};
-	
+
 	$scope.notZeroUnaivability = function(dispoNumber) {
 		var greenStyle = "'background-color' : 'green'";
-		
+
 		if(dispoNumber > 0){
 			return "{"+greenStyle+"}";
 		}
-		
+
 		return "";
 	};
 
