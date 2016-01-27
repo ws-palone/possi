@@ -114,7 +114,7 @@ angular.module('publicApp')
 			var createRequest = backend.plannings.create($scope.planning);
 			createRequest.success(function(data) {
 				console.log('planning created!');
-				document.location.href = "/planning/"+data.id; 
+				document.location.href = "#/planning/"+data.id; 
 			});
 			createRequest.error(function(data) {
 				$("#showError").show();
