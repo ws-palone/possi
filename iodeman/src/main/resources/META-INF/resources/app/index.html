@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="app/styles/main.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="app/styles/style_priorities.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
   </head>
   <body ng-app="publicApp">
     <!--[if lte IE 8]>
@@ -34,7 +35,7 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">public</a>
+            <a class="navbar-brand" href="#/">IodeMan</a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
@@ -47,13 +48,13 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container container-large">
     <div ng-view=""></div>
     </div>
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <p><span class="glyphicon glyphicon-heart"></span> from the Iodeman team</p>
       </div>
     </div>
 
@@ -82,12 +83,15 @@
     <script src="../bower_components/angular-touch/angular-touch.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="../bower_components/bootstrap-material-design/dist/js/material.js"></script>
     <script src="app/scripts/assets/bootstrap-datepicker.js"></script>
     <script src="app/scripts/assets/bootstrap-timepicker.js"></script>
     <script src="app/scripts/assets/bootstrap-touchspin.js"></script>
     <script src="app/scripts/assets/sugar.min.js"></script>
     <script src="app/scripts/assets/jquery-ui.js"></script>
     <!-- endbower -->
+    
+    
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
