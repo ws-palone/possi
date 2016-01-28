@@ -85,4 +85,8 @@ angular.module('publicApp')
 			console.log(data);
 		});
 	}, 250);
+	
+	$scope.submit = function() {
+		
+	}
 });

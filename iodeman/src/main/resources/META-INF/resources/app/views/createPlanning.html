@@ -5,10 +5,11 @@
 		</div>
 	</div>
 
-<!-- 	<div ng-show="showError" id="showError" class="alert alert-danger" role="alert"> -->
-	<div id="showError" class="alert alert-danger" style="display:none" role="alert">
-		Impossible de créer le planning. Vérifiez la cohérence de vos données. <br />
-		Info : <span id="showErrorInfo"></span>
+	<!-- 	<div ng-show="showError" id="showError" class="alert alert-danger" role="alert"> -->
+	<div id="showError" class="alert alert-danger" style="display: none"
+		role="alert">
+		Impossible de créer le planning. Vérifiez la cohérence de vos données.
+		<br /> Info : <span id="showErrorInfo"></span>
 	</div>
 
 	<div class="row">
@@ -18,72 +19,162 @@
 				<div class="panel-body">
 					<form>
 						<div class="form-group">
-							<label for="nomPlanning">Nom planning</label> 
-							<input type="text" ng-model="planning.name" class="form-control"
-								placeholder="Entrez nom planning" required/>
+							<label class="col-md-3 control-label">Nom
+								planning</label>
+
+							<div class="col-md-9">
+								<input ng-model="planning.name" type="text" class="form-control"
+									placeholder="" required>
+							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="debutPeriode">Début période</label> 
-							<input class="form-control" id="startingDate" type="text" required/> 
-							<span class="add-on"><i class="icon-th"></i></span>
-						</div>
+							<label class="col-md-3 control-label">Début
+								periode</label>
 
-						<div class="form-group">
-							<label for="finPeriod">Fin période</label> 
-							<input class="form-control" id="endingDate" type="text" required/> 
-							<span class="add-on"><i class="icon-th"></i></span>
+							<div class="col-md-9">
+								<p class="input-group">
+									<input type="text" class="form-control"
+										uib-datepicker-popup="dd/MM/yyyy" ng-model="inputStartingDate"
+										is-open="popup1.opened" min-date="minDate" max-date="maxDate"
+										datepicker-options="dateOptions"
+										date-disabled="disabled(date, mode)" ng-required="true"
+										close-text="Close" alt-input-formats="altInputFormats" /> <span
+										class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open1()">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</p>
+							</div>
 						</div>
-
+						
 						<div class="form-group">
-							<label for="nbSoutenance">Durée d'une soutenance (minute)</label> 
-							<input id="inputDuration" type="text" class="form-control spinner" ng-model="planning.oralDefenseDuration" required/>
+							<label class="col-md-3 control-label">Fin
+								periode</label>
+
+							<div class="col-md-9">
+								<p class="input-group">
+									<input type="text" class="form-control"
+										uib-datepicker-popup="dd/MM/yyyy" ng-model="inputEndingDate"
+										is-open="popup2.opened" min-date="minDate" max-date="maxDate"
+										datepicker-options="dateOptions"
+										date-disabled="disabled(date, mode)" ng-required="true"
+										close-text="Close" alt-input-formats="altInputFormats" /> <span
+										class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open2()">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</p>
+							</div>
 						</div>
-
+						
 						<div class="form-group">
-							<label for="intervalleSoutenance">Durée intervalle entre deux soutenances (minute)</label> 
-							<input id="inputInterlude" type="text" class="form-control spinner" ng-model="planning.oralDefenseInterlude" required/>
+							<label class="col-md-3 control-label">Durée soutenance</label>
+
+							<div class="col-md-9">
+								<input id="inputDuration" type="text"
+								class="form-control spinner"
+								ng-model="planning.oralDefenseDuration" required />
+							</div>
 						</div>
-
+						
 						<div class="form-group">
+							<label class="col-md-3 control-label">Intervalle pause</label>
+
+							<div class="col-md-9">
+								<input id="inputInterlude" type="text"
+								class="form-control spinner"
+								ng-model="planning.oralDefenseInterlude" required />
+							</div>
+						</div>
+						<br />
+						<div class="form-group">
+							<label class="col-md-3 control-label">Heure début de journée</label>
+
+							<div class="col-md-9">
+								<uib-timepicker ng-model="inputDayStart" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Heure fin de journée</label>
+
+							<div class="col-md-9">
+								<uib-timepicker ng-model="inputDayEnd" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Heure début déjeuner</label>
+
+							<div class="col-md-9">
+								<uib-timepicker ng-model="inputLunchBreakStart" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Heure fin déjeuner</label>
+
+							<div class="col-md-9">
+								<uib-timepicker ng-model="inputLunchBreakEnd" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+							</div>
+						</div>
+<br/><br/><br/><br/><br/><br/>
+						<!-- <div class="form-group">
 							<label for="debutJourPeriod">Heure début de journée</label>
 							<div class="bootstrap-timepicker">
-								<input id="timepicker3" type="text" ng-model="planning.inputDayPeriodStart" required/> 
-								<span class="add-on"><i class="icon-time"></i></span>
+								<input id="timepicker3" type="text"
+									ng-model="planning.inputDayPeriodStart" required /> <span
+									class="add-on"><i class="icon-time"></i></span>
 							</div>
 						</div>
 						<div class="form-group">
-								<label for="heurePdj">Heure fin de journée</label>
-								<div class="bootstrap-timepicker">
-									<input id="timepicker4" type="text" ng-model="planning.inputDayPeriodEnd" required/> 
-									<span class="add-on"><i class="icon-time"></i></span>
-								</div>
-						</div>
-						<div class="form-group">
-							<label for="heureDebutPdj">Heure de début de la pause déjeuner</label>
+							<label for="heurePdj">Heure fin de journée</label>
 							<div class="bootstrap-timepicker">
-								<input id="timepicker1" type="text" ng-model="planning.lunchBreakStart" required/> 
-								<span class="add-on"><i class="icon-time"></i></span>
+								<input id="timepicker4" type="text"
+									ng-model="planning.inputDayPeriodEnd" required /> <span
+									class="add-on"><i class="icon-time"></i></span>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="heureFinPdj">Heure de fin de la pause déjeuner</label>
+						</div> -->
+						<!-- <div class="form-group">
+							<label for="heureDebutPdj">Heure de début de la pause
+								déjeuner</label>
 							<div class="bootstrap-timepicker">
-								<input id="timepicker2" type="text" ng-model="planning.lunchBreakEnd" required/> 
-								<span class="add-on"><i class="icon-time"></i></span>
+								<input id="timepicker1" type="text"
+									ng-model="planning.lunchBreakStart" required /> <span
+									class="add-on"><i class="icon-time"></i></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="nbMaxSoutenances">Nombre maximum de soutenances par jour</label>
-							<input type="text" class="form-control" ng-model="planning.nbMaxOralDefensePerDay" />
+							<label for="heureFinPdj">Heure de fin de la pause
+								déjeuner</label>
+							<div class="bootstrap-timepicker">
+								<input id="timepicker2" type="text"
+									ng-model="planning.lunchBreakEnd" required /> <span
+									class="add-on"><i class="icon-time"></i></span>
+							</div>
+						</div> -->
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Nb max de sout/jours</label>
+
+							<div class="col-md-9">
+								<input ng-model="planning.nbMaxOralDefensePerDay" type="text" class="form-control"
+									placeholder="" >
+							</div>
 						</div>
+
 						<button type="submit" class="btn btn-default" ng-click="submit()">Créer</button>
-					</div>
+				</div>
 				</form>
 			</div>
 		</div>
-	</div>		
+	</div>
 
 
-<!-- /. PAGE INNER  -->
+	<!-- /. PAGE INNER  -->
 </div>
