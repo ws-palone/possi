@@ -29,7 +29,7 @@ public class PersonController {
 	
 	@RequestMapping("/user")
 	public Person user(){
-		
+		System.err.println("Current user " + session.getUser());
 		return session.getUser();
 		
 	}

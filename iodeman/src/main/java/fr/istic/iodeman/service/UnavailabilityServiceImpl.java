@@ -61,7 +61,7 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		
 		unavailabilityDAO.persist(unavailability);
 
-		mailService.notifyNewUnavailability(unavailability);
+		//mailService.notifyNewUnavailability(unavailability);
 		
 		return unavailability;
 	}
@@ -118,7 +118,7 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		}
 		
 		for(Unavailability ua : deleted) {
-			mailService.notifyUnavailabityRemoved(ua);
+			//mailService.notifyUnavailabityRemoved(ua);
 		}
 		
 		return deleted;
