@@ -3,7 +3,10 @@
  */
 package fr.istic.iodeman.strategy_new;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,6 +17,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
+
+import javafx.collections.ObservableList;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Participant;
@@ -501,4 +509,44 @@ public class AlgoPlanningImplV3 implements AlgoPlanningV2 {
 	 return result;
 	}
 
+	public File getFile() throws IOException {
+		StringBuilder sb = new StringBuilder();
+		Set<Integer> periodes = planning.keySet();
+		sb.append("sep=,\n");
+		for(int periode : periodes) {
+			//if(periode%nbPeriodesParJour==0) {
+				sb.append(",,,,,,,,,,,\n,");
+				//for(String salle : sallesSelectionnees) {
+					sb.append("test" + ",,,,,");
+				//}
+				sb.append("\n");
+			//}
+			List<Creneau> creneaux = planning.get(periode);
+			for(Creneau c : creneaux) {
+					if(c.getSalle()==1) {
+						sb.append(c.getHoraire() + ",");
+					}
+					sb.append(c.getStudent() + ","
+							+ c.getTuteur() + ","
+							+ c.getEnseignant() + ","
+							+ c.getCandide() + ", ,");
+			}
+			if(creneaux.size()==1) {
+				sb.append(",,,,,");
+			}
+			sb.append("\n");
+		}
+		
+		sb.append(",,,,,,,,,,,\n");
+		sb.append(",,,,,,,,,,,\n");
+		sb.append("Soutenances qui posent problemes :,,,,,,,,,,,\n");
+		for(Creneau c : impossibleAInserer) {
+			sb.append(c.getStudent() + ","
+					+ c.getTuteur() + ","
+					+ c.getEnseignant() + "\n");
+		}
+		File f = new File("soutenances.csv");
+		Files.write(sb.toString(), f, Charsets.UTF_8);
+		return f;
+	}
 }

@@ -37,10 +37,10 @@ public class FileDownloadController {
 		session.acceptOnly(planning.getAdmin());
 		
 		// mime type
-		response.setContentType("application/vnd.ms-excel");
+		//response.setContentType("application/vnd.ms-excel");
 		
 		// name of the returned file
-		String filename = "planningExport.xls";
+		String filename = "planningExport.csv";
 		
 		// header
         String headerKey = "Content-Disposition";

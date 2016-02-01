@@ -212,7 +212,7 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		File file = null;
 		try {
-			builder.split().build();
+			file = builder.split().build().toCSV();
 			//file = builder.split().build().toExcel();
 		} catch (Exception e) {
 			System.out.println("Erreur de l'exportation lors de la fonction exportExcel: "+e.getMessage());

@@ -78,6 +78,10 @@ public class PlanningExportBuilder {
 		return this;
 	}
 	
+	public File toCSV() throws Exception {
+		return algoPlanning_new.getFile();
+	}
+	
 	/*public File toExcel() throws Exception {
 		Validate.notNull(oralDefenses);
 		planningExport.configure(timeboxes);
