@@ -5,6 +5,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -16,6 +17,10 @@
     <!-- endbuild -->
     <link rel="stylesheet" href="app/styles/style_priorities.css">
     <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+  	<link rel="stylesheet" href="node_modules/angular-flash-alert/dist/angular-flash.min.css">
+  
+  
+  
   </head>
   <body ng-app="publicApp">
     <!--[if lte IE 8]>
@@ -84,9 +89,17 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
+    <!-- endbower -->
     <script src="app/scripts/assets/sugar.min.js"></script>
     <script src="app/scripts/assets/jquery-ui.js"></script>
-    <!-- endbower -->
+    <script src="app/scripts/assets/bootstrap-datepicker.js"></script>
+    <script src="app/scripts/assets/bootstrap-timepicker.js"></script>
+    <script src="app/scripts/assets/bootstrap-touchspin.js"></script>
+    <script src="app/scripts/assets/jquery-ui.js"></script>
+    <script src="node_modules/angular-flash-alert/dist/angular-flash.js"></script>
+    <script src="app/_/bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="app/_/bower_components/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js"></script>
+    
     
     
     <!-- endbuild -->
@@ -99,8 +112,7 @@
         <script src="app/scripts/controllers/unavailabilities.js"></script>
         <script src="app/scripts/controllers/planning.js"></script>
         <script src="app/scripts/controllers/createPlanning.js"></script>
-        <script src="app/scripts/controllers/room.js"></script>
-        <script src="app/scripts/controllers/priority.js"></script>
+        <script src="app/scripts/controllers/configuration.js"></script>
         <!-- endbuild -->
         
         <script>$.material.init()</script>

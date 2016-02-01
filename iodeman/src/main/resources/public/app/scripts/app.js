@@ -16,7 +16,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'flash',
+    'angularjs-dropdown-multiselect'
   ])
   .config(function ($routeProvider) {
     $routeProvider

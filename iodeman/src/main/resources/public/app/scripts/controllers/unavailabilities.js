@@ -8,7 +8,7 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('UnavailabilitiesCtrl', function ($scope, backend, Auth, $routeParams, $timeout, $rootScope) {
+.controller('UnavailabilitiesCtrl', function ($scope, backend, Auth, $routeParams, $timeout, $rootScope, Flash) {
 
 	$scope.user = $rootScope.user;
 
@@ -94,5 +94,6 @@ angular.module('publicApp')
 		$scope.days.each(function (d) {
 			d.pushToServer();
 		});
+		Flash.create('success', '<strong> Modifications effectuees!</strong> Les disponiblites ont ete mises a jours.');
 	}
 });

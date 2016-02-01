@@ -5,18 +5,18 @@
 			<h1 class="page-head-line">
 				{{ planning.name }} <input type="button"
 					ng-click="importParticipants()" class="btn btn-danger btn-sm"
-					value="Importer participants" /> <a ng-click="validate()" class="btn btn-danger btn-sm">Générer planning</a>
+					value="Importer participants" /> <a ng-click="validate()"
+					class="btn btn-danger btn-sm">Générer planning</a>
 			</h1>
 		</div>
 	</div>
-	
+
 	<form id="formUpload" style="display: none;" method="POST"
-				enctype="multipart/form-data" action="{{ uploadFileURL }}">
-				<input id="upload_file" type="file" name="file" /><br /> <input
-					type="hidden" name="planningId" value="{{ planning.id }}" /> <input
-					type="hidden" name="redirectURL"
-					value="planning/{{ planning.id }}" />
-			</form>
+		enctype="multipart/form-data" action="{{ uploadFileURL }}">
+		<input id="upload_file" type="file" name="file" /><br /> <input
+			type="hidden" name="planningId" value="{{ planning.id }}" /> <input
+			type="hidden" name="redirectURL" value="planning/{{ planning.id }}" />
+	</form>
 
 	<uib-tabset justified="true"> <uib-tab
 		heading="Participants">
@@ -81,14 +81,61 @@
 
 		</div>
 	</div>
-	</uib-tab> <uib-tab heading="Configuration"> 
+	</uib-tab> <uib-tab heading="Configuration">
+
+	<div ng-controller="ConfigurationCtrl">
+		<div class="row">
+			<div class="col-md-12 col-sm-=12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="page-header">
+							<h2>Gestion des salles</h2>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="input-group">
+									<input ng-model="newRoom.name" type="text" class="form-control"
+										placeholder="Nouvelle salle..."> <span
+										class="input-group-btn">
+										<div class="input-group-btn">
+											<button ng-click="addRoom()" class="btn btn-default"
+												type="button">Ajouter</button>
+											<button class="btn btn-default" type="button">Supprimer</button>
+										</div>
+
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								<div ng-dropdown-multiselect="" options="allRooms"
+									selected-model="selectedRooms"></div>
+								{{ selectedRooms.id }}
+							</div>
+						</div>
+
+						<hr />
+
+						<div class="page-header">
+							<h2>Gestion des priorités</h2>
+						</div>
+
+						<button class="btn btn-danger btn-sm pull-right"
+							ng-click="submit()">Valider</button>
+
+						<a confirmed-click="remove()"
+							ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?"
+							style="float: right" class="btn btn-danger btn-sm">Supprimer
+							planning</a>
+					</div>
+				</div>
 
 
-	<div class="row">
-		<div ng-controller="RoomCtrl" class="col-md-12 col-sm-=12">
 
 
-			<div class="row" style="margin-top: 20px;">
+
+				<!--div class="row" style="margin-top: 20px;">
 
 				<div class="col-md-6">
 
@@ -96,14 +143,7 @@
 						role="alert">La salle est li&eacute;e &agrave; un projet et
 						ne peut &ecirc;tre supprim&eacute;e.</div>
 
-					<div class="input-group" style="margin-bottom: 10px;">
-						<span class="input-group-btn">
-							<button ng-click="addRoom()" class="btn btn-default"
-								type="button">Ajouter</button>
-						</span> <input ng-model="newRoom.name" type="text" value=""
-							class="form-control" />
-					</div>
-					<!-- /input-group -->
+					
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px;">
@@ -125,13 +165,12 @@
 						</table>
 					</div>
 
-				</div>
-				<!-- /.col-lg-6 -->
+				</div> -->
 			</div>
 
 		</div>
 
-		<div ng-controller="PriorityCtrl">
+		<!--div>
 			<div class="panel-heading">
 				<h3 class="panel-title">Priorités</h3>
 			</div>
@@ -143,7 +182,7 @@
 					 	<input type="text" class="form-control spinner" ng-model="priority.weight" />
 					</div>
 				</div>
-			</div>-->
+			</div>
 				<ul id="sortable">
 					<li ng-repeat="priority in planning.priorities"
 						class="ui-state-default" id="{{ priority.role }}">{{
@@ -152,17 +191,16 @@
 
 
 			</div>
-		</div>
+		</div>  -->
+
+
 	</div>
+	</uib-tab> </uib-tabset>
 
-	<button class="btn btn-danger btn-sm pull-right" ng-click="submit()">Valider</button>
-
-	<a confirmed-click="remove()"
-		ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?"
-		style="float: right" class="btn btn-danger btn-sm">Supprimer
-		planning</a> </uib-tab> </uib-tabset>
+</div>
 
 
 
-	<!-- /. PAGE INNER  -->
+
+<!-- /. PAGE INNER  -->
 </div>

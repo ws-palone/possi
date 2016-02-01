@@ -13,6 +13,8 @@ angular.module('publicApp')
 	$scope.user = Auth.getUser();
 
 	$scope.id = $routeParams.idPlanning;
+	
+	
 
 
 	var planningRequest = backend.plannings.find($scope.id);
