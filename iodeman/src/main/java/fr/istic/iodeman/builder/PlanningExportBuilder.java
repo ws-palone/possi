@@ -21,11 +21,13 @@ import fr.istic.iodeman.strategy.PlanningExcelExport;
 import fr.istic.iodeman.strategy.PlanningExport;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
+import fr.istic.iodeman.strategy_new.AlgoPlanningImplV3;
 
 public class PlanningExportBuilder {
 
 	private PlanningSplitter splitter = new PlanningSplitterImpl();
-	private AlgoPlanningImplV2 algoPlanning = new AlgoPlanningImplV2();
+	//private AlgoPlanningImplV2 algoPlanning = new AlgoPlanningImplV2();
+	private AlgoPlanningImplV3 algoPlanning_new = new AlgoPlanningImplV3();
 	private AlgoJuryAssignation algoJuryAssignation = new AlgoJuryAssignationImpl();
 	private PlanningExport planningExport = new PlanningExcelExport();
 	private PlanningDataValidator validator = new PlanningDataValidatorImpl();
@@ -67,18 +69,20 @@ public class PlanningExportBuilder {
 		Validate.notNull(timeboxes);
 		Validate.notNull(unavailabilities);
 		Validate.notNull(participants);
-		algoPlanning.configure(planning, participants, timeboxes, unavailabilities);
-		oralDefenses = algoPlanning.execute();
-		algoJuryAssignation.configure(oralDefenses, unavailabilities);
-		oralDefenses = algoJuryAssignation.execute();
+		//algoPlanning.configure(planning, participants, timeboxes, unavailabilities);
+		algoPlanning_new.configure(planning, participants, timeboxes, unavailabilities);
+		algoPlanning_new.execute();
+		//oralDefenses = algoPlanning.execute();
+		//algoJuryAssignation.configure(oralDefenses, unavailabilities);
+		//oralDefenses = algoJuryAssignation.execute();
 		return this;
 	}
 	
-	public File toExcel() throws Exception {
+	/*public File toExcel() throws Exception {
 		Validate.notNull(oralDefenses);
 		planningExport.configure(timeboxes);
 		return planningExport.execute(oralDefenses);
-	}
+	}*/
 	
 	
 	public Collection<TimeBox> getTimeboxes() {

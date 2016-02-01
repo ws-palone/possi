@@ -8,7 +8,7 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('ConfigurationCtrl', function ($scope, backend, Auth, $routeParams) {
+.controller('ConfigurationCtrl', function ($scope, backend, Auth, $routeParams, Flash) {
 
 	$scope.user = Auth.getUser();
 
@@ -131,12 +131,13 @@ angular.module('publicApp')
 			console.log('planning updated!');
 			console.log(data);
 			$scope.planning = data;
-			$scope.$apply();
+            $scope.$apply();
 		});
 		updateRequest.error(function(data) {
 			console.log('error. unable to update the planning.');
 			console.log(data);
 		});
+		Flash.create('success', '<strong> Modifications effectuees!</strong> La configuration a ete mise a jour.');
 	}
 
 });
