@@ -4,7 +4,7 @@
 
 	<groupId>fr.istic</groupId>
 	<artifactId>iodeman</artifactId>
-	<version>0.5</version>
+	<version>0.6</version>
 	<packaging>war</packaging>
 
 	<name>iodeman</name>
@@ -17,6 +17,12 @@
 	</parent>
 
 	<dependencies>
+		<dependency>
+			<groupId>POSSICAT</groupId>
+			<artifactId>POSSICAT</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
