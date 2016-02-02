@@ -8,24 +8,16 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('MainCtrl', function ($scope, backend, Auth) {
+.controller('MainCtrl', function ($scope, backend, Auth, $sessionStorage) {
 	
-	$scope.user = Auth.getUser();
-
-	$scope.plannings = [];
-
-	var planningRequest = backend.plannings.list();
-	planningRequest.success(function(data) {
-		console.log("plannings:");
-		console.log(data);
+	$scope.user = $sessionStorage.user;
+	
+	if($scope.user == null) {
+		$scope.user = Auth.login();
+	}
+	
+	backend.plannings.list().then(function(data) {
 		$scope.plannings = data;
-		
-		$scope.plannings.forEach(function(planning){
-			var adminUid= planning.admin.uid;
-			if($scope.$parent.user.uid == adminUid){ 
-				planning.show_gerer = true;
-			}
-		});
 		$scope.$apply();
 	});
 

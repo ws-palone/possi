@@ -8,17 +8,21 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('UnavailabilitiesCtrl', function ($scope, backend, Auth, $routeParams, $timeout, $rootScope, Flash) {
+.controller('UnavailabilitiesCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams, $timeout, $rootScope, Flash) {
 
-	$scope.user = $rootScope.user;
+	$scope.user = $sessionStorage.user;
+
+	if($scope.user == null) {
+		$scope.user = Auth.login();
+	}
 
 	$scope.id = $routeParams.idPlanning;
-	
+
 	$scope.days = "";
 
 	$timeout(function() {
 		$scope.uid = $rootScope.user.uid;
-		
+
 
 		var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);
 		agendaRequest.success(function (data) {
@@ -89,7 +93,7 @@ angular.module('publicApp')
 			console.log(data);
 		});
 	}, 250);
-	
+
 	$scope.submit = function() {
 		$scope.days.each(function (d) {
 			d.pushToServer();

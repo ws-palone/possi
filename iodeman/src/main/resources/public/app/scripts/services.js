@@ -22,7 +22,6 @@ angular.module('publicApp')
 				},
 
 				"getUser" : function() {
-					console.log();
 					return $http.get(backendURL + 'user');
 				},
 
@@ -47,7 +46,10 @@ angular.module('publicApp')
 						},
 
 						"list": function() {
-							return $http.get(backendURL + 'planning/list');
+							return $http.get(backendURL + 'planning/list')
+							.then(function(response) {
+								return response.data;
+							});
 						},
 
 						"getParticipants": function(id) {

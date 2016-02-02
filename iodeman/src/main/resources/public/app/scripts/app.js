@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'flash',
-    'angularjs-dropdown-multiselect'
+    'angularjs-dropdown-multiselect',
+    'ngStorage'
   ])
   .config(function ($routeProvider) {
     $routeProvider

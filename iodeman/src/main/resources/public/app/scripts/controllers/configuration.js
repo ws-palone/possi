@@ -8,20 +8,24 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('ConfigurationCtrl', function ($scope, backend, Auth, $routeParams, Flash) {
+.controller('ConfigurationCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams, Flash) {
 
-	$scope.user = Auth.getUser();
+	$scope.user = $sessionStorage.user;
+
+	if($scope.user == null) {
+		$scope.user = Auth.login();
+	}
 
 	$scope.id = $routeParams.idPlanning;
-	
+
 	$scope.selectedRooms = [];
 	$scope.allRooms = [];
-	
+
 	var planningRequest = backend.plannings.find($scope.id);
 	planningRequest.success(function(data) {
 		$scope.planning = data;
 		console.log("Liste des rooms du planning : " + $scope.planning.rooms);
-		
+
 		var roomsRequest = backend.rooms.list();
 		roomsRequest.success(function(data) {
 			$scope.rooms = data;
@@ -38,7 +42,7 @@ angular.module('publicApp')
 			});
 		});
 	});
-	
+
 	$scope.addRoom = function() {
 		if ($scope.newRoom != '' && $scope.newRoom != null) {
 			var createRoomRequest = backend.rooms.create($scope.newRoom.name);
@@ -113,16 +117,16 @@ angular.module('publicApp')
 		});
 
 	};*/
-	
+
 	$scope.submit = function() {
 		console.log('ok');
-		
+
 		var roomsNames = $scope.selectedRooms.map(function(r) {
 			return r.id;
 		});
-		
+
 		console.log(roomsNames);
-		
+
 		var updateRequest = backend.plannings.update({
 			planningID: $scope.planning.id,
 			rooms: roomsNames
@@ -131,7 +135,7 @@ angular.module('publicApp')
 			console.log('planning updated!');
 			console.log(data);
 			$scope.planning = data;
-            $scope.$apply();
+			$scope.$apply();
 		});
 		updateRequest.error(function(data) {
 			console.log('error. unable to update the planning.');

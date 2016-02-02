@@ -8,9 +8,13 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('PlanningCtrl', function ($scope, backend, Auth, $routeParams) {
+.controller('PlanningCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams) {
 
-	$scope.user = Auth.getUser();
+	$scope.user = $sessionStorage.user;
+
+	if($scope.user == null) {
+		$scope.user = Auth.login();
+	}
 
 	$scope.id = $routeParams.idPlanning;
 
@@ -37,7 +41,7 @@ angular.module('publicApp')
 		$scope.participants = data;
 		$scope.$apply();
 	});
-	
+
 	participantsRequest.error(function(error) {
 		console.log(error);
 	});
