@@ -1,5 +1,7 @@
 package fr.istic.iodeman.builder;
 
+import istic.m2miage.possicat.AlgoPlanningImplV3;
+
 import java.io.File;
 import java.util.Collection;
 
@@ -21,7 +23,6 @@ import fr.istic.iodeman.strategy.PlanningExcelExport;
 import fr.istic.iodeman.strategy.PlanningExport;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
-import fr.istic.iodeman.strategy_new.AlgoPlanningImplV3;
 
 public class PlanningExportBuilder {
 

@@ -4,7 +4,7 @@
 
 	<groupId>fr.istic</groupId>
 	<artifactId>iodeman</artifactId>
-	<version>0.4</version>
+	<version>0.5</version>
 	<packaging>war</packaging>
 
 	<name>iodeman</name>
