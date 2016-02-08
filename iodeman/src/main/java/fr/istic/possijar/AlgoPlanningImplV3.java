@@ -127,7 +127,18 @@ public class AlgoPlanningImplV3 {
 
 	private void getNbDePeriodesParJour(Collection<TimeBox> timeboxes) {
 		// TODO
-		nbPeriodesParJour = 9;
+		int i = 0;
+		int d1 = -1;
+		for(TimeBox t : timeboxes) {
+			if(d1 == -1) {
+				d1 = t.getFrom().getDate();
+			}
+			if(t.getFrom().getDate() == d1) {
+				i++;
+			}
+		}
+		System.err.println(i);
+		nbPeriodesParJour = i;
 	}
 
 
