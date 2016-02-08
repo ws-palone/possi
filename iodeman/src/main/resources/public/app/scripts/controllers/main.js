@@ -15,12 +15,15 @@ angular.module('publicApp')
 	if($scope.user == null) {
 		$scope.user = Auth.login();
 	}
-	
-	console.log($scope.user);
 		
 	backend.plannings.list().then(function(data) {
 		$scope.plannings = data;
 		$scope.$apply();
+		$("#home-spinner").remove();
 	});
+
+	$scope.closeHomeInfo = function() {
+		$("#home-info").fadeOut(300, function() { $(this).remove(); });
+	}
 
 });
