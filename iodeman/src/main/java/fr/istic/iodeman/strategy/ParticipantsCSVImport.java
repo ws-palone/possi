@@ -35,7 +35,16 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 
             br = new BufferedReader(new FileReader(file));
             
-            br.readLine();
+            line = br.readLine();
+            
+            if(!line.contains(",")) {
+            	cvsSplitBy = ";";
+            }
+            
+            if(!line.contains(";")) {
+            	cvsSplitBy = ",";
+            }
+            
             while ((line = br.readLine()) != null) {
             	System.err.println(line);
             	

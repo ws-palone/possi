@@ -199,6 +199,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 			Object[] tuple = (Object[])it.next();
 			String uid = String.valueOf(tuple[0]);
 			Integer nb = Integer.valueOf(String.valueOf(tuple[1]));
+			System.err.println(uid + " " + nb);
 			map.put(uid, nb);
 		}
 		

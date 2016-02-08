@@ -21,7 +21,7 @@ angular.module('publicApp')
 	$scope.days = "";
 
 	$timeout(function() {
-		$scope.uid = $rootScope.user.uid;
+		$scope.uid = $scope.user.uid;
 
 
 		var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);

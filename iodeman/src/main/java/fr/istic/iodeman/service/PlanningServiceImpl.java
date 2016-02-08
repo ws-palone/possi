@@ -265,9 +265,12 @@ public class PlanningServiceImpl implements PlanningService {
 		// parsing for getting uids or person
 		Collection<String> uids = Lists.newArrayList();
 		for(Participant p : participants){
-			// TODO replace with immutableSet
-			if (!uids.contains(p.getStudent().getUid())) uids.add(p.getStudent().getUid());
-			if (!uids.contains(p.getStudent().getUid())) uids.add(p.getFollowingTeacher().getUid());
+			if (!uids.contains(p.getStudent().getUid())) {
+				uids.add(p.getStudent().getUid());
+			}
+			if (!uids.contains(p.getFollowingTeacher().getUid())) {
+				uids.add(p.getFollowingTeacher().getUid());
+			}
 		}
 		
 		// retrieved map<Person, Integer> from parsing result

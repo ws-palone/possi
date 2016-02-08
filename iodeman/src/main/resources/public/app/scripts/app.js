@@ -19,7 +19,8 @@ angular
     'ui.bootstrap',
     'flash',
     'angularjs-dropdown-multiselect',
-    'ngStorage'
+    'ngStorage',
+    'ngLocale'
   ])
   .config(function ($routeProvider) {
     $routeProvider

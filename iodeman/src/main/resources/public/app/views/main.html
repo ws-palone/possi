@@ -1,7 +1,7 @@
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-head-line">Mes plannings <a class="btn btn-danger btn-sm" href="#/planning/create">
+			<h1 class="page-head-line">Mes plannings <a ng-hide="user.role != 'PROF'" class="btn btn-danger btn-sm" href="#/planning/create">
 							<i class="fa fa-dashboard "></i>Créer planning</a></h1> 
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 								<a href="#/unavailabilities/{{ planning.id }}" class="btn btn-danger btn-sm">
 									Saisir indisponibilités
 								</a>
-								<a ng-show="planning.admin.uid == user.uid" href="#/planning/{{ planning.id }}" class="btn btn-danger btn-sm">
+								<a ng-hide="planning.admin.uid != user.uid" href="#/planning/{{ planning.id }}" class="btn btn-danger btn-sm">
 									Gérer le planning
 								</a>
 							</td>

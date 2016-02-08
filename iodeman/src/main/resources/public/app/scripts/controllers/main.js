@@ -16,6 +16,8 @@ angular.module('publicApp')
 		$scope.user = Auth.login();
 	}
 	
+	console.log($scope.user);
+		
 	backend.plannings.list().then(function(data) {
 		$scope.plannings = data;
 		$scope.$apply();
