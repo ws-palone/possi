@@ -5,7 +5,7 @@ angular.module('publicApp')
 	$provide.provider('backend', function() {
 
 		var backendURL = 'http://localhost:8080/';
-		var backendURL2 = 'http://iodeman.istic.univ-rennes1.fr:8080/';
+		var backendURL2 = 'http://iodeman.istic.univ-rennes1.fr:8080/'
 		
 		var $http = angular.injector(["ng"]).get("$http");
 
