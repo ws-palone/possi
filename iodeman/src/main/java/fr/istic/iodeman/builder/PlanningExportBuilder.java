@@ -1,6 +1,6 @@
 package fr.istic.iodeman.builder;
 
-import istic.m2miage.possicat.AlgoPlanningImplV3;
+
 
 import java.io.File;
 import java.util.Collection;
@@ -16,7 +16,7 @@ import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.strategy.AlgoJuryAssignation;
 import fr.istic.iodeman.strategy.AlgoJuryAssignationImpl;
-import fr.istic.iodeman.strategy.AlgoPlanningImplV2;
+import fr.istic.possijar.AlgoPlanningImplV3;
 import fr.istic.iodeman.strategy.PlanningDataValidator;
 import fr.istic.iodeman.strategy.PlanningDataValidatorImpl;
 import fr.istic.iodeman.strategy.PlanningExcelExport;
