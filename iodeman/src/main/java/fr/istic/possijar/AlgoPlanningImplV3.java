@@ -112,8 +112,15 @@ public class AlgoPlanningImplV3 {
 		
 		for(Unavailability u : unavailabilities) {
 			String email = u.getPerson().getEmail();
+			System.err.println(u.getPerson().getFirstName());
+			System.err.println(u.getPerson().getLastName());
+			System.err.println(u.getPerson().getEmail());
+			System.err.println(enseignants);
 			if(enseignants.get(email)!=null) {
-				enseignants.get(email).addDisponibilite(resolveTimeBox.get(u.getPeriod().getFrom() + " " + u.getPeriod().getTo()));
+				System.err.println(u.getPeriod().getFrom());
+				System.err.println(u.getPeriod().getTo());
+				System.err.println(resolveTimeBox.get(u.getPeriod().getFrom() + " " + u.getPeriod().getTo()));
+				enseignants.get(email).addDisponibilite(resolveTimeBox.get(u.getPeriod().getFrom().hashCode() + " " + u.getPeriod().getTo().hashCode()));
 			} else {
 				Iterator<Student> it = etudiants.iterator();
 				loop:
