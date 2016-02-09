@@ -20,6 +20,13 @@ angular.module('publicApp')
 
 	$scope.days = "";
 
+	$sessionStorage.plannings.forEach(function(planning) {
+		if(planning.id == $scope.id) {
+			$scope.planning = planning;
+			return;
+		}
+	});
+
 	$timeout(function() {
 		$scope.uid = $scope.user.uid;
 
