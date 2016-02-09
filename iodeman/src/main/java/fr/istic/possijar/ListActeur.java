@@ -36,7 +36,7 @@ public class ListActeur {
 		Acteur leMoinsDispo = null;
 		System.err.println(leMoinsDispo);
 		for(Acteur a : list) {
-			System.err.println(a + " " + a.getDisponibilitesSoutenances());
+			System.err.println(a + " " + a.getDisponibilitesSoutenances() + " " + a.getNbSoutenances() + " " + !a.nestPlusActeur());
 			if(leMoinsDispo == null || (a.getDisponibilitesSoutenances() < leMoinsDispo.getDisponibilitesSoutenances())) {
 				if(!a.nestPlusActeur()) {
 					System.err.println(a);
@@ -44,6 +44,7 @@ public class ListActeur {
 				}
 			}
 		}
+		System.err.println("Acteur le moins dispo --> " + leMoinsDispo);
 		return leMoinsDispo;
 	}
 

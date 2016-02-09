@@ -107,27 +107,31 @@ public class AlgoPlanningImplV3 {
 		Map<String, Integer> resolveTimeBox = new HashMap<String, Integer>();
 		int idTimeBox = 0;
 		for(TimeBox t : timeboxes) {
-			resolveTimeBox.put(t.getFrom().hashCode() + " " + t.getTo().hashCode(), idTimeBox++);
+			System.err.println(t.getFrom().getDate() + " " + t.getFrom().getHours() + " " + t.getFrom().getMinutes());
+			resolveTimeBox.put(t.getFrom().getDate() + " " + t.getFrom().getHours() + " " + t.getFrom().getMinutes(), idTimeBox++);
 		}
 		
 		for(Unavailability u : unavailabilities) {
 			String email = u.getPerson().getEmail();
-			System.err.println(u.getPerson().getFirstName());
-			System.err.println(u.getPerson().getLastName());
-			System.err.println(u.getPerson().getEmail());
-			System.err.println(enseignants);
+			if(log==0) {
+				System.err.println(u.getPerson().getFirstName());
+				System.err.println(u.getPerson().getLastName());
+				System.err.println(u.getPerson().getEmail());
+				System.err.println(enseignants);
+				System.err.println(u.getPeriod().getFrom().getDate() + " " + u.getPeriod().getFrom().getHours() + " " + u.getPeriod().getFrom().getMinutes());
+				System.err.println(resolveTimeBox.get(u.getPeriod().getFrom().getDate() + " " + u.getPeriod().getFrom().getHours() + " " + u.getPeriod().getFrom().getMinutes()));
+				
+			}
+			
 			if(enseignants.get(email)!=null) {
-				System.err.println(u.getPeriod().getFrom());
-				System.err.println(u.getPeriod().getTo());
-				System.err.println(resolveTimeBox.get(u.getPeriod().getFrom() + " " + u.getPeriod().getTo()));
-				enseignants.get(email).addDisponibilite(resolveTimeBox.get(u.getPeriod().getFrom().hashCode() + " " + u.getPeriod().getTo().hashCode()));
+				enseignants.get(email).addIndisponibilite(resolveTimeBox.get(u.getPeriod().getFrom().getDate() + " " + u.getPeriod().getFrom().getHours() + " " + u.getPeriod().getFrom().getMinutes()));
 			} else {
 				Iterator<Student> it = etudiants.iterator();
 				loop:
 				while(it.hasNext()) {
 					Student s = it.next();
 					if(s.getName().equals(email)) {
-						s.getTuteur().addIndisponibilite(resolveTimeBox.get(u.getPeriod().getFrom().hashCode() + " " + u.getPeriod().getTo().hashCode()));
+						s.getTuteur().addIndisponibilite(resolveTimeBox.get(u.getPeriod().getFrom().getDate() + " " + u.getPeriod().getFrom().getHours() + " " + u.getPeriod().getFrom().getMinutes()));
 						break loop;
 					}
 				}
@@ -147,7 +151,9 @@ public class AlgoPlanningImplV3 {
 				i++;
 			}
 		}
-		System.err.println(i);
+		if(log==0) {
+			System.err.println(i);
+		}
 		nbPeriodesParJour = i;
 	}
 
@@ -210,7 +216,9 @@ public class AlgoPlanningImplV3 {
 	
 	private void configureSalles(ObservableList<String> rooms) {
 		nbSalles = rooms.size();
-		System.err.println(rooms);
+		if(log==0) {
+			System.err.println(rooms);
+		}
 		sallesSelectionnees.clear();
 		for(String r : rooms) {
 			sallesSelectionnees.add(r);
@@ -260,23 +268,31 @@ public class AlgoPlanningImplV3 {
 		
 		insertion:
 		while(!inserted) {
-			System.err.println(l.list);
+			if(log==0) {
+				System.err.println(l.list);
+			}
 			if(l.list.isEmpty()) {
 				insertInComplementaryList(act, tmp, e, t, l);
 				inserted = true;
 				break insertion;
 			}
-			System.err.println("Acteur - dispo " + l.list);
+			if(log==0) {
+				System.err.println("Acteur - dispo " + l.list);
+			}
 			act = l.getActeurLeMoinsDisponible();
 			Creneau c = getCreneauBetweenTeacherAndTutor(act, l, e, t);
 			if(log==0) {
 				System.err.println(c);
 			}
 			if(c==null) {
-				System.err.println("On remove " + act);
+				if(log==0) {
+					System.err.println("On remove " + act);
+				}
 				l.list.remove(act);
 			} else {
-				System.err.println("On insère dans la liste");
+				if(log==0) {
+					System.err.println("On insère dans la liste");
+				}
 				inserted = true;
 				insertInRealList(c);
 				nbInserted++;
@@ -451,7 +467,7 @@ public class AlgoPlanningImplV3 {
 		}
 		
 		creneauxPonderations = sortByValue(creneauxPonderations);
-		dispoCandide = sortByValue(dispoCandide);
+		dispoCandide = sortInvertedByValue(dispoCandide);
 
 		if(log==0) {
 			System.err.println("Les creneaux communs entre " + e + " et " + t + " sont " + creneauxPonderations.keySet());
@@ -541,13 +557,15 @@ public class AlgoPlanningImplV3 {
 			Enseignant ens = (Enseignant)candide;
 			//System.err.println(ens);
 			if(ens.getNbSoutenancesCandide()>0) {
-				System.err.println(ens + " " + ens.getNbSoutenancesCandide());
+				if(log==0) {
+					System.err.println(ens + " " + ens.getNbSoutenancesCandide());
+				}
 				dispoCandide.put(ens, ens.getNbSoutenancesCandide());
 			}
 		}
 	}
 	
-	public static <K, V extends Comparable<? super V>> Map<K, V> 
+	public <K, V extends Comparable<? super V>> Map<K, V> 
     sortByValue( Map<K, V> map ) {
     List<Map.Entry<K, V>> list =
         new LinkedList<>( map.entrySet() );
@@ -556,7 +574,7 @@ public class AlgoPlanningImplV3 {
         @Override
         public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
         {
-        	System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
+        	//System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
             int res = (o1.getValue()).compareTo( o2.getValue() );
             if(res==0) {
             	return o1.getKey().toString().compareTo(o2.getKey().toString());
@@ -569,6 +587,43 @@ public class AlgoPlanningImplV3 {
     for (Map.Entry<K, V> entry : list)
     {
         result.put( entry.getKey(), entry.getValue() );
+    }
+    if(log==0) {
+    	System.err.println("set rangé");
+    	System.err.println(result);
+    }
+    return result;
+}
+	
+	public <K, V extends Comparable<? super V>> Map<K, V> 
+    sortInvertedByValue( Map<K, V> map ) {
+    List<Map.Entry<K, V>> list =
+        new LinkedList<>( map.entrySet() );
+    Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+    {
+        @Override
+        public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+        {
+        	//System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
+            int res = (o1.getValue()).compareTo( o2.getValue() );
+            if(res==0) {
+            	return o1.getKey().toString().compareTo(o2.getKey().toString());
+            } else if(res==1) {
+            	return -1;
+            } else{
+            	return 1;
+            }
+        }
+    } );
+
+    Map<K, V> result = new LinkedHashMap<>();
+    for (Map.Entry<K, V> entry : list)
+    {
+        result.put( entry.getKey(), entry.getValue() );
+    }
+    if(log==0) {
+    System.err.println("set rangé");
+    System.err.println(result);
     }
     return result;
 }
@@ -612,7 +667,9 @@ public class AlgoPlanningImplV3 {
 					+ c.getEnseignant() + "\n");
 		}
 		
-		System.err.println(sb.toString());
+		if(log==0) {
+			System.err.println(sb.toString());
+		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Date now = new Date();
 		File f = new File("Soutenances_"+sdf.format(now)+".csv");

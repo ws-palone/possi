@@ -98,6 +98,7 @@ public abstract class Acteur {
 	
 	public void decNbSoutenance() {
 		nbSoutenances--;
+		System.err.println(this + " DEC " + nbSoutenances);
 	}
 	
 	public boolean nestPlusActeur() {
