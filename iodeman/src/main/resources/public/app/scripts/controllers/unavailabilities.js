@@ -20,6 +20,13 @@ angular.module('publicApp')
 
 	$scope.days = "";
 
+	$sessionStorage.plannings.forEach(function(planning) {
+		if(planning.id == $scope.id) {
+			$scope.planning = planning;
+			return;
+		}
+	});
+
 	$timeout(function() {
 		$scope.uid = $scope.user.uid;
 
@@ -28,6 +35,7 @@ angular.module('publicApp')
 		agendaRequest.success(function (data) {
 			console.log("agenda found!");
 			console.log(data);
+			$("#unavailibities-spinner").remove();
 			$scope.agenda = data;
 			$scope.columns = data.map(function(l) {
 				return l.days.map(function(d) {

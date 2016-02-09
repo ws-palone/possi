@@ -197,7 +197,7 @@ angular.module('publicApp')
 	var d3 = new Date();
 	var d4 = new Date();
 
-	d1.setHours(08);
+	d1.setHours(8);
 	d1.setMinutes(0);
 	$scope.inputDayStart = d1;
 

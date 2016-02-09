@@ -1,6 +1,11 @@
 <div class="row">
 	<div class="col-md-12">
-		<h1 class="page-head-line">{{ planning.name }}</h1>
+		<h1 class="page-head-line">
+			<a href="/#/">
+			<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
+			</a>
+			{{ planning.name }}
+		</h1>
 	</div>
 </div>
 
@@ -8,7 +13,7 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">Mes indisponibilités</h3>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body" style="overflow-x: scroll;">
 		<table class="table" style="text-align: center;">
 			<thead>
 				<th></th>
@@ -23,12 +28,26 @@
 						<button type="button" class="btn btn-default"
 							ng-click="entry.submit()">{{ entry.line }}</button>
 					</td>
-					<td ng-repeat="day in entry.days"><input type="checkbox"
-						ng-model="day.checked" ng-click="day.submit()" /></td>
+					<td ng-repeat="day in entry.days">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="day.checked" ng-click="day.submit()" >
+							</label>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>
-		<a ng-click="submit()" class="btn btn-raised btn-sm">Valider</a>
+		<div class="row" id="unavailibities-spinner">
+			<div class="col-md-2 col-md-offset-5">
+				<img src="app/images/spin.svg">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-10">
+				<a ng-click="submit()" class="btn btn-raised btn-sm btn-success">Valider</a>
+			</div>
+		</div>
 		<flash-message duration="5000"></flash-message> 
 	</div>
 </div>
