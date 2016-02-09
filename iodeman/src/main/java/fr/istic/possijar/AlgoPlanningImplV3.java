@@ -9,15 +9,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import javafx.collections.ObservableList;
@@ -510,7 +513,7 @@ public class AlgoPlanningImplV3 {
 				}
 			}
 			
-			System.err.println("Période " + periode + " + " + creneauxPonderations.get(periode));
+			//System.err.println("Période " + periode + " + " + creneauxPonderations.get(periode));
 		}
 	}
 
@@ -529,22 +532,41 @@ public class AlgoPlanningImplV3 {
 			Map<Acteur, Integer> dispoCandide) {
 		for(Acteur candide : listeCandide) {
 			Enseignant ens = (Enseignant)candide;
+			//System.err.println(ens);
 			if(ens.getNbSoutenancesCandide()>0) {
+				System.err.println(ens + " " + ens.getNbSoutenancesCandide());
 				dispoCandide.put(ens, ens.getNbSoutenancesCandide());
 			}
 		}
 	}
 	
-	static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map )
-	{
-	  Map<K,V> result = new LinkedHashMap<>();
-	 Stream <Entry<K,V>> st = map.entrySet().stream();
+	public static <K, V extends Comparable<? super V>> Map<K, V> 
+    sortByValue( Map<K, V> map ) {
+    List<Map.Entry<K, V>> list =
+        new LinkedList<>( map.entrySet() );
+    Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+    {
+        @Override
+        public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+        {
+        	System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
+            int res = (o1.getValue()).compareTo( o2.getValue() );
+            if(res==0) {
+            	return o1.getKey().toString().compareTo(o2.getKey().toString());
+            }
+        	return res;
+        }
+    } );
 
-	 st.sorted(Comparator.comparing(e -> e.getValue()))
-	      .forEachOrdered(e ->result.put(e.getKey(),e.getValue()));
+    Map<K, V> result = new LinkedHashMap<>();
+    for (Map.Entry<K, V> entry : list)
+    {
+        result.put( entry.getKey(), entry.getValue() );
+    }
+    return result;
+}
+	
 
-	 return result;
-	}
 
 	public File getFile() throws IOException {
 		StringBuilder sb = new StringBuilder();
