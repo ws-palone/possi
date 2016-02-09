@@ -469,25 +469,28 @@ public class AlgoPlanningImplV3 {
 		for(int periode : periodes) {
 			int value = creneauxPonderations.get(periode);
 			
-			int contrTuteurs = 5;
-			int contrHoraires = 10;
+			int contrTuteurs = -5;
+			int contrHoraires = 0;
 			
 			if(contrainteForte.equals("Tuteurs")) {
-				contrTuteurs = -20;
+				//contrTuteurs = -20;
 			} else {
-				contrHoraires = -15;
+				//contrHoraires = -15;
 			}
 			
-			int res = periode%8;
-			if(res==3 || res==4) {
-				creneauxPonderations.put(periode, value+contrHoraires);
-			} else if (res==2 || res==5) {
-				creneauxPonderations.put(periode, value+contrHoraires+4);
-			} else if (res==1 || res==6) {
-				creneauxPonderations.put(periode, value+contrHoraires+6);
-			} else if (res==0 || res==7) {
-				creneauxPonderations.put(periode, value+contrHoraires+8);
+			int periodeMiddle1, periodeMiddle2;
+			periodeMiddle1 = (int)Math.floor(nbPeriodesParJour/2);
+			periodeMiddle2 = (int)Math.ceil(nbPeriodesParJour/2);
+			int res = periode%nbPeriodesParJour;
+			while (periodeMiddle1 >= 0 || periodeMiddle2 <= nbPeriodesParJour) {
+				if(res==periodeMiddle1 || res==periodeMiddle2) {
+					creneauxPonderations.put(periode, value+contrHoraires);
+				} 
+				contrHoraires+=2;
+				periodeMiddle1--;
+				periodeMiddle2++;
 			}
+				
 			
 			value = creneauxPonderations.get(periode);
 			
@@ -506,6 +509,8 @@ public class AlgoPlanningImplV3 {
 					}
 				}
 			}
+			
+			System.err.println("Période " + periode + " + " + creneauxPonderations.get(periode));
 		}
 	}
 
