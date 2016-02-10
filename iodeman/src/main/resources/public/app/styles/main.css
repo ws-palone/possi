@@ -87,3 +87,16 @@ body {
 	width: 80%;
 	max-width: 80%;
 }
+
+#unavailabilities .table > tbody > tr > td {
+	padding: 0;
+}
+
+#unavailabilities .table .btn {
+	padding: 0 30px;
+	margin: 3px 1px;
+}
+
+#unavailabilities .table .checkbox {
+	margin: 3px 0;
+}
