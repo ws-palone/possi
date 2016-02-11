@@ -1,4 +1,6 @@
 package fr.istic.possijar;
+
+import java.io.Serializable;
 /**
  * 
  */
@@ -7,7 +9,7 @@ package fr.istic.possijar;
  * @author François Esnault
  * @date 7 janv. 2016
  */
-public class Creneau {
+public class Creneau implements Serializable {
 	private Enseignant enseignant;
 	private Enseignant candide;
 	private Tuteur tuteur;

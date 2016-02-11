@@ -1,4 +1,5 @@
 package fr.istic.possijar;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
  * @author François Esnault, Petit Emmanuel [M2 MIAGE]
  * @date 9 janv. 2016
  */
-public class ListActeur {
+public class ListActeur implements Serializable {
 	
 	List<Acteur> list;
 	
@@ -34,17 +35,17 @@ public class ListActeur {
 
 	public Acteur getActeurLeMoinsDisponible() {
 		Acteur leMoinsDispo = null;
-		System.err.println(leMoinsDispo);
+		//System.err.println(leMoinsDispo);
 		for(Acteur a : list) {
-			System.err.println(a + " " + a.getDisponibilitesSoutenances() + " " + a.getNbSoutenances() + " " + !a.nestPlusActeur());
+			//System.err.println(a + " " + a.getDisponibilitesSoutenances() + " " + a.getNbSoutenances() + " " + !a.nestPlusActeur());
 			if(leMoinsDispo == null || (a.getDisponibilitesSoutenances() < leMoinsDispo.getDisponibilitesSoutenances())) {
 				if(!a.nestPlusActeur()) {
-					System.err.println(a);
+					//System.err.println(a);
 					leMoinsDispo = a;
 				}
 			}
 		}
-		System.err.println("Acteur le moins dispo --> " + leMoinsDispo);
+		//System.err.println("Acteur le moins dispo --> " + leMoinsDispo);
 		return leMoinsDispo;
 	}
 

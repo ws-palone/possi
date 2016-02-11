@@ -71,8 +71,10 @@ public class PlanningExportBuilder {
 		Validate.notNull(unavailabilities);
 		Validate.notNull(participants);
 		//algoPlanning.configure(planning, participants, timeboxes, unavailabilities);
+		algoPlanning_new.deserialize(planning.getId());
 		algoPlanning_new.configure(planning, participants, timeboxes, unavailabilities);
 		algoPlanning_new.execute();
+		algoPlanning_new.serialize(planning.getId());
 		//oralDefenses = algoPlanning.execute();
 		//algoJuryAssignation.configure(oralDefenses, unavailabilities);
 		//oralDefenses = algoJuryAssignation.execute();

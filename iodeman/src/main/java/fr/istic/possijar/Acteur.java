@@ -1,4 +1,5 @@
 package fr.istic.possijar;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.Set;
  * @author François Esnault, Petit Emmanuel [M2 MIAGE]
  * @date 9 janv. 2016
  */
-public abstract class Acteur {
+public abstract class Acteur implements Serializable {
 	
 	Map<Integer, Boolean> disponibilites;
 	int nbSoutenances;
@@ -98,7 +99,7 @@ public abstract class Acteur {
 	
 	public void decNbSoutenance() {
 		nbSoutenances--;
-		System.err.println(this + " DEC " + nbSoutenances);
+		//System.err.println(this + " DEC " + nbSoutenances);
 	}
 	
 	public boolean nestPlusActeur() {
