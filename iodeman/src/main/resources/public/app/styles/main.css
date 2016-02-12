@@ -20,7 +20,7 @@ body {
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
@@ -38,7 +38,7 @@ body {
 }
 
 .container-narrow > hr {
-  margin: 30px 0;
+  margin: 5px 0;
 }
 
 /* Main marketing message and sign up button */
@@ -74,14 +74,13 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 30px;
+    margin-bottom: 5px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
 }
-
 
 .container-large {
 	width: 80%;
@@ -99,4 +98,29 @@ body {
 
 #unavailabilities .table .checkbox {
 	margin: 3px 0;
+}
+
+.check:before {
+  color: #f44336 !important;
+}
+
+.check {
+  border-color: grey !important;
+}
+
+.h1 {
+  margin-top: 10px;
+}
+
+/* show the move cursor as the user moves the mouse over the panel header.*/
+#contraintesList .panel-heading {
+  cursor: move;
+}
+
+#contraintesList {
+  margin: 0;
+}
+
+#contrainte-enseignants, #contrainte-tuteurs, #contrainte-horaires {
+  margin: 0px;
 }

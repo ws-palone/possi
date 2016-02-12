@@ -124,12 +124,22 @@ angular.module('publicApp')
 		var roomsNames = $scope.selectedRooms.map(function(r) {
 			return r.id;
 		});
+		/*var priorities = [];
+		$("#contraintesList").each(function () {
+			$(this).find('li').each(function(){
+				// cache jquery var
+				var current = $(this);
+				priorities.push(current.find('div').attr("id"));
+			});
+		});
 
 		console.log(roomsNames);
-
+		console.log(priorities);
+*/
 		var updateRequest = backend.plannings.update({
 			planningID: $scope.planning.id,
-			rooms: roomsNames
+			rooms: roomsNames,
+			//priorities: priorities
 		});
 		updateRequest.success(function(data) {
 			console.log('planning updated!');
@@ -143,5 +153,21 @@ angular.module('publicApp')
 		});
 		Flash.create('success', '<strong> Modifications effectuees!</strong> La configuration a ete mise a jour.');
 	}
+
+	var contraintesList = $('#contraintesList');
+
+	contraintesList.sortable({
+		// Only make the .panel-heading child elements support dragging.
+		// Omit this to make then entire <li>...</li> draggable.
+		handle: '.panel-heading',
+		update: function() {
+			$('.panel', contraintesList).each(function(index, elem) {
+				var $listItem = $(elem),
+					newIndex = $listItem.index();
+
+				// Persist the new indices.
+			});
+		}
+	});
 
 });

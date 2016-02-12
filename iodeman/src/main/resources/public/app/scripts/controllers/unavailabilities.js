@@ -106,6 +106,9 @@ angular.module('publicApp')
 		$scope.days.each(function (d) {
 			d.pushToServer();
 		});
-		Flash.create('success', '<strong> Modifications effectuees!</strong> Les disponiblites ont ete mises a jours.');
+		Flash.create('success', '<strong> Modifications effectu&eacute;es!</strong> Les disponibilit&eacute;s ont &eacute;t&eacute; mises &agrave; jours.');
+		$timeout(function() {
+			window.location.replace("/#/");
+		}, 3000);
 	}
 });
