@@ -1,4 +1,6 @@
 package fr.istic.possijar;
+
+import java.io.Serializable;
 /**
  * 
  */
@@ -7,7 +9,7 @@ package fr.istic.possijar;
  * @author François Esnault, Petit Emmanuel [M2 MIAGE]
  * @date 13 janv. 2016
  */
-public class Student {
+public class Student implements Serializable {
 	
 	private String name;
 	private Enseignant enseignant;

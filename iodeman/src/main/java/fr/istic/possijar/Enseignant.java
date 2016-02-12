@@ -1,4 +1,6 @@
 package fr.istic.possijar;
+
+import java.io.Serializable;
 /**
  * 
  */
@@ -7,7 +9,7 @@ package fr.istic.possijar;
  * @author François Esnault, Petit Emmanuel [M2 MIAGE]
  * @date 9 janv. 2016
  */
-public class Enseignant extends Acteur {
+public class Enseignant extends Acteur implements Serializable {
 	
 	int nbSoutenanceCandide;
 
