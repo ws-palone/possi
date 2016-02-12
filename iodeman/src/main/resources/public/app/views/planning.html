@@ -138,14 +138,8 @@
 							<div class="row">
 								<div class="col-md-10">
 									<ul id="contraintesList" class="list-unstyled">
-										<li class="panel panel-info">
-											<div class="panel-heading" id="contrainte-enseignants">Contraintes tuteurs enseignants.</div>
-										</li>
-										<li class="panel panel-success">
-											<div class="panel-heading" id="contrainte-tuteurs">Contraintes tuteurs entreprise</div>
-										</li>
-										<li class="panel panel-primary">
-											<div class="panel-heading" id="contrainte-horaires">Soutenances entre 10h et 16h</div>
+										<li ng-repeat="p in planning.priorities | orderBy:'-weight'" class="panel panel-info">
+											<div class="panel-heading" id="{{p.id}}">{{p.role}}</div>
 										</li>
 									</ul>
 								</div>

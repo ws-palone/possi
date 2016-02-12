@@ -58,7 +58,7 @@ public class UnavailabilityCostValidatorImpl implements UnavailabilityCostValida
 					
 					// register the UA that has not been respected
 					notRespectedUA.add(ua);
-					cost += findCost(ua.getPerson().getRole());
+					//cost += findCost(ua.getPerson().getRole());
 				
 				}
 				
@@ -70,10 +70,10 @@ public class UnavailabilityCostValidatorImpl implements UnavailabilityCostValida
 		
 	}
 	
-	private int findCost(Role role) {
+	private int findCost(String role) {
 		
 		for(Priority p : priorities) {
-			if (p.getRole() == role) {
+			if (p.getRole().equals(role)) {
 				return p.getWeight();
 			}
 		}

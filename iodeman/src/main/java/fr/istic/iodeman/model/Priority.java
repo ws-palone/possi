@@ -12,7 +12,7 @@ public class Priority {
 	@GeneratedValue
 	private Integer id;	
 
-	private Role role;
+	private String role;
 
 	private Integer weight;
 	
@@ -20,8 +20,8 @@ public class Priority {
 		
 	}
 	
-	public Priority(Role role, Integer weight) {
-		setRole(role);
+	public Priority(String role, Integer weight) {
+		this.role = role;
 		setWeight(weight);
 	}
 	
@@ -31,10 +31,10 @@ public class Priority {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 	public Integer getWeight() {

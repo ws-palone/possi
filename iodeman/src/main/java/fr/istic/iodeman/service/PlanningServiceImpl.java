@@ -95,8 +95,9 @@ public class PlanningServiceImpl implements PlanningService {
 		planning.setRooms(rooms);
 		
 		planning.setPriorities(Lists.newArrayList(
-				new Priority(Role.STUDENT, 1),
-				new Priority(Role.PROF, 1)
+				new Priority("ENTREPRISE", 1),
+				new Priority("ENSEIGNANT", 2),
+        		new Priority("HORAIRES", 3)
 		));
 		
 		planningDAO.persist(planning);

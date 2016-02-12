@@ -14,9 +14,11 @@ angular.module('publicApp')
 
 	if($scope.user == null) {
 		$scope.user = Auth.login();
+		$scope.$apply;
 	}
 		
 	backend.plannings.list().then(function(data) {
+		console.log($scope.user);
 		$scope.plannings = data;
 		$sessionStorage.plannings = data;
 		$scope.$apply();
