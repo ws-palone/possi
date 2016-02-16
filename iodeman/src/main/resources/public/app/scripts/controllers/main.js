@@ -8,13 +8,13 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('MainCtrl', function ($scope, backend, Auth, $sessionStorage, $rootScope) {
+.controller('MainCtrl', function ($scope, backend, Auth, $sessionStorage, $rootScope, $timeout) {
 	$.material.init();
 	$scope.user = $sessionStorage.user;
 
 	if($scope.user == null) {
 		$scope.user = Auth.login();
-		$scope.$apply;
+		$timeout($scope.$apply, 100);
 	}
 		
 	backend.plannings.list().then(function(data) {

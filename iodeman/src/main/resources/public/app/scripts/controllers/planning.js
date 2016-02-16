@@ -8,9 +8,11 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('PlanningCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams) {
+.controller('PlanningCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams, $timeout) {
 
 	$scope.user = $sessionStorage.user;
+	
+	$scope.showImportButton = true;
 
 	if($scope.user == null) {
 		$scope.user = Auth.login();
@@ -31,16 +33,32 @@ angular.module('publicApp')
 		console.log("planning:");
 		console.log(data);
 		$scope.planning = data;
+		
+		$timeout(
+				verifyAdmin()
+			,100);
+		
 		$scope.$apply();
 	});
+	
+	var verifyAdmin = function() {
+		if($scope.user.uid != $scope.planning.admin.uid) {
+			document.location.href = "#/";
+		}
+	}
 
 	var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
 	participantsRequest.success(function(data) {
 		console.log("participants:");
 		console.log(data);
 		$scope.participants = data;
+		console.log($scope.participants.length);
+		if($scope.participants.length>0) {
+			$scope.showImportButton = false;
+		}
 		$scope.$apply();
 	});
+	
 
 	participantsRequest.error(function(error) {
 		console.log(error);
@@ -94,7 +112,7 @@ angular.module('publicApp')
 	$scope.remove = function() {
 		var validation = backend.plannings.remove($scope.id);
 		validation.success(function(data) {
-			document.location.href = "#/home";
+			document.location.href = "#/";
 		});
 		validation.error(function(data) {
 			$scope.errorValidate = true;

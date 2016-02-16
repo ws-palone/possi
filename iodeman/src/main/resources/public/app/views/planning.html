@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-	<form id="formUpload" method="POST"
+	<form ng-show="showImportButton" id="formUpload" method="POST"
 		enctype="multipart/form-data" action="{{ uploadFileURL }}">
 		<div class="row">
 			<input style="display: inline;" id="upload_file" type="file" name="file" />
@@ -25,9 +25,9 @@
 			type="hidden" name="redirectURL" value="/#/planning/{{ planning.id }}" />
 	</form>
 	
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
+	<div ng-show="showImportButton" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  	<div ng-show="showImportButton" class="modal-dialog modal-lg" role="document">
+    <div ng-show="showImportButton" class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Comment importer un fichier CSV ?</h4>
@@ -41,7 +41,6 @@
     </div>
   </div>
 </div>
-
 	<uib-tabset justified="true">
 		<uib-tab heading="Participants" class="btn btn-xs btn-raised btn-primary">
 	<div class="row">
