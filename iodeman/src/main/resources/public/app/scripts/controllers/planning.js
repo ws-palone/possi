@@ -120,4 +120,7 @@ angular.module('publicApp')
 		});
 	}
 
+	$scope.reinitialize = function() {
+		backend.plannings.deleteBackup($scope.id);
+	}
 });

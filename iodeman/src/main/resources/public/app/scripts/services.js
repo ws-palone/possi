@@ -110,6 +110,10 @@ angular.module('publicApp')
 
 						"remove": function(planningID) {
 							return $http.get(backendURL + 'planning/'+planningID+'/delete');
+						},
+						
+						"deleteBackup" : function(planningID) {
+							return $http.get(backendURL + 'planning/'+planningID+'/deleteBackup')
 						}
 					}
 				},

@@ -1,9 +1,12 @@
 package fr.istic.iodeman.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,6 +257,11 @@ public class PlanningController {
 		unavailabilityService.deleteByPlanning(id);
 		// planning
 		planningService.delete(planning);
+	}
+	
+	@RequestMapping(value = "/{id}/deleteBackup")
+	public void deletePlanningBackup(@PathVariable("id") Integer id) throws IOException{
+		FileUtils.cleanDirectory(new File("persist/"+id));
 	}
 	
 }
