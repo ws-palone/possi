@@ -96,6 +96,7 @@ public class AlgoPlanningImplV3 {
 		
 		if(isSerial) {
 			indisponibilites = new HashMap<String, List<Integer>>();
+			configureParticipants(participants);
 			detectViolation(timeboxes, unavailabilities);
 		} else {
 			configureSalles(planning_infos.getRooms());
@@ -117,21 +118,38 @@ public class AlgoPlanningImplV3 {
 
 		for(Unavailability u : unavailabilities) {
 			String email = u.getPerson().getEmail();
+			
+			
+			//System.err.println();
 			int periode = resolveTimeBox.get(u.getPeriod().getFrom().getDate() + " " + u.getPeriod().getFrom().getHours() + " " + u.getPeriod().getFrom().getMinutes());
-			
-			putIndisponibilite(email, periode);
-			
 			List<Creneau> creneaux = planning.get(periode);
+			
+			if(enseignants.get(email)==null) {
+				//System.err.println(etudiants);
+				for(Student s : etudiants) {
+					//System.err.println("On tente avec " + s.getName());
+					if(s.getName().equals(email)) {
+						email = s.getTuteur().getName();
+						//System.err.println("Ca correspond, nouvel indispo : " + email);
+					}
+				}
+			}
+			
+			//System.err.println("A la période " + periode);
+			//System.err.println("Nous avons " + email + " indispo");
+			
 			Iterator<Creneau> it = creneaux.iterator();
 			while(it.hasNext()) {
 				Creneau c = it.next();
 				if(c.getCandide().getName().equals(email) 
 						|| c.getEnseignant().getName().equals(email)
-						|| c.getStudent().getName().equals(email)) {
+						|| c.getTuteur().getName().equals(email)) {
+					System.err.println("Impossible a insérer : " + c);
 					impossibleAInserer.add(c);
 					it.remove();
 				}
 			}
+			putIndisponibilite(email, periode);
 		}
 	}
 
@@ -308,6 +326,7 @@ public class AlgoPlanningImplV3 {
 			for(int i = 0; i < impossibleAInserer.size(); i++) {
 				if(insertImpossible(impossibleAInserer.get(i))) {
 					impossibleAInserer.remove(i);
+					i--;
 				};
 			}
 		}
@@ -316,6 +335,7 @@ public class AlgoPlanningImplV3 {
 	public boolean insertImpossible(Creneau c) {
 		for(int periode = 0; periode < nbPeriodesEnTout; periode++) {
 			List<Creneau> creneaux = planning.get(periode);
+			System.err.println(creneaux + " a la période " + periode);
 			if(creneaux.size()<sallesSelectionnees.size()) {
 				List<Integer> teacher = indisponibilites.get(c.getEnseignant().getName());
 				List<Integer> tutor = indisponibilites.get(c.getTuteur().getName());
@@ -769,11 +789,9 @@ public class AlgoPlanningImplV3 {
 				}
 				sb.append("\n");
 			}
+			sb.append("P" + periode%nbPeriodesParJour + ",");
 			List<Creneau> creneaux = planning.get(periode);
 			for(Creneau c : creneaux) {
-				if(c.getSalle()==1) {
-					sb.append("P" + periode%nbPeriodesParJour + ",");
-				}
 				sb.append(c.getStudent() + ","
 						+ c.getTuteur() + ","
 						+ c.getEnseignant() + ","

@@ -86,9 +86,9 @@
 							<td>{{ participant.student.person.firstName }} {{
 								participant.student.person.lastName }}</td>
 							<td
-								ng-style="participant.student.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}"><span>{{ participant.tutorFullName }} - {{ participant.company }} - <span class="label label-default">{{participant.student.unavailabilitiesNumber }} indisponibilité(s)</span></span></td>
+								ng-style="participant.student.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}"><span>{{ participant.tutorFullName }} - {{ participant.company }} <!-- span class="label label-default">{{participant.student.unavailabilitiesNumber }} indisponibilité(s)</span --></span></td>
 							<td>{{ participant.followingTeacher.person.firstName }} {{
-								participant.followingTeacher.person.lastName }} - <span class="label label-default">{{
+								participant.followingTeacher.person.lastName }} <span style="float:right" class="label label-default">{{
 									participant.followingTeacher.unavailabilitiesNumber }} indisponibilité(s)</span></td>
 						</tr>
 					</tbody>
