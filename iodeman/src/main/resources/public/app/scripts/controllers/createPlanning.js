@@ -45,7 +45,7 @@ angular.module('publicApp')
 	$scope.showError = false;
 
 	$scope.planning = {
-			name: 'Test material',
+			name: '',
 			periodStart: '',
 			periodEnd: '',
 			oralDefenseDuration: '',

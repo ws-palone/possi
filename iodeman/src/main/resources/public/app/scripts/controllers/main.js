@@ -11,10 +11,11 @@ angular.module('publicApp')
 .controller('MainCtrl', function ($scope, backend, Auth, $sessionStorage, $rootScope, $timeout) {
 	$.material.init();
 	$scope.user = $sessionStorage.user;
-
+	
 	if($scope.user == null) {
-		$scope.user = Auth.login();
-		$timeout($scope.$apply, 100);
+		backend.getUser().then(function (success) {
+			$scope.user = success.data;
+		});
 	}
 		
 	backend.plannings.list().then(function(data) {

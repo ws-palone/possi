@@ -40,6 +40,7 @@ import com.google.common.io.Files;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
@@ -60,7 +61,7 @@ public class AlgoPlanningImplV3 {
 	/* ALGORITHME */
 	private int nbInserted = 0;
 	private int log = 5;
-	private String contrainteForte = "Tuteurs";
+	//private String contrainteForte = "Tuteurs";
 	private boolean isSerial = false;
 
 	/* DONNEES */
@@ -71,6 +72,7 @@ public class AlgoPlanningImplV3 {
 	private List<Creneau> impossibleAInserer;
 	private List<String> sallesSelectionnees;
 	private Map<String, List<Integer>> indisponibilites;
+	private Collection<Priority> priorites;
 
 	public AlgoPlanningImplV3() {
 		enseignants = new ListActeur();
@@ -86,6 +88,8 @@ public class AlgoPlanningImplV3 {
 			Collection<Participant> participants,
 			Collection<TimeBox> timeboxes,
 			Collection<Unavailability> unavailabilities) {
+		
+		priorites = planning_infos.getPriorities();
 
 		nbPeriodesEnTout = timeboxes.size();
 		getNbDePeriodesParJour(timeboxes);
@@ -257,7 +261,7 @@ public class AlgoPlanningImplV3 {
 		configureSalles(sallesSelectionnees);
 		this.nbPeriodesEnTout = nbPeriodesEnTout;
 		this.nbPeriodesParJour = nbPeriodesParJour;
-		this.contrainteForte = contrainteForte;
+		//this.contrainteForte = contrainteForte;
 
 		enseignants = new ListActeur();
 		tuteurs = new ListActeur();
@@ -589,13 +593,24 @@ public class AlgoPlanningImplV3 {
 		for(int periode : periodes) {
 			int value = creneauxPonderations.get(periode);
 
-			int contrTuteurs = -5;
-			int contrHoraires = 0;
-
-			if(contrainteForte.equals("Tuteurs")) {
-				//contrTuteurs = -20;
-			} else {
-				//contrHoraires = -15;
+			int ENTREPRISE = 0;
+			int ENSEIGNANT = 0;
+			int HORAIRES = 0;
+			
+			
+			
+			for(Priority p : priorites) {
+				switch(p.getRole()) {
+				case "ENTREPRISE": 
+					ENTREPRISE = p.getWeight()*-3;
+					break;
+				case "ENSEIGNANT": 
+					ENSEIGNANT = p.getWeight()*-2;
+					break;
+				case "HORAIRES": 
+					HORAIRES = p.getWeight()*-3;
+					break;
+				}
 			}
 
 			int periodeMiddle1, periodeMiddle2;
@@ -604,9 +619,9 @@ public class AlgoPlanningImplV3 {
 			int res = periode%nbPeriodesParJour;
 			while (periodeMiddle1 >= 0 || periodeMiddle2 <= nbPeriodesParJour) {
 				if(res==periodeMiddle1 || res==periodeMiddle2) {
-					creneauxPonderations.put(periode, value+contrHoraires);
+					creneauxPonderations.put(periode, value+HORAIRES);
 				} 
-				contrHoraires+=2;
+				HORAIRES+=3;
 				periodeMiddle1--;
 				periodeMiddle2++;
 			}
@@ -618,14 +633,32 @@ public class AlgoPlanningImplV3 {
 				List<Creneau> avant = planning.get(periode-1);
 				for(Creneau creneau : avant) {
 					if(creneau.getTuteur() == t) {
-						creneauxPonderations.put(periode, value+contrTuteurs);
+						creneauxPonderations.put(periode, value+ENTREPRISE);
 					}
 				}
 			} else if((periode%8)!=7) {
 				List<Creneau> apres = planning.get(periode+1);
 				for(Creneau creneau : apres) {
 					if(creneau.getTuteur() == t) {
-						creneauxPonderations.put(periode, value+contrTuteurs);
+						creneauxPonderations.put(periode, value+ENTREPRISE);
+					}
+				}
+			}
+			
+			value = creneauxPonderations.get(periode);
+
+			if((periode%8)!=0) {
+				List<Creneau> avant = planning.get(periode-1);
+				for(Creneau creneau : avant) {
+					if(creneau.getTuteur() == t) {
+						creneauxPonderations.put(periode, value+ENSEIGNANT);
+					}
+				}
+			} else if((periode%8)!=7) {
+				List<Creneau> apres = planning.get(periode+1);
+				for(Creneau creneau : apres) {
+					if(creneau.getTuteur() == t) {
+						creneauxPonderations.put(periode, value+ENSEIGNANT);
 					}
 				}
 			}
