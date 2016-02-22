@@ -16,6 +16,7 @@ public class Creneau implements Serializable {
 	private Student student;
 	private int periode;
 	private int salle;
+	private String horaire;
 	
 	public Creneau(int periode, Enseignant e, Enseignant c, Tuteur t, Student s) {
 		this.periode = periode;
@@ -62,21 +63,18 @@ public class Creneau implements Serializable {
 		this.salle = salle;
 	}
 	public String toString() {
-		return this.periode + " " + this.enseignant + " " + this.tuteur + " " + this.candide + " " + this.student;
+		return this.periode + " " + this.horaire + " " + this.enseignant + " " + this.tuteur + " " + this.candide + " " + this.student;
 	}
 	public String getHoraire() {
-		int reste = periode%8;
-		switch(reste) {
-		case 0 : return "8h-9h";
-		case 1 : return "9h-10h";
-		case 2 : return "10h-11h";
-		case 3 : return "11h-12h";
-		case 4 : return "14h-15h";
-		case 5 : return "15h-16h";
-		case 6 : return "16h-17h";
-		case 7 : return "17h-18h";
-		default : return "";
-		}
+		return horaire.substring(3).replace(' ', 'h');
+	}
+
+	/**
+	 * @param keyByValue
+	 */
+	public void setHoraire(String key) {
+		horaire = key;
+		System.err.println("Set " + horaire + " pour " + this);
 	}
 	
 }

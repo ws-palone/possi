@@ -1,1 +1,32 @@
-{{id}}
+<div class="panel panel-default planning">
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="info">Horaire</th>
+				<th class="info" colspan="4">Salle #1</th>
+				<th class="info" colspan="4">Salle #2</th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="jour in creneaux | orderBy:horaire.periode">
+			<tr>
+				<th class="info" colspan="9">Jour</th>
+			</tr>
+			<tr ng-repeat="horaire in jour" ng-show="horaire[0].horaire.length>0">
+				<!-- <td>{{horaire[0].periode}}</td> -->
+				<td style="background:#ccc">{{horaire[0].horaire}}</td>
+
+				<td style="background:#eee">{{horaire[0].student.name | emailToName | capitalize:true}}</td>
+				<td style="background:#eee">{{horaire[0].tuteur.name | capitalize:true}}</td>
+				<td style="background:#eee">{{horaire[0].enseignant.name | emailToName |
+					capitalize:true}}</td>
+				<td style="background:#eee">{{horaire[0].candide.name | emailToName | capitalize:true}}</td>
+
+				<td style="background:#ccc">{{horaire[1].student.name | emailToName | capitalize:true}}</td>
+				<td style="background:#ccc">{{horaire[1].tuteur.name | capitalize:true}}</td>
+				<td style="background:#ccc">{{horaire[1].enseignant.name | emailToName |
+					capitalize:true}}</td>
+				<td style="background:#ccc">{{horaire[1].candide.name | emailToName | capitalize:true}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

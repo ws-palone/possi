@@ -3,6 +3,7 @@ package fr.istic.iodeman.service;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.OralDefense;
@@ -12,6 +13,7 @@ import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
+import fr.istic.possijar.Creneau;
 
 public interface PlanningService {
 
@@ -48,4 +50,10 @@ public interface PlanningService {
 	public Collection<ParticipantDTO> findParticipantsAndUnavailabilitiesNumber(Planning planning);
 	
 	public void delete(Planning planning);
+
+	/**
+	 * @param planning
+	 * @return
+	 */
+	public Map<Integer, List<Creneau>> exportJSON(Planning planning);
 }

@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -89,6 +90,12 @@ public class AlgoPlanningImplV3 {
 			Collection<TimeBox> timeboxes,
 			Collection<Unavailability> unavailabilities) {
 		
+		resolveTimeBox = new HashMap<String, Integer>();
+		int idTimeBox = 0;
+		for(TimeBox t : timeboxes) {
+			resolveTimeBox.put(t.getFrom().getDate() + " " + t.getFrom().getHours() + " " + t.getFrom().getMinutes(), idTimeBox++);
+		}
+		
 		priorites = planning_infos.getPriorities();
 
 		nbPeriodesEnTout = timeboxes.size();
@@ -108,13 +115,9 @@ public class AlgoPlanningImplV3 {
 
 	}
 
+	Map<String, Integer> resolveTimeBox;
+	
 	private void detectViolation(Collection<TimeBox> timeboxes, Collection<Unavailability> unavailabilities) {
-		
-		Map<String, Integer> resolveTimeBox = new HashMap<String, Integer>();
-		int idTimeBox = 0;
-		for(TimeBox t : timeboxes) {
-			resolveTimeBox.put(t.getFrom().getDate() + " " + t.getFrom().getHours() + " " + t.getFrom().getMinutes(), idTimeBox++);
-		}
 
 		for(Unavailability u : unavailabilities) {
 			String email = u.getPerson().getEmail();
@@ -452,6 +455,15 @@ public class AlgoPlanningImplV3 {
 		e.addDisponibilite(c.getPeriode());
 		t.addDisponibilite(c.getPeriode());
 		c.getCandide().addDisponibiliteCandide(c.getPeriode());
+		
+		Set<String> keys = resolveTimeBox.keySet();
+		for(String k : keys) {
+			//System.err.println("compare " + resolveTimeBox.get(k) + " avec " + c.getPeriode());
+			if(resolveTimeBox.get(k) == c.getPeriode()) {
+				//System.err.println("Set horaire " + k + " pour le créneau " + c.getPeriode());
+				c.setHoraire(k);
+			}
+		}
 
 		removeRelation(e, t, s);
 
@@ -459,6 +471,7 @@ public class AlgoPlanningImplV3 {
 		if(c.getCandide().aFaitToutesLesSoutenances()) {
 			enseignants.list.remove(c.getCandide());
 		}
+		
 
 		insertCreneauInPlanning(c);
 	}
@@ -523,6 +536,7 @@ public class AlgoPlanningImplV3 {
 		int size = salles.size();
 		c.setSalle(size+1);
 		salles.add(c);
+		System.err.println("Add " + c);
 	}
 
 	private Student getStudent(Enseignant e, Tuteur t) {
@@ -789,8 +803,10 @@ public class AlgoPlanningImplV3 {
 				}
 				sb.append("\n");
 			}
-			sb.append("P" + periode%nbPeriodesParJour + ",");
 			List<Creneau> creneaux = planning.get(periode);
+			if(creneaux.size()>0) {
+				sb.append(creneaux.get(0).getHoraire() + ",");
+			} 
 			for(Creneau c : creneaux) {
 				sb.append(c.getStudent() + ","
 						+ c.getTuteur() + ","

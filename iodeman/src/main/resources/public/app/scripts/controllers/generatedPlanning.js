@@ -6,5 +6,7 @@ angular.module('publicApp')
 	$http.get(backendURL + 'planning/' + $scope.id + '/exportPlanning')
 	.success(function(data) {
 		console.log(data);
+		$scope.creneaux = data;
 	});
 });
+

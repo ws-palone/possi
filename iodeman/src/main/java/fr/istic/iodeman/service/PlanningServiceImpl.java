@@ -1,12 +1,19 @@
 package fr.istic.iodeman.service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +42,7 @@ import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.ParticipantsCSVImport;
 import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
+import fr.istic.possijar.Creneau;
 
 @Service
 public class PlanningServiceImpl implements PlanningService {
@@ -196,6 +204,33 @@ public class PlanningServiceImpl implements PlanningService {
 		}
 		
 		return planning.getPriorities();
+	}
+	
+	@Override
+	public Map<Integer, List<Creneau>> exportJSON(Planning plan) {
+		int idPlanning = plan.getId();
+		Map<Integer, List<Creneau>> planning = null;
+		File f = new File("persist/" + idPlanning + "/planning.ser");
+		if(f.exists()) {
+			try(
+					InputStream f1 = new FileInputStream("persist/" + idPlanning + "/planning.ser");
+					InputStream b1 = new BufferedInputStream(f1);
+					ObjectInput i1 = new ObjectInputStream (b1);
+					){
+				//deserialize the List
+				planning = (Map<Integer, List<Creneau>>)i1.readObject();
+				
+				
+			}
+			catch(ClassNotFoundException ex){
+				System.err.println(ex);
+			}
+			catch(IOException ex){
+				System.err.println(ex);
+			}
+		}
+		
+		return planning;
 	}
 
 	@Override
