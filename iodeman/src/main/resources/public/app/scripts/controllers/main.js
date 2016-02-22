@@ -10,19 +10,21 @@
 angular.module('publicApp')
 .controller('MainCtrl', function ($scope, backend, Auth, $sessionStorage, $rootScope, $timeout) {
 	$.material.init();
+	$scope.user = {};
+	$scope.plannings = new Array();
+	
 	$scope.user = $sessionStorage.user;
 	
 	if($scope.user == null) {
 		backend.getUser().then(function (success) {
 			$scope.user = success.data;
+			$scope.$digest;
 		});
 	}
 		
 	backend.plannings.list().then(function(data) {
-		console.log($scope.user);
 		$scope.plannings = data;
-		$sessionStorage.plannings = data;
-		$scope.$apply();
+		$scope.$digest();
 		$("#home-spinner").remove();
 	});
 

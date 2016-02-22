@@ -27,22 +27,22 @@ angular
       .when('/', {
         templateUrl: 'app/views/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'main'
+        controllerAs: 'mainCtrl'
       })
       .when('/planning/create', {
         templateUrl: 'app/views/createPlanning.html',
         controller: 'CreatePlanningCtrl',
-        controllerAs: 'createPlanning'
+        controllerAs: 'createPlanningCtrl'
       })
       .when('/planning/:idPlanning', {
         templateUrl: 'app/views/planning.html',
         controller: 'PlanningCtrl',
-        controllerAs: 'planning'
+        controllerAs: 'planningCtrl'
       })
       .when('/unavailabilities/:idPlanning', {
         templateUrl: 'app/views/unavailabilities.html',
         controller: 'UnavailabilitiesCtrl',
-        controllerAs: 'unavailabilities'
+        controllerAs: 'unavailabilitiesCtrl'
       })
       .otherwise({
         redirectTo: '/'
