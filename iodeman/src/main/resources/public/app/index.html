@@ -27,7 +27,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header">
+    <div class="header" ng-controller="MenuCtrl">
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -47,6 +47,7 @@
             <ul class="nav navbar-nav">
               <li class="active"><a href="#/">Accueil</a></li>
               <li><a style="color: white;" href="/api/auth/logout"><i class="glyphicon glyphicon-log-out"></i></a></li>
+              <li ng-show="user.firstName != null"><a>Bienvenue {{user.firstName}}&nbsp;{{user.lastName}}</a></li>
             </ul>
           </div>
         </div>
@@ -103,6 +104,7 @@
         <script src="app/scripts/controllers/main.js"></script>
         <script src="app/scripts/controllers/unavailabilities.js"></script>
         <script src="app/scripts/controllers/planning.js"></script>
+        <script src="app/scripts/controllers/menu.js"></script>
         <script src="app/scripts/controllers/createPlanning.js"></script>
         <script src="app/scripts/controllers/configuration.js"></script>
         <!-- endbuild -->
