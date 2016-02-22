@@ -22,7 +22,8 @@ angular
     'ngStorage',
     'ngLocale'
   ])
-  .constant("backendURL", "http://localhost:8080/")
+  .constant("backendURL2", "http://localhost:8080/")
+  .constant("backendURL", "http://iodeman.istic.univ-rennes1.fr:8080/")
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -39,6 +40,11 @@ angular
         templateUrl: 'app/views/planning.html',
         controller: 'PlanningCtrl',
         controllerAs: 'planningCtrl'
+      })
+      .when('/generatedPlanning/:idPlanning', {
+        templateUrl: 'app/views/generatedPlanning.html',
+        controller: 'GeneratedPlanningCtrl',
+        controllerAs: 'generatedPlanningCtrl'
       })
       .when('/unavailabilities/:idPlanning', {
         templateUrl: 'app/views/unavailabilities.html',

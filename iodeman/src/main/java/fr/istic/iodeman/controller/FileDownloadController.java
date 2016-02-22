@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.model.Planning;
@@ -66,6 +72,18 @@ public class FileDownloadController {
 		// END write the file
 		
 		file.delete();
+	}
+	
+	@RequestMapping(value="/planning/{planningId}/exportPlanning", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public String showPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
+		Planning planning = planningService.findById(planningId);
+		Validate.notNull(planning);
+		
+		File file = planningService.exportExcel(planning);	
+		
+		//return Files.toString(file, Charsets.UTF_8);
+		return "{\"file\":1}";
 	}
 	
 }

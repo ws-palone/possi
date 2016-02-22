@@ -25,4 +25,14 @@ angular.module('publicApp')
 	$scope.closeHomeInfo = function() {
 		$("#home-info").fadeOut(300, function() { $(this).remove(); });
 	}
+	
+	$scope.remove = function(id) {
+		$http.get(backendURL + 'planning/'+id+'/delete').success(function (data) {
+			for(var i = $scope.plannings.length - 1; i >= 0; i--) {
+			    if($scope.plannings[i].id === id) {
+			    	$scope.plannings.splice(i, 1);
+			    }
+			}
+		});
+	}
 });
