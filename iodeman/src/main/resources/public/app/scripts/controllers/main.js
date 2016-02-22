@@ -10,13 +10,15 @@
 angular.module('publicApp')
 .controller('MainCtrl', function ($scope, $http, backendURL, Auth, $sessionStorage, $rootScope, $timeout) {
 	$.material.init();
-	
+	$scope.connected = false;
+
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;
 	});
 		
 	$http.get(backendURL + 'planning/list').success(function(data) {
 		$scope.plannings = data;
+		$scope.connected = true;
 		$("#home-spinner").remove();
 	});
 
