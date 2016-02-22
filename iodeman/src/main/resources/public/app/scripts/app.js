@@ -22,6 +22,7 @@ angular
     'ngStorage',
     'ngLocale'
   ])
+  .constant("backendURL", "http://localhost:8080/")
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

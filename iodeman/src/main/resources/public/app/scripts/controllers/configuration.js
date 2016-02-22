@@ -8,28 +8,30 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('ConfigurationCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams, Flash) {
+.controller('ConfigurationCtrl', function ($scope, backendURL, $http, $routeParams, $timeout, Flash) {
 
-	$scope.user = $sessionStorage.user;
-
-	if($scope.user == null) {
-		$scope.user = Auth.login();
-	}
+	$http.get(backendURL + 'user').success(function(data) {
+		$scope.user = data;
+	});
 
 	$scope.id = $routeParams.idPlanning;
 
 	$scope.selectedRooms = [];
 	$scope.allRooms = [];
 
-	var planningRequest = backend.plannings.find($scope.id);
-	planningRequest.success(function(data) {
+	$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
 		$scope.planning = data;
-		console.log("Liste des rooms du planning : " + $scope.planning.rooms);
+		
+		$scope.planning.priorities = data.priorities.sortBy(function(p) {
+			return p.weight;
+		}, true);
+		
+		$( "#sortable" ).sortable({ 
+			placeholder: "ui-sortable-placeholder" 
+		});
 
-		var roomsRequest = backend.rooms.list();
-		roomsRequest.success(function(data) {
+		$http.get(backendURL + 'room/list').success(function(data) {
 			$scope.rooms = data;
-			console.log("Liste des rooms en tout : " + $scope.rooms);
 			$scope.rooms.each(function(room) {
 				room.label = room.name;
 				room.id = room.name;
@@ -45,8 +47,11 @@ angular.module('publicApp')
 
 	$scope.addRoom = function() {
 		if ($scope.newRoom != '' && $scope.newRoom != null) {
-			var createRoomRequest = backend.rooms.create($scope.newRoom.name);
-			createRoomRequest.success(function (room) {
+			var createRoomRequest = $http.get(backendURL + 'room/create', {
+				params: {
+					name: $scope.newRoom.name
+				}
+			}).success(function (room) {
 				console.log("room created!");
 				console.log(room);
 				room.label = room.name;
@@ -60,23 +65,7 @@ angular.module('publicApp')
 
 	};
 
-
-	var planningRequest = backend.plannings.find($scope.id);
-	planningRequest.success(function(data) {
-
-		$scope.planning = data;
-		$scope.planning.priorities = data.priorities.sortBy(function(p) {
-			return p.weight;
-		}, true);	
-		$scope.$apply();
-
-		$( "#sortable" ).sortable({ 
-			placeholder: "ui-sortable-placeholder" 
-		});
-	});
-
 	$scope.submit = function() {
-		console.log('ok');
 
 		var roomsNames = $scope.selectedRooms.map(function(r) {
 			return r.id;
@@ -102,13 +91,22 @@ angular.module('publicApp')
 			}
 		})
 		
-		var postRequest = backend.plannings.updatePriorities($scope.id, $scope.planning.priorities);
+		$http.post(
+				backendURL + 'planning/'+$scope.id+'/priorities/update',
+				$scope.planning.priorities
+		)
 
-		var updateRequest = backend.plannings.update({
+		$http.get(backendURL + 'planning/update', {
+			params: {
+				planningID: $scope.planning.id,
+				rooms: roomsNames
+			}
+		});
+		/*var updateRequest = backend.plannings.update({
 			planningID: $scope.planning.id,
 			rooms: roomsNames,
 			//priorities: priorities
-		});
+		});*/
 
 		Flash.create('success', '<strong> Modifications effectuees!</strong> La configuration a ete mise a jour.');
 		

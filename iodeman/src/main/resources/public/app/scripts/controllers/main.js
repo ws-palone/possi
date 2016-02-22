@@ -8,28 +8,19 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('MainCtrl', function ($scope, backend, Auth, $sessionStorage, $rootScope, $timeout) {
+.controller('MainCtrl', function ($scope, $http, backendURL, Auth, $sessionStorage, $rootScope, $timeout) {
 	$.material.init();
-	$scope.user = {};
-	$scope.plannings = new Array();
 	
-	$scope.user = $sessionStorage.user;
-	
-	if($scope.user == null) {
-		backend.getUser().then(function (success) {
-			$scope.user = success.data;
-			$scope.$digest;
-		});
-	}
+	$http.get(backendURL + 'user').success(function(data) {
+		$scope.user = data;
+	});
 		
-	backend.plannings.list().then(function(data) {
+	$http.get(backendURL + 'planning/list').success(function(data) {
 		$scope.plannings = data;
-		$scope.$digest();
 		$("#home-spinner").remove();
 	});
 
 	$scope.closeHomeInfo = function() {
 		$("#home-info").fadeOut(300, function() { $(this).remove(); });
 	}
-
 });

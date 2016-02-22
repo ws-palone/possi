@@ -8,37 +8,25 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('PlanningCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams, $timeout) {
+.controller('PlanningCtrl', function ($scope, backendURL, $http, $routeParams, $timeout, Flash) {
 
-	$scope.user = $sessionStorage.user;
+	$http.get(backendURL + 'user').success(function(data) {
+		$scope.user = data;
+	});
 	
 	$scope.showImportButton = true;
 
-	if($scope.user == null) {
-		$scope.user = Auth.login();
-	}
-
 	$scope.id = $routeParams.idPlanning;
 
-	$scope.uploadFileURL = backend.importParticipantsURL;
-	$scope.fileURL = backend.plannings.exportURL($scope.id);
-	$scope.mailService = backend.plannings.mail($scope.id);
+	$scope.uploadFileURL = backendURL + 'upload';
+	$scope.fileURL = backendURL + 'planning/' + $scope.id + '/export';
 
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-
-	var planningRequest = backend.plannings.find($scope.id);
-	planningRequest.success(function(data) {
-		console.log("planning:");
-		console.log(data);
+	$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
 		$scope.planning = data;
-		
-		$timeout(
-				verifyAdmin()
-			,100);
-		
-		$scope.$apply();
+		$timeout(verifyAdmin() ,100);
 	});
 	
 	var verifyAdmin = function() {
@@ -47,21 +35,11 @@ angular.module('publicApp')
 		}
 	}
 
-	var participantsRequest = backend.plannings.getParticipantsUnavailabilities($scope.id);
-	participantsRequest.success(function(data) {
-		console.log("participants:");
-		console.log(data);
+	$http.get(backendURL + 'planning/'+$scope.id+'/participants/unavailabilities').success(function(data) {
 		$scope.participants = data;
-		console.log($scope.participants.length);
 		if($scope.participants.length>0) {
 			$scope.showImportButton = false;
 		}
-		$scope.$apply();
-	});
-	
-
-	participantsRequest.error(function(error) {
-		console.log(error);
 	});
 
 	$scope.importParticipants = function() {
@@ -98,29 +76,20 @@ angular.module('publicApp')
 			return;
 		}
 
-		var validation = backend.plannings.validate($scope.id);
-		validation.success(function(data) {
+		$http.get(backendURL + 'planning/'+$scope.id+'/validate')
+		.success(function(data) {
 			document.location.href = $scope.fileURL;
-		});
-		validation.error(function(data) {
-			$scope.errorValidate = true;
-			$scope.$apply();
 		});
 
 	};
 
 	$scope.remove = function() {
-		var validation = backend.plannings.remove($scope.id);
-		validation.success(function(data) {
+		$http.get(backendURL + 'planning/'+$scope.id+'/delete').success(function(data) {
 			document.location.href = "#/";
-		});
-		validation.error(function(data) {
-			$scope.errorValidate = true;
-			$scope.$apply();
 		});
 	}
 
 	$scope.reinitialize = function() {
-		backend.plannings.deleteBackup($scope.id);
+		$http.get(backendURL + 'planning/'+$scope.id+'/deleteBackup');
 	}
 });

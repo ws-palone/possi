@@ -47,10 +47,7 @@ angular.module('publicApp')
 						},
 
 						"list": function() {
-							return $http.get(backendURL + 'planning/list')
-							.then(function(response) {
-								return response.data;
-							});
+							return $http.get(backendURL + 'planning/list');
 						},
 
 						"getParticipants": function(id) {

@@ -8,31 +8,20 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('UnavailabilitiesCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams, $timeout, $rootScope, Flash) {
+.controller('UnavailabilitiesCtrl', function ($scope, backendURL, $http, $routeParams, $timeout, Flash) {
 
-	$scope.user = $sessionStorage.user;
-
-	if($scope.user == null) {
-		$scope.user = Auth.login();
-	}
+	$http.get(backendURL + 'user').success(function(data) {
+		$scope.user = data;
+	});
 
 	$scope.id = $routeParams.idPlanning;
 
 	$scope.days = "";
 
-	$sessionStorage.plannings.forEach(function(planning) {
-		if(planning.id == $scope.id) {
-			$scope.planning = planning;
-			return;
-		}
-	});
-
 	$timeout(function() {
 		$scope.uid = $scope.user.uid;
 
-
-		var agendaRequest = backend.plannings.getAgenda($scope.id, $scope.uid);
-		agendaRequest.success(function (data) {
+		$http.get(backendURL + 'unavailability/agenda/'+$scope.id+'/'+$scope.uid).success(function (data) {
 			console.log("agenda found!");
 			console.log(data);
 			$("#unavailibities-spinner").remove();
@@ -51,28 +40,24 @@ angular.module('publicApp')
 					console.log('submit !');
 					var request = null;
 					if (d.checked) {
-						request = backend.plannings.addUnavailabiliy(
-								$scope.id, 
-								$scope.uid,
-								Date.create(d.timebox.from).toISOString(),
-								Date.create(d.timebox.to).toISOString()
+						$http.get(backendURL + 'unavailability/'+$scope.id+"/create", {
+							params: {
+								'person': $scope.uid,
+								'periodStart': Date.create(d.timebox.from).toISOString(),
+								'periodEnd': Date.create(d.timebox.to).toISOString()
+							}
+						}
 						);
 					}else{
-						request = backend.plannings.deleteUnavailability(
-								$scope.id, 
-								$scope.uid,
-								Date.create(d.timebox.from).toISOString(),
-								Date.create(d.timebox.to).toISOString()
+						$http.get(backendURL + 'unavailability/'+$scope.id+"/delete", {
+							params: {
+								'person': $scope.uid,
+								'periodStart': Date.create(d.timebox.from).toISOString(),
+								'periodEnd': Date.create(d.timebox.to).toISOString()
+							}
+						}
 						);
 					}
-					request.success(function(data){
-						console.log("unavailabilities updated!");
-						console.log(data);
-					});
-					request.error(function(data){
-						console.log("error. cannot update unavailabilities");
-						console.log(data);
-					});
 				};
 			});
 			$scope.submitColumn = function(c) {
@@ -94,11 +79,6 @@ angular.module('publicApp')
 					});
 				};
 			});
-			$scope.$apply();
-		});
-		agendaRequest.error(function(data) {
-			console.log("error. cannot find agenda.");
-			console.log(data);
 		});
 	}, 250);
 

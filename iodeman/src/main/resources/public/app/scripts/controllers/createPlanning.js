@@ -8,13 +8,11 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('CreatePlanningCtrl', function ($sessionStorage, $scope, backend, Auth, $routeParams) {
+.controller('CreatePlanningCtrl', function ($scope, $http, backendURL, Auth, $routeParams) {
 
-	$scope.user = $sessionStorage.user;
-
-	if($scope.user == null) {
-		$scope.user = Auth.login();
-	}
+	$http.get(backendURL + 'user').success(function(data) {
+		$scope.user = data;
+	});
 
 	$scope.id = $routeParams.idPlanning;
 
@@ -121,12 +119,12 @@ angular.module('publicApp')
 
 		if (validate){
 
-			var createRequest = backend.plannings.create($scope.planning);
-			createRequest.success(function(data) {
+			$http.get(backendURL + 'planning/create', {
+				params: $scope.planning
+			}).success(function(data) {
 				console.log('planning created!');
 				document.location.href = "#/planning/"+data.id; 
-			});
-			createRequest.error(function(data) {
+			}).error(function(data) {
 				$("#showError").show();
 //				$scope.showError = true;
 //				$scope.$apply();
