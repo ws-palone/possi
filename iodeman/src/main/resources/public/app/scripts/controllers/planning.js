@@ -93,14 +93,14 @@ angular.module('publicApp')
 			return;
 		}
 
-		/*$http.get(backendURL + 'planning/'+$scope.id+'/validate')
+		$http.get(backendURL + 'planning/'+$scope.id+'/validate')
 		.success(function(data) {
 			console.log(data);
-			//document.location.href = $scope.fileURL;
+			document.location.href = $scope.fileURL;
 		})
 		.error(function(data) {
 			console.log(data);
-		});*/
+		});
 
 	};
 
