@@ -55,13 +55,13 @@ public class FileUploadController {
 			planningService.importPartcipants(planning, outputFile);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "redirect:/#/planning/"+planningId+"?import=nok";
 			// affcher erreur de format
-		} finally {
-	    	// on supprime le fichier
-	    	outputFile.delete();
-	    	
-	    	return "redirect:/#/planning/"+planningId;
 		}
+    	
+    	outputFile.delete();
+    	
+    	return "redirect:/#/planning/"+planningId+"?import=ok";
 
     }
 

@@ -7,8 +7,8 @@
 					<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
 				</a>
 				{{ planning.name }} 
-					<a ng-click="validate()" class="btn btn-raised btn-sm btn-success">Générer planning</a>
-					<a title="Supprimer le dernier planning généré" confirmed-click="reinitialize()"
+					<a ng-hide="noParticipants" ng-click="validate()" class="btn btn-raised btn-sm btn-success">Générer planning</a>
+					<a ng-hide="noParticipants" title="Supprimer le dernier planning généré" confirmed-click="reinitialize()"
 							ng-confirm-click="Êtes vous sûr de vouloir supprimer le dernier planning généré ?" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-refresh"></i></a>
 			</h1>
 		</div>
@@ -22,8 +22,6 @@
 		</div>
 		<input
 			type="hidden" name="planningId" value="{{ planning.id }}" />
-		<input
-			type="hidden" name="redirectURL" value="/#/planning/{{ planning.id }}" />
 	</form>
 	
 	<div ng-show="showImportButton" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -48,6 +46,14 @@
 		<uib-tab heading="Participants" class="btn btn-xs btn-raised btn-primary">
 	<div class="row">
 		<div class="col-md-12 col-sm-12">
+		
+		<div ng-show="errorImport" class="alert alert-danger" role="alert">
+				Une erreur est survenue lors de l'import CSV
+				
+				<img style="max-width: 100%;" src="app/images/donnees.png" />
+       	<br/><br/>
+       	<p>Le champ "Etudiant" et "Tuteur-Entreprise" doit contenir une adresse électronique (de la forme prenom.nom@univ-rennes1.fr) qui doit être reconnue par le LDAP.</p>
+     </div>
 
 			<div ng-show="errorValidate" class="alert alert-danger" role="alert">
 				Impossible de générer ce planning. Veuillez vérifier que ce planning
@@ -72,7 +78,7 @@
 				</ul>
 			</div> -->
 
-			<div class="table-responsive" style="margin-top: 20px;">
+			<div ng-hide="noParticipants" class="table-responsive" style="margin-top: 20px;">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>

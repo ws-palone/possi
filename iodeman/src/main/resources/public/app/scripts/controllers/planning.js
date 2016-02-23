@@ -18,6 +18,10 @@ angular.module('publicApp')
             buttonDefaultText: "Selectionner une salle",
             dynamicButtonTextSuffix: "salles selectionnees"
      }
+	
+	if($routeParams.import == "nok") {
+		$scope.errorImport = true;
+	}
 
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;
@@ -44,11 +48,15 @@ angular.module('publicApp')
 		}
 	}
 
-	$http.get(backendURL + 'planning/'+$scope.id+'/participants/unavailabilities').success(function(data) {
+	$http.get(backendURL + 'planning/'+$scope.id+'/participants/unavailabilities')
+	.success(function(data) {
 		$scope.participants = data;
 		if($scope.participants.length>0) {
 			$scope.showImportButton = false;
 		}
+	})
+	.error(function(data) {
+		$scope.noParticipants = true;
 	});
 
 	$scope.importParticipants = function() {
@@ -85,10 +93,14 @@ angular.module('publicApp')
 			return;
 		}
 
-		$http.get(backendURL + 'planning/'+$scope.id+'/validate')
+		/*$http.get(backendURL + 'planning/'+$scope.id+'/validate')
 		.success(function(data) {
-			document.location.href = $scope.fileURL;
-		});
+			console.log(data);
+			//document.location.href = $scope.fileURL;
+		})
+		.error(function(data) {
+			console.log(data);
+		});*/
 
 	};
 
