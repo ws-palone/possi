@@ -1,7 +1,11 @@
 angular.module('publicApp')
-.controller('GeneratedPlanningCtrl', function ($scope, $http, backendURL, Auth, $routeParams) {
+.controller('GeneratedPlanningCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams) {
 	
 	$scope.id = $routeParams.idPlanning;
+	
+	$scope.printIt = function(){
+		window.print();
+	};
 	
 	$http.get(backendURL + 'planning/' + $scope.id + '/exportPlanning')
 	.success(function(data) {
