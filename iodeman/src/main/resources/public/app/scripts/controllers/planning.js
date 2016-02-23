@@ -78,28 +78,31 @@ angular.module('publicApp')
 	});
 
 	$scope.validate = function() {
+		
+		$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
+			$scope.planning = data;
+			$scope.errorValidate = false;
+			$scope.errorNoParticipant = false;
+			$scope.errorNoRoom = false;
 
-		$scope.errorValidate = false;
-		$scope.errorNoParticipant = false;
-		$scope.errorNoRoom = false;
+			if ($scope.participants == null || $scope.participants.length == 0) {
+				$scope.errorNoParticipant = true;
+				return;
+			}
 
-		if ($scope.participants == null || $scope.participants.length == 0) {
-			$scope.errorNoParticipant = true;
-			return;
-		}
+			if ($scope.planning.rooms == null || $scope.planning.rooms.length == 0) {
+				$scope.errorNoRoom = true;
+				return;
+			}
 
-		if ($scope.planning.rooms == null || $scope.planning.rooms.length == 0) {
-			$scope.errorNoRoom = true;
-			return;
-		}
-
-		$http.get(backendURL + 'planning/'+$scope.id+'/validate')
-		.success(function(data) {
-			console.log(data);
-			document.location.href = $scope.fileURL;
-		})
-		.error(function(data) {
-			console.log(data);
+			$http.get(backendURL + 'planning/'+$scope.id+'/validate')
+			.success(function(data) {
+				console.log(data);
+				document.location.href = $scope.fileURL;
+			})
+			.error(function(data) {
+				console.log(data);
+			});
 		});
 
 	};

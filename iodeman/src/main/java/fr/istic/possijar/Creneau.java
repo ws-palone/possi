@@ -66,7 +66,15 @@ public class Creneau implements Serializable {
 		return this.periode + " " + this.horaire + " " + this.enseignant + " " + this.tuteur + " " + this.candide + " " + this.student;
 	}
 	public String getHoraire() {
-		return horaire.substring(3).replace(' ', 'h');
+		System.err.println(horaire);
+		String[] split = horaire.split(" ");
+		if(split[1].length()==1) {
+			split[1] = "0" + split[1];
+		}
+		if(split[2].length()==1) {
+			split[2] = "0" + split[2];
+		}
+		return split[1] + "h" + split[2];
 	}
 
 	/**
