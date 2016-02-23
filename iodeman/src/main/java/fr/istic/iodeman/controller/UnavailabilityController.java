@@ -1,10 +1,10 @@
 package fr.istic.iodeman.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
+import com.google.common.collect.Iterables;
+import fr.istic.iodeman.dto.AgendaDTO;
+import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.model.Unavailability;
+import fr.istic.iodeman.service.UnavailabilityService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.istic.iodeman.dto.AgendaDTO;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.model.Unavailability;
-import fr.istic.iodeman.service.UnavailabilityService;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 
 @RequestMapping("/unavailability") 
@@ -80,6 +80,7 @@ public class UnavailabilityController {
 	@RequestMapping("/agenda/{planningId}/{personId}")
 	public Collection<AgendaDTO> exportAgenda(@PathVariable("planningId") Integer planningId, @PathVariable("personId") String personId){
 		Collection<AgendaDTO> agendaDtos = unavailabilityService.exportAgenda(planningId, personId);
+
 		return agendaDtos;
 	}
 
