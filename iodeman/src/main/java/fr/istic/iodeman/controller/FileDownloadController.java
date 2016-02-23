@@ -5,9 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -82,6 +86,25 @@ public class FileDownloadController {
 		file.delete();
 	}
 	
+	@RequestMapping(value="/plannings/exported", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public String getExportedPlanning() {
+		JSONObject ret = new JSONObject();
+		
+		Set<Integer> s = new HashSet<Integer>();
+		
+		for (final File fileEntry : new File("persist").listFiles()) {
+	        if (fileEntry.isDirectory()) {
+	        	if(new File(fileEntry.getPath() + "/planning.ser").exists()) {
+	        		s.add(Integer.valueOf(fileEntry.getName()));
+	        	}
+	        }
+	    }
+		ret.put("keys", s);
+		
+		return ret.toString();
+	}
+	
 	@RequestMapping(value="/planning/{planningId}/exportPlanning", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String showPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
@@ -94,25 +117,42 @@ public class FileDownloadController {
 		
 		List<TimeBox> timeboxes = splitter.execute(planning);
 		
-		JSONObject obj = new JSONObject();
+		JSONObject ret = new JSONObject();
+		
+		JSONObject obj1 = new JSONObject();
+		
+		ret.put("salles", planning.getRooms());
+		ret.put("priorités", planning.getPriorities());
+		
+		Date d1 = planning.getPeriod().getFrom();
 		
 		List<List<Creneau>> day = new ArrayList<List<Creneau>>();
 		
 		int nbPeriodeParJour = getNbDePeriodesParJour(timeboxes);
+		
+		int dayPlus = 0;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d1);
 		
 		for(int i = 0; i < creneaux.size(); i++) {
 			//obj.put(""+i, creneaux.get(i));
 			day.add(creneaux.get(i));
 			
 			if((i+1)%nbPeriodeParJour==0) {
-				obj.put(""+i, day);
+				obj1.put(""+cal.getTimeInMillis(), day);
+				cal.add(Calendar.DAY_OF_MONTH, 1);
 				day.clear();
 			}
 		}
 		
 		System.err.println(day.toString());
 		
-		return obj.toString();
+		ret.put("creneaux", obj1);
+		
+		
+		
+		return ret.toString();
 	}
 	
 	private int getNbDePeriodesParJour(Collection<TimeBox> timeboxes) {

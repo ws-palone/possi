@@ -1,31 +1,29 @@
-<div class="panel panel-default planning">
+<div ng-show="error" class="pangel panel-danger">
+	Le planning n'a pas encore été généré par l'administrateur.
+</div>
+
+<div ng-hide="error" class="panel panel-default planning">
 	<table class="table">
 		<thead>
 			<tr>
-				<th class="info">Horaire</th>
-				<th class="info" colspan="4">Salle #1</th>
-				<th class="info" colspan="4">Salle #2</th>
+				<th class="odd">Horaire</th>
+				<th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}">Salle {{room.name}}</th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="jour in creneaux | orderBy:horaire.periode">
+		<tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
 			<tr>
-				<th class="info" colspan="9">Jour</th>
+				<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
 			</tr>
 			<tr ng-repeat="horaire in jour" ng-show="horaire[0].horaire.length>0">
 				<!-- <td>{{horaire[0].periode}}</td> -->
-				<td style="background:#ccc">{{horaire[0].horaire}}</td>
+				<td class="odd">{{horaire[0].horaire}}</td>
 
-				<td style="background:#eee">{{horaire[0].student.name | emailToName | capitalize:true}}</td>
-				<td style="background:#eee">{{horaire[0].tuteur.name | capitalize:true}}</td>
-				<td style="background:#eee">{{horaire[0].enseignant.name | emailToName |
-					capitalize:true}}</td>
-				<td style="background:#eee">{{horaire[0].candide.name | emailToName | capitalize:true}}</td>
-
-				<td style="background:#ccc">{{horaire[1].student.name | emailToName | capitalize:true}}</td>
-				<td style="background:#ccc">{{horaire[1].tuteur.name | capitalize:true}}</td>
-				<td style="background:#ccc">{{horaire[1].enseignant.name | emailToName |
-					capitalize:true}}</td>
-				<td style="background:#ccc">{{horaire[1].candide.name | emailToName | capitalize:true}}</td>
+				<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}">
+					<span class="label label-primary">{{creneau.student.name | emailToName | capitalize:true}}</span>
+					<span class="label label-success">{{creneau.tuteur.name | capitalize:true}}</span>
+					<span class="label label-info">{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
+					<span class="label label-warning">{{creneau.candide.name | emailToName | capitalize:true}}</span>
+				</td>
 			</tr>
 		</tbody>
 	</table>

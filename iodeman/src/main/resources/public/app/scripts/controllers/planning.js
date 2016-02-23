@@ -9,6 +9,15 @@
  */
 angular.module('publicApp')
 .controller('PlanningCtrl', function ($scope, backendURL, $http, $routeParams, $timeout, Flash) {
+	
+	$scope.settings = {
+            checkAll: "Selectionner toutes les salles",
+            uncheckAll: "Deselectionner toutes les salles",
+            selectionCount: "checked",
+            searchPlaceholder: "Search...",
+            buttonDefaultText: "Selectionner une salle",
+            dynamicButtonTextSuffix: "salles selectionnees"
+     }
 
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;

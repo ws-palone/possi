@@ -7,9 +7,9 @@
 					<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
 				</a>
 				{{ planning.name }} 
-					<a ng-click="validate()" class="btn btn-danger btn-sm">Générer planning</a>
+					<a ng-click="validate()" class="btn btn-raised btn-sm btn-success">Générer planning</a>
 					<a title="Supprimer le dernier planning généré" confirmed-click="reinitialize()"
-							ng-confirm-click="Êtes vous sûr de vouloir supprimer le dernier planning généré ?" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-refresh"></i></a>
+							ng-confirm-click="Êtes vous sûr de vouloir supprimer le dernier planning généré ?" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-refresh"></i></a>
 			</h1>
 		</div>
 	</div>
@@ -113,7 +113,7 @@
 							<div class="col-lg-4">
 								<i>Sélectionnez les salles parmis la liste ci dessous:</i>
 								<div ng-dropdown-multiselect="" options="allRooms"
-									 selected-model="selectedRooms"></div>
+									 selected-model="selectedRooms" translation-texts="settings"></div>
 								{{ selectedRooms.id }}
 							</div>
 							<div class="col-lg-6">
@@ -123,8 +123,8 @@
 										placeholder="Nouvelle salle..."> <span
 										class="input-group-btn">
 										<div class="input-group-btn">
-											<button ng-click="addRoom()" class="btn btn-default"
-												type="button">Ajouter</button>
+											<button ng-click="addRoom()" class="btn btn-raised btn-sm btn-success"
+												type="button">Ajouter salle</button>
 										</div>
 
 									</span>
@@ -154,7 +154,7 @@
 
 						<a confirmed-click="remove()"
 							ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?"
-							style="float: right" class="btn btn-danger btn-sm">Supprimer
+							style="float: right" class="btn btn-raised btn-sm btn-danger">Supprimer
 							planning</a>
 							
 						<flash-message duration="5000"></flash-message> 

@@ -11,6 +11,11 @@ angular.module('publicApp')
 .controller('MainCtrl', function ($scope, $http, backendURL, Auth, $sessionStorage, $rootScope, $timeout) {
 	$.material.init();
 	$scope.connected = false;
+	
+	$http.get(backendURL + '/plannings/exported')
+	.success(function(data) {
+		$scope.exported = data.keys;
+	})
 
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;

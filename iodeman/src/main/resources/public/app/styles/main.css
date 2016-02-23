@@ -161,4 +161,13 @@ body {
 
 .planning .table td, .planning .table th {
    text-align: center;   
+   border: 0;
+}
+
+.even {
+	background: #FFFFBB;
+}
+
+.odd {
+	background: #FFFFDD;
 }

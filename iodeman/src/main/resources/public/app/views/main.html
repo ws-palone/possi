@@ -46,7 +46,7 @@
 								<a ng-hide="planning.admin.uid != user.uid" href="#/planning/{{ planning.id }}" class="btn btn-raised btn-sm btn-success">
 									Gérer le planning
 								</a>
-								<a class="btn btn-raised btn-sm btn-success" href="#/generatedPlanning/{{ planning.id }}"><i class="glyphicon glyphicon-calendar"></i></a>
+								<a ng-show="exported.indexOf(planning.id)!=-1" class="btn btn-raised btn-sm btn-success" href="#/generatedPlanning/{{ planning.id }}"><i class="glyphicon glyphicon-calendar"></i></a>
 								<a confirmed-click="remove({{ planning.id }})"
 							ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="planning.admin.uid != user.uid" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 							</td>
