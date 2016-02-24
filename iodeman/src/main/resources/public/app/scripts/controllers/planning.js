@@ -39,7 +39,7 @@ angular.module('publicApp')
 
 	$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
 		$scope.planning = data;
-		$timeout(verifyAdmin() ,100);
+		$timeout(verifyAdmin() ,1000);
 	});
 	
 	var verifyAdmin = function() {

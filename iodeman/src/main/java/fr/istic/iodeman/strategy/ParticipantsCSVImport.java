@@ -65,12 +65,22 @@ public class ParticipantsCSVImport implements ParticipantsImport {
     			System.err.println(normedEmail);
     			Person student = personResolver.resolve(normedEmail);
     			
+    			if(student == null) {
+    				student = new Person();
+    				student.setEmail(normedEmail);
+    			}
+    			
     			System.err.println("1");
     			
     			// following teacher
     			email = row[4].trim();
     			normedEmail = normalize(email);
     			Person followingTeacher = personResolver.resolve(normedEmail);
+    			
+    			if(followingTeacher == null) {
+    				followingTeacher = new Person();
+    				followingTeacher.setEmail(normedEmail);
+    			}
     			
     			String tutorFullName = row[5].trim();
     			
