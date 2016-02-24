@@ -94,17 +94,18 @@
 							<td>{{ participant.student.person.firstName }} {{
 								participant.student.person.lastName }}</td>
 							<td
-								ng-style="participant.student.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}"><span>{{ participant.tutorFullName }} - {{ participant.company }} <!-- span class="label label-default">{{participant.student.unavailabilitiesNumber }} indisponibilité(s)</span --></span></td>
+								ng-style="participant.student.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}">{{ participant.tutorFullName }} - {{ participant.company }}<button ng-click="showUnavailabilities(participant.student.person)"
+																																																  data-toggle="modal" data-target="#modalUnavailabilities" style="float:right" class="label label-default">{{participant.student.unavailabilitiesNumber }} indisponibilité(s)</button></td>
 							<td>{{ participant.followingTeacher.person.firstName }} {{
-								participant.followingTeacher.person.lastName }} <button ng-click="showUnavailibilities(participant.followingTeacher.person)"
-																						data-toggle="modal" data-target="#modalUnavailibilities" style="float:right" class="label label-default">{{
+								participant.followingTeacher.person.lastName }} <button ng-click="showUnavailabilities(participant.followingTeacher.person)"
+																						data-toggle="modal" data-target="#modalUnavailabilities" style="float:right" class="label label-default">{{
 									participant.followingTeacher.unavailabilitiesNumber }} indisponibilité(s)</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
-			<div class="modal fade" id="modalUnavailibilities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal fade" id="modalUnavailabilities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div class="modal-dialog modal-lg" role="document">
 					<div id="unavailabilities" class="panel panel-danger">
 						<div class="panel-heading">

@@ -117,7 +117,7 @@ angular.module('publicApp')
 		$http.get(backendURL + 'planning/'+$scope.id+'/deleteBackup');
 	}
 
-	$scope.showUnavailibilities = function(user) {
+	$scope.showUnavailabilities = function(user) {
 		$timeout(function() {
 			$http.get(backendURL + 'unavailability/agenda/'+$scope.id+'/'+user.uid).success(function (data) {
 				console.log("agenda found!");
