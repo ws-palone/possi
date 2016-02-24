@@ -1,4 +1,2 @@
 # iode-man
-Projet de Master 2 MIAGE 2014/2015 en collaboration avec Didier CERTAIN. Gestionnaire de planification de soutenances.
-
--Intégration continue sur Jenkins
+Projet de Master 2 MIAGE 2015-2016 en collaboration avec Didier CERTAIN. Gestionnaire de planification de soutenances.
