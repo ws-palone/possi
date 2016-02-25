@@ -26,20 +26,24 @@ public class LdapRepositoryImpl implements LdapRepository {
 		public Person mapFromAttributes(Attributes attrtibutes)
 				throws javax.naming.NamingException {
 			
+			System.err.println(attrtibutes);
+			System.err.println(attrtibutes.get("uid").get().toString());
+			System.err.println(attrtibutes.get("givenName").get().toString());
+			System.err.println(attrtibutes.get("sn").get().toString());
+			System.err.println(attrtibutes.get("mail").get().toString());
+			System.err.println(attrtibutes.get("mail").get().toString());
+			 
+			
 			Person person = new Person();
 			person.setUid(attrtibutes.get("uid").get().toString());
 			person.setFirstName(attrtibutes.get("givenName").get().toString());
-			person.setLastName(attrtibutes.get("ur1nomusuel").get().toString());
+			person.setLastName(attrtibutes.get("sn").get().toString());
 			person.setEmail(attrtibutes.get("mail").get().toString());
 			
-			NamingEnumeration affiliations = attrtibutes.get("eduPersonAffiliation").getAll();
-			while(affiliations.hasMore()) {
-				if (affiliations.next().equals("teacher")) {
-					person.setRole(Role.PROF);
-				}
-			}
-			if (person.getRole() == null) {
+			if(attrtibutes.get("ur1TypeEntree").get().toString().equals("etu")) {
 				person.setRole(Role.STUDENT);
+			} else {
+				person.setRole(Role.PROF);
 			}
 			
 			return person;

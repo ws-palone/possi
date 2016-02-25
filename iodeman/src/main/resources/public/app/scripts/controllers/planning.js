@@ -25,6 +25,10 @@ angular.module('publicApp')
 
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;
+		$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
+			$scope.planning = data;
+			$timeout(verifyAdmin(), 100);
+		});
 	});
 	
 	$scope.showImportButton = true;
@@ -37,10 +41,7 @@ angular.module('publicApp')
 	var inputFile = $('#upload_file');
 	var formUpload = $('#formUpload');
 
-	$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
-		$scope.planning = data;
-		$timeout(verifyAdmin() ,1000);
-	});
+	
 	
 	var verifyAdmin = function() {
 		if($scope.user.uid != $scope.planning.admin.uid) {

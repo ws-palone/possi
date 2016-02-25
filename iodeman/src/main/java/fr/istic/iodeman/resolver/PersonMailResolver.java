@@ -25,8 +25,15 @@ public class PersonMailResolver implements PersonResolver {
 		System.err.println("On cherche via personDAO " + person);
 		
 		if (person == null) {
+			try {
 			person = ldapRepository.searchByMail(mail);
-			System.err.println("On cherche via ldapRepository " + person);
+			} catch (Exception e) {
+				e.printStackTrace();
+				person = new Person();
+				person.setEmail(mail);
+				person.setFirstName("[LDAP Problem] " + mail.split("@")[0].split(".")[0]);
+				//person.setLastName(mail.split("@")[0].split(".")[0]);
+			}
 			if (person != null) {
 				System.err.println("On a trouvé, donc on persiste");
 				personDAO.persist(person);
