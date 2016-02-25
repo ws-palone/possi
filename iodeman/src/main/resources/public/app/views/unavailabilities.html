@@ -15,7 +15,7 @@
 		<h3 class="panel-title" ng-show="user.role != 'PROF'">Les indisponibilités de mon tuteur d'entreprise</h3>
 	</div>
 	<div class="panel-body" style="overflow-x: scroll;">
-		<table class="table" style="text-align: center;">
+		<table class="table table-bordered" style="text-align: center;">
 			<thead>
 				<th></th>
 				<th ng-repeat="column in columns" style="text-align: center;">
@@ -24,7 +24,7 @@
 				</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="entry in agenda">
+				<tr ng-repeat="entry in agenda | filter:isBeforeLunchBreak()">
 					<td>
 						<button type="button" class="btn btn-default"
 							ng-click="entry.submit()">{{ entry.line }}</button>
@@ -35,6 +35,39 @@
 								<input type="checkbox" id="checkbox-indispo" ng-model="day.checked" ng-click="day.submit()" >
 							</label>
 						</div>
+					</td>
+					<td>
+						<button type="button" class="btn btn-primary"
+								ng-click="entry.submit()"><i class="glyphicon glyphicon-check"></i> Créneau</button>
+					</td>
+				</tr>
+				<tr style="background-color:#EF5350">
+					<td>
+						<span style="color:white">Pause déjeuner</span>
+					</td>
+				</tr>
+				<tr ng-repeat="entry in agenda | filter:isAfterLunchBreak()">
+					<td>
+						<button type="button" class="btn btn-default"
+								ng-click="entry.submit()">{{ entry.line }}</button>
+					</td>
+					<td ng-repeat="day in entry.days">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="checkbox-indispo" ng-model="day.checked" ng-click="day.submit()" >
+							</label>
+						</div>
+					</td>
+					<td>
+						<button type="button" class="btn btn-primary"
+								ng-click="entry.submit()"><i class="glyphicon glyphicon-check"></i> Créneau</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td ng-repeat="column in columns" >
+						<button type="button" class="btn btn-primary" ng-click="submitColumn(column)"><i class="glyphicon glyphicon-check"></i> Journée</button>
 					</td>
 				</tr>
 			</tbody>

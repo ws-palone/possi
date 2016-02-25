@@ -8,7 +8,7 @@
  * Controller of the publicApp
  */
 angular.module('publicApp')
-.controller('UnavailabilitiesCtrl', function ($scope, backendURL, $http, $routeParams, $timeout, Flash) {
+.controller('UnavailabilitiesCtrl', function ($scope, backendURL, $http, $routeParams, $timeout, Flash, $filter) {
 
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;
@@ -16,21 +16,26 @@ angular.module('publicApp')
 
 	$scope.id = $routeParams.idPlanning;
 
+	$scope.lunchbreak = null;
+	$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
+		$scope.lunchbreak = data["lunchBreak"];
+	});
 	$scope.days = "";
 
 	$timeout(function() {
 		$scope.uid = $scope.user.uid;
-
 		$http.get(backendURL + 'unavailability/agenda/'+$scope.id+'/'+$scope.uid).success(function (data) {
 			console.log("agenda found!");
 			console.log(data);
 			$("#unavailibities-spinner").remove();
 			$scope.agenda = data;
+			$scope.daysNumber = data[0].days
 			$scope.columns = data.map(function(l) {
 				return l.days.map(function(d) {
 					return d.day;
 				});
 			}).flatten().unique();
+
 			$scope.days = data.map(function(l) {
 				return l.days;
 			}).flatten();
@@ -90,5 +95,38 @@ angular.module('publicApp')
 		$timeout(function() {
 			window.location.replace("/#/");
 		}, 3000);
+	}
+
+	$scope.isBeforeLunchBreak = function () {
+		return function( entry ) {
+			if($scope.lunchbreak != null) {
+				var fromLunchBreak = $filter('date')($scope.lunchbreak["from"], "HH")
+				var from = entry.line.substr(0, 2)
+				return from < fromLunchBreak;
+			}
+			else {
+				return true;
+			}
+
+		};
+	}
+
+	$scope.isAfterLunchBreak = function () {
+		return function( entry ) {
+			if($scope.lunchbreak != null) {
+				var toLunchBreak = $filter('date')($scope.lunchbreak["to"], "HH")
+				var to = entry.line.substr(8, 10)
+				return to >= toLunchBreak;
+			}
+			else {
+				return true;
+			}
+		};
+	}
+
+	$scope.getLunchHours = function() {
+		$http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
+			$scope.lunchbreak = data["lunchBreak"];
+		});
 	}
 });
