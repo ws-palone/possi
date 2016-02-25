@@ -11,7 +11,8 @@
 
 <div id="unavailabilities" class="panel panel-danger">
 	<div class="panel-heading">
-		<h3 class="panel-title">Mes indisponibilités</h3>
+		<h3 class="panel-title" ng-show="user.role == 'PROF'">Mes indisponibilités</h3>
+		<h3 class="panel-title" ng-show="user.role != 'PROF'">Les indisponibilités de mon tuteur d'entreprise</h3>
 	</div>
 	<div class="panel-body" style="overflow-x: scroll;">
 		<table class="table" style="text-align: center;">
