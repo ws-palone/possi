@@ -96,7 +96,7 @@
 							<td
 								ng-style="participant.student.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}">{{ participant.tutorFullName }} - {{ participant.company }}<button ng-click="showUnavailabilities(participant.student.person)"
 																																																  data-toggle="modal" data-target="#modalUnavailabilities" style="float:right" class="label label-default">{{participant.student.unavailabilitiesNumber }} indisponibilité(s)</button></td>
-							<td>{{ participant.followingTeacher.person.firstName }} {{
+							<td ng-style="participant.followingTeacher.unavailabilitiesNumber !== 0 && {'background-color': '#ccdcff'}">{{ participant.followingTeacher.person.firstName }} {{
 								participant.followingTeacher.person.lastName }} <button ng-click="showUnavailabilities(participant.followingTeacher.person)"
 																						data-toggle="modal" data-target="#modalUnavailabilities" style="float:right" class="label label-default">{{
 									participant.followingTeacher.unavailabilitiesNumber }} indisponibilité(s)</button></td>
