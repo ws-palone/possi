@@ -32,6 +32,7 @@ angular.module('publicApp')
 	}
 	
 	$scope.remove = function(id) {
+		console.log(backendURL + 'planning/'+id+'/delete');
 		$http.get(backendURL + 'planning/'+id+'/delete').success(function (data) {
 			for(var i = $scope.plannings.length - 1; i >= 0; i--) {
 			    if($scope.plannings[i].id === id) {

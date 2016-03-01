@@ -23,7 +23,7 @@ angular
                       'ngLocale'
                       ])
                       .constant("backendURL", "http://localhost:8080/")
-                      .constant("backendURL2", "http://iodeman.istic.univ-rennes1.fr:8080/")
+                      .constant("backendURL2", "http://possi.istic.univ-rennes1.fr:8080/")
                       .filter('emailToName', function() {
                     	  return function(input) {
                     		  if(input == null) {

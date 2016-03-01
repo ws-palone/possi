@@ -351,6 +351,16 @@ public class AlgoPlanningImplV3 {
 							if(size<sallesSelectionnees.size()) {
 								c.setPeriode(periode);
 								c.setSalle(size+1);
+								
+								Set<String> keys = resolveTimeBox.keySet();
+								for(String k : keys) {
+									//System.err.println("compare " + resolveTimeBox.get(k) + " avec " + c.getPeriode());
+									if(resolveTimeBox.get(k) == c.getPeriode()) {
+										//System.err.println("Set horaire " + k + " pour le créneau " + c.getPeriode());
+										c.setHoraire(k);
+									}
+								}
+								
 								salles.add(c);
 								return true;
 							}

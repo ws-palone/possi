@@ -65,6 +65,12 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	}
 
 	public void delete(Planning entity) {
+		
+		System.err.println("DELETE PLANNING");
+		System.err.println(entity);
+		System.err.println(entity.getName());
+		System.err.println(entity.getAdmin());
+		System.err.println(entity.getId());
 		Session session = getNewSession();
 		Transaction transaction = null;
 		try {
