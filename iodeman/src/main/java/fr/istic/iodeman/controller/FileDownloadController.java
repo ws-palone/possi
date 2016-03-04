@@ -141,6 +141,10 @@ public class FileDownloadController {
 			
 			if((i+1)%nbPeriodeParJour==0) {
 				obj1.put(""+cal.getTimeInMillis(), day);
+				if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+					cal.add(Calendar.DAY_OF_MONTH, 1);
+					cal.add(Calendar.DAY_OF_MONTH, 1);
+				}
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 				day.clear();
 			}
