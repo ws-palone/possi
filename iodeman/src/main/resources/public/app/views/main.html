@@ -47,7 +47,7 @@
 									Gérer le planning
 								</a>
 								<a ng-show="exported.indexOf(planning.id)!=-1" class="btn btn-raised btn-sm btn-success" href="#/generatedPlanning/{{ planning.id }}"><i class="glyphicon glyphicon-calendar"></i></a>
-								<a ng-show="exported.indexOf(planning.id)!=-1" href="#/unavailabilities/{{ planning.id }}" class="btn btn-raised btn-sm btn-info">
+								<a ng-show="exported.indexOf(planning.id)!=-1" href="#/duplicatePlanning/{{ planning.id }}" class="btn btn-raised btn-sm btn-info">
 									<i class="glyphicon glyphicon-duplicate"></i>
 								</a>
 								<a confirmed-click="remove({{ planning.id }})"

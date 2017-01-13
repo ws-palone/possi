@@ -65,6 +65,11 @@ angular
                     		  controller: 'UnavailabilitiesCtrl',
                     		  controllerAs: 'unavailabilitiesCtrl'
                     	  })
+						  .when('/duplicatePlanning/:idPlanning', {
+							  templateUrl: 'app/views/main.html',
+							  controller: 'DuplicatePlanningCtrl',
+							  controllerAs: 'duplicatePlanningCtrl'
+						  })
                     	  .otherwise({
                     		  redirectTo: '/'
                     	  });

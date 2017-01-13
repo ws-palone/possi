@@ -15,7 +15,7 @@ public interface PlanningDAO {
 	
 	public List<Planning> findAll(String uid);
 	
-	public void persist(Planning pla);
+	public Integer persist(Planning pla);
 	
 	public void update(Planning planning);
 	
@@ -31,4 +31,5 @@ public interface PlanningDAO {
 	
 	public Collection<Priority> findPriorities(Planning planning);
 
+    public Integer duplicate(Integer id);
 }

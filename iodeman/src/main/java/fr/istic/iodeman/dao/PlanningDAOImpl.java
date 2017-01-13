@@ -27,18 +27,19 @@ import fr.istic.iodeman.model.Unavailability;
 @Repository
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
 	
-	public void persist(Planning planning) {
+	public Integer persist(Planning planning) {
 		Session session = getNewSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
 			session.persist(planning);
-			session.getTransaction().commit();	
+			session.getTransaction().commit();
 		} catch (Exception e){
 			if (transaction!=null) transaction.rollback();
 			e.printStackTrace();
 		} finally {
 			session.close();
+			return planning.getId();
 		}
 	}
 	
@@ -156,6 +157,20 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		Collection<Priority> priorities = Lists.newArrayList(planningRetrieved.getPriorities());
 		session.close();
 		return priorities;
+	}
+
+	@Override
+	public Integer duplicate(Integer id) {
+		Session session = getNewSession();
+
+		//inserer une nouvelle ligne dans  planing en copiant la reference
+		Planning clone = this.findById(id);
+
+		clone.setId(null);
+		Integer newId = this.persist(clone);
+		// impact sur Planning participant/ Planning Priority/ planning Room
+
+		return newId;
 	}
 
 	@Override

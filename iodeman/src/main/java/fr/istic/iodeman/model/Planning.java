@@ -54,43 +54,48 @@ public class Planning{
 	private TimeBox dayPeriod;
 
 	private Integer nbMaxOralDefensePerDay;
-	
+
+	private Integer is_ref;
+
+	private Integer ref_id;
+
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@ManyToMany
 	private Collection<Room> rooms;
-	
+
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Participant> participants;
-	
+
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Priority> priorities;
-	
+
 	@JsonIgnore
 	@OneToMany
 	private Collection<OralDefense> oralDefenses;
-	
+
 	@ManyToOne
 	private Person admin;
-	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	public TimeBox getPeriod() {
 		return period;
 	}
+
 	public void setPeriod(TimeBox period) {
 		this.period = period;
 	}
@@ -124,6 +129,10 @@ public class Planning{
 	public void setNbMaxOralDefensePerDay(Integer nbMaxOralDefensePerDay) {
 		this.nbMaxOralDefensePerDay = nbMaxOralDefensePerDay;
 	}
+	public void setIs_ref(Integer is_ref) { this.is_ref = is_ref; }
+	public void setRef_id(Integer ref_id) {	this.ref_id = ref_id;}
+	public Integer getIs_ref() { return is_ref;	}
+	public Integer getRef_id() { return ref_id; }
 	public Collection<Room> getRooms() {
 		return rooms;
 	}

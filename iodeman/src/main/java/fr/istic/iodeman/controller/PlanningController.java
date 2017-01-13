@@ -263,5 +263,11 @@ public class PlanningController {
 	public void deletePlanningBackup(@PathVariable("id") Integer id) throws IOException{
 		FileUtils.cleanDirectory(new File("persist/"+id));
 	}
+
+	@RequestMapping(value = "/{id}/duplicate")
+	public Integer duplicatePlanning(@PathVariable("id") Integer id) throws IOException{
+		Integer draftId = planningService.duplicate(id);
+		return draftId;
+	}
 	
 }

@@ -234,6 +234,14 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	public Integer duplicate(Integer id) {
+
+		Integer newId = planningDAO.duplicate(id);
+
+		return newId;
+	}
+
+	@Override
 	public File exportExcel(Planning planning) {		
 		
 		// verify the planning is not null
@@ -363,5 +371,7 @@ public class PlanningServiceImpl implements PlanningService {
 	public void delete(Planning planning) {
 		planningDAO.delete(planning);
 	}
+
+
 	
 }

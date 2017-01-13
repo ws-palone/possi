@@ -56,4 +56,6 @@ public interface PlanningService {
 	 * @return
 	 */
 	public Map<Integer, List<Creneau>> exportJSON(Planning planning);
+
+	public Integer duplicate(Integer id);
 }
