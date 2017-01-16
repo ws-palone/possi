@@ -106,6 +106,8 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 				Restrictions.eq("teacher.uid", uid),
 				Restrictions.eq("adm.uid", uid)
 				));
+
+		criteria.add(Restrictions.eq("is_ref", 1));
 		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
