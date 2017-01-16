@@ -24,10 +24,10 @@
 				<td class="odd">{{horaire[0].horaire}}</td>
 
 				<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}">
-					<span class="label label-primary">{{creneau.student.name | emailToName | capitalize:true}}</span>
-					<span class="label label-success">{{creneau.tuteur.name | capitalize:true}}</span>
-					<span class="label label-info">{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
-					<span class="label label-warning">{{creneau.candide.name | emailToName | capitalize:true}}</span>
+					<span class="label label-primary" draggable="true">{{creneau.student.name | emailToName | capitalize:true}}</span>
+					<span class="label label-success" draggable="true">{{creneau.tuteur.name | capitalize:true}}</span>
+					<span class="label label-info" draggable="true">{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
+					<span class="label label-warning" draggable="true">{{creneau.candide.name | emailToName | capitalize:true}}</span>
 				</td>
 			</tr>
 		</tbody>
