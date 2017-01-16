@@ -66,7 +66,7 @@ angular
                     		  controllerAs: 'unavailabilitiesCtrl'
                     	  })
 						  .when('/duplicatePlanning/:idPlanning', {
-							  templateUrl: 'app/views/main.html',
+							  templateUrl: 'app/views/planning.html',
 							  controller: 'DuplicatePlanningCtrl',
 							  controllerAs: 'duplicatePlanningCtrl'
 						  })
