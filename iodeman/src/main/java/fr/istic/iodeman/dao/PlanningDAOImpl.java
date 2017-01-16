@@ -7,10 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -165,12 +162,19 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 
 		//inserer une nouvelle ligne dans  planing en copiant la reference
 		Planning clone = this.findById(id);
-
+		clone.setIs_ref(0);
+		clone.setRef_id(id);
 		clone.setId(null);
 		Integer newId = this.persist(clone);
 		// impact sur Planning participant/ Planning Priority/ planning Room
 
+		String sql = "";
+
+		/*SQLQuery query = session.createSQLQuery(sql);
+		query.setParameter("entity_field ", entity);
+		query.executeUpdate();*/
 		return newId;
+
 	}
 
 	@Override

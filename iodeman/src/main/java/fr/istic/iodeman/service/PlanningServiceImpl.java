@@ -101,6 +101,7 @@ public class PlanningServiceImpl implements PlanningService {
 		planning.setDayPeriod(dayPeriod);
 		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
 		planning.setRooms(rooms);
+		planning.setIs_ref(1);
 		
 		planning.setPriorities(Lists.newArrayList(
 				new Priority("ENTREPRISE", 1),
