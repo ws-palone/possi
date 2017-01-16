@@ -168,11 +168,15 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		Integer newId = this.persist(clone);
 		// impact sur Planning participant/ Planning Priority/ planning Room
 
-		String sql = "";
+		String sql = "INSERT INTO Unavailability (period_from, period_to, person_id, planning_id) " +
+				"SELECT period_from, period_to,person_id, :newid " +
+				"FROM Unavailability " +
+				"WHERE id = :id";
 
-		/*SQLQuery query = session.createSQLQuery(sql);
-		query.setParameter("entity_field ", entity);
-		query.executeUpdate();*/
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setParameter("id", id);
+		query.setParameter("newid", newId);
+		query.executeUpdate();
 		return newId;
 
 	}

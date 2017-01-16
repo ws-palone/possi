@@ -110,9 +110,11 @@ public class FileDownloadController {
 	public String showPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
 		Planning planning = planningService.findById(planningId);
 		Validate.notNull(planning);
-		
+
 		Map<Integer, List<Creneau>> creneaux = planningService.exportJSON(planning);
-		
+
+		System.out.println(creneaux);
+
 		PlanningSplitter splitter = new PlanningSplitterImpl();
 		
 		List<TimeBox> timeboxes = splitter.execute(planning);
