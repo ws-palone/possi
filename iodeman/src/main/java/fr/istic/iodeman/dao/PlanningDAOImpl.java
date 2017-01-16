@@ -1,11 +1,6 @@
 package fr.istic.iodeman.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Projections;
@@ -162,11 +157,22 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	public Integer duplicate(Integer id) {
 		Session session = getNewSession();
 
-		//inserer une nouvelle ligne dans  planing en copiant la reference
+
+
+        Criteria crit = session.createCriteria(Planning.class);
+        crit.add( Restrictions.eq("ref_id", id));
+        crit.setProjection(Projections.rowCount());
+        Integer count = ((Long)crit.uniqueResult()).intValue();
+
+
+
+        //inserer une nouvelle ligne dans  planing en copiant la reference
 		Planning clone = this.findById(id);
 		clone.setIs_ref(0);
 		clone.setRef_id(id);
 		clone.setId(null);
+		String name = clone.getName();
+		clone.setName(name+ " - Draft " + String.valueOf(count+1));
 		Integer newId = this.persist(clone);
 		// impact sur Planning participant/ Planning Priority/ planning Room
 
