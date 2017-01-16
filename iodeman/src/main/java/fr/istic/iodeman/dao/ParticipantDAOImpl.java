@@ -18,6 +18,7 @@ public class ParticipantDAOImpl extends AbstractHibernateDAO implements Particip
 		try {
 			transaction = session.beginTransaction();
 			session.persist(par);
+
 			session.getTransaction().commit();	
 		} catch (Exception e){
 			if (transaction!=null) transaction.rollback();
