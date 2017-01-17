@@ -5,6 +5,16 @@ package fr.istic.iodeman.controller;
  */
 public class DraftsController {
 
+//    @Autowired
+//    private PlanningService planningService;
+//
+//
+//    @RequestMapping("/planning/{id}/draft")
+//    public List<Planning> findById(@PathVariable("id") Integer id) {
+//
+//        return planningService.findAllDrafts(id);
+//    }
+
 
 
 }

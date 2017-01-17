@@ -1,7 +1,10 @@
 package fr.istic.iodeman.dao;
 
-import java.util.*;
-
+import com.google.common.collect.Lists;
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
+import fr.istic.iodeman.model.Unavailability;
 import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -9,12 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
-import com.google.common.collect.Lists;
-
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Unavailability;
+import java.util.*;
 
 @Repository
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
@@ -103,7 +101,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 				));
 
 		criteria.add(Restrictions.eq("is_ref", 1));
-		
+
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		plannings = criteria.list();
@@ -186,6 +184,25 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		query.setParameter("newid", newId);
 		query.executeUpdate();
 		return newId;
+
+	}
+
+	@Override
+	public List<Planning> findDrafts(Integer id) {
+		Session session = getNewSession();
+		List<Planning> plannings = new ArrayList<Planning>();
+		Criteria criteria = session.createCriteria(Planning.class);
+
+
+		criteria.add(Restrictions.or(
+				Restrictions.eq("ref_id", id)
+		));
+
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+		plannings = criteria.list();
+		session.close();
+		return plannings;
 
 	}
 

@@ -1,48 +1,23 @@
 package fr.istic.iodeman.service;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.Validate;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-
 import fr.istic.iodeman.builder.PlanningExportBuilder;
-import fr.istic.iodeman.dao.ParticipantDAO;
-import fr.istic.iodeman.dao.PersonDAO;
-import fr.istic.iodeman.dao.PlanningDAO;
-import fr.istic.iodeman.dao.PriorityDAO;
-import fr.istic.iodeman.dao.UnavailabilityDAO;
+import fr.istic.iodeman.dao.*;
 import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.dto.PersonDTO;
-import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Role;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.model.Unavailability;
+import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.ParticipantsCSVImport;
-import fr.istic.iodeman.strategy.ParticipantsExcelImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
 import fr.istic.possijar.Creneau;
+import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.util.*;
 
 @Service
 public class PlanningServiceImpl implements PlanningService {
@@ -240,6 +215,14 @@ public class PlanningServiceImpl implements PlanningService {
 		Integer newId = planningDAO.duplicate(id);
 
 		return newId;
+	}
+
+	@Override
+	public List<Planning> findAllDrafts(Integer id) {
+		List<Planning> plannings = new ArrayList<Planning>();
+		plannings = planningDAO.findDrafts(id);
+
+		return plannings;
 	}
 
 	@Override

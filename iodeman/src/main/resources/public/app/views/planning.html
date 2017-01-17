@@ -274,8 +274,8 @@
 
 	</div>
 	</uib-tab>
-		<uib-tab heading="DRAFTS" class="btn btn-xs btn-raised btn-primary">
-			<div ng-controller="ConfigurationCtrl">
+		<uib-tab heading="DRAFT" class="btn btn-xs btn-raised btn-primary">
+			<div ng-controller="DraftCtrl">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 					<tr >
@@ -288,10 +288,10 @@
 					</thead>
 					<tbody>
 					<tr ng-repeat="draft in drafts">
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td> {{ draft.name}}</td>
+						<td>{{ planning.admin.firstName }} {{ planning.admin.lastName }}</td>
+						<td>{{ planning.period.from | date:'dd/MM/yyyy' }}</td>
+						<td>{{ planning.period.to | date:'dd/MM/yyyy' }}</td>
 						<td>
 							<a href="" class="btn btn-raised btn-sm btn-success">
 								Basculer en PLAN-REF

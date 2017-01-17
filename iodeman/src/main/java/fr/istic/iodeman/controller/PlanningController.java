@@ -1,38 +1,26 @@
 package fr.istic.iodeman.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import fr.istic.iodeman.SessionComponent;
+import fr.istic.iodeman.dto.ParticipantDTO;
+import fr.istic.iodeman.model.*;
+import fr.istic.iodeman.service.PlanningService;
+import fr.istic.iodeman.service.RoomService;
+import fr.istic.iodeman.service.UnavailabilityService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-
-import fr.istic.iodeman.SessionComponent;
-import fr.istic.iodeman.dto.ParticipantDTO;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.service.PlanningService;
-import fr.istic.iodeman.service.RoomService;
-import fr.istic.iodeman.service.UnavailabilityService;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @RequestMapping("/planning") 
 @RestController
@@ -53,10 +41,10 @@ public class PlanningController {
 	
 	@RequestMapping("/list")
 	public List<Planning> listAll(){
-		
+
 		return planningService.findAllByUid(session.getUserUID());
 	}
-	
+
 	@RequestMapping("/find/{id}")
 	public Planning findById(@PathVariable("id") Integer id) {
 		
@@ -268,6 +256,12 @@ public class PlanningController {
 	public Integer duplicatePlanning(@PathVariable("id") Integer id) throws IOException{
 		Integer draftId = planningService.duplicate(id);
 		return draftId;
+	}
+
+	@RequestMapping("/{id}/drafts")
+	public List<Planning> findDraftsById(@PathVariable("id") Integer id) throws IOException {
+
+		return planningService.findAllDrafts(id);
 	}
 	
 }

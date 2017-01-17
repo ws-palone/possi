@@ -1,19 +1,13 @@
 package fr.istic.iodeman.service;
 
+import fr.istic.iodeman.dto.ParticipantDTO;
+import fr.istic.iodeman.model.*;
+import fr.istic.possijar.Creneau;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import fr.istic.iodeman.dto.ParticipantDTO;
-import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.possijar.Creneau;
 
 public interface PlanningService {
 
@@ -57,5 +51,9 @@ public interface PlanningService {
 	 */
 	public Map<Integer, List<Creneau>> exportJSON(Planning planning);
 
+	// duplicate a specific plannig to PLAN-DRAF
 	public Integer duplicate(Integer id);
+
+	// find drafts of a specific plannig
+	public List<Planning> findAllDrafts(Integer id);
 }

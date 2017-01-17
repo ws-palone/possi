@@ -1,13 +1,12 @@
 package fr.istic.iodeman.dao;
 
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.Priority;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
 
 public interface PlanningDAO {
 
@@ -32,4 +31,8 @@ public interface PlanningDAO {
 	public Collection<Priority> findPriorities(Planning planning);
 
     public Integer duplicate(Integer id);
+
+    public List<Planning> findDrafts(Integer id);
+
+
 }
