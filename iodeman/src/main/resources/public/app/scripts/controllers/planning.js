@@ -17,7 +17,7 @@ angular.module('publicApp')
             searchPlaceholder: "Search...",
             buttonDefaultText: "Selectionner une salle",
             dynamicButtonTextSuffix: "salles selectionnees"
-     }
+     };
 	
 	if($routeParams.import == "nok") {
 		$scope.errorImport = true;
@@ -47,7 +47,7 @@ angular.module('publicApp')
 		if($scope.user.uid != $scope.planning.admin.uid) {
 			document.location.href = "#/";
 		}
-	}
+	};
 
 	$http.get(backendURL + 'planning/'+$scope.id+'/participants/unavailabilities')
 	.success(function(data) {

@@ -289,15 +289,15 @@
 					<tbody>
 					<tr ng-repeat="draft in drafts">
 						<td> {{ draft.name}}</td>
-						<td>{{ planning.admin.firstName }} {{ planning.admin.lastName }}</td>
-						<td>{{ planning.period.from | date:'dd/MM/yyyy' }}</td>
-						<td>{{ planning.period.to | date:'dd/MM/yyyy' }}</td>
+						<td>{{ draft.admin.firstName }} {{ draft.admin.lastName }}</td>
+						<td>{{ draft.period.from | date:'dd/MM/yyyy' }}</td>
+						<td>{{ draft.period.to | date:'dd/MM/yyyy' }}</td>
 						<td>
 							<a href="" class="btn btn-raised btn-sm btn-success">
 								Basculer en PLAN-REF
 							</a>
 							<a confirmed-click="" ng-hide="" class="btn btn-raised btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
-							<a confirmed-click="remove({{ planning.id }})" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+							<a confirmed-click="remove( draft.id )" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 
 						</td>
 					</tr>
