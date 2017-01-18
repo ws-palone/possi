@@ -56,4 +56,6 @@ public interface PlanningService {
 
 	// find drafts of a specific plannig
 	public List<Planning> findAllDrafts(Integer id);
+
+	public void switchReference(Integer idDraft);
 }

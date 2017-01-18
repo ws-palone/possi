@@ -155,16 +155,12 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	public Integer duplicate(Integer id) {
 		Session session = getNewSession();
 
-
-
         Criteria crit = session.createCriteria(Planning.class);
         crit.add( Restrictions.eq("ref_id", id));
         crit.setProjection(Projections.rowCount());
         Integer count = ((Long)crit.uniqueResult()).intValue();
 
-
-
-        //inserer une nouvelle ligne dans  planing en copiant la reference
+		//inserer une nouvelle ligne dans  planing en copiant la reference
 		Planning clone = this.findById(id);
 		clone.setIs_ref(0);
 		clone.setRef_id(id);
@@ -172,8 +168,8 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		String name = clone.getName();
 		clone.setName(name+ " - Draft " + String.valueOf(count+1));
 		Integer newId = this.persist(clone);
-		// impact sur Planning participant/ Planning Priority/ planning Room
 
+		// impact sur Planning participant/ Planning Priority/ planning Room
 		String sql = "INSERT INTO Unavailability (period_from, period_to, person_id, planning_id) " +
 				"SELECT period_from, period_to,person_id, :newid " +
 				"FROM Unavailability " +
@@ -183,6 +179,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		query.setParameter("id", id);
 		query.setParameter("newid", newId);
 		query.executeUpdate();
+		session.close();
 		return newId;
 
 	}
@@ -204,6 +201,34 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		session.close();
 		return plannings;
 
+	}
+
+	@Override
+	public void switchReference(Integer idDraft) {
+		Session session = getNewSession();
+
+		//Au niveau du draft
+		Planning draft = this.findById(idDraft);
+		Integer id_ref = draft.getRef_id();
+		draft.setIs_ref(1);
+		draft.setRef_id(null);
+		Integer new_id = draft.getId();
+		this.update(draft);
+
+		//Autres drafts
+		List<Planning> entityList = findDrafts(id_ref);
+		for (Planning entity : entityList) {
+			entity.setRef_id(new_id);
+			this.update(entity);
+		}
+
+		//reference actuelle
+		Planning ancienne_ref = this.findById(id_ref);
+		ancienne_ref.setIs_ref(0);
+		ancienne_ref.setRef_id(new_id);
+		this.update(ancienne_ref);
+
+		session.close();
 	}
 
 	@Override

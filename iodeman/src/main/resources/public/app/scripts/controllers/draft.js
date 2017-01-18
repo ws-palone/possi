@@ -15,6 +15,12 @@ angular.module('publicApp')
                 console.log("KO");
             });
 
+        $scope.remove = function(id) {
+            $http.get(backendURL + 'planning/'+id+'/delete').success(function(data) {
+                document.location.href = "#/";
+            });
+        }
+
 
 
     });

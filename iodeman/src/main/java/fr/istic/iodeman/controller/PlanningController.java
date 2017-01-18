@@ -263,5 +263,10 @@ public class PlanningController {
 
 		return planningService.findAllDrafts(id);
 	}
+
+	@RequestMapping("/switchReference/{idDraft}")
+	public void switchReferencePlanning(@PathVariable("idDraft") Integer idDraft) throws IOException{
+		planningService.switchReference(idDraft);
+	}
 	
 }
