@@ -226,6 +226,11 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	public void switchReference(Integer idDraft) {
+		planningDAO.switchReference(idDraft);
+	}
+
+	@Override
 	public File exportExcel(Planning planning) {		
 		
 		// verify the planning is not null

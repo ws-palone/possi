@@ -34,5 +34,7 @@ public interface PlanningDAO {
 
     public List<Planning> findDrafts(Integer id);
 
+	public void switchReference(Integer idDraft);
+
 
 }

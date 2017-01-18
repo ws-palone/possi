@@ -70,6 +70,11 @@ angular
 							  controller: 'DuplicatePlanningCtrl',
 							  controllerAs: 'duplicatePlanningCtrl'
 						  })
+						  .when('/planning/switchDraft/:idDraft', {
+							  templateUrl: 'app/views/planning.html',
+							  controller: 'SwitchDraftCtrl',
+							  controllerAs: 'switchDraftCtrl'
+						  })
                     	  .otherwise({
                     		  redirectTo: '/'
                     	  });
