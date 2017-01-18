@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.apache.commons.lang.Validate;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,11 +114,11 @@ public class FileDownloadController {
 
 		Map<Integer, List<Creneau>> creneaux = planningService.exportJSON(planning);
 
-		System.out.println(creneaux);
 
 		PlanningSplitter splitter = new PlanningSplitterImpl();
 		
 		List<TimeBox> timeboxes = splitter.execute(planning);
+		System.out.println(timeboxes.get(1).getFrom());
 		
 		JSONObject ret = new JSONObject();
 		
@@ -139,8 +140,16 @@ public class FileDownloadController {
 		
 		for(int i = 0; i < creneaux.size(); i++) {
 			//obj.put(""+i, creneaux.get(i));
+			if(creneaux.get(i).size() == 0){
+				//Creation d'un créneaux vide pour l'affichage
+				TimeBox timebox = timeboxes.get(i);
+				Creneau new_creneau = new Creneau(i,null,null,null,null);
+				new_creneau.setHoraire(timebox.getFrom().getDay()+" "+timebox.getFrom().getHours()+" "+ timebox.getFrom().getMinutes());
+
+				creneaux.get(i).add(new_creneau);
+
+			}
 			day.add(creneaux.get(i));
-			
 			if((i+1)%nbPeriodeParJour==0) {
 				obj1.put(""+cal.getTimeInMillis(), day);
 				if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {

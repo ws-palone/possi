@@ -18,6 +18,7 @@ angular.module('publicApp')
 		
 		data.creneaux = ordered;
 		$scope.creneaux = data;
+		console.log($scope.creneaux);
 	})
 	.error(function(data) {
 		$scope.error = true;
@@ -29,5 +30,6 @@ angular.module('publicApp')
 	        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 	    });
 	}
+
 });
 
