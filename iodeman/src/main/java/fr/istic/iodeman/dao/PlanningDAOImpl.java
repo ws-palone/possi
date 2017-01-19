@@ -189,6 +189,28 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		query_room.setParameter("id", id);
 		query_room.setParameter("newid", newId);
 		query_room.executeUpdate();
+
+		/*String sql_priority = "INSERT INTO Planning_Priority (Planning_id, priorities_id) " +
+				"SELECT :newid, priorities_id " +
+				"FROM Planning_Priority " +
+				"WHERE Planning_id = :id";
+
+		SQLQuery query_priority = session.createSQLQuery(sql_priority);
+		query_priority.setParameter("id", id);
+		query_priority.setParameter("newid", newId);
+		query_priority.executeUpdate();
+
+		String sql_participant = "INSERT INTO Planning_Participant (Planning_id, participants_id)  " +
+				"SELECT :newid, participants_id " +
+				"FROM Planning_Participant " +
+				"WHERE Planning_id = :id";
+
+		SQLQuery query_participant = session.createSQLQuery(sql_participant);
+		query_participant.setParameter("id", id);
+		query_participant.setParameter("newid", newId);
+		query_participant.executeUpdate();*/
+
+
 		session.close();
 		return newId;
 

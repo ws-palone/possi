@@ -106,9 +106,9 @@ public class FileDownloadController {
 		return ret.toString();
 	}
 	
-	@RequestMapping(value="/planning/{planningId}/exportPlanning", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value="/planning/{planningId}/exportDraft", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String showPlanning(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
+	public String showDraft(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
 		Planning planning = planningService.findById(planningId);
 		Validate.notNull(planning);
 
@@ -169,7 +169,60 @@ public class FileDownloadController {
 		
 		return ret.toString();
 	}
-	
+
+	@RequestMapping(value="/planning/{planningId}/exportRef", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public String showRef(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
+		Planning planning = planningService.findById(planningId);
+		Validate.notNull(planning);
+
+		Map<Integer, List<Creneau>> creneaux = planningService.exportJSON(planning);
+
+
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+
+		List<TimeBox> timeboxes = splitter.execute(planning);
+		System.out.println(timeboxes.get(1).getFrom());
+
+		JSONObject ret = new JSONObject();
+
+		JSONObject obj1 = new JSONObject();
+
+		ret.put("salles", planning.getRooms());
+		ret.put("priorités", planning.getPriorities());
+
+		Date d1 = planning.getPeriod().getFrom();
+
+		List<List<Creneau>> day = new ArrayList<List<Creneau>>();
+
+		int nbPeriodeParJour = getNbDePeriodesParJour(timeboxes);
+
+		int dayPlus = 0;
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d1);
+
+		for(int i = 0; i < creneaux.size(); i++) {
+
+			day.add(creneaux.get(i));
+			if((i+1)%nbPeriodeParJour==0) {
+				obj1.put(""+cal.getTimeInMillis(), day);
+				if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+					cal.add(Calendar.DAY_OF_MONTH, 1);
+					cal.add(Calendar.DAY_OF_MONTH, 1);
+				}
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+				day.clear();
+			}
+		}
+
+		System.err.println(day.toString());
+
+		ret.put("creneaux", obj1);
+
+		return ret.toString();
+	}
+
 	private int getNbDePeriodesParJour(Collection<TimeBox> timeboxes) {
 		// TODO
 		int i = 0;

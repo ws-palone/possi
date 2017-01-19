@@ -61,6 +61,11 @@ angular
                     		  controller: 'GeneratedPlanningCtrl',
                     		  controllerAs: 'generatedPlanningCtrl'
                     	  })
+						  .when('/generatedDraft/:idPlanning', {
+                    		  templateUrl: 'app/views/generatedDraft.html',
+                    		  controller: 'GeneratedDraftCtrl',
+                    		  controllerAs: 'generatedDraftCtrl'
+                    	  })
                     	  .when('/unavailabilities/:idPlanning', {
                     		  templateUrl: 'app/views/unavailabilities.html',
                     		  controller: 'UnavailabilitiesCtrl',

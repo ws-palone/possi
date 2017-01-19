@@ -1,5 +1,5 @@
 angular.module('publicApp')
-.controller('GeneratedPlanningCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams) {
+.controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams) {
 	
 	$scope.id = $routeParams.idPlanning;
 	
@@ -7,7 +7,7 @@ angular.module('publicApp')
 		window.print();
 	};
 	
-	$http.get(backendURL + 'planning/' + $scope.id + '/exportRef')
+	$http.get(backendURL + 'planning/' + $scope.id + '/exportDraft')
 	.success(function(data) {
 		console.log(data.creneaux);
 		
