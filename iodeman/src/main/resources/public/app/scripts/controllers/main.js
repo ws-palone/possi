@@ -15,7 +15,7 @@ angular.module('publicApp')
 	$http.get(backendURL + '/plannings/exported')
 	.success(function(data) {
 		$scope.exported = data.keys;
-	})
+	});
 
 	$http.get(backendURL + 'user').success(function(data) {
 		$scope.user = data;
@@ -29,7 +29,7 @@ angular.module('publicApp')
 
 	$scope.closeHomeInfo = function() {
 		$("#home-info").fadeOut(300, function() { $(this).remove(); });
-	}
+	};
 	
 	$scope.remove = function(id) {
 		console.log(backendURL + 'planning/'+id+'/delete');
