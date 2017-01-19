@@ -12,6 +12,7 @@ import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.ParticipantsCSVImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
 import fr.istic.possijar.Creneau;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -213,6 +214,15 @@ public class PlanningServiceImpl implements PlanningService {
 	public Integer duplicate(Integer id) {
 
 		Integer newId = planningDAO.duplicate(id);
+
+		File dir = new File("persist/" + id);
+		File newDir = new File("persist/" + newId);
+
+		try {
+			FileUtils.copyDirectory(dir, newDir);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return newId;
 	}

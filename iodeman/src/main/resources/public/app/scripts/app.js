@@ -20,7 +20,8 @@ angular
                       'flash',
                       'angularjs-dropdown-multiselect',
                       'ngStorage',
-                      'ngLocale'
+                      'ngLocale',
+                      'dndLists'
                       ])
                       .constant("backendURL", "http://localhost:8080/")
                       .constant("backendURL2", "http://possi.istic.univ-rennes1.fr:8080/")
@@ -59,6 +60,11 @@ angular
                     		  templateUrl: 'app/views/generatedPlanning.html',
                     		  controller: 'GeneratedPlanningCtrl',
                     		  controllerAs: 'generatedPlanningCtrl'
+                    	  })
+						  .when('/generatedDraft/:idPlanning', {
+                    		  templateUrl: 'app/views/generatedDraft.html',
+                    		  controller: 'GeneratedDraftCtrl',
+                    		  controllerAs: 'generatedDraftCtrl'
                     	  })
                     	  .when('/unavailabilities/:idPlanning', {
                     		  templateUrl: 'app/views/unavailabilities.html',
