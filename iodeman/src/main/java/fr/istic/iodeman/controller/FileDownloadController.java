@@ -1,21 +1,12 @@
 package fr.istic.iodeman.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
+import fr.istic.iodeman.SessionComponent;
+import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.service.PlanningService;
+import fr.istic.iodeman.strategy.PlanningSplitter;
+import fr.istic.iodeman.strategy.PlanningSplitterImpl;
+import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-
-import fr.istic.iodeman.SessionComponent;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.service.PlanningService;
-import fr.istic.iodeman.strategy.PlanningSplitter;
-import fr.istic.iodeman.strategy.PlanningSplitterImpl;
-import fr.istic.possijar.Creneau;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
 
 @Controller
 public class FileDownloadController {
@@ -57,19 +44,18 @@ public class FileDownloadController {
 		
 		// mime type
 		//response.setContentType("application/vnd.ms-excel");
-		
+
+		// retrieving of the generating file containing the agenda
+		File file = planningService.exportExcel(planning);
 		// name of the returned file
-		String filename = "planningExport.csv";
+		String filename = file.getName();
 		
 		// header
         String headerKey = "Content-Disposition";
         String headerValue = String.format("attachment; filename=\"%s\"",
         		filename);
         response.setHeader(headerKey, headerValue);
-        
-		// retrieving of the generating file containing the agenda
-		File file = planningService.exportExcel(planning);		
-		
+
 		// BEGIN write the file
 		FileInputStream in = new FileInputStream(file);
 		OutputStream out = response.getOutputStream();

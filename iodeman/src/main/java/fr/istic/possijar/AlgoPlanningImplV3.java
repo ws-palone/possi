@@ -903,4 +903,15 @@ public class AlgoPlanningImplV3 {
 		}
 	}
 
+	public int getNbPeriodesParJour() {
+		return nbPeriodesParJour;
+	}
+
+	public List<String> getSallesSelectionnees() {
+		return sallesSelectionnees;
+	}
+
+	public Map<Integer, List<Creneau>> getPlanning() {
+		return planning;
+	}
 }
