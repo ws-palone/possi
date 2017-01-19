@@ -171,3 +171,7 @@ body {
 .odd {
 	background: #FFFFDD;
 }
+
+#rotate{
+    float:right;
+}
