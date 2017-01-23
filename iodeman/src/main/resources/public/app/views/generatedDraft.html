@@ -28,12 +28,27 @@
 
 			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
 
-				<div ng-if="creneau.student != null"
-					 ng-class="{'selected': models.selected === creneau}" class="event" draggable="true" id="{{$index +1}}">
-					<span class="label label-primary" >{{creneau.student.name | emailToName | capitalize:true}}</span>
-					<span class="label label-success" >{{creneau.tuteur.name | capitalize:true}}</span>
-					<span class="label label-info" >{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
-					<span class="label label-warning" >{{creneau.candide.name | emailToName | capitalize:true}}</span>
+				<div ng-if="creneau.student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true" id="{{$index +1}}">
+
+						<!--<div style="background: blue;" width="25%">{{creneau.student.name | emailToName | capitalize:true}}</div>-->
+						<!--<div  style="background: forestgreen;"width="25%"> {{creneau.tuteur.name | capitalize:true}}</div>-->
+						<!--<div  style="background: orange;"width="25%"> {{creneau.enseignant.name | emailToName | capitalize:true}}</div>-->
+						<!--<div style="background: white;"width="25%"> {{creneau.candide.name | emailToName | capitalize:true}}</div>-->
+
+
+					<table width="100%">
+						<tr>
+						<td style="background: blue; color: white;" width="20%">{{creneau.student.name | emailToName | capitalize:true}}</td>
+						<td  style="background: green; color: white;" width="20%"> {{creneau.tuteur.name | capitalize:true}}</td>
+						<td  style="background: deepskyblue; color: white;" width="20%"> {{creneau.enseignant.name | emailToName | capitalize:true}}</td>
+						<td  style="background: orange; color: white;" width="20%"> {{creneau.candide.name | emailToName | capitalize:true}}</td>
+
+						</tr>
+					</table>
+					<!--<span class="label label-primary" style="width: 25px;">{{creneau.student.name | emailToName | capitalize:true}}</span>-->
+					<!--<span class="label label-success" style="width: 25px;">{{creneau.tuteur.name | capitalize:true}}</span>-->
+					<!--<span class="label label-info" style="width: 25px;">{{creneau.enseignant.name | emailToName | capitalize:true}}</span>-->
+					<!--<span class="label label-warning" style="width: 25px;">{{creneau.candide.name | emailToName | capitalize:true}}</span>-->
 
 				</div>
 			</td>
