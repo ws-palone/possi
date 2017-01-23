@@ -27,11 +27,12 @@
 	
 	<div ng-show="showImportButton" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   	<div ng-show="showImportButton" class="modal-dialog modal-lg" role="document">
-    <div ng-show="showImportButton" class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Comment importer un fichier CSV ?</h4>
-      </div>
+    <div ng-show="showImportButton" class="modal-content" >
+      <div class="modal-header" >
+
+        <button  type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4  class="modal-title" id="myModalLabel">Comment importer un fichier CSV ?</h4>
+		  </div>
       <div class="modal-body">
        	<img style="max-width: 100%;" src="app/images/donnees.png" />
        	<br/><br/>
@@ -296,8 +297,8 @@
 							<a href="#/planning/switchDraft/{{ draft.id }}" class="btn btn-raised btn-sm btn-success">
 								Basculer en PLAN-REF
 							</a>
-							<a class="btn btn-raised btn-sm btn-info" href="#/generatedDraft/{{ draft.id }}"><i class="glyphicon glyphicon-edit"></i></a>
-							<a confirmed-click="remove( draft.id )" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+							<a data-toggle="tooltip" title="Modifier le draft" class="btn btn-raised btn-sm btn-info" href="#/generatedDraft/{{ draft.id }}"><i class="glyphicon glyphicon-edit"></i></a>
+							<a data-toggle="tooltip" title="Supprimer le draft" confirmed-click="remove( draft.id )" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 
 						</td>
 					</tr>
