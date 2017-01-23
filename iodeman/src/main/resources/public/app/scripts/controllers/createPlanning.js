@@ -123,7 +123,7 @@ angular.module('publicApp')
 				params: $scope.planning
 			}).success(function(data) {
 				console.log('planning created!');
-				//document.location.href = "#/planning/"+data.id;
+				document.location.href = "#/planning/"+data.id;
 			}).error(function(data) {
 				$("#showError").show();
 //				$scope.showError = true;
