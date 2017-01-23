@@ -248,7 +248,7 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		// retrieving of the unavailabilities
 		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
-				
+
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
 		builder.setUnavailabilities(unavailabilities);
