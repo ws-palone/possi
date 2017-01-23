@@ -9,40 +9,39 @@
 </div>
 
 <div ng-hide="error" class="panel panel-default planning">
-	<table id="printArea" class="table">
+	<table id="printArea" class="table" ng-mouseover="drag()">
 		<thead>
-			<tr>
-				<th class="odd">Horaire</th>
-				<th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}">Salle {{room.name}}</th>
-			</tr>
+		<tr>
+			<th class="odd">Horaire</th>
+			<th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}">Salle {{room.name}}</th>
+		</tr>
 		</thead>
 		<tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
-			<tr>
-				<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
-			</tr>
-			<tr ng-repeat="horaire in jour" class="line_creneau" dnd-list="horaire">
-				<!-- <td>{{horaire[0].periode}}</td> -->
-				<td class="odd">{{horaire[0].horaire}}</td>
+		<tr>
+			<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
+		</tr>
+		<tr ng-repeat="horaire in jour" class="line_creneau">
+			<!-- <td>{{horaire[0].periode}}</td> -->
+			<td class="odd">{{horaire[0].horaire}}</td>
 
 
 
-				<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
+			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
 
-					<div ng-if="creneau.student != null"
-						 dnd-draggable="creneau"
-						 dnd-moved="horaire.splice($index, 1)"
-						 dnd-effect-allowed="move"
-						 dnd-selected="models.selected = creneau"
-						 ng-class="{'selected': models.selected === creneau}">
-						<dnd-nodrag> <span dnd-handle class="handle">:::</span> </dnd-nodrag>
-						<span class="label label-primary" >{{creneau.student.name | emailToName | capitalize:true}}</span>
-						<span class="label label-success" >{{creneau.tuteur.name | capitalize:true}}</span>
-						<span class="label label-info" >{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
-						<span class="label label-warning" >{{creneau.candide.name | emailToName | capitalize:true}}</span>
+				<div ng-if="creneau.student != null"
+					 ng-class="{'selected': models.selected === creneau}" class="event" draggable="true" id="{{$index +1}}">
+					<span class="label label-primary" >{{creneau.student.name | emailToName | capitalize:true}}</span>
+					<span class="label label-success" >{{creneau.tuteur.name | capitalize:true}}</span>
+					<span class="label label-info" >{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
+					<span class="label label-warning" >{{creneau.candide.name | emailToName | capitalize:true}}</span>
 
-					</div>
-				</td>
-			</tr>
+				</div>
+			</td>
+		</tr>
 		</tbody>
 	</table>
 </div>
+<script src="../app/scripts/assets/generatedDraft.js">
+
+
+</script>
