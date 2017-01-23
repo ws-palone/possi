@@ -37,4 +37,5 @@ public interface PlanningDAO {
 	public void switchReference(Integer idDraft);
 
 
+    public void deleteDraft(Integer id);
 }

@@ -83,6 +83,7 @@ public class PlanningExportBuilder {
 	}
 
 	public File toXls() throws Exception {
+
 		int nbPeriodesParJour = algoPlanning_new.getNbPeriodesParJour();
 		List<String> sallesSelectionnees = algoPlanning_new.getSallesSelectionnees();
 		Map<Integer, List<Creneau>> p = algoPlanning_new.getPlanning();
@@ -122,64 +123,83 @@ public class PlanningExportBuilder {
 		int rowIndex = 0;
 		int cellIndex = 0;
 		HSSFRow row;
+		List<List<Creneau>> days = new ArrayList<>();
+		List<Creneau> day = new ArrayList<>();
 		// Pour chaque creneau
-		for(int periode : periodes){
+		for(int periode : periodes) {
 			// Si nouvelle journee
-			if(periode%nbPeriodesParJour == 0){
-				if(periode > 0 ) {
+			if (periode % nbPeriodesParJour == 0) {
+				if (periode > 0) {
+					days.add(day);
+					day = new ArrayList<>();
+				}
+			}
+			// Afficher date
+			day.addAll(p.get(periode));
+		}
+		days.add(day);
+
+		// Pour chaque journée
+		for (int i = 0; i < days.size(); i++) {
+			List<Creneau> d = days.get(i);
+			if(!d.isEmpty()) {
+				if(i>0) {
 					planningSheet.createRow(rowIndex++);
 					planningSheet.createRow(rowIndex++);
 				}
+				// Afficher date
 				row = planningSheet.createRow(rowIndex);
 				cellIndex = 0;
 				planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
 				SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.FRANCE);
-				String date = sdf.format(listTimeboxes.get(periode).getFrom());
+				String date = sdf.format(listTimeboxes.get(d.get(0).getPeriode()).getFrom());
 				HSSFCell cell = row.createCell(cellIndex);
 				cell.setCellValue(date);
 				cell.setCellStyle(dateStyle);
 				CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 				rowIndex++;
 
-				int salleNumber = 0;
-				for(String salle : sallesSelectionnees){
-					if(salleNumber > 0){
-						planningSheet.createRow(rowIndex++);
+				//ordonner la liste par salle
+				Collections.sort(d, (o1, o2) -> {
+                    if(o1.getSalle()>o2.getSalle())
+                        return 1;
+                    else if(o1.getSalle()<o2.getSalle())
+                        return -1;
+                    return 0;
+                });
+
+				int salleEnCours = -1;
+				for(Creneau c : d){
+					if(salleEnCours != c.getSalle()){
+						salleEnCours = c.getSalle();
+						cellIndex = 1;
+						// SALLE
+						row = planningSheet.createRow(rowIndex);
+						planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
+						(cell = row.createCell(cellIndex)).setCellValue(sallesSelectionnees.get(salleEnCours-1));
+						cell.setCellStyle(salleStyle);
+						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+						rowIndex++;
+
+					 	// HEADER
+						row = planningSheet.createRow(rowIndex++);
+						(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
+						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+						(cell = row.createCell(cellIndex++)).setCellValue("Enseignant \"suiveur\"");
+						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+						(cell = row.createCell(cellIndex++)).setCellValue("Enseignant co-jury");
+						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+						(cell = row.createCell(cellIndex++)).setCellValue("Tuteur entreprise");
+						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 					}
-
-					cellIndex = 1;
-					// SALLE
-					row = planningSheet.createRow(rowIndex);
-					planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
-					(cell = row.createCell(cellIndex)).setCellValue(salle);
-					cell.setCellStyle(salleStyle);
-					CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-					rowIndex++;
-
-					// HEADER
+					cellIndex=0;
 					row = planningSheet.createRow(rowIndex++);
-					(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
-					CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-					(cell = row.createCell(cellIndex++)).setCellValue("Enseignant \"suiveur\"");
-					CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-					(cell = row.createCell(cellIndex++)).setCellValue("Enseignant co-jury");
-					CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-					(cell = row.createCell(cellIndex++)).setCellValue("Tuteur entreprise");
-					CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-					salleNumber++;
+					row.createCell(cellIndex++).setCellValue(c.getHoraire());
+					row.createCell(cellIndex++).setCellValue(c.getStudent().getName());
+					row.createCell(cellIndex++).setCellValue(c.getTuteur().getName());
+					row.createCell(cellIndex++).setCellValue(c.getEnseignant().getName());
+					row.createCell(cellIndex++).setCellValue(c.getCandide().getName());
 				}
-			}
-
-			// Ajout de la correspondance au creneau
-			List<Creneau> creneaux = p.get(periode);
-			cellIndex = 0;
-			if(creneaux.size()>0) {
-				row = planningSheet.createRow(rowIndex++);
-				row.createCell(cellIndex++).setCellValue(creneaux.get(0).getHoraire());
-				row.createCell(cellIndex++).setCellValue(creneaux.get(0).getStudent().getName());
-				row.createCell(cellIndex++).setCellValue(creneaux.get(0).getTuteur().getName());
-				row.createCell(cellIndex++).setCellValue(creneaux.get(0).getEnseignant().getName());
-				row.createCell(cellIndex++).setCellValue(creneaux.get(0).getCandide().getName());
 			}
 		}
 

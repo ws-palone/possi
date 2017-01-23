@@ -248,7 +248,7 @@ public class PlanningServiceImpl implements PlanningService {
 		
 		// retrieving of the unavailabilities
 		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
-				
+
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
 		builder.setUnavailabilities(unavailabilities);
@@ -368,7 +368,9 @@ public class PlanningServiceImpl implements PlanningService {
 
 	@Override
 	public void delete(Planning planning) {
+
 		planningDAO.delete(planning);
+		planningDAO.deleteDraft(planning.getId());
 	}
 
 
