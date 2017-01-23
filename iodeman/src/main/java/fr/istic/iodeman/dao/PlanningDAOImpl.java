@@ -264,6 +264,49 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	}
 
 	@Override
+	public void deleteDraft(Integer id) {
+		Session session = getNewSession();
+
+		String query_planning = "SELECT id FROM Planning WHERE ref_id= :id";
+
+
+		SQLQuery sql_query_planning = session.createSQLQuery(query_planning);
+		sql_query_planning.setParameter("id", id);
+		List ids_list = sql_query_planning.list();
+		if(ids_list.size() > 0){
+
+			String ids = "";
+			for (int i=0; i< ids_list.size(); i++) {
+				if(i != 0){
+					ids += ", ";
+				}
+				ids += ids_list.get(i);
+
+			}
+
+			System.out.println(ids);
+
+			String query_unavailability = "DELETE FROM Unavailability WHERE planning_id IN ("+ids+")";
+
+			SQLQuery sql_query_unavailability = session.createSQLQuery(query_unavailability);
+			sql_query_unavailability.executeUpdate();
+
+			String query_room = "DELETE FROM Planning_Room WHERE planning_id IN ("+ids+")";
+
+			SQLQuery sql_query_room = session.createSQLQuery(query_room);
+			sql_query_room.executeUpdate();
+
+			String query_planning_delete = "Delete FROM Planning WHERE ref_id= :id";
+
+			SQLQuery sql_query_planning_delete = session.createSQLQuery(query_planning_delete);
+			sql_query_planning_delete.setParameter("id", id);
+			sql_query_planning_delete.executeUpdate();
+
+		}
+		session.close();
+	}
+
+	@Override
 	public Map<String, Integer> findParticipantsAndUnavailabilitiesNumber(
 			Planning planning, Collection<String> uids) {
 		Session session = getNewSession();
