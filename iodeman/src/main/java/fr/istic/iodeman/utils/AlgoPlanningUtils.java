@@ -2,7 +2,9 @@ package fr.istic.iodeman.utils;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -96,5 +98,23 @@ public class AlgoPlanningUtils {
 		}
 		return Lists.newArrayList();
 	}
-	
+
+	public static String emailToName(String email) {
+		String name="";
+		System.out.println("EMAIL : " + email);
+		if( email !=null && !email.isEmpty()){
+			int index = email.indexOf('@');
+
+			String email2 = email.substring(0,index);
+			System.out.println("EMAIL2 : " + email2);
+			String[] parts = email2.split(Pattern.quote("."));
+			System.out.println("PARTS : " + parts);
+
+			String nom = parts[0]; // 004
+			String prenom = parts[1];
+
+			name =  nom.toUpperCase() + " " + WordUtils.capitalize(prenom);
+		}
+		return name;
+	}
 }

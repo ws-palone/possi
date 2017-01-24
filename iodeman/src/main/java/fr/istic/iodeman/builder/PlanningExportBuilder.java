@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import fr.istic.iodeman.utils.AlgoPlanningUtils;
 
 public class PlanningExportBuilder {
 
@@ -195,10 +196,10 @@ public class PlanningExportBuilder {
 					cellIndex=0;
 					row = planningSheet.createRow(rowIndex++);
 					row.createCell(cellIndex++).setCellValue(c.getHoraire());
-					row.createCell(cellIndex++).setCellValue(c.getStudent().getName());
+					row.createCell(cellIndex++).setCellValue(AlgoPlanningUtils.emailToName(c.getStudent().getName()));
 					row.createCell(cellIndex++).setCellValue(c.getTuteur().getName());
-					row.createCell(cellIndex++).setCellValue(c.getEnseignant().getName());
-					row.createCell(cellIndex++).setCellValue(c.getCandide().getName());
+					row.createCell(cellIndex++).setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
+					row.createCell(cellIndex++).setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
 				}
 			}
 		}
