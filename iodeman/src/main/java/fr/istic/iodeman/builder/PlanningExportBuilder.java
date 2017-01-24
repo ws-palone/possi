@@ -4,6 +4,7 @@ package fr.istic.iodeman.builder;
 import com.google.common.collect.Lists;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.strategy.*;
+import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import fr.istic.possijar.AlgoPlanningImplV3;
 import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
@@ -20,7 +21,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import fr.istic.iodeman.utils.AlgoPlanningUtils;
 
 public class PlanningExportBuilder {
 
@@ -144,7 +144,7 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				if(i>0) {
+				if(rowIndex>0) {
 					planningSheet.createRow(rowIndex++);
 					planningSheet.createRow(rowIndex++);
 				}
@@ -172,6 +172,9 @@ public class PlanningExportBuilder {
 				int salleEnCours = -1;
 				for(Creneau c : d){
 					if(salleEnCours != c.getSalle()){
+						if(salleEnCours > -1){
+							planningSheet.createRow(rowIndex++);
+						}
 						salleEnCours = c.getSalle();
 						cellIndex = 1;
 						// SALLE
