@@ -16,7 +16,9 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
+import org.apache.poi.util.ShortField;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -30,13 +32,35 @@ public class PlanningExportBuilder {
 	private AlgoJuryAssignation algoJuryAssignation = new AlgoJuryAssignationImpl();
 	private PlanningExport planningExport = new PlanningExcelExport();
 	private PlanningDataValidator validator = new PlanningDataValidatorImpl();
-	
 	private Planning planning;
 	private Collection<Unavailability> unavailabilities;
 	private Collection<Participant> participants;
 	
 	private Collection<TimeBox> timeboxes;
 	private Collection<OralDefense> oralDefenses;
+
+	private ArrayList<Short> defcouleur = new ArrayList<Short>()
+	{{
+		add(IndexedColors.OLIVE_GREEN.getIndex());
+		add(IndexedColors.BLUE.getIndex());
+		//add(IndexedColors.BROWN.getIndex());
+		//add(IndexedColors.AQUA.getIndex());
+		//add(IndexedColors.GOLD.getIndex());
+		add(IndexedColors.GREY_40_PERCENT.getIndex());
+		add(IndexedColors.LAVENDER.getIndex());
+		add(IndexedColors.ORANGE.getIndex());
+		add(IndexedColors.ROSE.getIndex());
+		add(IndexedColors.BLUE_GREY.getIndex());
+		add(IndexedColors.CORAL.getIndex());
+		add(IndexedColors.PLUM.getIndex());
+		add(IndexedColors.SEA_GREEN.getIndex());
+		add(IndexedColors.LIGHT_ORANGE.getIndex());
+		add(IndexedColors.TAN.getIndex());
+
+
+	}};
+
+	private Map<String,HSSFCellStyle> couleurParProf = new HashMap<>();
 	
 	public PlanningExportBuilder(Planning p) {
 		Validate.notNull(p);
@@ -106,19 +130,15 @@ public class PlanningExportBuilder {
 				(byte) 255,  //RGB green
 				(byte) 204   //RGB blue
 		);
-		//replacing the standard blue
-		palette.setColorAtIndex(HSSFColor.BLUE.index, (byte) 204, (byte) 236, (byte) 255);
-		//replacing the standard tan
-		palette.setColorAtIndex(HSSFColor.TAN.index, (byte) 255, (byte) 255, (byte) 204);
 
 		// DATE STYLE
 		HSSFCellStyle dateStyle = workbook.createCellStyle();
-		dateStyle.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+		dateStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
 		dateStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 		// SALLE STYLE
 		HSSFCellStyle salleStyle = workbook.createCellStyle();
-		salleStyle.setFillForegroundColor(IndexedColors.TAN.getIndex());
+		salleStyle.setFillForegroundColor(IndexedColors.GOLD.getIndex());
 		salleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 		int rowIndex = 0;
@@ -200,9 +220,11 @@ public class PlanningExportBuilder {
 					row = planningSheet.createRow(rowIndex++);
 					row.createCell(cellIndex++).setCellValue(c.getHoraire());
 					row.createCell(cellIndex++).setCellValue(AlgoPlanningUtils.emailToName(c.getStudent().getName()));
+					(cell = row.createCell(cellIndex++)).setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
+					cell.setCellStyle(getColor(workbook,c.getEnseignant().getName()));
+					(cell = row.createCell(cellIndex++)).setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
+					cell.setCellStyle(getColor(workbook,c.getCandide().getName()));
 					row.createCell(cellIndex++).setCellValue(c.getTuteur().getName());
-					row.createCell(cellIndex++).setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
-					row.createCell(cellIndex++).setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
 				}
 			}
 		}
@@ -240,6 +262,20 @@ public class PlanningExportBuilder {
 	
 	public Collection<OralDefense> getOralDefenses() {
 		return this.oralDefenses;
+	}
+
+	public HSSFCellStyle getColor( HSSFWorkbook workbook, String email){
+		String color="";
+		if(!couleurParProf.containsKey(email)){
+			Short shortColor = defcouleur.get((couleurParProf.size())%defcouleur.size());
+
+			HSSFCellStyle style = workbook.createCellStyle();
+			style.setFillForegroundColor(shortColor);
+			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+			couleurParProf.put(email, style);
+		}
+		return couleurParProf.get(email);
 	}
 	
 }

@@ -97,9 +97,9 @@ public class AlgoPlanningUtils {
 			int index = email.indexOf('@');
 			String email2 = email.substring(0,index);
 			String[] parts = email2.split(Pattern.quote("."));
-			String nom = parts[0]; // 004
-			String prenom = parts[1];
-			name = WordUtils.capitalize(prenom) + " " + nom.toUpperCase();
+			String prenom = parts[0]; // 004
+			String nom = parts[1];
+			name = nom.toUpperCase() + " " + WordUtils.capitalize(prenom);
 		}
 		return name;
 	}
