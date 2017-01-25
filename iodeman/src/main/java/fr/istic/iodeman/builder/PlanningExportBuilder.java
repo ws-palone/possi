@@ -122,14 +122,6 @@ public class PlanningExportBuilder {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet planningSheet = workbook.createSheet("Planning");
 
-		//creating a custom palette for the workbook
-		HSSFPalette palette = workbook.getCustomPalette();
-		//replacing the standard green
-		palette.setColorAtIndex(HSSFColor.GREEN.index,
-				(byte) 204,  //RGB red (0-255)
-				(byte) 255,  //RGB green
-				(byte) 204   //RGB blue
-		);
 
 		// DATE STYLE
 		HSSFCellStyle dateStyle = workbook.createCellStyle();
