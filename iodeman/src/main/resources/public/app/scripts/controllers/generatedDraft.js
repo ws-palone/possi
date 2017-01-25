@@ -19,6 +19,7 @@ angular.module('publicApp')
 		data.creneaux = ordered;
 		$scope.creneaux = data;
 		console.log($scope.creneaux);
+		$scope.i = 0;
 	})
 	.error(function(data) {
 		$scope.error = true;
@@ -47,7 +48,15 @@ angular.module('publicApp')
 
             }
         });
+
+        var id=0;
+        $(document).find('.event').each(function(){
+            $(this).attr('id',id);
+            ++id;
+            console.log($(this).attr('id'));
+        });
 	}
+
 
 });
 

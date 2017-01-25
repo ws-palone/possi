@@ -30,6 +30,10 @@
 
 				<div ng-if="creneau.student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true" id="{{$index +1}}">
 
+			<td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau">
+				<div ng-if="horaire[$index].student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true">
+
+
 					<table width="100%">
 						<tr>
 						<td style="background: #009688; color: white;" width="20%"><strong>{{creneau.student.name | emailToName | capitalize:true}}</strong></td>
@@ -46,7 +50,4 @@
 		</tbody>
 	</table>
 </div>
-<script src="../app/scripts/assets/generatedDraft.js">
-
-
-</script>
+<script src="../app/scripts/assets/generatedDraft.js"></script>
