@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="app/styles/drag_drop.css" media="all">
 <a href="/#/">
     <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
 </a>
@@ -28,12 +29,12 @@
                 <div ng-if="horaire[$index].student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true">
 
 
-                    <table width="100%">
-                        <tr>
-                            <td style="background: #009688; color: white;" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
-                            <td  style="background: green; color: white;" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
-                            <td  style="background: #03A9F4; color: white;" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
-                            <td  style="background: #ff5722; color: white;" width="20%"> {{horaire[$index].candide.name | emailToName | capitalize:true}}</td>
+					<table width="100%" class="rect_planning">
+						<tr>
+							<td class="rec_etud" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
+							<td  class="rec_tut" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
+							<td  class="rec_prof1" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
+							<td  class="rec_prof2" width="20%"> {{horaire[$index].candide.name | emailToName | capitalize:true}}</td>
 
                         </tr>
                     </table>
