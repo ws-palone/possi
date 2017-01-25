@@ -9,16 +9,10 @@ import fr.istic.possijar.AlgoPlanningImplV3;
 import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
-import org.apache.poi.util.ShortField;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -41,23 +35,16 @@ public class PlanningExportBuilder {
 
 	private ArrayList<Short> defcouleur = new ArrayList<Short>()
 	{{
-		add(IndexedColors.OLIVE_GREEN.getIndex());
-		add(IndexedColors.BLUE.getIndex());
-		//add(IndexedColors.BROWN.getIndex());
-		//add(IndexedColors.AQUA.getIndex());
-		//add(IndexedColors.GOLD.getIndex());
-		add(IndexedColors.GREY_40_PERCENT.getIndex());
-		add(IndexedColors.LAVENDER.getIndex());
-		add(IndexedColors.ORANGE.getIndex());
-		add(IndexedColors.ROSE.getIndex());
-		add(IndexedColors.BLUE_GREY.getIndex());
-		add(IndexedColors.CORAL.getIndex());
-		add(IndexedColors.PLUM.getIndex());
-		add(IndexedColors.SEA_GREEN.getIndex());
+		add(IndexedColors.LEMON_CHIFFON.getIndex());
+		add(IndexedColors.YELLOW.getIndex());
+		add(IndexedColors.LIGHT_YELLOW.getIndex());
+		add(IndexedColors.GREY_25_PERCENT.getIndex());
+		add(IndexedColors.WHITE.getIndex());
+		add(IndexedColors.PALE_BLUE.getIndex());
+		add(IndexedColors.LIGHT_TURQUOISE.getIndex());
+		add(IndexedColors.LIGHT_GREEN.getIndex());
 		add(IndexedColors.LIGHT_ORANGE.getIndex());
-		add(IndexedColors.TAN.getIndex());
-
-
+		add(IndexedColors.CORAL.getIndex());
 	}};
 
 	private Map<String,HSSFCellStyle> couleurParProf = new HashMap<>();
@@ -121,15 +108,7 @@ public class PlanningExportBuilder {
 
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet planningSheet = workbook.createSheet("Planning");
-
-		//creating a custom palette for the workbook
-		HSSFPalette palette = workbook.getCustomPalette();
-		//replacing the standard green
-		palette.setColorAtIndex(HSSFColor.GREEN.index,
-				(byte) 204,  //RGB red (0-255)
-				(byte) 255,  //RGB green
-				(byte) 204   //RGB blue
-		);
+		planningSheet.getPrintSetup().setLandscape(true);
 
 		// DATE STYLE
 		HSSFCellStyle dateStyle = workbook.createCellStyle();
@@ -209,13 +188,18 @@ public class PlanningExportBuilder {
 						row = planningSheet.createRow(rowIndex++);
 						(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+
 						(cell = row.createCell(cellIndex++)).setCellValue("Enseignant \"suiveur\"");
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+
 						(cell = row.createCell(cellIndex++)).setCellValue("Enseignant co-jury");
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+
 						(cell = row.createCell(cellIndex++)).setCellValue("Tuteur entreprise");
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 					}
+
+					// Soutenances
 					cellIndex=0;
 					row = planningSheet.createRow(rowIndex++);
 					row.createCell(cellIndex++).setCellValue(c.getHoraire());
