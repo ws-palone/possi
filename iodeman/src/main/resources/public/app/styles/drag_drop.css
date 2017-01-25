@@ -1,6 +1,8 @@
 table.rect_planning td {
     margin: 1px 1px 1px 1px;
     padding: 1px 1px 1px 1px;
+    border-radius: 7px;
+    height: 60px;
 }
 
 table.rect_planning {
