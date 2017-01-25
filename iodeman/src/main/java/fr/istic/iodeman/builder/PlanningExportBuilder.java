@@ -35,17 +35,17 @@ public class PlanningExportBuilder {
 
 	private ArrayList<Short> defcouleur = new ArrayList<Short>()
 	{{
-		add(IndexedColors.LEMON_CHIFFON.getIndex());
-		add(IndexedColors.YELLOW.getIndex());
-		add(IndexedColors.LIGHT_YELLOW.getIndex());
-		add(IndexedColors.GREY_25_PERCENT.getIndex());
-		add(IndexedColors.WHITE.getIndex());
-		add(IndexedColors.PALE_BLUE.getIndex());
-		add(IndexedColors.LIGHT_TURQUOISE.getIndex());
-		add(IndexedColors.LIGHT_GREEN.getIndex());
-		add(IndexedColors.LIGHT_ORANGE.getIndex());
-		add(IndexedColors.CORAL.getIndex());
-	}};
+        add(IndexedColors.GREY_25_PERCENT.getIndex());
+        add(IndexedColors.YELLOW.getIndex());
+        add(IndexedColors.PALE_BLUE.getIndex());
+        add(IndexedColors.LIGHT_GREEN.getIndex());
+        add(IndexedColors.LIGHT_ORANGE.getIndex());
+        add(IndexedColors.WHITE.getIndex());
+        add(IndexedColors.LIGHT_TURQUOISE.getIndex());
+        add(IndexedColors.LIGHT_YELLOW.getIndex());
+        add(IndexedColors.CORAL.getIndex());
+        add(IndexedColors.LEMON_CHIFFON.getIndex());
+    }};
 
 	private Map<String,HSSFCellStyle> couleurParProf = new HashMap<>();
 	
