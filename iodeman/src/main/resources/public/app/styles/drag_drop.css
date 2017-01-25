@@ -1,0 +1,28 @@
+table.rect_planning td {
+    margin: 1px 1px 1px 1px;
+    padding: 1px 1px 1px 1px;
+}
+
+table.rect_planning {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+.rec_etud{
+    background: #009688;
+    color: white;
+}
+
+.rec_tut{
+    background: green;
+    color: white;
+}
+
+.rec_prof1{
+    background: #03A9F4;
+    color: white;
+}
+
+.rec_prof2{
+    background: #ff5722;
+    color: white;
+}
