@@ -30,10 +30,10 @@
 
 					<table width="100%">
 						<tr>
-							<td style="background: blue; color: white;" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
+							<td style="background: #009688; color: white;" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
 							<td  style="background: green; color: white;" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
-							<td  style="background: deepskyblue; color: white;" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
-							<td  style="background: orange; color: white;" width="20%"> {{horaire[$index].candide.name | emailToName | capitalize:true}}</td>
+							<td  style="background: #03A9F4; color: white;" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
+							<td  style="background: #ff5722; color: white;" width="20%"> {{horaire[$index].candide.name | emailToName | capitalize:true}}</td>
 
 						</tr>
 					</table>
@@ -41,10 +41,9 @@
 
 
 			</td>
-<!--
-			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
-
-			</td>-->
+			<!--
+                        <td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
+                        </td>-->
 		</tr>
 		</tbody>
 	</table>
