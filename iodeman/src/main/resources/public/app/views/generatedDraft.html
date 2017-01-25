@@ -1,52 +1,51 @@
 <a href="/#/">
-	<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
+    <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
 </a>
 <button type="text" class="btn btn-raised btn-sm btn-success" ng-click="printIt()">Imprimer</button>
 <button 	ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i class="glyphicon glyphicon-chevron-up"></i></button>
 
 <div ng-show="error" class="pangel panel-danger">
-	Le planning n'a pas encore été généré par l'administrateur.
+    Le planning n'a pas encore été généré par l'administrateur.
 </div>
 
 <div ng-hide="error" class="panel panel-default planning">
-	<table id="printArea" class="table" ng-mouseover="drag()">
-		<thead>
-		<tr>
-			<th class="odd">Horaire</th>
-			<th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}">Salle {{room.name}}</th>
-		</tr>
-		</thead>
-		<tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
-		<tr>
-			<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
-		</tr>
-		<tr ng-repeat="horaire in jour" class="line_creneau">
-			<!-- <td>{{horaire[0].periode}}</td> -->
-			<td class="odd">{{horaire[0].horaire}}</td>
+    <table id="printArea" class="table">
+        <thead>
+        <tr>
+            <th class="odd">Horaire</th>
+            <th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}">Salle {{room.name}}</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
+        <tr>
+            <th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
+        </tr>
+        <tr ng-repeat="horaire in jour" class="line_creneau" my-repeat-directive>
+            <!-- <td>{{horaire[0].periode}}</td> -->
+            <td class="odd">{{horaire[0].horaire}}</td>
 
-			<td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau">
-				<div ng-if="horaire[$index].student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true">
-
-
-					<table width="100%">
-						<tr>
-							<td style="background: blue; color: white;" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
-							<td  style="background: green; color: white;" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
-							<td  style="background: deepskyblue; color: white;" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
-							<td  style="background: orange; color: white;" width="20%"> {{horaire[$index].student.candide.name | emailToName | capitalize:true}}</td>
-
-						</tr>
-					</table>
-				</div>
+            <td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau">
+                <div ng-if="horaire[$index].student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true">
 
 
-			</td>
-<!--
-			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
+                    <table width="100%">
+                        <tr>
+                            <td style="background: #009688; color: white;" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
+                            <td  style="background: green; color: white;" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
+                            <td  style="background: #03A9F4; color: white;" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
+                            <td  style="background: #ff5722; color: white;" width="20%"> {{horaire[$index].candide.name | emailToName | capitalize:true}}</td>
 
-			</td>-->
-		</tr>
-		</tbody>
-	</table>
+                        </tr>
+                    </table>
+                </div>
+
+
+            </td>
+            <!--
+                        <td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
+                        </td>-->
+        </tr>
+        </tbody>
+    </table>
 </div>
 <script src="../app/scripts/assets/generatedDraft.js"></script>

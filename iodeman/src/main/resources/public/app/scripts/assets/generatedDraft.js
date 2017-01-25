@@ -4,7 +4,13 @@
 
 function show_hide_creneaux(){
     $('.line_creneau').each(function(){
-        if($($(this).children('.creneau')[0]).children().length == 0){
+        var occupated = false;
+        $($(this).children('.creneau')).each(function(item){
+            if ($(this).children().length >0){
+                occupated = true;
+            }
+        })
+        if(!occupated){
             if($(this).is(":visible")){
                 $(this).hide();
 
@@ -12,6 +18,7 @@ function show_hide_creneaux(){
                 $(this).show();
             }
         }
+
     });
 
     if($("#rotate i").hasClass("glyphicon-chevron-down")){
