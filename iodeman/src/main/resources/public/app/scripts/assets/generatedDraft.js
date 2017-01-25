@@ -23,6 +23,8 @@ function show_hide_creneaux(){
         $("#rotate i").removeClass("glyphicon-chevron-up");
     }
 
+
+
 }
 
 

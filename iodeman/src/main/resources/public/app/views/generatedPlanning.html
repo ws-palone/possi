@@ -24,8 +24,6 @@
 			<td class="odd">{{horaire[0].horaire}}</td>
 
 			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}">
-
-
 				<span class="label label-primary">{{creneau.student.name | emailToName | capitalize:true}}</span>
 				<span class="label label-success">{{creneau.tuteur.name | capitalize:true}}</span>
 				<span class="label label-info">{{creneau.enseignant.name | emailToName | capitalize:true}}</span>
