@@ -24,28 +24,26 @@
 			<!-- <td>{{horaire[0].periode}}</td> -->
 			<td class="odd">{{horaire[0].horaire}}</td>
 
-
-
-			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
-
-				<div ng-if="creneau.student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true" id="{{$index +1}}">
-
 			<td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau">
 				<div ng-if="horaire[$index].student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true">
 
 
 					<table width="100%">
 						<tr>
-						<td style="background: #009688; color: white;" width="20%"><strong>{{creneau.student.name | emailToName | capitalize:true}}</strong></td>
-						<td  style="background: green; color: white;" width="20%"> <strong>{{creneau.tuteur.name | capitalize:true}} </strong></td>
-						<td  style="background: #03A9F4; color: white;" width="20%"><strong> {{creneau.enseignant.name | emailToName | capitalize:true}} </strong></td>
-						<td  style="background: #ff5722; color: white;" width="20%"> <strong>{{creneau.candide.name | emailToName | capitalize:true}} </strong></td>
+							<td style="background: #009688; color: white;" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
+							<td  style="background: green; color: white;" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
+							<td  style="background: #03A9F4; color: white;" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
+							<td  style="background: #ff5722; color: white;" width="20%"> {{horaire[$index].student.candide.name | emailToName | capitalize:true}}</td>
 
 						</tr>
 					</table>
-
 				</div>
+
+
 			</td>
+			<!--
+                        <td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
+                        </td>-->
 		</tr>
 		</tbody>
 	</table>
