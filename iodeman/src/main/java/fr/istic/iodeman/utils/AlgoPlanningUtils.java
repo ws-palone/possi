@@ -1,23 +1,17 @@
 package fr.istic.iodeman.utils;
 
-import java.util.Collection;
-import java.util.Comparator;
-
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import fr.istic.iodeman.model.*;
+import org.apache.commons.lang.WordUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
-import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Role;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.model.Unavailability;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.regex.Pattern;
 
 public class AlgoPlanningUtils {
 
@@ -96,5 +90,17 @@ public class AlgoPlanningUtils {
 		}
 		return Lists.newArrayList();
 	}
-	
+
+	public static String emailToName(String email) {
+		String name = email;
+		if( email !=null && !email.isEmpty()){
+			int index = email.indexOf('@');
+			String email2 = email.substring(0,index);
+			String[] parts = email2.split(Pattern.quote("."));
+			String prenom = parts[0]; // 004
+			String nom = parts[1];
+			name = nom.toUpperCase() + " " + WordUtils.capitalize(prenom);
+		}
+		return name;
+	}
 }

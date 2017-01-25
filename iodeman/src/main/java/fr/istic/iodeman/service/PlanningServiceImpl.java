@@ -252,7 +252,7 @@ public class PlanningServiceImpl implements PlanningService {
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
 		builder.setUnavailabilities(unavailabilities);
-		
+
 		File file = null;
 		try {
 //			file = builder.split().build().toCSV();
