@@ -175,10 +175,11 @@ body {
 /**
 GenratedPlanning.html
 */
-#rotate{
-    float:right;
-}
 
 .line_creneau.ng-scope {
   border: 1px solid white;
+}
+
+.right-button{
+  float: right;
 }
