@@ -5,6 +5,7 @@ import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Unavailability;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -12,6 +13,8 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -68,7 +71,10 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		try {
 			transaction = session.beginTransaction();
 			session.delete(entity);
-			session.getTransaction().commit();	
+			session.getTransaction().commit();
+			File fileEntry = new File("persist/"+entity.getId());
+			FileUtils.deleteDirectory(fileEntry);
+
 		} catch (Exception e){
 			if (transaction!=null) transaction.rollback();
 			e.printStackTrace();
@@ -293,6 +299,12 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 				}
 				ids += ids_list.get(i);
 
+				File fileEntry = new File("persist/"+ids_list.get(i));
+				try {
+					FileUtils.deleteDirectory(fileEntry);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 			System.out.println(ids);
