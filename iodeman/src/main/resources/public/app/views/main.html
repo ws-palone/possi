@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="app/styles/mobile.css" media="all">
+
 <div id="page-inner" ng-show="connected">
 	<div class="panel panel-primary" id="home-info">
 		<div class="panel-heading">
@@ -14,13 +16,12 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-head-line">Mes plannings <a ng-hide="user.role != 'PROF'" class="btn btn-raised btn-sm btn-success" href="#/planning/create">
+			<h1 class="page-head-line">Mes plannings <a ng-hide="user.role != 'PROF'" class="btn btn-raised btn-sm btn-success hidden-xs" href="#/planning/create">
 							<i class="fa fa-dashboard "></i>Créer planning</a></h1> 
 		</div>
 	</div>
 	<div class="row">
 		<div class=" col-md-12 col-sm-=12">
-			<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
@@ -40,23 +41,103 @@
 							<td>{{ planning.period.from | date:'dd/MM/yyyy' }}</td>
 							<td>{{ planning.period.to | date:'dd/MM/yyyy' }}</td>
 							<td>
-								<a href="#/unavailabilities/{{ planning.id }}" class="btn btn-raised btn-sm btn-success">
+								<a href="#/unavailabilities/{{ planning.id }}" class="btn btn-raised btn-sm btn-success hidden-xs">
 									Saisir indisponibilités
 								</a>
-								<a ng-hide="planning.admin.uid != user.uid" href="#/planning/{{ planning.id }}" class="btn btn-raised btn-sm btn-success">
+								<a ng-hide="planning.admin.uid != user.uid" href="#/planning/{{ planning.id }}" class="btn btn-raised btn-sm btn-success hidden-xs">
 									Gérer le planning
 								</a>
 								<a data-toggle="tooltip" title="Voir le planning" ng-show="exported.indexOf(planning.id)!=-1" class="btn btn-raised btn-sm btn-success" href="#/generatedPlanning/{{ planning.id }}"><i class="glyphicon glyphicon-calendar"></i></a>
-								<a data-toggle="tooltip" title="Créer un draft" ng-show="exported.indexOf(planning.id)!=-1" href="#/duplicatePlanning/{{ planning.id }}" class="btn btn-raised btn-sm btn-info">
+								<a data-toggle="tooltip" title="Créer un draft" ng-show="exported.indexOf(planning.id)!=-1" href="#/duplicatePlanning/{{ planning.id }}" class="btn btn-raised btn-sm btn-info hidden-xs">
 									<i class="glyphicon glyphicon-duplicate"></i>
 								</a>
 								<a data-toggle="tooltip" title="Supprimer le planning"confirmed-click="remove({{ planning.id }})"
-							ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="planning.admin.uid != user.uid" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+							ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="planning.admin.uid != user.uid" class="btn btn-raised btn-sm btn-danger hidden-xs"><i class="glyphicon glyphicon-remove"></i></a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
+
+			<!--<table>-->
+				<!--<thead>-->
+				<!--<tr>-->
+					<!--<th>First Name</th>-->
+					<!--<th>Last Name</th>-->
+					<!--<th>Job Title</th>-->
+					<!--<th>Favorite Color</th>-->
+					<!--<th>Wars or Trek?</th>-->
+					<!--<th>Porn Name</th>-->
+					<!--<th>Date of Birth</th>-->
+					<!--<th>Dream Vacation City</th>-->
+					<!--<th>GPA</th>-->
+					<!--<th>Arbitrary Data</th>-->
+				<!--</tr>-->
+				<!--</thead>-->
+				<!--<tbody>-->
+				<!--<tr>-->
+					<!--<td>James</td>-->
+					<!--<td>Matman</td>-->
+					<!--<td>Chief Sandwich Eater</td>-->
+					<!--<td>Lettuce Green</td>-->
+					<!--<td>Trek</td>-->
+					<!--<td>Digby Green</td>-->
+					<!--<td>January 13, 1979</td>-->
+					<!--<td>Gotham City</td>-->
+					<!--<td>3.1</td>-->
+					<!--<td>RBX-12</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>The</td>-->
+					<!--<td>Tick</td>-->
+					<!--<td>Crimefighter Sorta</td>-->
+					<!--<td>Blue</td>-->
+					<!--<td>Wars</td>-->
+					<!--<td>John Smith</td>-->
+					<!--<td>July 19, 1968</td>-->
+					<!--<td>Athens</td>-->
+					<!--<td>N/A</td>-->
+					<!--<td>Edlund, Ben (July 1996).</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>Jokey</td>-->
+					<!--<td>Smurf</td>-->
+					<!--<td>Giving Exploding Presents</td>-->
+					<!--<td>Smurflow</td>-->
+					<!--<td>Smurf</td>-->
+					<!--<td>Smurflane Smurfmutt</td>-->
+					<!--<td>Smurfuary Smurfteenth, 1945</td>-->
+					<!--<td>New Smurf City</td>-->
+					<!--<td>4.Smurf</td>-->
+					<!--<td>One</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>Cindy</td>-->
+					<!--<td>Beyler</td>-->
+					<!--<td>Sales Representative</td>-->
+					<!--<td>Red</td>-->
+					<!--<td>Wars</td>-->
+					<!--<td>Lori Quivey</td>-->
+					<!--<td>July 5, 1956</td>-->
+					<!--<td>Paris</td>-->
+					<!--<td>3.4</td>-->
+					<!--<td>3451</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>Captain</td>-->
+					<!--<td>Cool</td>-->
+					<!--<td>Tree Crusher</td>-->
+					<!--<td>Blue</td>-->
+					<!--<td>Wars</td>-->
+					<!--<td>Steve 42nd</td>-->
+					<!--<td>December 13, 1982</td>-->
+					<!--<td>Las Vegas</td>-->
+					<!--<td>1.9</td>-->
+					<!--<td>Under the couch</td>-->
+				<!--</tr>-->
+				<!--</tbody>-->
+			<!--</table>-->
+
+
 			<div class="row" id="home-spinner">
 				<div class="col-md-2 col-md-offset-5">
 					<img src="app/images/spin.svg">
