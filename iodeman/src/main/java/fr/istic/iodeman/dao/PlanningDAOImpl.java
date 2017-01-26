@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
+import java.text.DateFormat;
 import java.util.*;
 
 @Repository
@@ -155,10 +156,11 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	public Integer duplicate(Integer id) {
 		Session session = getNewSession();
 
-        Criteria crit = session.createCriteria(Planning.class);
-        crit.add( Restrictions.eq("ref_id", id));
-        crit.setProjection(Projections.rowCount());
-        Integer count = ((Long)crit.uniqueResult()).intValue();
+		Date d = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(
+				DateFormat.SHORT,
+				DateFormat.SHORT
+		);
 
 		//inserer une nouvelle ligne dans  planing en copiant la reference
 		Planning clone = this.findById(id);
@@ -166,7 +168,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		clone.setRef_id(id);
 		clone.setId(null);
 		String name = clone.getName();
-		clone.setName(name+ " - Draft " + String.valueOf(count+1));
+		clone.setName(name+ " - Draft " + dateFormat.format(d));
 		Integer newId = this.persist(clone);
 
 		// impact sur Planning participant/ Planning Priority/ planning Room
@@ -242,8 +244,10 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		//Au niveau du draft
 		Planning draft = this.findById(idDraft);
 		Integer id_ref = draft.getRef_id();
+		Planning ancienne_ref = this.findById(id_ref);
 		draft.setIs_ref(1);
 		draft.setRef_id(null);
+		draft.setName(ancienne_ref.getName());
 		Integer new_id = draft.getId();
 		this.update(draft);
 
@@ -255,9 +259,16 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		}
 
 		//reference actuelle
-		Planning ancienne_ref = this.findById(id_ref);
+
+		Date d = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(
+				DateFormat.SHORT,
+				DateFormat.SHORT
+		);
+
 		ancienne_ref.setIs_ref(0);
 		ancienne_ref.setRef_id(new_id);
+		ancienne_ref.setName(ancienne_ref.getName() + " - Old " + dateFormat.format(d));
 		this.update(ancienne_ref);
 
 		session.close();
