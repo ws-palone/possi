@@ -9,6 +9,7 @@ import fr.istic.possijar.AlgoPlanningImplV3;
 import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
@@ -136,6 +137,7 @@ public class PlanningExportBuilder {
 		int rowIndex = 0;
 		int cellIndex = 0;
 		HSSFRow row;
+		HSSFCell cell;
 		List<List<Creneau>> days = new ArrayList<>();
 		List<Creneau> day = new ArrayList<>();
 		// Pour chaque creneau
@@ -163,12 +165,11 @@ public class PlanningExportBuilder {
 				}
 				// Afficher date
 				row = planningSheet.createRow(rowIndex);
-				row.setRowStyle(defaultStyle);
 				cellIndex = 0;
 				planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
 				SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.FRANCE);
 				String date = sdf.format(listTimeboxes.get(d.get(0).getPeriode()).getFrom());
-				HSSFCell cell = row.createCell(cellIndex);
+				cell = row.createCell(cellIndex);
 				cell.setCellValue(date);
 				cell.setCellStyle(dateStyle);
 				CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
@@ -193,7 +194,6 @@ public class PlanningExportBuilder {
 						cellIndex = 1;
 						// SALLE
 						row = planningSheet.createRow(rowIndex);
-						row.setRowStyle(defaultStyle);
 						planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
 						(cell = row.createCell(cellIndex)).setCellValue(sallesSelectionnees.get(salleEnCours-1));
 						cell.setCellStyle(salleStyle);
@@ -202,7 +202,6 @@ public class PlanningExportBuilder {
 
 					 	// HEADER
 						row = planningSheet.createRow(rowIndex++);
-						row.setRowStyle(defaultStyle);
 						(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
 						cell.setCellStyle(defaultStyle);
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
@@ -223,35 +222,86 @@ public class PlanningExportBuilder {
 					// Soutenances
 					cellIndex=0;
 					row = planningSheet.createRow(rowIndex++);
-					row.setRowStyle(defaultStyle);
 
 					// Horaire
 					(cell = row.createCell(cellIndex++)).setCellValue(c.getHoraire());
 					cell.setCellStyle(defaultStyle);
 
 					// Etudiant
-					(cell = row.createCell(cellIndex++)).setCellValue(AlgoPlanningUtils.emailToName(c.getStudent().getName()));
+					cell = row.createCell(cellIndex++);
+					if(c.getStudent() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getStudent().getName()));
 					cell.setCellStyle(defaultStyle);
 
 					// Prof 1
-					(cell = row.createCell(cellIndex++)).setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
+					cell = row.createCell(cellIndex++);
+					if(c.getEnseignant() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
 					colorStyle = getColor(workbook,c.getEnseignant().getName());
 					colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 					colorStyle.setFont(font);
 					cell.setCellStyle(colorStyle);
 
 					// Prof 2
-					(cell = row.createCell(cellIndex++)).setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
+					cell = row.createCell(cellIndex++);
+					if(c.getCandide() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
 					colorStyle = getColor(workbook,c.getCandide().getName());
 					colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 					colorStyle.setFont(font);
 					cell.setCellStyle(colorStyle);
 
 					// Tuteur
-					(cell = row.createCell(cellIndex++)).setCellValue(c.getTuteur().getName());
+					cell = row.createCell(cellIndex++);
+					if(c.getTuteur() != null) cell.setCellValue(c.getTuteur().getName());
 					cell.setCellStyle(defaultStyle);
 				}
 			}
+		}
+
+		// Soutenances posant problèmes
+		List<Creneau> impossibleAInserer = algoPlanning_new.getImpossibleAInserer();
+		cellIndex = 0;
+		planningSheet.createRow(rowIndex++);
+		planningSheet.createRow(rowIndex++);
+		row = planningSheet.createRow(rowIndex++);
+		(cell = row.createCell(cellIndex++)).setCellValue("Soutenances qui posent problèmes : ");
+		cell.setCellStyle(defaultStyle);
+		row = planningSheet.createRow(rowIndex++);
+		(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
+		cell.setCellStyle(defaultStyle);
+		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+		(cell = row.createCell(cellIndex++)).setCellValue("Enseignant \"suiveur\"");
+		cell.setCellStyle(defaultStyle);
+		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+		(cell = row.createCell(cellIndex++)).setCellValue("Enseignant co-jury");
+		cell.setCellStyle(defaultStyle);
+		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+		(cell = row.createCell(cellIndex++)).setCellValue("Tuteur entreprise");
+		cell.setCellStyle(defaultStyle);
+		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+		for(Creneau c : impossibleAInserer) {
+			cellIndex = 1;
+			row = planningSheet.createRow(rowIndex++);
+			cell = row.createCell(cellIndex++);
+			cell.setCellStyle(defaultStyle);
+			if(c.getStudent() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getStudent().getName()));
+			cell = row.createCell(cellIndex++);
+			if(c.getEnseignant() != null){
+				cell.setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
+				colorStyle = getColor(workbook, c.getEnseignant().getName());
+				colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+				colorStyle.setFont(font);
+				cell.setCellStyle(colorStyle);
+			}
+			cell = row.createCell(cellIndex++);
+			if(c.getCandide() != null){
+				cell.setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
+				colorStyle = getColor(workbook, c.getCandide().getName());
+				colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+				colorStyle.setFont(font);
+				cell.setCellStyle(colorStyle);
+			}
+			cell = row.createCell(cellIndex++);
+			cell.setCellStyle(defaultStyle);
+			cell.setCellValue(c.getTuteur().getName());
 		}
 
 		// Rearrange columns size
@@ -261,7 +311,7 @@ public class PlanningExportBuilder {
 			row.setHeight((short) 0);
 			Iterator<Cell> cellIterator = row.cellIterator();
 			while (cellIterator.hasNext()) {
-				Cell cell = cellIterator.next();
+				cell = (HSSFCell) cellIterator.next();
 				int columnIndex = cell.getColumnIndex();
 				planningSheet.autoSizeColumn(columnIndex);
 			}
@@ -273,6 +323,9 @@ public class PlanningExportBuilder {
         planningSheet.setFitToPage(true);
         ps.setFitWidth((short)1);
         ps.setFitHeight((short)0);
+
+		Footer footer = planningSheet.getFooter();
+		footer.setRight( "Page " + HeaderFooter.page() + " sur " + HeaderFooter.numPages() );
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Date now = new Date();
@@ -288,7 +341,6 @@ public class PlanningExportBuilder {
 		planningExport.configure(timeboxes);
 		return planningExport.execute(oralDefenses);
 	}*/
-	
 	
 	public Collection<TimeBox> getTimeboxes() {
 		return this.timeboxes;

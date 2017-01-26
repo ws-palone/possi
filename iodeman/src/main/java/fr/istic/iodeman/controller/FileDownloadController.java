@@ -48,7 +48,10 @@ public class FileDownloadController {
 		// retrieving of the generating file containing the agenda
 		File file = planningService.exportExcel(planning);
 		// name of the returned file
-		String filename = file.getName();
+		String filename = "planning_export.xls";
+		if(file != null){
+			filename = file.getName();
+		}
 		
 		// header
         String headerKey = "Content-Disposition";
