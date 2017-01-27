@@ -1,9 +1,84 @@
 <link rel="stylesheet" href="app/styles/drag_drop.css" media="all">
+<style>
 
+	/*
+	 Max width before this PARTICULAR table gets nasty
+	 This query will take effect for any screen smaller than 760px
+	 and also iPads specifically.
+	 */
+    @media
+    only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        tr { border: 1px solid #ccc; }
+
+        td {
+			/* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 30%
+
+        }
+
+        td:before {
+			/* Now like a table header */
+            position: absolute;
+			/* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+			height: 30px !important;
+
+        }
+
+		/*!**/
+		 /*Label the data*/
+		 /**!*/
+        /*td:nth-of-type(1):before { content: ""; }*/
+        /*td:nth-of-type(2):before { content: ""; }*/
+        /*td:nth-of-type(3):before { content: ""; }*/
+        /*td:nth-of-type(4):before { content: ""; }*/
+        /*td:nth-of-type(5):before { content: ""; }*/
+        /*td:nth-of-type(6):before { content: ""; }*/
+
+    }
+
+	/* Smartphones (portrait and landscape) ----------- */
+    @media only screen
+    and (min-device-width : 320px)
+    and (max-device-width : 480px) {
+        body {
+            padding: 0;
+            margin: 0;
+            width: 320px; }
+    }
+
+	/* iPads (portrait and landscape) ----------- */
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        body {
+            width: 495px;
+        }
+    }
+</style>
 <a href="/#/">
 	<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
 </a>
-<button type="text" class="btn btn-raised btn-sm btn-success" ng-click="printIt()">Imprimer</button>
+<button type="text" class="btn btn-raised btn-sm btn-success hidden-xs" ng-click="printIt()">Imprimer</button>
 
 <div ng-show="error" class="pangel panel-danger">
 	Le planning n'a pas encore été généré par l'administrateur.
@@ -19,6 +94,7 @@
 		</thead>
 		<tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
 		<tr>
+			<th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="visible-xs" >Salle {{room.name}}</th>
 			<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
 		</tr>
 		<tr ng-repeat="horaire in jour" ng-show="horaire[0].horaire.length>0">
@@ -26,8 +102,7 @@
 			<td class="odd">{{horaire[0].horaire}}</td>
 
 			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}">
-
-				<table width="100%" class="rect_planning">
+				<table width="100%" class="rect_planning visible-lg hidden-xs" >
 					<tr>
 						<td class="rec_etud"  width="20%"><strong>{{creneau.student.name | emailToName | capitalize:true}}</strong></td>
 						<td class="rec_tut"  width="20%"> <strong>{{creneau.tuteur.name | capitalize:true}} </strong></td>
@@ -35,10 +110,13 @@
 						<td class="rec_prof2" width="20%"> <strong>{{creneau.candide.name | emailToName | capitalize:true}} </strong></td>
 					</tr>
 				</table>
-				<!--<span class="label label-primary">{{creneau.student.name | emailToName | capitalize:true}}</span>-->
-				<!--<span class="label label-success">{{creneau.tuteur.name | capitalize:true}}</span>-->
-				<!--<span class="label label-info">{{creneau.enseignant.name | emailToName | capitalize:true}}</span>-->
-				<!--<span class="label label-warning">{{creneau.candide.name | emailToName | capitalize:true}}</span>-->
+
+<div id="block_container col-lg-12 visible-xs">
+	<div class="rec_etud col-lg-2 col-lg-offset-1 visible-xs" id="bloc1"><strong>{{creneau.student.name | emailToName | capitalize:true}}</strong></div>
+	<div class="rec_tut col-lg-2 col-lg-offset-1 visible-xs" id="bloc2"> <strong>{{creneau.tuteur.name | capitalize:true}} </strong></div>
+	<div class="rec_prof1 col-lg-2 col-lg-offset-1 visible-xs" id="bloc3"><strong> {{creneau.enseignant.name | emailToName | capitalize:true}} </strong></div>
+	<div class="rec_prof2 col-lg-2 col-lg-offset-1 visible-xs" id="bloc4"> <strong>{{creneau.candide.name | emailToName | capitalize:true}} </strong></div>
+</div>
 			</td>
 		</tr>
 		</tbody>

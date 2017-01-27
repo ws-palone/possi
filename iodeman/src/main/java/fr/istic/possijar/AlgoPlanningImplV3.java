@@ -3,48 +3,15 @@
  */
 package fr.istic.possijar;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-import java.util.stream.Stream;
-
-import javafx.collections.ObservableList;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-
-import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.model.Unavailability;
+import javafx.collections.ObservableList;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author François Esnault, Petit Emmanuel [M2 MIAGE]
@@ -888,7 +855,7 @@ public class AlgoPlanningImplV3 {
 					ObjectInput i1 = new ObjectInputStream (b1);
 					ObjectInput i2 = new ObjectInputStream (b2);
 					ObjectInput i3 = new ObjectInputStream (b3);
-					){
+			){
 				//deserialize the List
 				planning = (Map<Integer, List<Creneau>>)i1.readObject();
 				impossibleAInserer = (List<Creneau>)i1.readObject();
@@ -913,5 +880,9 @@ public class AlgoPlanningImplV3 {
 
 	public Map<Integer, List<Creneau>> getPlanning() {
 		return planning;
+	}
+
+	public List<Creneau> getImpossibleAInserer() {
+		return impossibleAInserer;
 	}
 }
