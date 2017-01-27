@@ -48,7 +48,7 @@
 									Gérer le planning
 								</a>
 								<a data-toggle="tooltip" title="Voir le planning" ng-show="exported.indexOf(planning.id)!=-1" class="btn btn-raised btn-sm btn-success" href="#/generatedPlanning/{{ planning.id }}"><i class="glyphicon glyphicon-calendar"></i></a>
-								<a data-toggle="tooltip" title="Créer un draft" ng-show="exported.indexOf(planning.id)!=-1" href="#/duplicatePlanning/{{ planning.id }}" class="btn btn-raised btn-sm btn-info hidden-xs">
+								<a data-toggle="tooltip" title="Créer un draft" ng-show="exported.indexOf(planning.id)!=-1" ng-hide="planning.admin.uid != user.uid" href="#/duplicatePlanning/{{ planning.id }}" class="btn btn-raised btn-sm btn-info hidden-xs">
 									<i class="glyphicon glyphicon-duplicate"></i>
 								</a>
 								<a data-toggle="tooltip" title="Supprimer le planning"confirmed-click="remove({{ planning.id }})"
