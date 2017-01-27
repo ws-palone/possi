@@ -9,6 +9,15 @@ table.rect_planning {
     border-collapse: separate;
     border-spacing: 10px;
 }
+
+#block_container
+{
+    text-align:center;
+}
+#bloc1, #bloc2, #bloc3, #bloc4
+{
+    height: 40px;
+}
 .rec_etud{
     background: #009688;
     color: white;
