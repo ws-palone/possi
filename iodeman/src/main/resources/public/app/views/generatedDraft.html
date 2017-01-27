@@ -4,8 +4,10 @@
 </a>
 <button type="text" class="btn btn-raised btn-sm btn-primary" ng-click="printIt()">Imprimer</button>
 <div class="right-button">
-    <button type="button" class="btn btn-raised btn-sm btn-success">Enregistrer les modifications</button>
-    <button ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i class="glyphicon glyphicon-chevron-up"></i></button>
+    <button type="button" class="btn btn-raised btn-sm btn-success" ng-click="save()">Enregistrer les modifications
+    </button>
+    <button ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i
+            class="glyphicon glyphicon-chevron-up"></i></button>
 </div>
 
 <div ng-show="error" class="pangel panel-danger">
@@ -24,24 +26,12 @@
         <tr>
             <th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
         </tr>
-        <tr ng-repeat="horaire in jour" class="line_creneau" my-repeat-directive>
+        <tr ng-repeat="horaire in jour" class="line_creneau">
             <!-- <td>{{horaire[0].periode}}</td> -->
-            <td class="odd">{{horaire[0].horaire}}</td>
+            <td class="odd" data-periode="{{horaire[0].periode}}">{{horaire[0].horaire}}</td>
 
-            <td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau">
-                <div ng-if="horaire[$index].student != null" ng-class="{'selected': models.selected === creneau}" class="event" draggable="true">
-
-
-					<table width="100%" class="rect_planning">
-						<tr>
-							<td class="rec_etud" width="20%">{{horaire[$index].student.name | emailToName | capitalize:true}}</td>
-							<td  class="rec_tut" width="20%"> {{horaire[$index].student.tuteur.name | capitalize:true}}</td>
-							<td  class="rec_prof1" width="20%"> {{horaire[$index].student.enseignant.name | emailToName | capitalize:true}}</td>
-							<td  class="rec_prof2" width="20%"> {{horaire[$index].candide.name | emailToName | capitalize:true}}</td>
-
-                        </tr>
-                    </table>
-                </div>
+            <td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau"
+                my-repeat-directive>
 
 
             </td>
@@ -53,7 +43,9 @@
     </table>
 </div>
 <div class="right-button">
-    <button type="button" class="btn btn-raised btn-sm btn-success">Enregistrer les modifications</button>
-    <button ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i class="glyphicon glyphicon-chevron-up"></i></button>
+    <button type="button" class="btn btn-raised btn-sm btn-success" ng-click="save()">Enregistrer les modifications
+    </button>
+    <button ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i
+            class="glyphicon glyphicon-chevron-up"></i></button>
 </div>
 <script src="../app/scripts/assets/generatedDraft.js"></script>
