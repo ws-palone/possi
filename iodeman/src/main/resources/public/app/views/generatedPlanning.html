@@ -46,15 +46,13 @@
 
         }
 
-		/*!**/
-		 /*Label the data*/
-		 /**!*/
-        /*td:nth-of-type(1):before { content: ""; }*/
-        /*td:nth-of-type(2):before { content: ""; }*/
-        /*td:nth-of-type(3):before { content: ""; }*/
-        /*td:nth-of-type(4):before { content: ""; }*/
-        /*td:nth-of-type(5):before { content: ""; }*/
-        /*td:nth-of-type(6):before { content: ""; }*/
+		/*
+		 Label the data
+		 */
+        /*td:nth-of-type(1):before { content: "i50"; }*/
+        /*td:nth-of-type(2):before { content: "i51"; }*/
+        /*td:nth-of-type(3):before { content: "sdfsdfsd"; }*/
+
 
     }
 
@@ -84,7 +82,7 @@
 	Le planning n'a pas encore été généré par l'administrateur.
 </div>
 
-<div ng-hide="error" class="panel panel-default planning">
+<div ng-hide="error" class="panel panel-default planning visible-lg">
 	<table id="printArea" class="table">
 		<thead>
 		<tr>
@@ -94,7 +92,6 @@
 		</thead>
 		<tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
 		<tr>
-			<th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="visible-xs" >Salle {{room.name}}</th>
 			<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
 		</tr>
 		<tr ng-repeat="horaire in jour" ng-show="horaire[0].horaire.length>0">
@@ -111,14 +108,45 @@
 					</tr>
 				</table>
 
-<div id="block_container col-lg-12 visible-xs">
-	<div class="rec_etud col-lg-2 col-lg-offset-1 visible-xs" id="bloc1"><strong>{{creneau.student.name | emailToName | capitalize:true}}</strong></div>
-	<div class="rec_tut col-lg-2 col-lg-offset-1 visible-xs" id="bloc2"> <strong>{{creneau.tuteur.name | capitalize:true}} </strong></div>
-	<div class="rec_prof1 col-lg-2 col-lg-offset-1 visible-xs" id="bloc3"><strong> {{creneau.enseignant.name | emailToName | capitalize:true}} </strong></div>
-	<div class="rec_prof2 col-lg-2 col-lg-offset-1 visible-xs" id="bloc4"> <strong>{{creneau.candide.name | emailToName | capitalize:true}} </strong></div>
-</div>
+
 			</td>
 		</tr>
 		</tbody>
 	</table>
+</div>
+
+<div ng-hide="error" class="panel panel-default planning visible-xs">
+	<table  class="table">
+
+		<tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
+
+		<tr>
+			<th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
+		</tr>
+
+		<tr ng-repeat="horaire in jour" ng-show="horaire[0].horaire.length>0">
+
+			<td class="odd">{{horaire[0].horaire}}</td>
+			<div ng-repeat="room in creneaux.salles track by $index" ng-class="{'even':$even, 'odd':$odd}">
+
+
+			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}">
+				<strong>{{creneaux.salles[$index].name}}</strong>
+				<div id="block_container col-lg-12 visible-xs">
+					<!--<div ng-repeat="room in creneaux.salles"  ng-class="{'even':$even, 'odd':$odd}" class="visible-xs"><strong>{{creneaux.salles[0].name | capitalize:true}}</strong></div>-->
+					<div class="rec_etud col-lg-2 col-lg-offset-1 visible-xs" id="bloc1"><strong>{{creneau.student.name | emailToName | capitalize:true}}</strong></div>
+					<div class="rec_tut col-lg-2 col-lg-offset-1 visible-xs" id="bloc2"> <strong>{{creneau.tuteur.name | capitalize:true}} </strong></div>
+					<div class="rec_prof1 col-lg-2 col-lg-offset-1 visible-xs" id="bloc3"><strong> {{creneau.enseignant.name | emailToName | capitalize:true}} </strong></div>
+					<div class="rec_prof2 col-lg-2 col-lg-offset-1 visible-xs" id="bloc4"> <strong>{{creneau.candide.name | emailToName | capitalize:true}} </strong></div>
+				</div>
+
+			</td>
+			</div>
+		</tr>
+
+		</tbody>
+	</table>
+
+
+
 </div>
