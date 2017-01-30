@@ -11,9 +11,13 @@ import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.ParticipantsCSVImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
+import fr.istic.iodeman.strategy.PlanningSplitter;
+import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.possijar.Creneau;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -238,6 +242,37 @@ public class PlanningServiceImpl implements PlanningService {
 	@Override
 	public void switchReference(Integer idDraft) {
 		planningDAO.switchReference(idDraft);
+	}
+
+	@Override
+	public void updateUnvailibilities(Integer planning_id, JSONArray jsonarray) {
+		for (int i = 0; i < jsonarray.length(); i++) {
+			//Récuperation depuis le fichier le json
+			JSONObject jsonobject = jsonarray.getJSONObject(i);
+			String student = jsonobject.getJSONObject("student").getString("name");
+			Integer periode = jsonobject.getInt("periode");
+
+			//Recuperation de la personne
+			PersonDAO person = new PersonDAOImpl();
+			Person p = person.findByEmail(student);
+
+			//Recuperation du planning
+			Planning planning = this.findById(planning_id);
+			PlanningSplitter splitter = new PlanningSplitterImpl();
+			List<TimeBox> timeboxes = splitter.execute(planning);
+
+			timeboxes.remove(periode);
+
+			UnavailabilityService unavailabilityService = new UnavailabilityServiceImpl();
+			//System.out.println("------------------------------------------------------ca passe par la 1 --------------------------------");
+			unavailabilityService.deleteAll(p.getId(), planning_id);
+
+			for (TimeBox timebox: timeboxes) {
+				System.out.println("------------------------------------------------------ca passe par la boucle --------------------------------");
+				unavailabilityService.create(planning_id, p.getUid(), timebox);
+			}
+
+		}
 	}
 
 	@Override

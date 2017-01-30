@@ -12,6 +12,8 @@ import fr.istic.iodeman.service.UnavailabilityService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -267,6 +269,14 @@ public class PlanningController {
 	@RequestMapping("/switchReference/{idDraft}")
 	public void switchReferencePlanning(@PathVariable("idDraft") Integer idDraft) throws IOException{
 		planningService.switchReference(idDraft);
+	}
+
+	@RequestMapping("/{id}/updateDraft")
+	public void findDraftsById(@PathVariable("id") Integer id, @RequestBody String modifiedValue){
+		System.out.println(modifiedValue);
+		JSONArray jsonObject = new JSONArray(modifiedValue);
+		planningService.updateUnvailibilities(id, jsonObject);
+
 	}
 	
 }

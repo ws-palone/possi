@@ -77,6 +77,15 @@ angular.module('publicApp')
                 }
 
             });
+            if($scope.toSend.length > 0){
+
+                $http.post(backendURL + 'planning/' + $scope.id + '/updateDraft', $scope.toSend).then(function () {
+                    console.log('OK POUR LE POST')
+                }, function () {
+                    console.log('PAS OK POUR LE POST')
+                });
+
+            }
         }
 
     })
@@ -86,7 +95,7 @@ angular.module('publicApp')
             var capit = $filter('capitalize');
             var etn = $filter('emailToName');
             var room_id = element.parent().children('td').length - 1;
-            if (typeof scope.horaire[room_id - 1] !== 'undefined') {
+            if (typeof scope.horaire[room_id - 1] != 'undefined' && typeof scope.horaire[room_id - 1].student != 'undefined' ) {
                 var current_id = scope.getId_div();
 
                 var html = "";

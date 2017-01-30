@@ -3,7 +3,10 @@ package fr.istic.iodeman.service;
 import java.util.Collection;
 import java.util.List;
 
+import fr.istic.iodeman.dao.PlanningDAOImpl;
+import fr.istic.iodeman.dao.UnavailabilityDAOImpl;
 import org.apache.commons.lang.Validate;
+import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,28 +40,38 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	
 	@Autowired
 	private MailService mailService;
-	
+
+	public UnavailabilityServiceImpl(){
+		personUidResolver = new PersonUidResolver();
+		planningDAO = new PlanningDAOImpl();
+		unavailabilityDAO = new UnavailabilityDAOImpl();
+
+	}
+
 	public List<Unavailability> findById(Integer idPlanning, String uid) {
 		return unavailabilityDAO.findById(idPlanning, uid);
 	}
 
 	public Unavailability create(Integer idPlanning, String uid, TimeBox period) {
+		//Validation
 		Validate.notNull(idPlanning);
 		Validate.notEmpty(uid);
 		Validate.notNull(period);
-		period.validate();
-		
+				period.validate();
+
+		System.out.println(uid);
 		Person person = personUidResolver.resolve(uid);
 		Validate.notNull(person);
-		
+
 		Planning planning = planningDAO.findById(idPlanning);
 		Validate.notNull(planning);
-		
+
 		Unavailability unavailability = new Unavailability();
 		unavailability.setPeriod(period);
 		unavailability.setPerson(person);
 		unavailability.setPlanning(planning);
-		
+		System.out.println("test----------------------------");
+		System.out.println(unavailability);
 		unavailabilityDAO.persist(unavailability);
 
 		//mailService.notifyNewUnavailability(unavailability);
@@ -129,5 +142,11 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	public void deleteByPlanning(Integer planningId) {
 		unavailabilityDAO.deleteByPlanning(planningId);
 	}
-	
+
+	@Override
+	public void deleteAll(Integer id, Integer ref_id) {
+		unavailabilityDAO.deleteAll(id, ref_id);
+	}
+
+
 }

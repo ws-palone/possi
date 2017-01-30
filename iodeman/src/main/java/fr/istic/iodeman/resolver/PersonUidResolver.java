@@ -1,5 +1,6 @@
 package fr.istic.iodeman.resolver;
 
+import fr.istic.iodeman.dao.PersonDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class PersonUidResolver implements PersonResolver {
 	private LdapRepository ldapRepository;
 	
 	public Person resolve(String uid) {
-		
+		personDAO = new PersonDAOImpl();
 		Person person = personDAO.findByUid(uid);
 		
 		if (person == null) {

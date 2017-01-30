@@ -21,4 +21,5 @@ public interface UnavailabilityService {
 	
 	public void deleteByPlanning(Integer planningId);
 
+	void deleteAll(Integer id, Integer ref_id);
 }

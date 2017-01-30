@@ -3,6 +3,7 @@ package fr.istic.iodeman.service;
 import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.*;
 import fr.istic.possijar.Creneau;
+import org.json.JSONArray;
 
 import java.io.File;
 import java.util.Collection;
@@ -58,4 +59,6 @@ public interface PlanningService {
 	public List<Planning> findAllDrafts(Integer id);
 
 	public void switchReference(Integer idDraft);
+
+    public void updateUnvailibilities(Integer id, JSONArray jsonObject);
 }
