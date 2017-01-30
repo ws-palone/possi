@@ -411,10 +411,11 @@ public class PlanningServiceImpl implements PlanningService {
 	@Override
 	public void delete(Planning planning) {
 
-		planningDAO.delete(planning);
 		planningDAO.deleteDraft(planning.getId());
+		planningDAO.delete(planning);
+
 	}
 
 
-	
+
 }
