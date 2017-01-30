@@ -7,6 +7,7 @@ import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.service.PlanningService;
+import fr.istic.iodeman.service.PlanningServiceImpl;
 import fr.istic.iodeman.service.RoomService;
 import fr.istic.iodeman.service.UnavailabilityService;
 import org.apache.commons.io.FileUtils;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -272,10 +274,13 @@ public class PlanningController {
 	}
 
 	@RequestMapping("/{id}/updateDraft")
-	public void findDraftsById(@PathVariable("id") Integer id, @RequestBody String modifiedValue){
+	public void updateDraft(@PathVariable("id") Integer id, @RequestBody String modifiedValue){
 		System.out.println(modifiedValue);
-		JSONArray jsonObject = new JSONArray(modifiedValue);
+		JSONArray jsonObject = new JSONArray(new JSONTokener(modifiedValue));
 		planningService.updateUnvailibilities(id, jsonObject);
+		PlanningService ps = new PlanningServiceImpl();
+		Planning p = ps.findById(id);
+		ps.exportExcel(p);
 
 	}
 	

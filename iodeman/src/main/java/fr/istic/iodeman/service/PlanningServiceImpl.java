@@ -49,6 +49,13 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningDAO.findAll();
 	}
 
+	public PlanningServiceImpl(){
+		planningDAO = new PlanningDAOImpl();
+		unavailabilityDAO = new UnavailabilityDAOImpl();
+		priorityDAO =  new PriorityDAOImpl();
+		personResolver = new PersonMailResolver();
+		personDAO = new PersonDAOImpl();
+	}
 	public Planning findById(Integer id) {
 		return planningDAO.findById(id);
 	}
@@ -258,19 +265,25 @@ public class PlanningServiceImpl implements PlanningService {
 
 			//Recuperation du planning
 			Planning planning = this.findById(planning_id);
+
+			//Fichier ser
+			exportExcel(planning);
+
+			//System.out.println("-----------------------------EXPORT DONE-------------------------------------------------");
+
+			//BDD
 			PlanningSplitter splitter = new PlanningSplitterImpl();
 			List<TimeBox> timeboxes = splitter.execute(planning);
-
-			timeboxes.remove(periode);
+			TimeBox tb = timeboxes.get(periode);
+			timeboxes.remove(tb);
 
 			UnavailabilityService unavailabilityService = new UnavailabilityServiceImpl();
-			//System.out.println("------------------------------------------------------ca passe par la 1 --------------------------------");
 			unavailabilityService.deleteAll(p.getId(), planning_id);
 
 			for (TimeBox timebox: timeboxes) {
-				System.out.println("------------------------------------------------------ca passe par la boucle --------------------------------");
 				unavailabilityService.create(planning_id, p.getUid(), timebox);
 			}
+
 
 		}
 	}
