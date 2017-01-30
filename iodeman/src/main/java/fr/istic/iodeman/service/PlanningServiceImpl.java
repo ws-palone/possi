@@ -266,11 +266,6 @@ public class PlanningServiceImpl implements PlanningService {
 			//Recuperation du planning
 			Planning planning = this.findById(planning_id);
 
-			//Fichier ser
-			exportExcel(planning);
-
-			//System.out.println("-----------------------------EXPORT DONE-------------------------------------------------");
-
 			//BDD
 			PlanningSplitter splitter = new PlanningSplitterImpl();
 			List<TimeBox> timeboxes = splitter.execute(planning);
@@ -283,7 +278,6 @@ public class PlanningServiceImpl implements PlanningService {
 			for (TimeBox timebox: timeboxes) {
 				unavailabilityService.create(planning_id, p.getUid(), timebox);
 			}
-
 
 		}
 	}

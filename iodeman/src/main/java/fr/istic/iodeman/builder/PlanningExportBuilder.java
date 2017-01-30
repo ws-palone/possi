@@ -234,19 +234,23 @@ public class PlanningExportBuilder {
 
 					// Prof 1
 					cell = row.createCell(cellIndex++);
-					if(c.getEnseignant() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
-					colorStyle = getColor(workbook,c.getEnseignant().getName());
-					colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-					colorStyle.setFont(font);
-					cell.setCellStyle(colorStyle);
+					if(c.getEnseignant() != null) {
+						cell.setCellValue(AlgoPlanningUtils.emailToName(c.getEnseignant().getName()));
+						colorStyle = getColor(workbook,c.getEnseignant().getName());
+						colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+						colorStyle.setFont(font);
+						cell.setCellStyle(colorStyle);
+					}
 
 					// Prof 2
 					cell = row.createCell(cellIndex++);
-					if(c.getCandide() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
-					colorStyle = getColor(workbook,c.getCandide().getName());
-					colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-					colorStyle.setFont(font);
-					cell.setCellStyle(colorStyle);
+					if(c.getCandide() != null) {
+						cell.setCellValue(AlgoPlanningUtils.emailToName(c.getCandide().getName()));
+						colorStyle = getColor(workbook,c.getCandide().getName());
+						colorStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+						colorStyle.setFont(font);
+						cell.setCellStyle(colorStyle);
+					}
 
 					// Tuteur
 					cell = row.createCell(cellIndex++);

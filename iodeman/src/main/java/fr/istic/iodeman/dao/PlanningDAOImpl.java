@@ -181,7 +181,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		String sql = "INSERT INTO Unavailability (period_from, period_to, person_id, planning_id) " +
 				"SELECT period_from, period_to,person_id, :newid " +
 				"FROM Unavailability " +
-				"WHERE id = :id";
+				"WHERE planning_id = :id";
 
 		SQLQuery query = session.createSQLQuery(sql);
 		query.setParameter("id", id);
@@ -206,7 +206,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		SQLQuery query_priority = session.createSQLQuery(sql_priority);
 		query_priority.setParameter("id", id);
 		query_priority.setParameter("newid", newId);
-		query_priority.executeUpdate();
+		query_priority.executeUpdate();*/
 
 		String sql_participant = "INSERT INTO Planning_Participant (Planning_id, participants_id)  " +
 				"SELECT :newid, participants_id " +
@@ -216,7 +216,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		SQLQuery query_participant = session.createSQLQuery(sql_participant);
 		query_participant.setParameter("id", id);
 		query_participant.setParameter("newid", newId);
-		query_participant.executeUpdate();*/
+		query_participant.executeUpdate();
 
 
 		session.close();

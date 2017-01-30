@@ -63,8 +63,8 @@ public class Planning{
 	@ManyToMany
 	private Collection<Room> rooms;
 
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany
 	private Collection<Participant> participants;
 
 	@LazyCollection(LazyCollectionOption.FALSE)

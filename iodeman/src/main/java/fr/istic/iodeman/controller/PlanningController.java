@@ -278,6 +278,11 @@ public class PlanningController {
 		System.out.println(modifiedValue);
 		JSONArray jsonObject = new JSONArray(new JSONTokener(modifiedValue));
 		planningService.updateUnvailibilities(id, jsonObject);
+
+		//Suppression de fichier
+		File fileEntry = new File("persist/"+ id + "/planning.ser");
+		fileEntry.delete();
+
 		PlanningService ps = new PlanningServiceImpl();
 		Planning p = ps.findById(id);
 		ps.exportExcel(p);
