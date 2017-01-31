@@ -239,6 +239,23 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	public Integer duplicateDraft(Integer id) {
+
+		Integer newId = planningDAO.duplicateDraft(id);
+
+		File dir = new File("persist/" + id);
+		File newDir = new File("persist/" + newId);
+
+		try {
+			FileUtils.copyDirectory(dir, newDir);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return newId;
+	}
+
+	@Override
 	public List<Planning> findAllDrafts(Integer id) {
 		List<Planning> plannings = new ArrayList<Planning>();
 		plannings = planningDAO.findDrafts(id);

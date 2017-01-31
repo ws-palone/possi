@@ -14,7 +14,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -259,6 +258,12 @@ public class PlanningController {
 	@RequestMapping(value = "/{id}/duplicate")
 	public Integer duplicatePlanning(@PathVariable("id") Integer id) throws IOException{
 		Integer draftId = planningService.duplicate(id);
+		return draftId;
+	}
+
+	@RequestMapping(value = "/{id}/duplicateDraft")
+	public Integer duplicateDraft(@PathVariable("id") Integer id) throws IOException{
+		Integer draftId = planningService.duplicateDraft(id);
 		return draftId;
 	}
 
