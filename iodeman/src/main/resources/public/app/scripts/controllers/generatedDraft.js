@@ -14,6 +14,7 @@ angular.module('publicApp')
 
         $http.get(backendURL + 'planning/' + $scope.id + '/exportDraft')
             .success(function (data) {
+                console.log(data);
 
                 const ordered = {};
                 Object.keys(data.creneaux).sort().forEach(function (key) {
@@ -44,6 +45,7 @@ angular.module('publicApp')
             $('.event').on("dragstart", function (event) {
                 var dt = event.originalEvent.dataTransfer;
                 dt.setData('Text', $(this).attr('id'));
+
             });
             $('table td').on("dragenter dragover drop", function (event) {
                 event.preventDefault();
@@ -57,6 +59,7 @@ angular.module('publicApp')
                     }
                     $scope.modified[data] = {
                         "room": event.target.cellIndex,
+                        //TODO : ça marche ou pas?
                         "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
                     };
 
@@ -100,7 +103,7 @@ angular.module('publicApp')
 
                 var html = "";
 
-                html += '<div class="event creneau" draggable="true" id="' + current_id + '">';
+                html += '<div class="event creneau" draggable="true" id="' + current_id + '" data-student="'+scope.horaire[room_id - 1].student.name+'">';
 
                 html += '<table width="100%" class="rect_planning">'
                     + '<tr>'

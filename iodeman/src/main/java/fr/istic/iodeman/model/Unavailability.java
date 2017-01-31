@@ -1,28 +1,26 @@
 package fr.istic.iodeman.model;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 public class Unavailability {
+
+
 	@Id
 	@GeneratedValue
+
 	private int id;
 	
 	@ManyToOne
+	@JoinColumn(name="person_id")
 	private Person person;
 	
 	@ManyToOne
 	@JsonIgnore
+	@JoinColumn(name="planning_id")
 	private Planning planning;
 
 	@Embedded
@@ -31,6 +29,8 @@ public class Unavailability {
 		@AttributeOverride(name = "to", column = @Column(name = "period_to"))
 	})
 	private TimeBox period;
+
+	private int from_ref = 1;
 	
 	public Integer getId() {
 		return id;
@@ -60,6 +60,13 @@ public class Unavailability {
 	}
 	public void setPlanning(Planning planning) {
 		this.planning = planning;
+	}
+	public int getFrom_ref() {
+		return from_ref;
+	}
+
+	public void setFrom_ref(int from_ref) {
+		this.from_ref = from_ref;
 	}
 	
 }

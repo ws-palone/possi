@@ -1,12 +1,16 @@
 package fr.istic.iodeman.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import fr.istic.iodeman.model.Person;
+import fr.istic.possijar.Creneau;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -155,6 +159,35 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 		sqlQuery.setParameter("ref_id", ref_id);
 		sqlQuery.executeUpdate();
 		session.close();
+	}
+
+	@Override
+	public List<Date> getUnavailabilities(Integer planning_ref_Id, Creneau creneau) {
+		Session session = getNewSession();
+		Criteria student = session.createCriteria(Person.class);
+		student.add(Restrictions.eq("email",  creneau.getStudent().getName()));
+		Person s = (Person) student.uniqueResult();
+
+		Criteria prof = session.createCriteria(Person.class);
+		prof.add(Restrictions.eq("email",  creneau.getEnseignant().getName()));
+		Person p = (Person) prof.uniqueResult();
+
+		Criteria criteria = session.createCriteria(Unavailability.class);
+
+		criteria.setProjection(Projections.property("period.from"));
+
+		criteria.add(Restrictions.eq("planning.id",planning_ref_Id));
+		criteria.add(Restrictions.or(
+						Restrictions.eq("person.id", s.getId()),
+						Restrictions.eq("person.id", p.getId())
+				));
+		criteria.add(Restrictions.eq("from_ref", 1));
+		criteria.setProjection(Projections.groupProperty("period.from"));
+
+		List<Date> ids = criteria.list();
+		session.close();
+
+		return ids;
 	}
 
 }

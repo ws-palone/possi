@@ -1,12 +1,13 @@
 package fr.istic.iodeman.service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import fr.istic.iodeman.dao.PlanningDAOImpl;
 import fr.istic.iodeman.dao.UnavailabilityDAOImpl;
+import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
-import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -146,6 +147,12 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	@Override
 	public void deleteAll(Integer id, Integer ref_id) {
 		unavailabilityDAO.deleteAll(id, ref_id);
+	}
+
+	@Override
+	public List<Date> getUnavailabilities(Integer planning_ref_Id, Creneau creneaux) {
+		return unavailabilityDAO.getUnavailabilities(planning_ref_Id, creneaux);
+
 	}
 
 

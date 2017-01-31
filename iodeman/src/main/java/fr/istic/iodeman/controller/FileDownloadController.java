@@ -3,7 +3,10 @@ package fr.istic.iodeman.controller;
 import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.service.PlanningService;
+import fr.istic.iodeman.service.UnavailabilityService;
+import fr.istic.iodeman.service.UnavailabilityServiceImpl;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.possijar.Creneau;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -107,7 +111,18 @@ public class FileDownloadController {
 		PlanningSplitter splitter = new PlanningSplitterImpl();
 		
 		List<TimeBox> timeboxes = splitter.execute(planning);
-		System.out.println(timeboxes.get(1).getFrom());
+		Map<Long, Integer> dico = new HashMap<>();
+
+		for (int d = 0; d< timeboxes.size(); d++) {
+			dico.put(timeboxes.get(d).getFrom().getTime(), d);
+
+		}
+
+		for(Map.Entry<Long, Integer> entry : dico.entrySet()) {
+			System.out.println(entry.getKey() + "---------" + entry.getValue());
+			// traitements
+		}
+
 		
 		JSONObject ret = new JSONObject();
 
@@ -126,9 +141,14 @@ public class FileDownloadController {
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(d1);
-		
+
+		UnavailabilityService unavailabilityService = new UnavailabilityServiceImpl();
+		Map<String, List<Integer>> unav = new HashMap<>();
 		for(int i = 0; i < creneaux.size(); i++) {
-			//obj.put(""+i, creneaux.get(i));
+
+			//recherche indispo
+			//ajout a l'objet creneaux les periodes
+				//obj.put(""+i, creneaux.get(i));
 			if(creneaux.get(i).size() == 0){
 				//Creation d'un créneaux vide pour l'affichage
 				TimeBox timebox = timeboxes.get(i);
@@ -137,7 +157,21 @@ public class FileDownloadController {
 
 				creneaux.get(i).add(new_creneau);
 
+			}else{
+				for(int j = 0; j < creneaux.get(i).size(); j++){
+
+					List<Date> indispos = unavailabilityService.getUnavailabilities(planning.getRef_id(), creneaux.get(i).get(j));
+					List<Integer> periodes = new ArrayList<>();
+					if(!indispos.isEmpty()){
+						for (Date date_indispo: indispos ) {
+							periodes.add(dico.get(date_indispo.getTime()));
+							System.out.println(date_indispo.getTime());
+						}
+						unav.put(creneaux.get(i).get(j).getStudent().getName(), periodes);
+					}
+				}
 			}
+
 			day.add(creneaux.get(i));
 			if((i+1)%nbPeriodeParJour==0) {
 				obj1.put(""+cal.getTimeInMillis(), day);
@@ -153,8 +187,7 @@ public class FileDownloadController {
 		System.err.println(day.toString());
 		
 		ret.put("creneaux", obj1);
-		
-		
+		ret.put("indispos", unav);
 		
 		return ret.toString();
 	}
