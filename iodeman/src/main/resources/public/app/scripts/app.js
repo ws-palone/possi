@@ -76,6 +76,11 @@ angular
 							  controller: 'DuplicatePlanningCtrl',
 							  controllerAs: 'duplicatePlanningCtrl'
 						  })
+						  .when('/duplicateDraft/:idPlanning', {
+						  templateUrl: 'app/views/planning.html',
+						  controller: 'DuplicateDraftCtrl',
+						  controllerAs: 'duplicateDraftCtrl'
+						  })
 						  .when('/planning/switchDraft/:idDraft', {
 							  templateUrl: 'app/views/planning.html',
 							  controller: 'SwitchDraftCtrl',

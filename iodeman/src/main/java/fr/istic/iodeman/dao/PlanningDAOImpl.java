@@ -168,7 +168,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 				DateFormat.SHORT
 		);
 
-		//inserer une nouvelle ligne dans  planing en copiant la reference
+		//inserer une nouvelle ligne dans planing en copiant la reference
 		Planning clone = this.findById(id);
 		clone.setIs_ref(0);
 		clone.setRef_id(id);
@@ -223,7 +223,75 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		return newId;
 
 	}
+	@Override
+	public Integer duplicateDraft (Integer id){
+		Session session = getNewSession();
 
+		Date d = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(
+				DateFormat.SHORT,
+				DateFormat.SHORT
+		);
+
+		//inserer une nouvelle ligne dans planing en copiant la reference
+		Planning clone = this.findById(id);
+		clone.setIs_ref(0);
+//		clone.setRef_id(id);
+		clone.setId(null);
+		String name = clone.getName();
+		String[] split = name.split("-");
+		name = "";
+		for(int i=0; i< split.length-1; i++){
+			name += split[i] + "-";
+		}
+
+		clone.setName(name+ " Draft " + dateFormat.format(d));
+		Integer newId = this.persist(clone);
+
+		// impact sur Planning participant/ Planning Priority/ planning Room
+		String sql = "INSERT INTO Unavailability (period_from, period_to, person_id, planning_id) " +
+				"SELECT period_from, period_to,person_id, :newid " +
+				"FROM Unavailability " +
+				"WHERE planning_id = :id";
+
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setParameter("id", id);
+		query.setParameter("newid", newId);
+		query.executeUpdate();
+
+		String sql_room = "INSERT INTO Planning_Room (Planning_id, rooms_id) " +
+				"SELECT :newid, rooms_id " +
+				"FROM Planning_Room " +
+				"WHERE Planning_id = :id";
+
+		SQLQuery query_room = session.createSQLQuery(sql_room);
+		query_room.setParameter("id", id);
+		query_room.setParameter("newid", newId);
+		query_room.executeUpdate();
+
+		/*String sql_priority = "INSERT INTO Planning_Priority (Planning_id, priorities_id) " +
+				"SELECT :newid, priorities_id " +
+				"FROM Planning_Priority " +
+				"WHERE Planning_id = :id";
+
+		SQLQuery query_priority = session.createSQLQuery(sql_priority);
+		query_priority.setParameter("id", id);
+		query_priority.setParameter("newid", newId);
+		query_priority.executeUpdate();*/
+
+		String sql_participant = "INSERT INTO Planning_Participant (Planning_id, participants_id)  " +
+				"SELECT :newid, participants_id " +
+				"FROM Planning_Participant " +
+				"WHERE Planning_id = :id";
+
+		SQLQuery query_participant = session.createSQLQuery(sql_participant);
+		query_participant.setParameter("id", id);
+		query_participant.setParameter("newid", newId);
+		query_participant.executeUpdate();
+		session.close();
+		return newId;
+
+	}
 	@Override
 	public List<Planning> findDrafts(Integer id) {
 		Session session = getNewSession();

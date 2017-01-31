@@ -299,7 +299,9 @@
 							</a>
 							<a data-toggle="tooltip" title="Modifier le draft" class="btn btn-raised btn-sm btn-info" href="#/generatedDraft/{{ draft.id }}"><i class="glyphicon glyphicon-edit"></i></a>
 							<a data-toggle="tooltip" title="Supprimer le draft" confirmed-click="remove( draft.id )" ng-confirm-click="Êtes vous sûr de vouloir supprimer ce planning?" ng-hide="" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-
+							<a data-toggle="tooltip" title="Créer un draft" ng-show="exported.indexOf(draft.id)!=-1" ng-hide="planning.admin.uid != user.uid" href="#/duplicateDraft/{{ draft.id }}" class="btn btn-raised btn-sm btn-info hidden-xs">
+								<i class="glyphicon glyphicon-duplicate"></i>
+							</a>
 						</td>
 					</tr>
 					</tbody>

@@ -31,6 +31,7 @@ public interface PlanningDAO {
 	public Collection<Priority> findPriorities(Planning planning);
 
     public Integer duplicate(Integer id);
+    public Integer duplicateDraft(Integer id);
 
     public List<Planning> findDrafts(Integer id);
 

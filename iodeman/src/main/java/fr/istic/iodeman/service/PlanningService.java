@@ -55,6 +55,9 @@ public interface PlanningService {
 	// duplicate a specific plannig to PLAN-DRAF
 	public Integer duplicate(Integer id);
 
+
+	public Integer duplicateDraft(Integer id);
+
 	// find drafts of a specific plannig
 	public List<Planning> findAllDrafts(Integer id);
 
