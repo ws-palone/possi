@@ -12,9 +12,10 @@ angular.module('publicApp')
             window.print();
         };
 
+        $scope.origin_position = null;
+
         $http.get(backendURL + 'planning/' + $scope.id + '/exportDraft')
             .success(function (data) {
-                console.log(data);
 
                 const ordered = {};
                 Object.keys(data.creneaux).sort().forEach(function (key) {
@@ -45,25 +46,43 @@ angular.module('publicApp')
             $('.event').on("dragstart", function (event) {
                 var dt = event.originalEvent.dataTransfer;
                 dt.setData('Text', $(this).attr('id'));
+                $scope.origin_position = $(this).parent('td')[0];
+                var periodes = $scope.creneaux.indispos[$(this).attr("data-student")];
+
+                $('.truc').each(function () {
+                    $(this).removeClass('truc');
+                });
+                periodes.forEach(function(key, value){
+                    $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop truc");
+                });
 
             });
             $('table td').on("dragenter dragover drop", function (event) {
                 event.preventDefault();
+                if(!($(event.target).hasClass('truc'))){
+                    if (event.type === 'drop') {
+                        var id_drag = $(this).attr('id');
+                        var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
+
+                        if ($(this)[0]==$scope.origin_position[0]){
+                            de = $('#' + data).detach();
+                            de.appendTo($(this));
+                        }
+                        $scope.modified[data] = {
+                            "room": event.target.cellIndex,
+                            //TODO : ça marche ou pas?
+                            "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
+                        };
+
+
+                    }//fin if
+                }//fin if
                 if (event.type === 'drop') {
-
-                    var id_drag = $(this).attr('id');
-                    var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
-                    if ($(this).find('span').length === 0) {
-                        de = $('#' + data).detach();
-                        de.appendTo($(this));
-                    }
-                    $scope.modified[data] = {
-                        "room": event.target.cellIndex,
-                        //TODO : ça marche ou pas?
-                        "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
-                    };
-
+                    $('.unavailable_drop').each(function () {
+                        $(this).removeClass('unavailable_drop');
+                    });
                 }
+
             });
         };
 

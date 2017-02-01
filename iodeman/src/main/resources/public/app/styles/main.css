@@ -183,3 +183,8 @@ GenratedPlanning.html
 .right-button{
   float: right;
 }
+
+
+.unavailable_drop{
+  background-color: #d6d6d6;
+}
