@@ -49,37 +49,46 @@ angular.module('publicApp')
                 $scope.origin_position = $(this).parent('td')[0];
                 var periodes = $scope.creneaux.indispos[$(this).attr("data-student")];
 
-                $('.truc').each(function () {
-                    $(this).removeClass('truc');
+                $('.unavailable_drop').each(function () {
+                    $(this).removeClass('unavailable_drop');
                 });
                 periodes.forEach(function(key, value){
-                    $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop truc");
+                    $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop_design unavailable_drop");
                 });
 
             });
             $('table td').on("dragenter dragover drop", function (event) {
                 event.preventDefault();
-                if(!($(event.target).hasClass('truc'))){
+                if(!($(event.target).hasClass('unavailable_drop'))){
                     if (event.type === 'drop') {
                         var id_drag = $(this).attr('id');
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
 
-                        if ($(this)[0]==$scope.origin_position[0]){
-                            de = $('#' + data).detach();
-                            de.appendTo($(this));
-                        }
-                        $scope.modified[data] = {
-                            "room": event.target.cellIndex,
-                            //TODO : ça marche ou pas?
-                            "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
-                        };
+                        //if ($(this)[0]!=$scope.origin_position) {
+                            de = $('#' + data);
+                        console.log(de);
+
+                        if (de.size() > 0) {
+                                $(this).append(de);
+                                $scope.modified[data] = {
+                                    "room": event.target.cellIndex,
+                                    //TODO : ça marche ou pas?
+                                    "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
+                                };
+                                //de.detach();
+                            }
+                        //}
+
+                            //de.appendTo($(this));
+                       // }
+
 
 
                     }//fin if
                 }//fin if
                 if (event.type === 'drop') {
-                    $('.unavailable_drop').each(function () {
-                        $(this).removeClass('unavailable_drop');
+                    $('.unavailable_drop_design').each(function () {
+                        $(this).removeClass('unavailable_drop_design');
                     });
                 }
 
@@ -124,22 +133,21 @@ angular.module('publicApp')
 
                 html += '<div class="event creneau" draggable="true" id="' + current_id + '" data-student="'+scope.horaire[room_id - 1].student.name+'">';
 
-                html += '<table width="100%" class="rect_planning">'
-                    + '<tr>'
-                    + '<td class="rec_etud" width="20%">'
-                    + capit(etn(scope.horaire[room_id - 1].student.name))
-                    + '</td>'
-                    + '<td  class="rec_tut" width="20%">'
-                    + capit(scope.horaire[room_id - 1].student.tuteur.name)
-                    + '</td>'
-                    + '<td  class="rec_prof1" width="20%">'
-                    + capit(etn(scope.horaire[room_id - 1].student.enseignant.name))
-                    + '</td>'
-                    + '<td  class="rec_prof2" width="20%">'
-                    + capit(etn(scope.horaire[room_id - 1].candide.name))
-                    + '</td>';
 
-                html += '</tr></table></div>';
+                html += '<div class="rec_etud creneau_element" width="20%"><p>'
+                    + capit(etn(scope.horaire[room_id - 1].student.name))
+                    + '</p></div>'
+                    + '<div  class="rec_tut creneau_element" width="20%"><p>'
+                    + capit(scope.horaire[room_id - 1].student.tuteur.name)
+                    + '</p></div>'
+                    + '<div  class="rec_prof1 creneau_element" width="20%"><p>'
+                    + capit(etn(scope.horaire[room_id - 1].student.enseignant.name))
+                    + '</p></div>'
+                    + '<div  class="rec_prof2 creneau_element" width="20%"><p>'
+                    + capit(etn(scope.horaire[room_id - 1].candide.name))
+                    + '</p></div>';
+
+                html += '</div>';
 
                 $(element).append(html);
                 scope.cache[current_id] = scope.horaire[room_id - 1];
