@@ -31,5 +31,30 @@ angular.module('publicApp')
 	    });
 	}
 
-});
+}).directive('myRepeatDirectivePlanning', function ($filter) {
+        return function (scope, element, attrs) {
+            if (scope.$last) {
+            	//alert("fin");
+                heights = new Array();
+                widths = new Array();
+                $(".creneau_element").each(function ()
+                {
+                    heights.push(this.offsetHeight);
+                    widths.push(this.offsetWidth);
+                });
+
+                maxHeight = Math.max.apply(null, heights);
+                maxWidth = Math.max.apply(null, widths);
+
+                $('.creneau_element').each(function (){
+                    $(this).css("height", maxHeight+"px")
+                    $(this).css( "width", maxWidth+"px");
+
+                });
+
+                nb_colonne = $('.planning.desktop').find('thead').find('th').length;
+                $('.planning.desktop')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
+            }
+        };
+    });
 

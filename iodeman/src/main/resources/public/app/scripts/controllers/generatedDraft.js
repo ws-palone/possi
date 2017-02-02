@@ -63,7 +63,7 @@ angular.module('publicApp')
                     if (event.type === 'drop') {
                         var id_drag = $(this).attr('id');
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
-                        if ($(this).find('span').length === 0) {
+                        if ($(this).find('div').length === 0) {
                             de = $('#' + data).detach();
                             de.appendTo($(this));
                         }
@@ -143,6 +143,25 @@ angular.module('publicApp')
 
             if (scope.$last) {
                 scope.drag();
+                heights = new Array();
+                widths = new Array();
+                $(".creneau_element").each(function ()
+                {
+                    heights.push(this.offsetHeight);
+                    widths.push(this.offsetWidth);
+                });
+
+                maxHeight = Math.max.apply(null, heights);
+                maxWidth = Math.max.apply(null, widths);
+
+                $('.creneau_element').each(function (){
+                    $(this).css("height", maxHeight+"px")
+                    $(this).css( "width", maxWidth+"px");
+
+                });
+
+                nb_colonne = $('.planning').find('thead').find('th').length;
+                $('.planning')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
             }
         };
     });

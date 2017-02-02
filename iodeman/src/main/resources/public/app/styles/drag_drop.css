@@ -36,14 +36,12 @@ table.rect_planning {
 .creneau_element {
     padding: 4px;
     border-radius: 7px;
-    width: 100px;
-    height: 50px;
+    max-width: 110px;
     display: inline-block;
     text-align: center;
+    margin: 0 2px;
 }
 
 .creneau_element p{
     display:        table-cell;
-    vertical-align: middle;
-    text-align: center;
 }

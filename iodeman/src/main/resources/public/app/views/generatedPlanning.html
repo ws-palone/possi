@@ -82,7 +82,7 @@
 	Le planning n'a pas encore été généré par l'administrateur.
 </div>
 
-<div ng-hide="error" class="panel panel-default planning visible-lg">
+<div ng-hide="error" class="panel panel-default planning desktop visible-lg">
 	<table id="printArea" class="table">
 		<thead>
 		<tr>
@@ -128,7 +128,7 @@
 			<div ng-repeat="room in creneaux.salles track by $index" ng-class="{'even':$even, 'odd':$odd}">
 
 
-			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}">
+			<td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" my-repeat-directive-planning>
 				<strong>{{creneaux.salles[$index].name}}</strong>
 				<div id="block_container col-lg-12 visible-xs">
 					<!--<div ng-repeat="room in creneaux.salles"  ng-class="{'even':$even, 'odd':$odd}" class="visible-xs"><strong>{{creneaux.salles[0].name | capitalize:true}}</strong></div>-->
