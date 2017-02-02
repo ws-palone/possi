@@ -63,27 +63,15 @@ angular.module('publicApp')
                     if (event.type === 'drop') {
                         var id_drag = $(this).attr('id');
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
-
-                        //if ($(this)[0]!=$scope.origin_position) {
-                            de = $('#' + data);
-                        console.log(de);
-
-                        if (de.size() > 0) {
-                                $(this).append(de);
-                                $scope.modified[data] = {
-                                    "room": event.target.cellIndex,
-                                    //TODO : ça marche ou pas?
-                                    "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
-                                };
-                                //de.detach();
-                            }
-                        //}
-
-                            //de.appendTo($(this));
-                       // }
-
-
-
+                        if ($(this).find('span').length === 0) {
+                            de = $('#' + data).detach();
+                            de.appendTo($(this));
+                        }
+                        $scope.modified[data] = {
+                            "room": event.target.cellIndex,
+                            "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
+                        };
+                        
                     }//fin if
                 }//fin if
                 if (event.type === 'drop') {
@@ -132,7 +120,6 @@ angular.module('publicApp')
                 var html = "";
 
                 html += '<div class="event creneau" draggable="true" id="' + current_id + '" data-student="'+scope.horaire[room_id - 1].student.name+'">';
-
 
                 html += '<div class="rec_etud creneau_element" width="20%"><p>'
                     + capit(etn(scope.horaire[room_id - 1].student.name))
