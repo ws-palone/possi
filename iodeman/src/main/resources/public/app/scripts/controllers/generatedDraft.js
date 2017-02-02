@@ -47,27 +47,27 @@ angular.module('publicApp')
                 var dt = event.originalEvent.dataTransfer;
                 dt.setData('Text', $(this).attr('id'));
                 $scope.origin_position = $(this).parent('td')[0];
+
+                $('.unavailable_drop').each(function () {
+                    $(this).removeClass('unavailable_drop');
+                });
+
                 var periodes = $scope.creneaux.indispos[$(this).attr("data-student")];
 
-                $('.truc').each(function () {
-                    $(this).removeClass('truc');
-                });
                 periodes.forEach(function(key, value){
-                    $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop truc");
+                    $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop_design unavailable_drop");
                 });
 
             });
             $('table td').on("dragenter dragover drop", function (event) {
                 event.preventDefault();
-                if(!($(event.target).hasClass('truc'))){
+                if(!($(event.target).hasClass('unavailable_drop'))){
                     if (event.type === 'drop') {
                         var id_drag = $(this).attr('id');
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
+                        de = $('#' + data).detach();
+                        de.appendTo($(this));
 
-                        if ($(this)[0]==$scope.origin_position[0]){
-                            de = $('#' + data).detach();
-                            de.appendTo($(this));
-                        }
                         $scope.modified[data] = {
                             "room": event.target.cellIndex,
                             //TODO : ça marche ou pas?
@@ -75,11 +75,12 @@ angular.module('publicApp')
                         };
 
 
+
                     }//fin if
                 }//fin if
                 if (event.type === 'drop') {
-                    $('.unavailable_drop').each(function () {
-                        $(this).removeClass('unavailable_drop');
+                    $('.unavailable_drop_design').each(function () {
+                        $(this).removeClass('unavailable_drop_design');
                     });
                 }
 
