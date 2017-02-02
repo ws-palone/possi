@@ -47,5 +47,8 @@ table.rect_planning {
 }
 
 .creneau_element p{
-    display:        table-cell;
+    font-weight: bold;
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
 }

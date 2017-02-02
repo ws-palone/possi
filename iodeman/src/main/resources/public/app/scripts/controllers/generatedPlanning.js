@@ -47,13 +47,18 @@ angular.module('publicApp')
                 maxWidth = Math.max.apply(null, widths);
 
                 $('.creneau_element').each(function (){
-                    $(this).css("height", maxHeight+"px")
+                    $(this).css("height", maxHeight+"px");
+                    $(this).css("line-height", maxHeight+"px");
                     $(this).css( "width", maxWidth+"px");
 
                 });
 
                 nb_colonne = $('.planning.desktop').find('thead').find('th').length;
-                $('.planning.desktop')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
+                new_width = (nb_colonne-1)*(maxWidth*4 + 40) + 70;
+                if (new_width > 1000){
+                    $('.planning.desktop')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
+
+                }
             }
         };
     });

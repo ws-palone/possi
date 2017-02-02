@@ -122,16 +122,16 @@ angular.module('publicApp')
                 html += '<div class="event creneau" draggable="true" id="' + current_id + '" data-student="'+scope.horaire[room_id - 1].student.name+'">';
 
                 html += '<div class="rec_etud creneau_element creneau_draft" width="20%"><p>'
-                    + capit(etn(scope.horaire[room_id - 1].student.name))
+                    + capit(etn(scope.horaire[room_id - 1].student.name), true)
                     + '</p></div>'
                     + '<div  class="rec_tut creneau_element creneau_draft" width="20%"><p>'
-                    + capit(scope.horaire[room_id - 1].student.tuteur.name)
+                    + capit(scope.horaire[room_id - 1].student.tuteur.name, true)
                     + '</p></div>'
                     + '<div  class="rec_prof1 creneau_element creneau_draft" width="20%"><p>'
-                    + capit(etn(scope.horaire[room_id - 1].student.enseignant.name))
+                    + capit(etn(scope.horaire[room_id - 1].student.enseignant.name), true)
                     + '</p></div>'
                     + '<div  class="rec_prof2 creneau_element creneau_draft" width="20%"><p>'
-                    + capit(etn(scope.horaire[room_id - 1].candide.name))
+                    + capit(etn(scope.horaire[room_id - 1].candide.name), true)
                     + '</p></div>';
 
                 html += '</div>';
@@ -155,13 +155,19 @@ angular.module('publicApp')
                 maxWidth = Math.max.apply(null, widths);
 
                 $('.creneau_element').each(function (){
-                    $(this).css("height", maxHeight+"px")
+                    $(this).css("height", maxHeight+"px");
+                    $(this).css("line-height", maxHeight+"px");
                     $(this).css( "width", maxWidth+"px");
+
 
                 });
 
                 nb_colonne = $('.planning').find('thead').find('th').length;
-                $('.planning')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
+                new_width = (nb_colonne-1)*(maxWidth*4 + 40) + 70;
+                if (new_width > 1000){
+                    $('.planning')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
+
+                }
             }
         };
     });
