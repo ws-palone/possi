@@ -36,7 +36,7 @@ table.rect_planning {
 .creneau_element {
     padding: 4px;
     border-radius: 7px;
-    max-width: 110px;
+    max-width: 120px;
     display: inline-block;
     text-align: center;
 }
