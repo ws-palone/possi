@@ -1,9 +1,4 @@
-table.rect_planning td {
-    margin: 1px 1px 1px 1px;
-    padding: 1px 1px 1px 1px;
-    border-radius: 7px;
-    height: 60px;
-}
+
 
 table.rect_planning {
     border-collapse: separate;
@@ -36,4 +31,19 @@ table.rect_planning {
 .rec_prof2{
     background: #ff5722;
     color: white;
+}
+
+.creneau_element {
+    padding: 4px;
+    border-radius: 7px;
+    width: 100px;
+    height: 50px;
+    display: inline-block;
+    text-align: center;
+}
+
+.creneau_element p{
+    display:        table-cell;
+    vertical-align: middle;
+    text-align: center;
 }
