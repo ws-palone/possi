@@ -39,7 +39,11 @@ table.rect_planning {
     max-width: 110px;
     display: inline-block;
     text-align: center;
+}
+
+.creneau_draft{
     margin: 0 2px;
+
 }
 
 .creneau_element p{

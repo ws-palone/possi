@@ -121,16 +121,16 @@ angular.module('publicApp')
 
                 html += '<div class="event creneau" draggable="true" id="' + current_id + '" data-student="'+scope.horaire[room_id - 1].student.name+'">';
 
-                html += '<div class="rec_etud creneau_element" width="20%"><p>'
+                html += '<div class="rec_etud creneau_element creneau_draft" width="20%"><p>'
                     + capit(etn(scope.horaire[room_id - 1].student.name))
                     + '</p></div>'
-                    + '<div  class="rec_tut creneau_element" width="20%"><p>'
+                    + '<div  class="rec_tut creneau_element creneau_draft" width="20%"><p>'
                     + capit(scope.horaire[room_id - 1].student.tuteur.name)
                     + '</p></div>'
-                    + '<div  class="rec_prof1 creneau_element" width="20%"><p>'
+                    + '<div  class="rec_prof1 creneau_element creneau_draft" width="20%"><p>'
                     + capit(etn(scope.horaire[room_id - 1].student.enseignant.name))
                     + '</p></div>'
-                    + '<div  class="rec_prof2 creneau_element" width="20%"><p>'
+                    + '<div  class="rec_prof2 creneau_element creneau_draft" width="20%"><p>'
                     + capit(etn(scope.horaire[room_id - 1].candide.name))
                     + '</p></div>';
 
