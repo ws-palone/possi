@@ -11,6 +11,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -20,6 +21,9 @@ import java.util.*;
 
 @Repository
 public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO {
+
+	@Value("${PERSIST_PATH}")
+	private String PERSIST_PATH;
 	
 	public Integer persist(Planning planning) {
 		Session session = getNewSession();
@@ -72,7 +76,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 			transaction = session.beginTransaction();
 			session.delete(entity);
 			session.getTransaction().commit();
-			File fileEntry = new File("persist/"+entity.getId());
+			File fileEntry = new File(PERSIST_PATH+"/"+entity.getId());
 			FileUtils.deleteDirectory(fileEntry);
 
 		} catch (Exception e){
@@ -367,7 +371,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 				}
 				ids += ids_list.get(i);
 
-				File fileEntry = new File("persist/"+ids_list.get(i));
+				File fileEntry = new File(PERSIST_PATH + "/"+ids_list.get(i));
 				try {
 					FileUtils.deleteDirectory(fileEntry);
 				} catch (IOException e) {

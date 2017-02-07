@@ -19,6 +19,7 @@ import org.apache.commons.lang.Validate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -27,24 +28,27 @@ import java.util.*;
 @Service
 public class PlanningServiceImpl implements PlanningService {
 
+	@Value("${PERSIST_PATH}")
+	private String PERSIST_PATH;
+
 	@Autowired
 	private PlanningDAO planningDAO;
-	
+
 	@Autowired
 	private ParticipantDAO participantDAO;
-	
+
 	@Autowired
 	private PriorityDAO priorityDAO;
-	
+
 	@Autowired
 	private PersonMailResolver personResolver;
-	
+
 	@Autowired
 	private PersonDAO personDAO;
-	
+
 	@Autowired
 	private UnavailabilityDAO unavailabilityDAO;
-	
+
 	public List<Planning> findAll() {
 		return planningDAO.findAll();
 	}
@@ -59,25 +63,25 @@ public class PlanningServiceImpl implements PlanningService {
 	public Planning findById(Integer id) {
 		return planningDAO.findById(id);
 	}
-	
-	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, 
+
+	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration,
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms) {
-		
+
 		Validate.notNull(admin);
 		Validate.notEmpty(name);
 		Validate.notNull(period);
 		Validate.notNull(oralDefenseDuration);
 		Validate.isTrue(oralDefenseDuration > 0);
 		Validate.notNull(dayPeriod);
-		
+
 		period.validate();
 		dayPeriod.validate();
 		if (lunchBreak != null) {
 			lunchBreak.validate();
 		}
-		
+
 		Planning planning = new Planning();
 		planning.setAdmin(admin);
 		planning.setName(name);
@@ -89,82 +93,82 @@ public class PlanningServiceImpl implements PlanningService {
 		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
 		planning.setRooms(rooms);
 		planning.setIs_ref(1);
-		
+
 		planning.setPriorities(Lists.newArrayList(
 				new Priority("ENTREPRISE", 1),
 				new Priority("ENSEIGNANT", 2),
         		new Priority("HORAIRES", 3)
 		));
-		
+
 		planningDAO.persist(planning);
-		
+
 		return planning;
 	}
-	
+
 	public void update(Planning planning, String name, TimeBox period,
 			Integer oralDefenseDuration, Integer oralDefenseInterlude,
 			TimeBox lunchBreak, TimeBox dayPeriod,
 			Integer nbMaxOralDefensePerDay, Collection<Room> rooms) {
-		
+
 		Validate.notNull(planning);
-		
+
 		if (name != null && !name.equals("")) {
 			planning.setName(name);
 		}
-		
+
 		if (period != null) {
 			period.validate();
 			planning.setPeriod(period);
 		}
-		
+
 		if (oralDefenseDuration != null && oralDefenseDuration > 0) {
 			planning.setOralDefenseDuration(oralDefenseDuration);
 		}
-		
+
 		if (dayPeriod != null) {
 			dayPeriod.validate();
 			planning.setDayPeriod(dayPeriod);
 		}
-		
+
 		if (lunchBreak != null) {
 			lunchBreak.validate();
 			planning.setLunchBreak(lunchBreak);
 		}
-		
+
 		planning.setOralDefenseInterlude(oralDefenseInterlude);
 		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
-		
+
 		if (rooms != null) {
 			planning.setRooms(rooms);
 		}
-		
+
 		planningDAO.update(planning);
-		
+
 	}
-	
+
 	public List<Planning> findAllByUid(String uid){
 		return planningDAO.findAll(uid);
 	}
-	
+
 	public Planning importPartcipants(Planning planning, File file) throws Exception {
-		
+
 		ParticipantsImport participantsImport = new ParticipantsCSVImport();
 		participantsImport.configure(personResolver);
 		Collection<Participant> participants = participantsImport.execute(file);
-		
+
 		for(Participant p : participants){
 			participantDAO.persist(p);
 		}
-		
+
 		planning.setParticipants(participants);
-		
+
 		planningDAO.update(planning);
-		
+
 		return planning;
 	}
-	
+
 	public Collection<Participant> findParticipants(Planning planning) {
-		
+
 		return planningDAO.findParticipants(planning);
 	}
 
@@ -176,7 +180,7 @@ public class PlanningServiceImpl implements PlanningService {
 	@Override
 	public Collection<Priority> updatePriorities(Planning planning,
 			Collection<Priority> priorities) {
-		
+
 		for(final Priority priority : priorities) {
 			Collection<Priority> result = Collections2.filter(planning.getPriorities(), new Predicate<Priority>() {
 				@Override
@@ -190,25 +194,25 @@ public class PlanningServiceImpl implements PlanningService {
 				priorityDAO.update(priority);
 			}
 		}
-		
+
 		return planning.getPriorities();
 	}
-	
+
 	@Override
 	public Map<Integer, List<Creneau>> exportJSON(Planning plan) {
 		int idPlanning = plan.getId();
 		Map<Integer, List<Creneau>> planning = null;
-		File f = new File("persist/" + idPlanning + "/planning.ser");
+		File f = new File(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
 		if(f.exists()) {
 			try(
-					InputStream f1 = new FileInputStream("persist/" + idPlanning + "/planning.ser");
+					InputStream f1 = new FileInputStream(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
 					InputStream b1 = new BufferedInputStream(f1);
 					ObjectInput i1 = new ObjectInputStream (b1);
 					){
 				//deserialize the List
 				planning = (Map<Integer, List<Creneau>>)i1.readObject();
-				
-				
+
+
 			}
 			catch(ClassNotFoundException ex){
 				System.err.println(ex);
@@ -217,7 +221,7 @@ public class PlanningServiceImpl implements PlanningService {
 				System.err.println(ex);
 			}
 		}
-		
+
 		return planning;
 	}
 
@@ -226,8 +230,8 @@ public class PlanningServiceImpl implements PlanningService {
 
 		Integer newId = planningDAO.duplicate(id);
 
-		File dir = new File("persist/" + id);
-		File newDir = new File("persist/" + newId);
+		File dir = new File(PERSIST_PATH + "/" + id);
+		File newDir = new File(PERSIST_PATH+ "/" + newId);
 
 		try {
 			FileUtils.copyDirectory(dir, newDir);
@@ -243,8 +247,8 @@ public class PlanningServiceImpl implements PlanningService {
 
 		Integer newId = planningDAO.duplicateDraft(id);
 
-		File dir = new File("persist/" + id);
-		File newDir = new File("persist/" + newId);
+		File dir = new File(PERSIST_PATH + "/" + id);
+		File newDir = new File(PERSIST_PATH + "/" + newId);
 
 		try {
 			FileUtils.copyDirectory(dir, newDir);

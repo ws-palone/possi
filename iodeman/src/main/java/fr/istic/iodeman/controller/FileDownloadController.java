@@ -13,6 +13,7 @@ import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,10 @@ import java.util.*;
 
 @Controller
 public class FileDownloadController {
-	
+
+	@Value("${PERSIST_PATH}")
+	private String PERSIST_PATH;
+
 	@Autowired
 	PlanningService planningService;
 	
@@ -86,9 +90,12 @@ public class FileDownloadController {
 		JSONObject ret = new JSONObject();
 		
 		Set<Integer> s = new HashSet<Integer>();
-		
-		for (final File fileEntry : new File("persist").listFiles()) {
-	        if (fileEntry.isDirectory()) {
+		File f = new File(PERSIST_PATH);
+
+		System.out.println(f.getAbsolutePath());
+		for (final File fileEntry : f.listFiles()) {
+			System.out.println(fileEntry.getAbsolutePath());
+			if (fileEntry.isDirectory()) {
 	        	if(new File(fileEntry.getPath() + "/planning.ser").exists()) {
 	        		s.add(Integer.valueOf(fileEntry.getName()));
 	        	}
