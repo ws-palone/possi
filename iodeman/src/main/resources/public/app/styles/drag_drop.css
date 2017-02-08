@@ -52,3 +52,21 @@ table.rect_planning {
     display: inline-block;
     vertical-align: middle;
 }
+
+.fixed_header thead{
+    display: inline-table;
+}
+
+.fixed_header tbody{
+    display: block;
+    overflow: auto;
+    margin-right: -5px;
+}
+
+.fixed_header tbody::-webkit-scrollbar {
+    display: none;
+}
+
+.horaire{
+    width:65px;
+}
