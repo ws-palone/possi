@@ -7,7 +7,7 @@ angular.module('publicApp')
 
         $http.get(backendURL +  'planning/' + $scope.id + '/duplicateDraft')
             .success(function (data) {
-                console.log(data)
+                document.location.href="#/generatedDraft/"+data;
             })
 
     });
