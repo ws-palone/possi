@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,9 @@ import java.util.List;
 @RequestMapping("/planning") 
 @RestController
 public class PlanningController {
+
+	@Value("${PERSIST_PATH}")
+	private String PERSIST_PATH;
 	
 	@Autowired
 	private RoomService roomService;
@@ -37,8 +41,7 @@ public class PlanningController {
 	
 	@Autowired
 	private UnavailabilityService unavailabilityService;
-	
-	
+
 	@Autowired
 	private SessionComponent session;
 	
@@ -252,7 +255,7 @@ public class PlanningController {
 	
 	@RequestMapping(value = "/{id}/deleteBackup")
 	public void deletePlanningBackup(@PathVariable("id") Integer id) throws IOException{
-		FileUtils.cleanDirectory(new File("persist/"+id));
+		FileUtils.cleanDirectory(new File(PERSIST_PATH+"/"+id));
 	}
 
 	@RequestMapping(value = "/{id}/duplicate")
@@ -285,7 +288,7 @@ public class PlanningController {
 		planningService.updateUnvailibilities(id, jsonObject);
 
 		//Suppression de fichier
-		File fileEntry = new File("persist/"+ id + "/planning.ser");
+		File fileEntry = new File(PERSIST_PATH+"/"+ id + "/planning.ser");
 		fileEntry.delete();
 
 		PlanningService ps = new PlanningServiceImpl();

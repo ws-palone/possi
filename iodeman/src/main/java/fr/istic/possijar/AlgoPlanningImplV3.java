@@ -8,6 +8,8 @@ import com.google.common.io.Files;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.model.Planning;
 import javafx.collections.ObservableList;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,7 @@ import java.util.*;
  * @date 1 févr. 2016
  */
 public class AlgoPlanningImplV3 {
+
 
 	/* VARIABLES */
 	private int nbJours;
@@ -818,13 +821,13 @@ public class AlgoPlanningImplV3 {
 
 	public void serialize(int idPlanning) {
 
-		File dir = new File("persist/" + idPlanning);
+		File dir = new File("temp/persist" + "/" + idPlanning);
 		dir.mkdirs();
 
 		try (
-				OutputStream f1 = new FileOutputStream("persist/" + idPlanning + "/planning.ser");
-				OutputStream f2 = new FileOutputStream("persist/" + idPlanning + "/impossibleAInserer.ser");
-				OutputStream f3 = new FileOutputStream("persist/" + idPlanning + "/sallesSelectionnees.ser");
+				OutputStream f1 = new FileOutputStream("temp/persist" + "/" + idPlanning + "/planning.ser");
+				OutputStream f2 = new FileOutputStream("temp/persist" + "/" + idPlanning + "/impossibleAInserer.ser");
+				OutputStream f3 = new FileOutputStream("temp/persist" +"/" + idPlanning + "/sallesSelectionnees.ser");
 				OutputStream b1 = new BufferedOutputStream(f1);
 				OutputStream b2 = new BufferedOutputStream(f2);
 				OutputStream b3 = new BufferedOutputStream(f3);
@@ -842,13 +845,15 @@ public class AlgoPlanningImplV3 {
 	}
 
 	public void deserialize(int idPlanning) {
-		File f = new File("persist/" + idPlanning + "/planning.ser");
-		if(f.exists()) {
+		File f = new File("temp/persist" + "/" + idPlanning + "/planning.ser");
+        System.out.println("temp/persist");
+        System.out.println(f.getAbsolutePath());
+        if(f.exists()) {
 			isSerial = true;
 			try(
-					InputStream f1 = new FileInputStream("persist/" + idPlanning + "/planning.ser");
-					InputStream f2 = new FileInputStream("persist/" + idPlanning + "/impossibleAInserer.ser");
-					InputStream f3 = new FileInputStream("persist/" + idPlanning + "/sallesSelectionnees.ser");
+					InputStream f1 = new FileInputStream("temp/persist" + "/" + idPlanning + "/planning.ser");
+					InputStream f2 = new FileInputStream("temp/persist" + "/" + idPlanning + "/impossibleAInserer.ser");
+					InputStream f3 = new FileInputStream("temp/persist" + "/" + idPlanning + "/sallesSelectionnees.ser");
 					InputStream b1 = new BufferedInputStream(f1);
 					InputStream b2 = new BufferedInputStream(f2);
 					InputStream b3 = new BufferedInputStream(f3);
