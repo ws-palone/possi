@@ -18,6 +18,7 @@ angular.module('publicApp')
 	});
 
 	$http.get(backendURL + 'user').success(function(data) {
+
 		$scope.user = data;
 	});
 		

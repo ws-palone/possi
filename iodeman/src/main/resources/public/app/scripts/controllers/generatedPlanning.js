@@ -81,8 +81,8 @@ angular.module('publicApp')
 
     }
 
-}).directive('myRepeatDirectivePlanning', function ($filter) {
-        return function (scope, element, attrs) {
+}).directive('myRepeatDirectivePlanning', function () {
+        return function (scope) {
             if (scope.$last) {
             	//alert("fin");
                 heights = new Array();
@@ -116,22 +116,11 @@ angular.module('publicApp')
                     $(this).css( "width", (maxWidth*4 + 32)+"px");
                 })
 
-                $('#printArea tbody').css("height", window.innerHeight * 0.7);            }
+                //155 = taille du header plus les boutons
+                $('#printArea tbody').css("height", (window.innerHeight-155)+"px");
+            }
         };
     });
 
-    /*.directive('myRepeatDirectiveTable', function (){
-    return {
-        restrict: 'EA',
-        scope: {
-          test: "="
-        },
-        controller : function(scope, element, attrs){
-            //console.log(scope);
-            //console.log(scope.creneaux);
-            console.log(scope.test);
-        }
-    };
 
-});*/
 
