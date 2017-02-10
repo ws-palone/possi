@@ -15,19 +15,19 @@
 </div>
 
 <div ng-hide="error" class="panel panel-default planning">
-    <table id="printArea" class="table">
+    <table id="printArea" class="table fixed_header">
         <thead>
         <tr>
             <th class="odd">Horaire</th>
-            <th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}">Salle {{room.name}}</th>
+            <th ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="room_name" my-repeat-directive-draft>Salle {{room.name}}</th>
         </tr>
         </thead>
-        <tbody ng-repeat="(key, jour) in creneaux.creneaux | orderBy:key">
-        <tr>
-            <th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
-        </tr>
-        <tr ng-repeat="horaire in jour" class="line_creneau">
-            <!-- <td>{{horaire[0].periode}}</td> -->
+        <tbody>
+        <!-- <tr>
+             <th class="info" colspan="100%">{{key | date:'dd MMMM yyyy'}}</th>
+         </tr>
+         <tr ng-repeat="horaire in jour" class="line_creneau">
+              <td>{{horaire[0].periode}}</td>
             <td class="odd" data-periode="{{horaire[0].periode}}">{{horaire[0].horaire}}</td>
 
             <td ng-repeat="room in creneaux.salles" ng-class="{'even':$even, 'odd':$odd}" class="creneau"
@@ -35,10 +35,7 @@
 
 
             </td>
-            <!--
-                        <td ng-repeat="creneau in horaire" ng-class="{'even':$even, 'odd':$odd}" class="creneau" >
-                        </td>-->
-        </tr>
+        </tr> -->
         </tbody>
     </table>
 </div>
