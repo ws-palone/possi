@@ -239,7 +239,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 
 		//inserer une nouvelle ligne dans planing en copiant la reference
 		Planning clone = this.findById(id);
-		clone.setIs_ref(0);
+//		clone.setIs_ref(0);
 //		clone.setRef_id(id);
 		clone.setId(null);
 		String name = clone.getName();
@@ -264,9 +264,9 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		query.executeUpdate();
 
 		String sql_room = "INSERT INTO Planning_Room (Planning_id, rooms_id) " +
-				"SELECT :newid, rooms_id " +
+				"SELECT :id, rooms_id " +
 				"FROM Planning_Room " +
-				"WHERE Planning_id = :id";
+				"WHERE Planning_id = :newid";
 
 		SQLQuery query_room = session.createSQLQuery(sql_room);
 		query_room.setParameter("id", id);
@@ -284,9 +284,9 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		query_priority.executeUpdate();*/
 
 		String sql_participant = "INSERT INTO Planning_Participant (Planning_id, participants_id)  " +
-				"SELECT :newid, participants_id " +
+				"SELECT :id, participants_id " +
 				"FROM Planning_Participant " +
-				"WHERE Planning_id = :id";
+				"WHERE Planning_id = :newid";
 
 		SQLQuery query_participant = session.createSQLQuery(sql_participant);
 		query_participant.setParameter("id", id);
