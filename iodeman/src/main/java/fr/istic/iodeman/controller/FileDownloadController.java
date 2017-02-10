@@ -195,6 +195,7 @@ public class FileDownloadController {
 		
 		ret.put("creneaux", obj1);
 		ret.put("indispos", unav);
+		ret.put("name", planning.getName());
 		
 		return ret.toString();
 	}
@@ -248,6 +249,7 @@ public class FileDownloadController {
 		System.err.println(day.toString());
 
 		ret.put("creneaux", obj1);
+		ret.put("name", planning.getName());
 
 		return ret.toString();
 	}
