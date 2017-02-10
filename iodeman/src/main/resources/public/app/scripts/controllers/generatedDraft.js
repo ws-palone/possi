@@ -24,6 +24,7 @@ angular.module('publicApp')
 
                 data.creneaux = ordered;
                 $scope.creneaux = data;
+                $scope.name = data.name;
                 $scope.i = 0;
                 $scope.fillTable($scope.creneaux);
             })
