@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="app/styles/mobile.css" media="all">
+<link rel="stylesheet" href="app/styles/mobile_main.css" media="all">
 
 <div id="page-inner" ng-show="connected">
 	<div class="panel panel-primary" id="home-info">
@@ -6,10 +6,9 @@
 			<h3 class="panel-title">Bienvenue sur PossiCat</h3>
 		</div>
 		<div class="panel-body">
-			<p>Vous êtes connecté en tant que {{user.firstName}} {{user.lastName}}
-			<span ng-if="user.role == 'PROF'">, professeur à l'université.</span>
+			<p>Vous êtes connecté en tant que {{user.firstName}} {{user.lastName}}<span ng-if="user.role == 'PROF'">, professeur à l'université.</span>
 			<span ng-if="user.role != 'PROF'">, étudiant à l'université.</span></p>
-			PossiCat est un outil permettant de simplifier la plannification de soutenances. Accédez aux plannings vous concernant dans
+			PossiCat est un outil permettant de simplifier la planification de soutenances. Accédez aux plannings vous concernant dans
 			le tableau ci-dessous, et saisissez vos indisponibilités.</p>
 			<button class="btn btn-flat btn-sm" ng-click="closeHomeInfo()">Fermer </button>
 		</div>
@@ -27,7 +26,7 @@
 						<tr>
 							<th>Planning</th>
 							<th>Admin</th>
-							<th>Debut</th>
+							<th>Début</th>
 							<th>Fin</th>
 							<th>Actions</th>
 						</tr>

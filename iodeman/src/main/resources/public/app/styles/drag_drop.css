@@ -70,3 +70,7 @@ table.rect_planning {
 .horaire{
     width:65px;
 }
+
+#printArea tr {
+    border: 1px solid white;
+}

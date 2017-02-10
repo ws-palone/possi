@@ -1,5 +1,5 @@
 angular.module('publicApp')
-    .controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams) {
+    .controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams, $filter) {
 
         $scope.id = $routeParams.idPlanning;
 
@@ -26,6 +26,7 @@ angular.module('publicApp')
                 $scope.creneaux = data;
                 $scope.name = data.name;
                 $scope.i = 0;
+                $scope.fillTable($scope.creneaux);
             })
             .error(function (data) {
                 $scope.error = true;
@@ -43,8 +44,66 @@ angular.module('publicApp')
             $scope.id_div = $scope.id_div + 1;
             return $scope.id_div;
         };
+
+        $scope.fillTable = function(creneaux){
+            var table = $('#printArea tbody');
+            var date = $filter('date');
+            var capit = $filter('capitalize');
+            var etn = $filter('emailToName');
+
+            angular.forEach(creneaux.creneaux, function(value, key) {
+                var html = '<tr><th class="info" colspan="100%">'+date(key,'dd MMMM yyyy')+'</th></tr>';
+
+                angular.forEach(value, function(horaire){
+                    if(horaire.length > 0){
+                        html += '<tr>';
+
+                        html +=  '<td class="odd horaire" data-periode="'+horaire[0].periode+'">'+horaire[0].horaire+'</td>';
+                        var i = 0;
+                        angular.forEach(creneaux.salles, function(truc, salle_num){
+                            var class_name = "";
+                            if(i % 2 == 0){
+                                class_name = "even";
+                            }else{
+                                class_name = "odd";
+                            }
+                            html += '<td class="'+class_name+'">';
+                            if(typeof horaire[salle_num] != 'undefined' && typeof horaire[salle_num].student != 'undefined'){
+
+                                html += '<div class="event creneau" draggable="true" id="' + i + '" data-student="'+horaire[salle_num].student.name+'">';
+
+                                html += '<div class="rec_etud creneau_element creneau_draft"><p>'
+                                    + capit(etn(horaire[salle_num].student.name), true)
+                                    + '</p></div>'
+                                    + '<div  class="rec_tut creneau_element creneau_draft"><p>'
+                                    + capit(horaire[salle_num].student.tuteur.name, true)
+                                    + '</p></div>'
+                                    + '<div  class="rec_prof1 creneau_element creneau_draft"><p>'
+                                    + capit(etn(horaire[salle_num].student.enseignant.name), true)
+                                    + '</p></div>'
+                                    + '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
+                                    + capit(etn(horaire[salle_num].candide.name), true)
+                                    + '</p></div>';
+
+
+                                html += '</div>';
+                            }
+                            html += '</td>';
+
+                            i++;
+
+                        })
+
+                        html += '</tr>';
+                    }
+                });
+                table.append(html);
+            });
+        }
+
         $scope.drag = function () {
             $('.event').on("dragstart", function (event) {
+                console.log($scope.creneaux);
                 var dt = event.originalEvent.dataTransfer;
                 dt.setData('Text', $(this).attr('id'));
                 $scope.origin_position = $(this).parent('td')[0];
@@ -53,9 +112,12 @@ angular.module('publicApp')
                 $('.unavailable_drop').each(function () {
                     $(this).removeClass('unavailable_drop');
                 });
-                periodes.forEach(function(key, value){
-                    $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop_design unavailable_drop");
-                });
+                if(typeof periodes != 'undefined'){
+
+                    periodes.forEach(function(key, value){
+                        $('[data-periode= '+key+']').parent().children('td').addClass("unavailable_drop_design unavailable_drop");
+                    });
+                }
 
             });
             $('table td').on("dragenter dragover drop", function (event) {
@@ -63,11 +125,13 @@ angular.module('publicApp')
                 if(!($(event.target).hasClass('unavailable_drop'))){
                     if (event.type === 'drop') {
                         var id_drag = $(this).attr('id');
+                        console.log(id_drag);
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
                         if ($(this).find('div').length === 0) {
                             de = $('#' + data).detach();
                             de.appendTo($(this));
                         }
+                        console.log(data);
                         $scope.modified[data] = {
                             "room": event.target.cellIndex,
                             "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
@@ -109,41 +173,11 @@ angular.module('publicApp')
         }
 
     })
-    .directive('myRepeatDirective', function ($filter) {
-        return function (scope, element, attrs) {
-
-            var capit = $filter('capitalize');
-            var etn = $filter('emailToName');
-            var room_id = element.parent().children('td').length - 1;
-            if (typeof scope.horaire[room_id - 1] != 'undefined' && typeof scope.horaire[room_id - 1].student != 'undefined' ) {
-                var current_id = scope.getId_div();
-
-                var html = "";
-
-                html += '<div class="event creneau" draggable="true" id="' + current_id + '" data-student="'+scope.horaire[room_id - 1].student.name+'">';
-
-                html += '<div class="rec_etud creneau_element creneau_draft" width="20%"><p>'
-                    + capit(etn(scope.horaire[room_id - 1].student.name), true)
-                    + '</p></div>'
-                    + '<div  class="rec_tut creneau_element creneau_draft" width="20%"><p>'
-                    + capit(scope.horaire[room_id - 1].student.tuteur.name, true)
-                    + '</p></div>'
-                    + '<div  class="rec_prof1 creneau_element creneau_draft" width="20%"><p>'
-                    + capit(etn(scope.horaire[room_id - 1].student.enseignant.name), true)
-                    + '</p></div>'
-                    + '<div  class="rec_prof2 creneau_element creneau_draft" width="20%"><p>'
-                    + capit(etn(scope.horaire[room_id - 1].candide.name), true)
-                    + '</p></div>';
-
-                html += '</div>';
-
-                $(element).append(html);
-                scope.cache[current_id] = scope.horaire[room_id - 1];
-            }
-
-
+    .directive('myRepeatDirectiveDraft', function () {
+        return function (scope) {
             if (scope.$last) {
-                scope.drag();
+
+                //alert("fin");
                 heights = new Array();
                 widths = new Array();
                 $(".creneau_element").each(function ()
@@ -160,15 +194,24 @@ angular.module('publicApp')
                     $(this).css("line-height", maxHeight+"px");
                     $(this).css( "width", maxWidth+"px");
 
-
                 });
 
+                // 32 = padding des div
+                // 70 = largeur de la colonne horaire
                 nb_colonne = $('.planning').find('thead').find('th').length;
-                new_width = (nb_colonne-1)*(maxWidth*4 + 40) + 70;
+                new_width = (nb_colonne-1)*(maxWidth*4 + 35) + 70;
                 if (new_width > 1000){
-                    $('.planning')[0].style.width = (nb_colonne-1)*(maxWidth*4 + 40) + 70 +"px";
+                    $('.planning')[0].style.width = new_width +"px";
 
                 }
+
+                $('.room_name').each(function(){
+                    $(this).css( "width", (maxWidth*4 + 32)+"px");
+                })
+
+                //155 = taille du header plus les boutons
+                $('#printArea tbody').css("height", (window.innerHeight-155)+"px");
+                scope.drag();
             }
         };
     });
