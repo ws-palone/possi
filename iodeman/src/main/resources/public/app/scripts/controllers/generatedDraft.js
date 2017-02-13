@@ -132,7 +132,8 @@ angular.module('publicApp')
                         console.log(data);
                         $scope.modified[data] = {
                             "room": event.target.cellIndex,
-                            "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
+                            "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode'),
+                            "horaire": $('#' + data).parent().parent()[0].firstElementChild.innerHTML
                         };
                         console.log($scope.modified);
                         
@@ -158,10 +159,13 @@ angular.module('publicApp')
 
                         $scope.cache[index].salle = value.room;
                         $scope.cache[index].periode = value.periode;
+                        $scope.cache[index].horaire = value.horaire;
+
                         $scope.toSend.push($scope.cache[index]);
                     }
                 }
             });
+            console.log($scope.toSend);
             if($scope.toSend.length > 0){
 
                 $http.post(backendURL + 'planning/' + $scope.id + '/updateDraft', $scope.toSend).then(function () {
