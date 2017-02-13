@@ -152,7 +152,7 @@ angular.module('publicApp')
             console.log($scope.modified)
             console.log($scope.cache);
 
-            angular.forEach($scope.modified, function (value, index) {
+            angular.forEach($scope.modified, function (value, index){
                 if(typeof $scope.cache[index] != 'undefined'){
                     if ($scope.cache[index].salle != value.room || $scope.cache[index].periode != value.periode) {
 
@@ -161,9 +161,6 @@ angular.module('publicApp')
                         $scope.toSend.push($scope.cache[index]);
                     }
                 }
-
-
-
             });
             if($scope.toSend.length > 0){
 
