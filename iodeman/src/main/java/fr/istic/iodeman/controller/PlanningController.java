@@ -10,10 +10,12 @@ import fr.istic.iodeman.service.PlanningService;
 import fr.istic.iodeman.service.PlanningServiceImpl;
 import fr.istic.iodeman.service.RoomService;
 import fr.istic.iodeman.service.UnavailabilityService;
+import fr.istic.possijar.Creneau;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/planning") 
 @RestController
@@ -284,8 +287,20 @@ public class PlanningController {
 	@RequestMapping("/{id}/updateDraft")
 	public void updateDraft(@PathVariable("id") Integer id, @RequestBody String modifiedValue){
 		System.out.println(modifiedValue);
+		Planning planning = planningService.findById(id);
+		Map<Integer,List<Creneau>> creneaux = planningService.exportJSON(planning);
 
+		JSONObject jsonObject = new JSONObject(modifiedValue);
 
+		System.out.println(jsonObject.toString());
+
+		
+		for(Map.Entry<Integer, List<Creneau>> entry : creneaux.entrySet()){
+
+			for (Creneau c: entry.getValue()) {
+				System.out.println("CLE" + entry.getKey() + "   " + c.toString());
+			}
+		}
 	}
 	
 }
