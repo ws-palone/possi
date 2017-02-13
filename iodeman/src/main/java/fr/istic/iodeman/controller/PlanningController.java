@@ -284,16 +284,7 @@ public class PlanningController {
 	@RequestMapping("/{id}/updateDraft")
 	public void updateDraft(@PathVariable("id") Integer id, @RequestBody String modifiedValue){
 		System.out.println(modifiedValue);
-		JSONArray jsonObject = new JSONArray(new JSONTokener(modifiedValue));
-		planningService.updateUnvailibilities(id, jsonObject);
 
-		//Suppression de fichier
-		File fileEntry = new File(PERSIST_PATH+"/"+ id + "/planning.ser");
-		fileEntry.delete();
-
-		PlanningService ps = new PlanningServiceImpl();
-		Planning p = ps.findById(id);
-		ps.exportExcel(p);
 
 	}
 	

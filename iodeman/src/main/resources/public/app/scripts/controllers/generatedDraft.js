@@ -6,7 +6,7 @@ angular.module('publicApp')
         $scope.id_div = -1;
 
         $scope.cache = {};
-        $scope.modified = {};
+        $scope.modified = [];
 
         $scope.printIt = function () {
             window.print();
@@ -45,10 +45,10 @@ angular.module('publicApp')
             var date = $filter('date');
             var capit = $filter('capitalize');
             var etn = $filter('emailToName');
-
+            var div_id = 0;
             angular.forEach(creneaux.creneaux, function(value, key) {
                 var html = '<tr><th class="info" colspan="100%">'+date(key,'dd MMMM yyyy')+'</th></tr>';
-                var div_id = 0;
+
                 angular.forEach(value, function(horaire){
                     if(horaire.length > 0){
                         html += '<tr class="line_creneaux">';
@@ -82,11 +82,13 @@ angular.module('publicApp')
 
 
                                 html += '</div>';
+                                $scope.cache[div_id] = horaire[salle_num];
+
+                                div_id++;
                             }
                             html += '</td>';
 
                             i++;
-                            div_id++;
 
                         })
 
@@ -132,6 +134,7 @@ angular.module('publicApp')
                             "room": event.target.cellIndex,
                             "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode')
                         };
+                        console.log($scope.modified);
                         
                     }//fin if
                 }//fin if
@@ -146,15 +149,20 @@ angular.module('publicApp')
 
         $scope.save = function () {
             $scope.toSend = [];
+            console.log($scope.modified)
+            console.log($scope.cache);
 
             angular.forEach($scope.modified, function (value, index) {
+                if(typeof $scope.cache[index] != 'undefined'){
+                    if ($scope.cache[index].salle != value.room || $scope.cache[index].periode != value.periode) {
 
-                if ($scope.cache[index].salle != value.room || $scope.cache[index].periode != value.periode) {
-
-                    $scope.cache[index].salle = value.room;
-                    $scope.cache[index].periode = value.periode;
-                    $scope.toSend.push($scope.cache[index]);
+                        $scope.cache[index].salle = value.room;
+                        $scope.cache[index].periode = value.periode;
+                        $scope.toSend.push($scope.cache[index]);
+                    }
                 }
+
+
 
             });
             if($scope.toSend.length > 0){
