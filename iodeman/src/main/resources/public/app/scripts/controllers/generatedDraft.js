@@ -39,11 +39,6 @@ angular.module('publicApp')
             });
         }
 
-        $scope.getId_div = function () {
-            $scope.id_div = $scope.id_div + 1;
-            return $scope.id_div;
-        };
-
         $scope.fillTable = function(creneaux){
             var table = $('#printArea tbody');
             var date = $filter('date');
@@ -55,7 +50,7 @@ angular.module('publicApp')
 
                 angular.forEach(value, function(horaire){
                     if(horaire.length > 0){
-                        html += '<tr>';
+                        html += '<tr class="line_creneaux">';
 
                         html +=  '<td class="odd horaire" data-periode="'+horaire[0].periode+'">'+horaire[0].horaire+'</td>';
                         var i = 0;

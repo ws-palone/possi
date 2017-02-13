@@ -3,9 +3,10 @@
  */
 
 function show_hide_creneaux(){
-    $('.line_creneau').each(function(){
+    $('.line_creneaux').each(function(){
         var occupated = false;
-        $($(this).children('.creneau')).each(function(item){
+        console.log($(this));
+        $($(this).children('td')).each(function(item){
             if ($(this).children().length >0){
                 occupated = true;
             }
