@@ -12,6 +12,8 @@ import fr.istic.iodeman.service.PlanningService;
 import fr.istic.iodeman.service.PlanningServiceImpl;
 import fr.istic.iodeman.service.RoomService;
 import fr.istic.iodeman.service.UnavailabilityService;
+import fr.istic.iodeman.strategy.PlanningSplitter;
+import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.possijar.Creneau;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
@@ -304,20 +306,22 @@ public class PlanningController {
 			}
 		}
 
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		List<TimeBox> timeboxes = splitter.execute(planning);
 		for (int i=0; i<jsonArray.length(); i++) {
 			try {
 				System.out.println("test ------------"+ jsonArray.getJSONObject(i).toString());
 				ObjectMapper objectMapper = new ObjectMapper();
 				objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				Creneau c = objectMapper.readValue(jsonArray.getJSONObject(i).toString(), Creneau.class);
+				TimeBox timebox = timeboxes.get(c.getPeriode());
+				c.setHoraire(timebox.getFrom().getDay()+" "+timebox.getFrom().getHours()+" "+ timebox.getFrom().getMinutes());
+
 				creneaux_list.get(c.getPeriode()).add(c);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
-
-
 
 		for(Map.Entry<Integer, List<Creneau>> entry : creneaux_list.entrySet()){
 
@@ -326,6 +330,7 @@ public class PlanningController {
 
 			}
 		}
+		//TODO : Mettre dans le fichier SER MAGL
 	}
 	
 }
