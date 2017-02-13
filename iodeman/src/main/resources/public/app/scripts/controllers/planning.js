@@ -29,8 +29,12 @@ angular.module('publicApp')
 			$scope.planning = data;
 			$timeout(verifyAdmin(), 100);
 		});
+		$http.get(backendURL+'planning/'+$scope.id+'/exported').success(function (data) {
+			$scope.isGenerated = data;
+		});
 	});
-	
+
+
 	$scope.showImportButton = true;
 
 	$scope.id = $routeParams.idPlanning;

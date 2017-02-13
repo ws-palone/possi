@@ -105,6 +105,13 @@ public class FileDownloadController {
 		
 		return ret.toString();
 	}
+
+	@RequestMapping(value="/planning/{planningId}/exported", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public Boolean getExportedPlanningById(@PathVariable("planningId") Integer planningId) {
+		File f = new File(PERSIST_PATH+"/"+planningId+"/planning.ser");
+		return f.exists();
+	}
 	
 	@RequestMapping(value="/planning/{planningId}/exportDraft", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
