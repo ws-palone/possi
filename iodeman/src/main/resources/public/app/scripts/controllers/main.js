@@ -12,13 +12,13 @@ angular.module('publicApp')
 	$.material.init();
 	$scope.connected = false;
 	
-	$http.get(backendURL + '/plannings/exported')
+	$http.get(backendURL + 'plannings/exported')
 	.success(function(data) {
 		$scope.exported = data.keys;
 	});
 
 	$http.get(backendURL + 'user').success(function(data) {
-
+		console.log(data);
 		$scope.user = data;
 	});
 		

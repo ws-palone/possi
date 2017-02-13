@@ -24,6 +24,7 @@ angular.module('publicApp')
 
                 data.creneaux = ordered;
                 $scope.creneaux = data;
+                $scope.name = data.name;
                 $scope.i = 0;
                 $scope.fillTable($scope.creneaux);
             })
@@ -47,7 +48,7 @@ angular.module('publicApp')
 
             angular.forEach(creneaux.creneaux, function(value, key) {
                 var html = '<tr><th class="info" colspan="100%">'+date(key,'dd MMMM yyyy')+'</th></tr>';
-
+                var div_id = 0;
                 angular.forEach(value, function(horaire){
                     if(horaire.length > 0){
                         html += '<tr class="line_creneaux">';
@@ -64,7 +65,7 @@ angular.module('publicApp')
                             html += '<td class="'+class_name+'">';
                             if(typeof horaire[salle_num] != 'undefined' && typeof horaire[salle_num].student != 'undefined'){
 
-                                html += '<div class="event creneau" draggable="true" id="' + i + '" data-student="'+horaire[salle_num].student.name+'">';
+                                html += '<div class="event creneau" draggable="true" id="' + div_id + '" data-student="'+horaire[salle_num].student.name+'">';
 
                                 html += '<div class="rec_etud creneau_element creneau_draft"><p>'
                                     + capit(etn(horaire[salle_num].student.name), true)
@@ -85,6 +86,7 @@ angular.module('publicApp')
                             html += '</td>';
 
                             i++;
+                            div_id++;
 
                         })
 

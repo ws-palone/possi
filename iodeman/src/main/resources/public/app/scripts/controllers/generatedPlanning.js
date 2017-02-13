@@ -16,9 +16,11 @@ angular.module('publicApp')
 		  ordered[key] = data.creneaux[key];
 		});
 		
-		data.creneaux = ordered;
+        data.creneaux = ordered;
+
+        $scope.name = data.name;
 		$scope.creneaux = data;
-		console.log($scope.creneaux);
+
 		$scope.fillTable($scope.creneaux);
 	})
 	.error(function(data) {
