@@ -1,5 +1,7 @@
 package fr.istic.iodeman.controller;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -24,10 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/planning") 
 @RestController
@@ -286,19 +285,45 @@ public class PlanningController {
 
 	@RequestMapping("/{id}/updateDraft")
 	public void updateDraft(@PathVariable("id") Integer id, @RequestBody String modifiedValue){
-		System.out.println(modifiedValue);
 		Planning planning = planningService.findById(id);
-		Map<Integer,List<Creneau>> creneaux = planningService.exportJSON(planning);
+		Map<Integer,List<Creneau>> creneaux_list = planningService.exportJSON(planning);
 
-		JSONObject jsonObject = new JSONObject(modifiedValue);
+		JSONArray jsonArray = new JSONArray(modifiedValue);
 
-		System.out.println(jsonObject.toString());
+		for(Map.Entry<Integer, List<Creneau>> entry : creneaux_list.entrySet()){
 
-		
-		for(Map.Entry<Integer, List<Creneau>> entry : creneaux.entrySet()){
+			Iterator<Creneau> it = entry.getValue().iterator();
+			while(it.hasNext()){
+				Creneau c = it.next();
+				for (int i=0; i<jsonArray.length(); i++) {
+					JSONObject item = jsonArray.getJSONObject(i);
+					if(c.getStudent().getName().equals(item.getJSONObject("student").get("name"))){
+						it.remove();
+					}
+				}
+			}
+		}
+
+		for (int i=0; i<jsonArray.length(); i++) {
+			try {
+				System.out.println("test ------------"+ jsonArray.getJSONObject(i).toString());
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				Creneau c = objectMapper.readValue(jsonArray.getJSONObject(i).toString(), Creneau.class);
+				creneaux_list.get(c.getPeriode()).add(c);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+
+
+		for(Map.Entry<Integer, List<Creneau>> entry : creneaux_list.entrySet()){
 
 			for (Creneau c: entry.getValue()) {
 				System.out.println("CLE" + entry.getKey() + "   " + c.toString());
+
 			}
 		}
 	}

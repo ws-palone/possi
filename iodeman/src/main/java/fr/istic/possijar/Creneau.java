@@ -26,6 +26,11 @@ public class Creneau implements Serializable {
 		this.candide = c;
 		this.student = s;
 	}
+
+	public Creneau(){
+
+	}
+
 	public Enseignant getEnseignant() {
 		return enseignant;
 	}

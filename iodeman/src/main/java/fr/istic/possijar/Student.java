@@ -21,6 +21,10 @@ public class Student implements Serializable {
 		this.tuteur = t;
 	}
 
+	public Student(){
+
+	}
+
 	public String getName() {
 		return name;
 	}

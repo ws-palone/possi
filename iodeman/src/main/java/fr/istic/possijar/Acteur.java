@@ -27,6 +27,10 @@ public abstract class Acteur implements Serializable {
 		nbSoutenances = 0;
 		relations = new ArrayList<Acteur>();
 	}
+	public Acteur(){
+		nbSoutenances = 0;
+		relations = new ArrayList<Acteur>();
+	}
 
 	public Map<Integer, Boolean> getDisponibilites() {
 		return disponibilites;

@@ -1,5 +1,7 @@
 package fr.istic.possijar;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import java.io.Serializable;
 /**
  * 
@@ -17,6 +19,10 @@ public class Tuteur extends Acteur implements Serializable {
 	public Tuteur(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
+	}
+
+	public Tuteur(){
+		super();
 	}
 
 }

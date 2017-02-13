@@ -20,6 +20,11 @@ public class Enseignant extends Acteur implements Serializable {
 		super(name);
 		nbSoutenanceCandide = 0;
 	}
+
+	public Enseignant(){
+		super();
+	}
+
 	
 	public int getNbSoutenancesCandide() {
 		return nbSoutenanceCandide;
