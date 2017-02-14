@@ -26,8 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @RequestMapping("/planning") 
@@ -317,6 +316,7 @@ public class PlanningController {
 				TimeBox timebox = timeboxes.get(c.getPeriode());
 				c.setHoraire(timebox.getFrom().getDay()+" "+timebox.getFrom().getHours()+" "+ timebox.getFrom().getMinutes());
 
+
 				creneaux_list.get(c.getPeriode()).add(c);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -330,7 +330,17 @@ public class PlanningController {
 
 			}
 		}
-		//TODO : Mettre dans le fichier SER MAGL
+
+		try (
+				OutputStream f1 = new FileOutputStream("temp/persist" + "/" + planning.getId() + "/planning.ser");
+				OutputStream b1 = new BufferedOutputStream(f1);
+				ObjectOutput o1 = new ObjectOutputStream(b1);
+		){
+			o1.writeObject(creneaux_list);
+		}
+		catch(IOException ex){
+			System.err.println(ex);
+		}
 	}
 	
 }

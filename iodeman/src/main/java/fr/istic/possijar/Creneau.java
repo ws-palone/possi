@@ -69,7 +69,7 @@ public class Creneau implements Serializable {
 		this.salle = salle;
 	}
 	public String toString() {
-		return this.periode + " " + this.horaire + " " + this.enseignant + " " + this.tuteur + " " + this.candide + " " + this.student;
+		return this.periode + " " + this.horaire + " " + this.enseignant + " " + this.tuteur + " " + this.candide + " " + this.student +" "+this.salle;
 	}
 	public String getHoraire() {
 		System.err.println(horaire);

@@ -46,15 +46,26 @@ angular.module('publicApp')
             var capit = $filter('capitalize');
             var etn = $filter('emailToName');
             var div_id = 0;
+            console.log(creneaux);
+            creneaux.salles.sort(function(a, b) {
+                return a.id - b.id
+            });
             angular.forEach(creneaux.creneaux, function(value, key) {
                 var html = '<tr><th class="info" colspan="100%">'+date(key,'dd MMMM yyyy')+'</th></tr>';
 
                 angular.forEach(value, function(horaire){
+                    //console.log(horaire);
                     if(horaire.length > 0){
                         html += '<tr class="line_creneaux">';
 
                         html +=  '<td class="odd horaire" data-periode="'+horaire[0].periode+'">'+horaire[0].horaire+'</td>';
-                        var i = 0;
+
+
+                        horaire.sort(function(a, b) {
+                            return a.salle - b.salle
+                        });
+                        i=0;
+                        current_soutenance = 0;
                         angular.forEach(creneaux.salles, function(truc, salle_num){
                             var class_name = "";
                             if(i % 2 == 0){
@@ -63,34 +74,36 @@ angular.module('publicApp')
                                 class_name = "odd";
                             }
                             html += '<td class="'+class_name+'">';
-                            if(typeof horaire[salle_num] != 'undefined' && typeof horaire[salle_num].student != 'undefined'){
+                            if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == truc.id){
+                                console.log(horaire[current_soutenance].student.name)
+                                html += '<div class="event creneau" draggable="true" id="' + div_id + '" data-student="'+horaire[current_soutenance].student.name+'">';
 
-                                html += '<div class="event creneau" draggable="true" id="' + div_id + '" data-student="'+horaire[salle_num].student.name+'">';
 
                                 html += '<div class="rec_etud creneau_element creneau_draft"><p>'
-                                    + capit(etn(horaire[salle_num].student.name), true)
+                                    + capit(etn(horaire[current_soutenance].student.name), true)
                                     + '</p></div>'
                                     + '<div  class="rec_tut creneau_element creneau_draft"><p>'
-                                    + capit(horaire[salle_num].student.tuteur.name, true)
+                                    + capit(horaire[current_soutenance].student.tuteur.name, true)
                                     + '</p></div>'
                                     + '<div  class="rec_prof1 creneau_element creneau_draft"><p>'
-                                    + capit(etn(horaire[salle_num].student.enseignant.name), true)
+                                    + capit(etn(horaire[current_soutenance].student.enseignant.name), true)
                                     + '</p></div>'
                                     + '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
-                                    + capit(etn(horaire[salle_num].candide.name), true)
+                                    + capit(etn(horaire[current_soutenance].candide.name), true)
                                     + '</p></div>';
 
 
                                 html += '</div>';
-                                $scope.cache[div_id] = horaire[salle_num];
+                                $scope.cache[div_id] = horaire[current_soutenance];
 
                                 div_id++;
+                                current_soutenance++;
                             }
                             html += '</td>';
 
                             i++;
 
-                        })
+                        });
 
                         html += '</tr>';
                     }
