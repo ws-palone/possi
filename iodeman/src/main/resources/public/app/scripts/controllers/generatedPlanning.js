@@ -37,6 +37,10 @@ angular.module('publicApp')
 		});
 		
         data.creneaux = ordered;
+        data.salles.sort(function(a, b) {
+            return a.id - b.id
+        });
+
 
         $scope.name = data.name;
 		$scope.creneaux = data;
@@ -59,41 +63,58 @@ angular.module('publicApp')
         var date = $filter('date');
         var capit = $filter('capitalize');
         var etn = $filter('emailToName');
+        console.log(creneaux);
 
         angular.forEach(creneaux.creneaux, function(value, key) {
              var html = '<tr><th class="info" colspan="100%">'+date(key,'dd MMMM yyyy')+'</th></tr>';
 
              angular.forEach(value, function(horaire){
                  if(horaire.length > 0){
-                     html += '<tr>';
+                     html += '<tr class="line_creneaux">';
 
-                     html +=  '<td class="odd horaire">'+horaire[0].horaire+'</td>';
-                     var i = 0;
-                     angular.forEach(horaire, function(creneau){
+                     html +=  '<td class="odd horaire" data-periode="'+horaire[0].periode+'">'+horaire[0].horaire+'</td>';
+
+
+                     horaire.sort(function(a, b) {
+                         return a.salle - b.salle
+                     });
+                     i=0;
+                     current_soutenance = 0;
+                     angular.forEach(creneaux.salles, function(truc, salle_num){
                          var class_name = "";
                          if(i % 2 == 0){
                              class_name = "even";
                          }else{
                              class_name = "odd";
                          }
-                         html += '<td class="'+class_name+'"><div class="event creneau" data-student="'+creneau.student.name+'">';
+                         html += '<td class="'+class_name+'">';
+                         if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == truc.id){
+                             console.log(horaire[current_soutenance].student.name)
+                             html += '<div class="event creneau" data-student="'+horaire[current_soutenance].student.name+'">';
 
-                         html += '<div class="rec_etud creneau_element creneau_draft" width="20%"><p>'
-                             + capit(etn(creneau.student.name), true)
-                             + '</p></div>'
-                             + '<div  class="rec_tut creneau_element creneau_draft" width="20%"><p>'
-                             + capit(creneau.student.tuteur.name, true)
-                             + '</p></div>'
-                             + '<div  class="rec_prof1 creneau_element creneau_draft" width="20%"><p>'
-                             + capit(etn(creneau.student.enseignant.name), true)
-                             + '</p></div>'
-                             + '<div  class="rec_prof2 creneau_element creneau_draft" width="20%"><p>'
-                             + capit(etn(creneau.candide.name), true)
-                             + '</p></div>';
 
-                         html += '</div></td>';
+                             html += '<div class="rec_etud creneau_element creneau_draft"><p>'
+                                 + capit(etn(horaire[current_soutenance].student.name), true)
+                                 + '</p></div>'
+                                 + '<div  class="rec_tut creneau_element creneau_draft"><p>'
+                                 + capit(horaire[current_soutenance].student.tuteur.name, true)
+                                 + '</p></div>'
+                                 + '<div  class="rec_prof1 creneau_element creneau_draft"><p>'
+                                 + capit(etn(horaire[current_soutenance].student.enseignant.name), true)
+                                 + '</p></div>'
+                                 + '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
+                                 + capit(etn(horaire[current_soutenance].candide.name), true)
+                                 + '</p></div>';
+
+
+                             html += '</div>';
+                             current_soutenance++;
+                         }
+                         html += '</td>';
+
                          i++;
-                     })
+
+                     });
 
                      html += '</tr>';
                  }
