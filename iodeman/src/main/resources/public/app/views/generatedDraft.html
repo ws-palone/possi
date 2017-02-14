@@ -10,6 +10,7 @@
     <button ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i
             class="glyphicon glyphicon-chevron-up"></i></button>
 </div>
+<flash-message duration="5000"></flash-message>
 
 <div ng-show="error" class="pangel panel-danger">
     Le planning n'a pas encore été généré par l'administrateur.
@@ -41,7 +42,7 @@
     </table>
 </div>
 <div class="right-button">
-    <button type="button" class="btn btn-raised btn-sm btn-success">Enregistrer les modifications
+    <button ng-click="save()" type="button" class="btn btn-raised btn-sm btn-success">Enregistrer les modifications
     </button>
     <button ng-hide="error" type="button" id="rotate" class="btn btn-primary" onclick="show_hide_creneaux()"><i
             class="glyphicon glyphicon-chevron-up"></i></button>

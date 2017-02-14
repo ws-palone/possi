@@ -1,5 +1,5 @@
 angular.module('publicApp')
-    .controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams, $filter) {
+    .controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams, $filter, Flash) {
 
         $scope.id = $routeParams.idPlanning;
 
@@ -46,7 +46,6 @@ angular.module('publicApp')
             var capit = $filter('capitalize');
             var etn = $filter('emailToName');
             var div_id = 0;
-            console.log(creneaux);
             creneaux.salles.sort(function(a, b) {
                 return a.id - b.id
             });
@@ -54,7 +53,6 @@ angular.module('publicApp')
                 var html = '<tr><th class="info" colspan="100%">'+date(key,'dd MMMM yyyy')+'</th></tr>';
 
                 angular.forEach(value, function(horaire){
-                    //console.log(horaire);
                     if(horaire.length > 0){
                         html += '<tr class="line_creneaux">';
 
@@ -75,7 +73,6 @@ angular.module('publicApp')
                             }
                             html += '<td class="'+class_name+'">';
                             if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == truc.id){
-                                console.log(horaire[current_soutenance].student.name)
                                 html += '<div class="event creneau" draggable="true" id="' + div_id + '" data-student="'+horaire[current_soutenance].student.name+'">';
 
 
@@ -114,7 +111,6 @@ angular.module('publicApp')
 
         $scope.drag = function () {
             $('.event').on("dragstart", function (event) {
-                console.log($scope.creneaux);
                 var dt = event.originalEvent.dataTransfer;
                 dt.setData('Text', $(this).attr('id'));
                 $scope.origin_position = $(this).parent('td')[0];
@@ -136,20 +132,17 @@ angular.module('publicApp')
                 if(!($(event.target).hasClass('unavailable_drop'))){
                     if (event.type === 'drop') {
                         var id_drag = $(this).attr('id');
-                        console.log(id_drag);
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
                         if ($(this).find('div').length === 0) {
                             de = $('#' + data).detach();
                             de.appendTo($(this));
                         }
-                        console.log(data);
                         $scope.modified[data] = {
                             "room": event.target.cellIndex,
                             "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode'),
                             "horaire": $('#' + data).parent().parent()[0].firstElementChild.innerHTML
                         };
-                        console.log($scope.modified);
-                        
+
                     }//fin if
                 }//fin if
                 if (event.type === 'drop') {
@@ -163,9 +156,6 @@ angular.module('publicApp')
 
         $scope.save = function () {
             $scope.toSend = [];
-            console.log($scope.modified)
-            console.log($scope.cache);
-
             angular.forEach($scope.modified, function (value, index){
                 if(typeof $scope.cache[index] != 'undefined'){
                     if ($scope.cache[index].salle != value.room || $scope.cache[index].periode != value.periode) {
@@ -178,7 +168,6 @@ angular.module('publicApp')
                     }
                 }
             });
-            console.log($scope.toSend);
             if($scope.toSend.length > 0){
 
                 $http.post(backendURL + 'planning/' + $scope.id + '/updateDraft', $scope.toSend).then(function () {
@@ -188,8 +177,8 @@ angular.module('publicApp')
                 });
 
             }
+        Flash.create('success', '<strong> Modifications enregistrees!</strong> Le planning a ete mis a jour.');
         }
-
     })
     .directive('myRepeatDirectiveDraft', function () {
         return function (scope) {
