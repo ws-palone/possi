@@ -181,7 +181,6 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 						Restrictions.eq("person.id", s.getId()),
 						Restrictions.eq("person.id", p.getId())
 				));
-		criteria.add(Restrictions.eq("from_ref", 1));
 		criteria.setProjection(Projections.groupProperty("period.from"));
 
 		List<Date> ids = criteria.list();

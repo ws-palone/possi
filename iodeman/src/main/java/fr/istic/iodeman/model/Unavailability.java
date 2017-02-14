@@ -29,8 +29,6 @@ public class Unavailability {
 		@AttributeOverride(name = "to", column = @Column(name = "period_to"))
 	})
 	private TimeBox period;
-
-	private int from_ref = 1;
 	
 	public Integer getId() {
 		return id;
@@ -60,13 +58,6 @@ public class Unavailability {
 	}
 	public void setPlanning(Planning planning) {
 		this.planning = planning;
-	}
-	public int getFrom_ref() {
-		return from_ref;
-	}
-
-	public void setFrom_ref(int from_ref) {
-		this.from_ref = from_ref;
 	}
 	
 }
