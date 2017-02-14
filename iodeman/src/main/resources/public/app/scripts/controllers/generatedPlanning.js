@@ -2,10 +2,30 @@ angular.module('publicApp')
 .controller('GeneratedPlanningCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams, $filter) {
 	
 	$scope.id = $routeParams.idPlanning;
-	
-	$scope.printIt = function(){
-		window.print();
-	};
+
+    $scope.printIt = function(){
+
+        $http.get(backendURL + 'planning/find/'+$scope.id).success(function(data) {
+
+            $scope.planning = data;
+            $scope.errorValidate = false;
+            $scope.errorNoParticipant = false;
+            $scope.errorNoRoom = false;
+
+            console.log("PRINT");
+
+            $http.get(backendURL + 'planning/'+$scope.id+'/validate')
+                .success(function(data) {
+                    console.log("SUCCESS");
+                    console.log(data);
+                    document.location.href = backendURL + 'planning/' + $scope.id + '/export';
+                })
+                .error(function(data) {
+                    console.log("ERROR");
+                    console.log(data);
+                });
+        });
+    };
 	
 	$http.get(backendURL + 'planning/' + $scope.id + '/exportRef')
 	.success(function(data) {

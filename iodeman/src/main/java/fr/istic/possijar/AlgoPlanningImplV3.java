@@ -114,9 +114,9 @@ public class AlgoPlanningImplV3 {
 			Iterator<Creneau> it = creneaux.iterator();
 			while(it.hasNext()) {
 				Creneau c = it.next();
-				if(c.getCandide().getName().equals(email) 
-						|| c.getEnseignant().getName().equals(email)
-						|| c.getTuteur().getName().equals(email)) {
+				if((c.getCandide() != null && c.getCandide().getName().equals(email))
+						|| (c.getEnseignant() != null && c.getEnseignant().getName().equals(email))
+						|| (c.getTuteur() != null && c.getTuteur().getName().equals(email))) {
 					System.err.println("Impossible a insérer : " + c);
 					impossibleAInserer.add(c);
 					it.remove();

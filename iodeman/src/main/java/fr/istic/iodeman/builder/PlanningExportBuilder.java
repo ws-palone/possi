@@ -107,6 +107,8 @@ public class PlanningExportBuilder {
 		else
 			listTimeboxes = new ArrayList<>(timeboxes);
 
+		int rowParPage = 20;
+
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet planningSheet = workbook.createSheet("Planning");
 
@@ -154,15 +156,31 @@ public class PlanningExportBuilder {
 		}
 		days.add(day);
 
+		// Ajout du titre
+		row = planningSheet.createRow(rowIndex);
+		planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
+		cell = row.createCell(cellIndex);
+		cell.setCellValue(planning.getName());
+		cell.setCellStyle(defaultStyle);
+		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+		rowIndex++;
+
 		HSSFCellStyle colorStyle;
 		// Pour chaque journée
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				if(rowIndex>0) {
+				if(planningSheet.getPhysicalNumberOfRows() > 1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
 					planningSheet.createRow(rowIndex++);
+					if(planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
+						planningSheet.createRow(rowIndex++);
+					}
+				}
+
+				while(planningSheet.getPhysicalNumberOfRows() % rowParPage >= (rowParPage-2)){
 					planningSheet.createRow(rowIndex++);
 				}
+
 				// Afficher date
 				row = planningSheet.createRow(rowIndex);
 				cellIndex = 0;
@@ -177,17 +195,20 @@ public class PlanningExportBuilder {
 
 				//ordonner la liste par salle
 				Collections.sort(d, (o1, o2) -> {
-                    if(o1.getSalle()>o2.getSalle())
-                        return 1;
-                    else if(o1.getSalle()<o2.getSalle())
-                        return -1;
-                    return 0;
-                });
+					if(o1.getSalle()>o2.getSalle())
+						return 1;
+					else if(o1.getSalle()<o2.getSalle())
+						return -1;
+					return 0;
+				});
 
 				int salleEnCours = -1;
 				for(Creneau c : d){
 					if(salleEnCours != c.getSalle()){
-						if(salleEnCours > -1){
+						if(salleEnCours > -1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1){
+							planningSheet.createRow(rowIndex++);
+						}
+						while(planningSheet.getPhysicalNumberOfRows()%rowParPage >= (rowParPage-1)){
 							planningSheet.createRow(rowIndex++);
 						}
 						salleEnCours = c.getSalle();
@@ -200,7 +221,7 @@ public class PlanningExportBuilder {
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 						rowIndex++;
 
-					 	// HEADER
+						// HEADER
 						row = planningSheet.createRow(rowIndex++);
 						(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
 						cell.setCellStyle(defaultStyle);
@@ -263,8 +284,16 @@ public class PlanningExportBuilder {
 		// Soutenances posant problèmes
 		List<Creneau> impossibleAInserer = algoPlanning_new.getImpossibleAInserer();
 		cellIndex = 0;
-		planningSheet.createRow(rowIndex++);
-		planningSheet.createRow(rowIndex++);
+		if(planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
+			planningSheet.createRow(rowIndex++);
+			if(planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1){
+				planningSheet.createRow(rowIndex++);
+			}
+		}
+
+		while(planningSheet.getPhysicalNumberOfRows()%rowParPage >= (rowParPage-2)){
+			planningSheet.createRow(rowIndex++);
+		}
 		row = planningSheet.createRow(rowIndex++);
 		(cell = row.createCell(cellIndex++)).setCellValue("Soutenances qui posent problèmes : ");
 		cell.setCellStyle(defaultStyle);
@@ -322,13 +351,14 @@ public class PlanningExportBuilder {
 		}
 
 		HSSFPrintSetup ps = planningSheet.getPrintSetup();
-        ps.setLandscape(true);
-        planningSheet.setAutobreaks(true);
-        planningSheet.setFitToPage(true);
-        ps.setFitWidth((short)1);
-        ps.setFitHeight((short)0);
+		ps.setLandscape(true);
+		planningSheet.setAutobreaks(true);
+		planningSheet.setFitToPage(true);
+		ps.setFitWidth((short)1);
+		ps.setFitHeight((short)0);
 
 		Footer footer = planningSheet.getFooter();
+		footer.setLeft(planning.getName());
 		footer.setRight( "Page " + HeaderFooter.page() + " sur " + HeaderFooter.numPages() );
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
