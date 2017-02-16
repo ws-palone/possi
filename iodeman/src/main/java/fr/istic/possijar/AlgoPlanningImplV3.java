@@ -45,6 +45,8 @@ public class AlgoPlanningImplV3 {
 	private Map<String, List<Integer>> indisponibilites;
 	private Collection<Priority> priorites;
 
+	private final String PERSIST_PATH = "temp/persist";
+
 	public AlgoPlanningImplV3() {
 		enseignants = new ListActeur();
 		tuteurs = new ListActeur();
@@ -821,13 +823,13 @@ public class AlgoPlanningImplV3 {
 
 	public void serialize(int idPlanning) {
 
-		File dir = new File("temp/persist" + "/" + idPlanning);
+		File dir = new File(PERSIST_PATH + "/" + idPlanning);
 		dir.mkdirs();
 
 		try (
-				OutputStream f1 = new FileOutputStream("temp/persist" + "/" + idPlanning + "/planning.ser");
-				OutputStream f2 = new FileOutputStream("temp/persist" + "/" + idPlanning + "/impossibleAInserer.ser");
-				OutputStream f3 = new FileOutputStream("temp/persist" +"/" + idPlanning + "/sallesSelectionnees.ser");
+				OutputStream f1 = new FileOutputStream(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
+				OutputStream f2 = new FileOutputStream(PERSIST_PATH + "/" + idPlanning + "/impossibleAInserer.ser");
+				OutputStream f3 = new FileOutputStream(PERSIST_PATH +"/" + idPlanning + "/sallesSelectionnees.ser");
 				OutputStream b1 = new BufferedOutputStream(f1);
 				OutputStream b2 = new BufferedOutputStream(f2);
 				OutputStream b3 = new BufferedOutputStream(f3);
@@ -845,15 +847,15 @@ public class AlgoPlanningImplV3 {
 	}
 
 	public void deserialize(int idPlanning) {
-		File f = new File("temp/persist" + "/" + idPlanning + "/planning.ser");
-        System.out.println("temp/persist");
+		File f = new File(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
+        System.out.println(PERSIST_PATH);
         System.out.println(f.getAbsolutePath());
         if(f.exists()) {
 			isSerial = true;
 			try(
-					InputStream f1 = new FileInputStream("temp/persist" + "/" + idPlanning + "/planning.ser");
-					InputStream f2 = new FileInputStream("temp/persist" + "/" + idPlanning + "/impossibleAInserer.ser");
-					InputStream f3 = new FileInputStream("temp/persist" + "/" + idPlanning + "/sallesSelectionnees.ser");
+					InputStream f1 = new FileInputStream(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
+					InputStream f2 = new FileInputStream(PERSIST_PATH + "/" + idPlanning + "/impossibleAInserer.ser");
+					InputStream f3 = new FileInputStream(PERSIST_PATH + "/" + idPlanning + "/sallesSelectionnees.ser");
 					InputStream b1 = new BufferedInputStream(f1);
 					InputStream b2 = new BufferedInputStream(f2);
 					InputStream b3 = new BufferedInputStream(f3);
