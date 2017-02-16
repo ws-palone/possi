@@ -332,7 +332,7 @@ public class PlanningController {
 		}
 
 		try (
-				OutputStream f1 = new FileOutputStream("temp/persist" + "/" + planning.getId() + "/planning.ser");
+				OutputStream f1 = new FileOutputStream(PERSIST_PATH + "/" + planning.getId() + "/planning.ser");
 				OutputStream b1 = new BufferedOutputStream(f1);
 				ObjectOutput o1 = new ObjectOutputStream(b1);
 		){
