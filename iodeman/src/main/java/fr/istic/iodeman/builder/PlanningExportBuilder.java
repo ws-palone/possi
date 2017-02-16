@@ -80,7 +80,6 @@ public class PlanningExportBuilder {
 		Validate.notNull(timeboxes);
 		Validate.notNull(unavailabilities);
 		Validate.notNull(participants);
-		//algoPlanning.configure(planning, participants, timeboxes, unavailabilities);
 		algoPlanning_new.deserialize(planning.getId());
 		algoPlanning_new.configure(planning, participants, timeboxes, unavailabilities);
 		algoPlanning_new.execute();
@@ -98,7 +97,8 @@ public class PlanningExportBuilder {
 	public File toXls() throws Exception {
 
 		int nbPeriodesParJour = algoPlanning_new.getNbPeriodesParJour();
-		List<String> sallesSelectionnees = algoPlanning_new.getSallesSelectionnees();
+		List<String> sallesSelectionnees = new ArrayList<>();
+		for(Room room: planning.getRooms()) { sallesSelectionnees.add(room.getName());}
 		Map<Integer, List<Creneau>> p = algoPlanning_new.getPlanning();
 		Set<Integer> periodes = p.keySet();
 		List<TimeBox> listTimeboxes;
@@ -170,13 +170,12 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				for(int j = 0; j < 3; j++){
+				// Si on est en fin de page, on ajoute des lignes pour passer l'entête à la page suivante
+				for (int j = 0; j < 3; j++) {
 					if(planningSheet.getPhysicalNumberOfRows() > 1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
 						planningSheet.createRow(rowIndex++);
 					}
 				}
-
-
 				while(planningSheet.getPhysicalNumberOfRows() % rowParPage >= (rowParPage-2)){
 					planningSheet.createRow(rowIndex++);
 				}
