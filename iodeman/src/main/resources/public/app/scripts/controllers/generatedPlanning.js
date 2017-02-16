@@ -81,6 +81,7 @@ angular.module('publicApp')
                      i=0;
                      current_soutenance = 0;
                      angular.forEach(creneaux.salles, function(truc, salle_num){
+
                          var class_name = "";
                          if(i % 2 == 0){
                              class_name = "even";
@@ -88,7 +89,7 @@ angular.module('publicApp')
                              class_name = "odd";
                          }
                          html += '<td class="'+class_name+'">';
-                         if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == truc.id){
+                         if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == salle_num+1){
                              console.log(horaire[current_soutenance].student.name)
                              html += '<div class="event creneau" data-student="'+horaire[current_soutenance].student.name+'">';
 

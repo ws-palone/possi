@@ -72,7 +72,7 @@ angular.module('publicApp')
                                 class_name = "odd";
                             }
                             html += '<td class="'+class_name+'">';
-                            if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == truc.id){
+                            if(typeof horaire[current_soutenance] != 'undefined' && typeof horaire[current_soutenance].student != 'undefined' && horaire[current_soutenance].salle == salle_num+1){
                                 html += '<div class="event creneau" draggable="true" id="' + div_id + '" data-student="'+horaire[current_soutenance].student.name+'">';
 
 

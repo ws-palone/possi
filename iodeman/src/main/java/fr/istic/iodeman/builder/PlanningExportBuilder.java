@@ -170,12 +170,12 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				if(planningSheet.getPhysicalNumberOfRows() > 1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
-					planningSheet.createRow(rowIndex++);
-					if(planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
+				for(int j = 0; j < 3; j++){
+					if(planningSheet.getPhysicalNumberOfRows() > 1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
 						planningSheet.createRow(rowIndex++);
 					}
 				}
+
 
 				while(planningSheet.getPhysicalNumberOfRows() % rowParPage >= (rowParPage-2)){
 					planningSheet.createRow(rowIndex++);
