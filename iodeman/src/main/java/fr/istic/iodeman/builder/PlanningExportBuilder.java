@@ -98,7 +98,16 @@ public class PlanningExportBuilder {
 
 		int nbPeriodesParJour = algoPlanning_new.getNbPeriodesParJour();
 		List<String> sallesSelectionnees = new ArrayList<>();
-		for(Room room: planning.getRooms()) { sallesSelectionnees.add(room.getName());}
+
+		List<Room> rooms = new ArrayList<>(planning.getRooms());
+		Collections.sort(rooms, new Comparator<Room>() {
+			@Override
+			public int compare(Room left, Room right) {
+				return  ((Integer)left.getId()).compareTo(((Integer)right.getId()));
+
+			}
+		});
+		for(Room room: rooms) { sallesSelectionnees.add(room.getName());}
 		Map<Integer, List<Creneau>> p = algoPlanning_new.getPlanning();
 		Set<Integer> periodes = p.keySet();
 		List<TimeBox> listTimeboxes;
