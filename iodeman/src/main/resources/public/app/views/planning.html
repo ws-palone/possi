@@ -18,8 +18,8 @@
 	<form ng-show="showImportButton" id="formUpload" method="POST"
 		enctype="multipart/form-data" action="{{ uploadFileURL }}">
 		<div class="row">
-			<input style="display: inline;" id="upload_file" type="file" name="file" />
-			<button title="Aide fichier CSV" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-zoom-in"></i></button>
+			<input style="display: inline;" id="upload_file" type="file" name="file" accept=".csv"/>
+			<button title="Aide fichier CSV" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-info-sign"></i></button>
 		</div>
 		<input
 			type="hidden" name="planningId" value="{{ planning.id }}" />
@@ -31,13 +31,16 @@
       <div class="modal-header">
 
         <button  type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4  class="modal-title" id="myModalLabel">Comment importer un fichier CSV ?</h4>
+        <h4  class="modal-title" id="myModalLabel">Importer un fichier CSV</h4>
 		  </div>
       <div class="modal-body">
        	<img style="max-width: 100%;" src="app/images/donnees.png" />
        	<br/><br/>
-       	<p>Le champ "Etudiant" et "Tuteur-Entreprise" doit contenir une adresse électronique (de la forme prenom.nom@univ-rennes1.fr) qui doit être reconnue par le LDAP.</p>
-      </div>
+		  <p>Vérifier que: </p>
+          <p>- l'étudiant est dans le LDAP</p>
+		  <p>- le fichier à importer est bien un fichier .csv</p>
+		  <p>- les séparateurs du fichier CSV sont des virgules</p>
+	  </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
