@@ -25,6 +25,7 @@ angular.module('publicApp')
                 data.creneaux = ordered;
                 $scope.creneaux = data;
                 $scope.name = data.name;
+                $scope.csv_file = data.csv_file;
                 $scope.i = 0;
                 $scope.fillTable($scope.creneaux);
             })

@@ -43,6 +43,7 @@ angular.module('publicApp')
 
 
         $scope.name = data.name;
+		$scope.csv_file = data.csv_file;
 		$scope.creneaux = data;
 
 		$scope.fillTable($scope.creneaux);

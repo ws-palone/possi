@@ -176,7 +176,9 @@ body {
 GenratedPlanning.html
 */
 
-
+.csv_file_name{
+  font-size: 14px;
+}
 
 .right-button{
   float: right;

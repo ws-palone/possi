@@ -40,6 +40,7 @@ public class FileUploadController {
     	if (!inputFile.isEmpty()) {
             try {
             	nameCsv = inputFile.getOriginalFilename();
+
                 byte[] bytes = inputFile.getBytes();
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(outputFile));
                 stream.write(bytes);

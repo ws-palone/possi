@@ -9,7 +9,9 @@
         <button type="text" class="btn btn-raised btn-sm btn-success hidden-xs" ng-click="printIt()">Télécharger le planning</button>
 
         <span class="titre">{{name}}</span>
-    </div>
+		<div class="csv_file_name">Fichier csv : {{csv_file}}</div>
+
+	</div>
 </div>
 
 <div ng-show="error" class="pangel panel-danger">

@@ -203,7 +203,8 @@ public class FileDownloadController {
 		ret.put("creneaux", obj1);
 		ret.put("indispos", unav);
 		ret.put("name", planning.getName());
-		
+		ret.put("csv_file", planning.getCsv_file());
+
 		return ret.toString();
 	}
 
@@ -257,6 +258,8 @@ public class FileDownloadController {
 
 		ret.put("creneaux", obj1);
 		ret.put("name", planning.getName());
+		ret.put("csv_file", planning.getCsv_file());
+
 
 		return ret.toString();
 	}
