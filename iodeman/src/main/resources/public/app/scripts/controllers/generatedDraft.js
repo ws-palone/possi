@@ -84,10 +84,13 @@ angular.module('publicApp')
                                     + '</p></div>'
                                     + '<div  class="rec_prof1 creneau_element creneau_draft"><p>'
                                     + capit(etn(horaire[current_soutenance].student.enseignant.name), true)
-                                    + '</p></div>'
-                                    + '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
-                                    + capit(etn(horaire[current_soutenance].candide.name), true)
                                     + '</p></div>';
+                                if(typeof horaire[current_soutenance].candide != "undefined"){
+
+                                    html += '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
+                                        + capit(etn(horaire[current_soutenance].candide.name), true)
+                                        + '</p></div>';
+                                }
 
 
                                 html += '</div>';

@@ -20,8 +20,13 @@ public interface PlanningService {
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms);
+
+	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration,
+						   Integer oralDefenseInterlude, TimeBox lunchBreak,
+						   TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
+						   Collection<Room> rooms, String csvFile);
 	
-	public void update(Planning planning, String name, TimeBox period, Integer oralDefenseDuration, 
+	public void update(Planning planning, String name,String csvFile, TimeBox period, Integer oralDefenseDuration,
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms);

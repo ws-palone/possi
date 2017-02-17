@@ -29,6 +29,9 @@ public class Planning{
 
 	private String name;
 
+
+	private String csv_file;
+
 	@Embedded
 	@AttributeOverrides( {
 		@AttributeOverride(name = "from", column = @Column(name = "period_from")),
@@ -163,6 +166,10 @@ public class Planning{
 	public void setAdmin(Person admin) {
 		this.admin = admin;
 	}
+
+
+	public String getCsv_file() { return csv_file;	}
+	public void setCsv_file(String csv_file) {this.csv_file = csv_file;	}
 	
 	
 }

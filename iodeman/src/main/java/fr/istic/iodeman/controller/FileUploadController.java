@@ -29,17 +29,17 @@ public class FileUploadController {
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile, @RequestParam(value="redirectURL", required=false) String redirectURL){    	
     	
-    	System.err.println("CA PASSE ICI");
-    	
     	session.teacherOnly();
     	// path to save the input file
     	String name = "/tmp/"+new DateTime();
+    	String nameCsv = "";
     	
     	// output file
     	File outputFile = new File(name);
     	
     	if (!inputFile.isEmpty()) {
             try {
+            	nameCsv = inputFile.getOriginalFilename();
                 byte[] bytes = inputFile.getBytes();
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(outputFile));
                 stream.write(bytes);
@@ -53,6 +53,7 @@ public class FileUploadController {
     	Planning planning = planningService.findById(new Integer(planningId));
     	try {
 			planningService.importPartcipants(planning, outputFile);
+			planningService.update(planning, planning.getName(), nameCsv, planning.getPeriod(), planning.getOralDefenseDuration(), planning.getOralDefenseInterlude(), planning.getLunchBreak(), planning.getDayPeriod(), planning.getNbMaxOralDefensePerDay(),planning.getRooms());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/#/planning/"+planningId+"?import=nok";

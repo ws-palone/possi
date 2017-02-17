@@ -131,7 +131,8 @@ public class PlanningController {
 			@RequestParam(value="dayPeriodStart", required=false) @DateTimeFormat(pattern="HH:mm") Date dayPeriodStart,
 			@RequestParam(value="dayPeriodEnd", required=false) @DateTimeFormat(pattern="HH:mm") Date dayPeriodEnd,
 			@RequestParam(value="nbMaxOralDefensePerDay", required=false) Integer nbMaxOralDefensePerDay,
-			@RequestParam(value="rooms", required=false) List<String> rooms
+			@RequestParam(value="rooms", required=false) List<String> rooms,
+			@RequestParam(value="csvFile", required=false) String csvFile
 			) {
 		
 		Planning planning = planningService.findById(planningID);
@@ -165,7 +166,7 @@ public class PlanningController {
 					.toDate()
 		) : null;
 		
-		planningService.update(planning, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
+		planningService.update(planning, name, csvFile, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
 		
 		return planning;
 	}

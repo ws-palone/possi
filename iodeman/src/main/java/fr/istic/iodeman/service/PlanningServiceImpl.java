@@ -105,7 +105,47 @@ public class PlanningServiceImpl implements PlanningService {
 		return planning;
 	}
 
-	public void update(Planning planning, String name, TimeBox period,
+	@Override
+	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, Integer oralDefenseInterlude, TimeBox lunchBreak, TimeBox dayPeriod, Integer nbMaxOralDefensePerDay, Collection<Room> rooms, String csvFile) {
+		Validate.notNull(admin);
+		Validate.notEmpty(name);
+		Validate.notEmpty(csvFile);
+		Validate.notNull(period);
+		Validate.notNull(oralDefenseDuration);
+		Validate.isTrue(oralDefenseDuration > 0);
+		Validate.notNull(dayPeriod);
+
+		period.validate();
+		dayPeriod.validate();
+		if (lunchBreak != null) {
+			lunchBreak.validate();
+		}
+
+		Planning planning = new Planning();
+		planning.setAdmin(admin);
+		planning.setName(name);
+		planning.setPeriod(period);
+		planning.setOralDefenseDuration(oralDefenseDuration);
+		planning.setOralDefenseInterlude(oralDefenseInterlude);
+		planning.setLunchBreak(lunchBreak);
+		planning.setDayPeriod(dayPeriod);
+		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
+		planning.setRooms(rooms);
+		planning.setIs_ref(1);
+		planning.setCsv_file(csvFile);
+
+		planning.setPriorities(Lists.newArrayList(
+				new Priority("ENTREPRISE", 1),
+				new Priority("ENSEIGNANT", 2),
+				new Priority("HORAIRES", 3)
+		));
+
+		planningDAO.persist(planning);
+
+		return planning;
+	}
+
+	public void update(Planning planning, String name, String csvFile, TimeBox period,
 			Integer oralDefenseDuration, Integer oralDefenseInterlude,
 			TimeBox lunchBreak, TimeBox dayPeriod,
 			Integer nbMaxOralDefensePerDay, Collection<Room> rooms) {
@@ -114,6 +154,9 @@ public class PlanningServiceImpl implements PlanningService {
 
 		if (name != null && !name.equals("")) {
 			planning.setName(name);
+		}
+		if (csvFile != null && !csvFile.equals("")) {
+			planning.setCsv_file(csvFile);
 		}
 
 		if (period != null) {
