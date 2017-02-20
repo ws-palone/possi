@@ -114,40 +114,7 @@ public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements Unava
 			delete(u);
 		}
 	}
-
-	@Override
-	public void update(Unavailability unav) {
-		Session session = getNewSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			List<Unavailability> unavailabilities = new ArrayList<Unavailability>();
-			Criteria criteria = session.createCriteria(Unavailability.class);
-			//criteria.createAlias("planning", "planning");
-			criteria.add(Restrictions.eq("planning_id", unav.getPlanning().getId()));
-			criteria.add(Restrictions.eq("person_id", unav.getPerson().getId()));
-			criteria.add(Restrictions.eq("period_from", unav.getPeriod().getFrom()));
-			criteria.add(Restrictions.eq("period_to", unav.getPeriod().getTo()));
-			unavailabilities = criteria.list();
-
-			if(!unavailabilities.isEmpty()){
-				System.out.println("UPDATE");
-				this.update(unav);
-				session.getTransaction().commit();
-			}else{
-				this.persist(unav);
-				session.getTransaction().commit();
-				System.out.println("CREATE");
-
-			}
-
-		} catch (Exception e){
-			if (transaction!=null) transaction.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-	}
+	
 
 	@Override
 	public void deleteAll(Integer id, Integer ref_id) {

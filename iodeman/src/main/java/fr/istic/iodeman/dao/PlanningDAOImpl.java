@@ -349,6 +349,12 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		ancienne_ref.setName(ancienne_ref.getName() + " - Old " + dateFormat.format(d));
 		this.update(ancienne_ref);
 
+		String query_planning = "UPDATE `Unavailability` SET `planning_id`= :new_ref WHERE `planning_id`= :ref_id";
+		SQLQuery sql_query_planning = session.createSQLQuery(query_planning);
+		sql_query_planning.setParameter("ref_id", id_ref);
+		sql_query_planning.setParameter("new_ref", new_id);
+		sql_query_planning.executeUpdate();
+
 		session.close();
 	}
 
