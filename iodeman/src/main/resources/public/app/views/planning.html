@@ -19,7 +19,7 @@
 	<form ng-show="showImportButton" id="formUpload" method="POST"
 		enctype="multipart/form-data" action="{{ uploadFileURL }}">
 		<div class="row">
-			<input style="display: inline;" id="upload_file" type="file" name="file" accept=".csv"/>
+			<input style="display: inline;" id="upload_file" type="file" name="file"  accept=".csv" onchange="ValidateSingleInput(this);"/>
 			<button title="Aide fichier CSV" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-info-sign"></i></button>
 		</div>
 		<input
@@ -322,3 +322,28 @@
 
 <!-- /. PAGE INNER  -->
 </div>
+<script>
+    var _validFileExtensions = [".csv"];
+    function ValidateSingleInput(oInput) {
+        if (oInput.type == "file") {
+            var sFileName = oInput.value;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+
+                if (!blnValid) {
+                    alert("Le fichier  " + sFileName + " N'est pas valide, l'extension autorisée est: " + _validFileExtensions.join(", "));
+                    oInput.value = "";
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+</script>
