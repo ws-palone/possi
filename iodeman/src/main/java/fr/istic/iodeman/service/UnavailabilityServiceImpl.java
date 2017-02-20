@@ -67,12 +67,16 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		Planning planning = planningDAO.findById(idPlanning);
 		Validate.notNull(planning);
 
+		if (planning.getIs_ref() == 0){
+			Integer refId = planning.getRef_id();
+			planning = planningDAO.findById(refId);
+		}
+
 		Unavailability unavailability = new Unavailability();
 		unavailability.setPeriod(period);
 		unavailability.setPerson(person);
 		unavailability.setPlanning(planning);
-		System.out.println("test----------------------------");
-		System.out.println(unavailability);
+
 		unavailabilityDAO.persist(unavailability);
 
 		//mailService.notifyNewUnavailability(unavailability);
