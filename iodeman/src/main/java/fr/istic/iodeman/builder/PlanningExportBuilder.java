@@ -100,13 +100,7 @@ public class PlanningExportBuilder {
 		List<String> sallesSelectionnees = new ArrayList<>();
 
 		List<Room> rooms = new ArrayList<>(planning.getRooms());
-		Collections.sort(rooms, new Comparator<Room>() {
-			@Override
-			public int compare(Room left, Room right) {
-				return  ((Integer)left.getId()).compareTo(((Integer)right.getId()));
-
-			}
-		});
+		Collections.sort(rooms, Comparator.comparing(left -> ((Integer) left.getId())));
 		for(Room room: rooms) { sallesSelectionnees.add(room.getName());}
 		Map<Integer, List<Creneau>> p = algoPlanning_new.getPlanning();
 		Set<Integer> periodes = p.keySet();
@@ -116,7 +110,8 @@ public class PlanningExportBuilder {
 		else
 			listTimeboxes = new ArrayList<>(timeboxes);
 
-		int rowParPage = 20;
+		int rowParPage = 28;
+		int rowCount = 0;
 
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet planningSheet = workbook.createSheet("Planning");
@@ -124,6 +119,9 @@ public class PlanningExportBuilder {
 		HSSFFont font = workbook.createFont();
 		font.setFontHeight((short)(13*20));
 
+		planningSheet.setDefaultRowHeightInPoints((short) (font.getFontHeightInPoints() + 4));
+
+		// DEFAULT STYLE
 		HSSFCellStyle defaultStyle = workbook.createCellStyle();
 		defaultStyle.setFont(font);
 		defaultStyle.setWrapText(true);
@@ -167,12 +165,14 @@ public class PlanningExportBuilder {
 
 		// Ajout du titre
 		row = planningSheet.createRow(rowIndex);
+		row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
 		planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
 		cell = row.createCell(cellIndex);
 		cell.setCellValue(planning.getName());
 		cell.setCellStyle(defaultStyle);
 		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 		rowIndex++;
+		rowCount++;
 
 		HSSFCellStyle colorStyle;
 		// Pour chaque journée
@@ -180,17 +180,20 @@ public class PlanningExportBuilder {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
 				// Si on est en fin de page, on ajoute des lignes pour passer l'entête à la page suivante
-				for (int j = 0; j < 3; j++) {
-					if(planningSheet.getPhysicalNumberOfRows() > 1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
+				for (int j = 0; j < 2; j++) {
+					if(rowCount > 1 && rowCount % rowParPage >= 1) {
 						planningSheet.createRow(rowIndex++);
+						rowCount++;
 					}
 				}
-				while(planningSheet.getPhysicalNumberOfRows() % rowParPage >= (rowParPage-2)){
+				while(rowCount % rowParPage >= (rowParPage-3)){
 					planningSheet.createRow(rowIndex++);
+					rowCount++;
 				}
 
 				// Afficher date
 				row = planningSheet.createRow(rowIndex);
+				row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
 				cellIndex = 0;
 				planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
 				SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.FRANCE);
@@ -200,6 +203,7 @@ public class PlanningExportBuilder {
 				cell.setCellStyle(dateStyle);
 				CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 				rowIndex++;
+				rowCount++;
 
 				//ordonner la liste par salle
 				Collections.sort(d, (o1, o2) -> {
@@ -213,24 +217,30 @@ public class PlanningExportBuilder {
 				int salleEnCours = -1;
 				for(Creneau c : d){
 					if(salleEnCours != c.getSalle()){
-						if(salleEnCours > -1 && planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1){
+						if(salleEnCours > -1 && rowCount % rowParPage >= 1){
 							planningSheet.createRow(rowIndex++);
+							rowCount++;
 						}
-						while(planningSheet.getPhysicalNumberOfRows()%rowParPage >= (rowParPage-1)){
+						while(rowCount % rowParPage >= (rowParPage-2)){
 							planningSheet.createRow(rowIndex++);
+							rowCount++;
 						}
 						salleEnCours = c.getSalle();
 						cellIndex = 1;
 						// SALLE
 						row = planningSheet.createRow(rowIndex);
+						row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
 						planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, cellIndex, 4));
 						(cell = row.createCell(cellIndex)).setCellValue(sallesSelectionnees.get(salleEnCours-1));
 						cell.setCellStyle(salleStyle);
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
 						rowIndex++;
+						rowCount++;
 
 						// HEADER
 						row = planningSheet.createRow(rowIndex++);
+						rowCount++;
+						row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
 						(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
 						cell.setCellStyle(defaultStyle);
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
@@ -251,6 +261,8 @@ public class PlanningExportBuilder {
 					// Soutenances
 					cellIndex=0;
 					row = planningSheet.createRow(rowIndex++);
+					rowCount += 2;
+					row.setHeightInPoints(2*planningSheet.getDefaultRowHeightInPoints());
 
 					// Horaire
 					(cell = row.createCell(cellIndex++)).setCellValue(c.getHoraire());
@@ -292,20 +304,28 @@ public class PlanningExportBuilder {
 		// Soutenances posant problèmes
 		List<Creneau> impossibleAInserer = algoPlanning_new.getImpossibleAInserer();
 		cellIndex = 0;
-		if(planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1) {
+		if(rowCount % rowParPage >= 1) {
 			planningSheet.createRow(rowIndex++);
-			if(planningSheet.getPhysicalNumberOfRows() % rowParPage >= 1){
+			rowCount++;
+			if(rowCount % rowParPage >= 1){
 				planningSheet.createRow(rowIndex++);
+				rowCount++;
 			}
 		}
 
-		while(planningSheet.getPhysicalNumberOfRows()%rowParPage >= (rowParPage-2)){
+		while(rowCount%rowParPage >= (rowParPage-3)){
 			planningSheet.createRow(rowIndex++);
+			rowCount++;
 		}
-		row = planningSheet.createRow(rowIndex++);
+		row = planningSheet.createRow(rowIndex);
+		row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
+		planningSheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 4));
 		(cell = row.createCell(cellIndex++)).setCellValue("Soutenances qui posent problèmes : ");
 		cell.setCellStyle(defaultStyle);
+		rowIndex++;
+
 		row = planningSheet.createRow(rowIndex++);
+		row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
 		(cell = row.createCell(cellIndex++)).setCellValue("Etudiant");
 		cell.setCellStyle(defaultStyle);
 		CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
@@ -321,6 +341,7 @@ public class PlanningExportBuilder {
 		for(Creneau c : impossibleAInserer) {
 			cellIndex = 1;
 			row = planningSheet.createRow(rowIndex++);
+			row.setHeightInPoints(2*planningSheet.getDefaultRowHeightInPoints());
 			cell = row.createCell(cellIndex++);
 			cell.setCellStyle(defaultStyle);
 			if(c.getStudent() != null) cell.setCellValue(AlgoPlanningUtils.emailToName(c.getStudent().getName()));
@@ -349,12 +370,10 @@ public class PlanningExportBuilder {
 		for(int i=0; i < planningSheet.getPhysicalNumberOfRows(); i++) {
 			row = planningSheet.getRow(i);
 			row.setRowStyle(defaultStyle);
-			row.setHeight((short) 0);
 			Iterator<Cell> cellIterator = row.cellIterator();
 			while (cellIterator.hasNext()) {
 				cell = (HSSFCell) cellIterator.next();
-				int columnIndex = cell.getColumnIndex();
-				planningSheet.autoSizeColumn(columnIndex);
+				planningSheet.autoSizeColumn(cell.getColumnIndex());
 			}
 		}
 
@@ -368,12 +387,18 @@ public class PlanningExportBuilder {
 		Footer footer = planningSheet.getFooter();
 		footer.setLeft(planning.getName());
 		footer.setRight( "Page " + HeaderFooter.page() + " sur " + HeaderFooter.numPages() );
+		footer.setCenter(planning.getCsv_file());
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Date now = new Date();
-		File f = new File("Soutenances_"+sdf.format(now)+".xls");
+		String csvName = planning.getCsv_file();
+		String[] split = planning.getCsv_file().split("\\.csv");
+		if(split.length > 0) { csvName = split[0]; }
+		File f = new File(planning.getName()+"_"+csvName+"_"+sdf.format(now)+".xls");
 		FileOutputStream stream = new FileOutputStream(f);
 		workbook.write(stream);
+		stream.close();
 		workbook.close();
 		return f;
 	}
@@ -398,6 +423,7 @@ public class PlanningExportBuilder {
 			Short shortColor = defcouleur.get((couleurParProf.size())%defcouleur.size());
 
 			HSSFCellStyle style = workbook.createCellStyle();
+			style.setWrapText(true);
 			style.setFillForegroundColor(shortColor);
 			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
@@ -405,5 +431,4 @@ public class PlanningExportBuilder {
 		}
 		return couleurParProf.get(email);
 	}
-	
 }
