@@ -388,9 +388,13 @@ public class PlanningExportBuilder {
 		footer.setLeft(planning.getName());
 		footer.setRight( "Page " + HeaderFooter.page() + " sur " + HeaderFooter.numPages() );
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Date now = new Date();
-		File f = new File("Soutenances_"+sdf.format(now)+".xls");
+		String csvName = planning.getCsv_file();
+		String[] split = planning.getCsv_file().split("\\.csv");
+		if(split.length > 0) { csvName = split[0]; }
+		File f = new File(planning.getName()+"_"+csvName+"_"+sdf.format(now)+".xls");
 		FileOutputStream stream = new FileOutputStream(f);
 		workbook.write(stream);
 		stream.close();
