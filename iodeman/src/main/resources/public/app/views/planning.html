@@ -55,6 +55,7 @@
 		
 		<div ng-show="errorImport" class="alert alert-danger" role="alert">
 				Une erreur est survenue lors de l'import CSV
+			<p> Vérifiez que le séparateur dans le fichier csv est bien une virgule ","<p>
 				
 				<img style="max-width: 100%;" src="app/images/donnees.png" />
        	<br/><br/>
@@ -338,7 +339,7 @@
                 }
 
                 if (!blnValid) {
-                    alert("Le fichier  " + sFileName + " N'est pas valide, l'extension autorisée est: " + _validFileExtensions.join(", "));
+                    alert("Le fichier \"" + sFileName + "\" N'est pas valide, l'extension autorisée est: " + _validFileExtensions.join(", "));
                     oInput.value = "";
                     return false;
                 }
