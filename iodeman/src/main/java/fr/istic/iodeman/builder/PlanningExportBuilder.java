@@ -387,6 +387,7 @@ public class PlanningExportBuilder {
 		Footer footer = planningSheet.getFooter();
 		footer.setLeft(planning.getName());
 		footer.setRight( "Page " + HeaderFooter.page() + " sur " + HeaderFooter.numPages() );
+		footer.setCenter(planning.getCsv_file());
 
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
