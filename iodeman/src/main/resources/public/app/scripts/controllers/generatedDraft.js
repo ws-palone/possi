@@ -196,7 +196,7 @@ angular.module('publicApp')
                 });
 
             }
-        Flash.create('success', '<strong> Modifications enregistrees!</strong> Le planning a ete mis a jour.');
+        Flash.create('success', ('<strong> Modifications enregistr&eacute;es!</strong> Le planning a &eacute;t&eacute; mis &agrave; jour.'));
         }
 
         $scope.save_switch = function(){
