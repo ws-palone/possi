@@ -95,11 +95,15 @@ public class AlgoPlanningUtils {
 		String name = email;
 		if( email !=null && !email.isEmpty()){
 			int index = email.indexOf('@');
-			String email2 = email.substring(0,index);
-			String[] parts = email2.split(Pattern.quote("."));
-			String prenom = parts[0]; // 004
-			String nom = parts[1];
-			name = nom.toUpperCase() + " " + WordUtils.capitalize(prenom);
+			if(index > 0) {
+				String email2 = email.substring(0, index);
+				String[] parts = email2.split(Pattern.quote("."));
+				if(parts.length >= 2) {
+					String prenom = parts[0]; // 004
+					String nom = parts[1];
+					name = WordUtils.capitalize(prenom) + " " + nom.toUpperCase();
+				}
+			}
 		}
 		return name;
 	}

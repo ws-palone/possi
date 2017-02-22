@@ -111,7 +111,7 @@ public class PlanningExportBuilder {
 			listTimeboxes = new ArrayList<>(timeboxes);
 
 		int rowParPage = 28;
-		int rowCount = 0;
+		int rowCount = 1;
 
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet planningSheet = workbook.createSheet("Planning");
@@ -179,14 +179,14 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				// Si on est en fin de page, on ajoute des lignes pour passer l'entête à la page suivante
 				for (int j = 0; j < 2; j++) {
-					if(rowCount > 1 && rowCount % rowParPage >= 1) {
+					if(rowCount > 2 && rowCount % rowParPage >= 1) {
 						planningSheet.createRow(rowIndex++);
 						rowCount++;
 					}
 				}
-				while(rowCount % rowParPage >= (rowParPage-3)){
+				// on passe le jour sur la page suivante
+				while(rowCount > 2 && rowCount % rowParPage != 1){
 					planningSheet.createRow(rowIndex++);
 					rowCount++;
 				}
@@ -312,8 +312,8 @@ public class PlanningExportBuilder {
 				rowCount++;
 			}
 		}
-
-		while(rowCount%rowParPage >= (rowParPage-3)){
+		// On déplace sur la page suivant
+		while(rowCount%rowParPage != 1){
 			planningSheet.createRow(rowIndex++);
 			rowCount++;
 		}
@@ -387,6 +387,7 @@ public class PlanningExportBuilder {
 		Footer footer = planningSheet.getFooter();
 		footer.setLeft(planning.getName());
 		footer.setRight( "Page " + HeaderFooter.page() + " sur " + HeaderFooter.numPages() );
+		footer.setCenter(planning.getCsv_file());
 
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

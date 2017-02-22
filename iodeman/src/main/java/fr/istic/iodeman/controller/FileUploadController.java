@@ -47,7 +47,9 @@ public class FileUploadController {
                 stream.close();
             } catch (Exception e) {
             	e.printStackTrace();
-            }
+				return "redirect:/#/planning/"+planningId+"?import=nok";
+
+			}
         }
     	
     	// on l'envoie au service
