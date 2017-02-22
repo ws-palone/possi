@@ -179,14 +179,14 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				// Si on est en fin de page, on ajoute des lignes pour passer l'entête à la page suivante
 				for (int j = 0; j < 2; j++) {
 					if(rowCount > 1 && rowCount % rowParPage >= 1) {
 						planningSheet.createRow(rowIndex++);
 						rowCount++;
 					}
 				}
-				while(rowCount % rowParPage >= (rowParPage-3)){
+				// on passe le jour sur la page suivante
+				while(rowCount % rowParPage >= 1){
 					planningSheet.createRow(rowIndex++);
 					rowCount++;
 				}
