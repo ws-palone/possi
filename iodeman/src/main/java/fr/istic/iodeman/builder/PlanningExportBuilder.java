@@ -110,7 +110,7 @@ public class PlanningExportBuilder {
 		else
 			listTimeboxes = new ArrayList<>(timeboxes);
 
-		int rowParPage = 28;
+		int rowParPage = 26;
 		int rowCount = 1;
 
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -179,12 +179,6 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				for (int j = 0; j < 2; j++) {
-					if(rowCount > 2 && rowCount % rowParPage >= 1) {
-						planningSheet.createRow(rowIndex++);
-						rowCount++;
-					}
-				}
 				// on passe le jour sur la page suivante
 				while(rowCount > 2 && rowCount % rowParPage != 1){
 					planningSheet.createRow(rowIndex++);
@@ -217,7 +211,7 @@ public class PlanningExportBuilder {
 				int salleEnCours = -1;
 				for(Creneau c : d){
 					if(salleEnCours != c.getSalle()){
-						if(salleEnCours > -1 && rowCount % rowParPage >= 1){
+						if(salleEnCours > -1 && rowCount % rowParPage > 1){
 							planningSheet.createRow(rowIndex++);
 							rowCount++;
 						}
@@ -304,16 +298,8 @@ public class PlanningExportBuilder {
 		// Soutenances posant problèmes
 		List<Creneau> impossibleAInserer = algoPlanning_new.getImpossibleAInserer();
 		cellIndex = 0;
-		if(rowCount % rowParPage >= 1) {
-			planningSheet.createRow(rowIndex++);
-			rowCount++;
-			if(rowCount % rowParPage >= 1){
-				planningSheet.createRow(rowIndex++);
-				rowCount++;
-			}
-		}
-		// On déplace sur la page suivant
-		while(rowCount%rowParPage != 1){
+		// on passe sur la page suivante
+		while(rowCount > 2 && rowCount % rowParPage != 1){
 			planningSheet.createRow(rowIndex++);
 			rowCount++;
 		}
@@ -379,6 +365,7 @@ public class PlanningExportBuilder {
 
 		HSSFPrintSetup ps = planningSheet.getPrintSetup();
 		ps.setLandscape(true);
+		ps.setPaperSize(PrintSetup.A4_PAPERSIZE);
 		planningSheet.setAutobreaks(true);
 		planningSheet.setFitToPage(true);
 		ps.setFitWidth((short)1);
