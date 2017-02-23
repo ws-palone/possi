@@ -110,6 +110,19 @@ public class PlanningExportBuilder {
 		else
 			listTimeboxes = new ArrayList<>(timeboxes);
 
+		Planning tmp = new Planning(planning);
+		tmp.setPeriod(planning.getDayPeriod());
+		PlanningSplitter splitter = new PlanningSplitterImpl();
+		List<TimeBox> emptyDayTBx = splitter.execute(tmp);
+		List<Creneau> emptyDay = new ArrayList<>();
+		for(int i = 0; i < emptyDayTBx.size(); i++){
+			Creneau c = new Creneau(i, null, null, null, null);
+			c.setHoraire(emptyDayTBx.get(i).getFrom().getDate()+
+					" " + emptyDayTBx.get(i).getFrom().getHours() +
+					" " + emptyDayTBx.get(i).getFrom().getMinutes());
+			emptyDay.add(c);
+		}
+
 		int rowParPage = 26;
 		int rowCount = 1;
 
@@ -175,12 +188,25 @@ public class PlanningExportBuilder {
 		rowCount++;
 
 		HSSFCellStyle colorStyle;
+		int cpt = 0;
 		// Pour chaque journée
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
+				// Ajout des creneaux vides
+				while(i > 0 && cpt < emptyDay.size()){
+					cellIndex=0;
+					row = planningSheet.createRow(rowIndex++);
+					rowCount++;
+					row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
+					// Horaire
+					(cell = row.createCell(cellIndex++)).setCellValue(emptyDay.get(cpt).getHoraire());
+					cell.setCellStyle(defaultStyle);
+					cpt++;
+				}
+
 				// on passe le jour sur la page suivante
-				while(rowCount > 2 && rowCount % rowParPage != 1){
+				while(i > 0 && rowCount % rowParPage != 1){
 					planningSheet.createRow(rowIndex++);
 					rowCount++;
 				}
@@ -209,13 +235,26 @@ public class PlanningExportBuilder {
 				});
 
 				int salleEnCours = -1;
+				cpt = 0;
 				for(Creneau c : d){
 					if(salleEnCours != c.getSalle()){
-						if(salleEnCours > -1 && rowCount % rowParPage > 1){
+						// Ajout des creneaux vides
+						while(salleEnCours != -1 && cpt < emptyDay.size()){
+							cellIndex=0;
+							row = planningSheet.createRow(rowIndex++);
+							rowCount++;
+							row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
+							// Horaire
+							(cell = row.createCell(cellIndex++)).setCellValue(emptyDay.get(cpt).getHoraire());
+							cell.setCellStyle(defaultStyle);
+							cpt++;
+						}
+
+						if(salleEnCours != -1 && rowCount % rowParPage > 1){
 							planningSheet.createRow(rowIndex++);
 							rowCount++;
 						}
-						while(rowCount % rowParPage >= (rowParPage-2)){
+						while(rowCount % rowParPage >= (rowParPage-2) || rowCount % rowParPage == 0){
 							planningSheet.createRow(rowIndex++);
 							rowCount++;
 						}
@@ -250,7 +289,22 @@ public class PlanningExportBuilder {
 						(cell = row.createCell(cellIndex++)).setCellValue("Tuteur entreprise");
 						cell.setCellStyle(defaultStyle);
 						CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+
+						cpt = 0;
 					}
+
+					// Ajout des creneaux vides
+					while(c.getPeriode() % nbPeriodesParJour > emptyDay.get(cpt).getPeriode()){
+						cellIndex=0;
+						row = planningSheet.createRow(rowIndex++);
+						rowCount++;
+						row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
+						// Horaire
+						(cell = row.createCell(cellIndex++)).setCellValue(emptyDay.get(cpt).getHoraire());
+						cell.setCellStyle(defaultStyle);
+						cpt++;
+					}
+					cpt++; // incrémente pour la soutenance qui va etre ajoutée ensuite
 
 					// Soutenances
 					cellIndex=0;
@@ -293,6 +347,17 @@ public class PlanningExportBuilder {
 					cell.setCellStyle(defaultStyle);
 				}
 			}
+		}
+		// Ajout des creneaux vides
+		while(cpt < emptyDay.size()){
+			cellIndex=0;
+			row = planningSheet.createRow(rowIndex++);
+			rowCount++;
+			row.setHeightInPoints(planningSheet.getDefaultRowHeightInPoints());
+			// Horaire
+			(cell = row.createCell(cellIndex++)).setCellValue(emptyDay.get(cpt).getHoraire());
+			cell.setCellStyle(defaultStyle);
+			cpt++;
 		}
 
 		// Soutenances posant problèmes

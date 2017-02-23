@@ -1,23 +1,11 @@
 package fr.istic.iodeman.model;
 
-import java.util.Collection;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
+import java.util.Collection;
 
 
 @Entity
@@ -80,6 +68,30 @@ public class Planning{
 
 	@ManyToOne
 	private Person admin;
+
+
+	public Planning(){}
+
+	public Planning(Planning p){
+		this.id = p.getId();
+		this.name = p.getName();
+		this.csv_file = p.getCsv_file();
+		this.period = p.getPeriod();
+		this.oralDefenseDuration = p.getOralDefenseDuration();
+		this.oralDefenseInterlude = p.getOralDefenseInterlude();
+		this.lunchBreak = p.getLunchBreak();
+		this.dayPeriod = p.getDayPeriod();
+		this.nbMaxOralDefensePerDay = p.getNbMaxOralDefensePerDay();
+		this.is_ref = p.getIs_ref();
+		this.ref_id = p.getRef_id();
+		this.rooms = p.getRooms();
+		this.participants = p.getParticipants();
+		this.priorities = p.getPriorities();
+		this.oralDefenses = p.getOralDefenses();
+		this.admin = p.getAdmin();
+	}
+
+
 
 	public Integer getId() {
 		return id;
