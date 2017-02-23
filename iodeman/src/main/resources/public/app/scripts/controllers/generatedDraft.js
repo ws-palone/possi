@@ -144,11 +144,11 @@ angular.module('publicApp')
                         }).get();
 
                         if(dataList.indexOf($($('#' + data).children('div')[0]).data("mail")) != -1){
-                            alert("L'etudiant a deja une soutenance a cet horaire.");
+                            alert("L'\351tudiant a d\351j\340 une soutenance \340 cet horaire.");
                         }else if(dataList.indexOf($($('#' + data).children('div')[1]).data("mail")) != -1){
-                            alert("Le professeur a deja une soutenance a cet horaire.");
+                            alert("Le professeur a d\351j\340 une soutenance \340 cet horaire.");
                         }else if (dataList.indexOf($($('#' + data).children('div')[2]).data("mail")) != -1 ){
-                            alert("Le co-jury a deja une soutenance a cet horaire.");
+                            alert("Le co-jury a d\351j\340 une soutenance \340 cet horaire.");
                         }else{
 
                             if ($(this).find('div').length === 0) {
