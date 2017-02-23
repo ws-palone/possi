@@ -1,5 +1,5 @@
 angular.module('publicApp')
-    .controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams, $filter, Flash) {
+    .controller('GeneratedDraftCtrl', function ($scope, $window, $http, backendURL, Auth, $routeParams, $filter, Flash, $location) {
 
         $scope.id = $routeParams.idPlanning;
 
@@ -77,21 +77,21 @@ angular.module('publicApp')
                                 html += '<div class="event creneau" draggable="true" id="' + div_id + '" data-student="'+horaire[current_soutenance].student.name+'">';
 
 
-                                html += '<div class="rec_etud creneau_element creneau_draft"><p>'
+                                html += '<div class="rec_etud creneau_element creneau_draft" data-mail="'+horaire[current_soutenance].student.name+'"><p>'
                                     + capit(etn(horaire[current_soutenance].student.name), true)
                                     + '</p></div>'
-                                    + '<div  class="rec_tut creneau_element creneau_draft"><p>'
-                                    + capit(horaire[current_soutenance].student.tuteur.name, true)
-                                    + '</p></div>'
-                                    + '<div  class="rec_prof1 creneau_element creneau_draft"><p>'
+                                    + '<div  class="rec_prof1 creneau_element creneau_draft" data-mail="'+horaire[current_soutenance].student.enseignant.name+'"><p>'
                                     + capit(etn(horaire[current_soutenance].student.enseignant.name), true)
                                     + '</p></div>';
                                 if(typeof horaire[current_soutenance].candide != "undefined"){
 
-                                    html += '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
+                                    html += '<div  class="rec_prof2 creneau_element creneau_draft" data-mail="'+horaire[current_soutenance].candide.name+'"><p>'
                                         + capit(etn(horaire[current_soutenance].candide.name), true)
                                         + '</p></div>';
                                 }
+                                html += '<div  class="rec_tut creneau_element creneau_draft" data-mail="'+horaire[current_soutenance].student.tuteur.name+'"><p>'
+                                + capit(horaire[current_soutenance].student.tuteur.name, true)
+                                + '</p></div>'
 
 
                                 html += '</div>';
@@ -133,19 +133,34 @@ angular.module('publicApp')
             });
             $('table td').on("dragenter dragover drop", function (event) {
                 event.preventDefault();
+
                 if(!($(event.target).hasClass('unavailable_drop'))){
                     if (event.type === 'drop') {
+
                         var id_drag = $(this).attr('id');
                         var data = event.originalEvent.dataTransfer.getData('Text', id_drag);
-                        if ($(this).find('div').length === 0) {
-                            de = $('#' + data).detach();
-                            de.appendTo($(this));
+                        var dataList = $(event.target).parent().find('.creneau_element').map(function() {
+                            return $(this).data("mail");
+                        }).get();
+
+                        if(dataList.indexOf($($('#' + data).children('div')[0]).data("mail")) != -1){
+                            alert("L'etudiant a deja une soutenance a cet horaire.");
+                        }else if(dataList.indexOf($($('#' + data).children('div')[1]).data("mail")) != -1){
+                            alert("Le professeur a deja une soutenance a cet horaire.");
+                        }else if (dataList.indexOf($($('#' + data).children('div')[2]).data("mail")) != -1 ){
+                            alert("Le co-jury a deja une soutenance a cet horaire.");
+                        }else{
+
+                            if ($(this).find('div').length === 0) {
+                                de = $('#' + data).detach();
+                                de.appendTo($(this));
+                            }
+                            $scope.modified[data] = {
+                                "room": event.target.cellIndex,
+                                "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode'),
+                                "horaire": $('#' + data).parent().parent()[0].firstElementChild.innerHTML
+                            };
                         }
-                        $scope.modified[data] = {
-                            "room": event.target.cellIndex,
-                            "periode": $('#' + data).parent().parent()[0].firstElementChild.getAttribute('data-periode'),
-                            "horaire": $('#' + data).parent().parent()[0].firstElementChild.innerHTML
-                        };
 
                     }//fin if
                 }//fin if
@@ -181,7 +196,18 @@ angular.module('publicApp')
                 });
 
             }
-        Flash.create('success', '<strong> Modifications enregistrees!</strong> Le planning a ete mis a jour.');
+        Flash.create('success', ('<strong> Modifications enregistr&eacute;es!</strong> Le planning a &eacute;t&eacute; mis &agrave; jour.'));
+        }
+
+        $scope.save_switch = function(){
+            $scope.save();
+            $http.get(backendURL + 'planning/switchReference/' +$scope.id)
+                .success(function(data) {
+                    console.log("Switch done");
+                    $location.path ("/");
+                }).error(function (data) {
+                console.log("KO");
+            });
         }
     })
     .directive('myRepeatDirectiveDraft', function () {

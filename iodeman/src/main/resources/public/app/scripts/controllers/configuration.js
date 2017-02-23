@@ -108,7 +108,7 @@ angular.module('publicApp')
 			//priorities: priorities
 		});*/
 
-		Flash.create('success', '<strong> Modifications effectuees!</strong> La configuration a ete mise a jour.');
+		Flash.create('success', '<strong> Modifications effectu&eacute;es!</strong> La configuration a &eacute;t&eacute; mise &agrave; jour.');
 		
 	}
 

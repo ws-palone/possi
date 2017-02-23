@@ -98,19 +98,18 @@ angular.module('publicApp')
                              html += '<div class="rec_etud creneau_element creneau_draft"><p>'
                                  + capit(etn(horaire[current_soutenance].student.name), true)
                                  + '</p></div>'
-                                 + '<div  class="rec_tut creneau_element creneau_draft"><p>'
-                                 + capit(horaire[current_soutenance].student.tuteur.name, true)
-                                 + '</p></div>'
                                  + '<div  class="rec_prof1 creneau_element creneau_draft"><p>'
                                  + capit(etn(horaire[current_soutenance].student.enseignant.name), true)
                                  + '</p></div>';
-                                 if(typeof horaire[current_soutenance].candide != "undefined"){
+                                 if(typeof horaire[current_soutenance].candide != "undefined") {
 
                                      html += '<div  class="rec_prof2 creneau_element creneau_draft"><p>'
-                                     + capit(etn(horaire[current_soutenance].candide.name), true)
-                                     + '</p></div>';
+                                         + capit(etn(horaire[current_soutenance].candide.name), true)
+                                         + '</p></div>';
                                  }
-
+                                 html+= '<div  class="rec_tut creneau_element creneau_draft"><p>'
+                                     + capit(horaire[current_soutenance].student.tuteur.name, true)
+                                     + '</p></div>'
 
                              html += '</div>';
                              current_soutenance++;
