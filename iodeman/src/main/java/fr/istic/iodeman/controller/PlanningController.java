@@ -9,7 +9,6 @@ import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.service.PlanningService;
-import fr.istic.iodeman.service.PlanningServiceImpl;
 import fr.istic.iodeman.service.RoomService;
 import fr.istic.iodeman.service.UnavailabilityService;
 import fr.istic.iodeman.strategy.PlanningSplitter;
@@ -20,7 +19,6 @@ import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -239,7 +237,16 @@ public class PlanningController {
 		
 		planningService.validate(planning);
 	}
-	
+
+	@RequestMapping(value = "/{id}/print")
+	public void print(@PathVariable("id") Integer id) {
+
+		Planning planning = planningService.findById(id);
+		Validate.notNull(planning);
+
+		planningService.validate(planning);
+	}
+
 	@RequestMapping(value = "/{id}/delete")
 	public void deletePlanning(@PathVariable("id") Integer id){
 		System.out.println(id);

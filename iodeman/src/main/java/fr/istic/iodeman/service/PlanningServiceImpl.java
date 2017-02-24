@@ -374,6 +374,30 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	public File exportExcelWithoutBuild(Planning planning) {
+
+		// verify the planning is not null
+		Validate.notNull(planning);
+
+		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
+		builder.setParticipants(planningDAO.findParticipants(planning));
+
+		File file = null;
+		try {
+			System.out.println("Export without build");
+//			file = builder.split().build().toCSV();
+			file = builder.split().toXls();
+		} catch (Exception e) {
+			System.out.println("Erreur de l'exportation lors de la fonction exportExcel: "+e.getMessage());
+			e.printStackTrace();
+		}
+
+		//Validate.isTrue(file.exists());
+
+		return file;
+	}
+
+	@Override
 	public Collection<OralDefense> export(Integer planningId) {
 		
 		// retrieving the planning 

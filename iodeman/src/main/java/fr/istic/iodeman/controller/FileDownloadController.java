@@ -3,7 +3,6 @@ package fr.istic.iodeman.controller;
 import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.service.PlanningService;
 import fr.istic.iodeman.service.UnavailabilityService;
 import fr.istic.iodeman.service.UnavailabilityServiceImpl;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,6 +79,47 @@ public class FileDownloadController {
 		out.close();
 		// END write the file
 		
+		file.delete();
+	}
+
+	@RequestMapping(value="/planning/{planningId}/exportFile")
+	public void downloadPlanningFile(@PathVariable("planningId") Integer planningId, HttpServletResponse response) throws IOException{
+
+		// retrieve planning
+		Planning planning = planningService.findById(planningId);
+		Validate.notNull(planning);
+
+		// mime type
+		//response.setContentType("application/vnd.ms-excel");
+
+		// retrieving of the generating file containing the agenda
+		File file = planningService.exportExcelWithoutBuild(planning);
+		// name of the returned file
+		String filename = "planning_export.xls";
+		if(file != null){
+			filename = file.getName();
+		}
+
+		// header
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"",
+				filename);
+		response.setHeader(headerKey, headerValue);
+
+		// BEGIN write the file
+		FileInputStream in = new FileInputStream(file);
+		OutputStream out = response.getOutputStream();
+
+		byte[] buffer= new byte[8192];
+		int length = 0;
+
+		while ((length = in.read(buffer)) > 0){
+			out.write(buffer, 0, length);
+		}
+		in.close();
+		out.close();
+		// END write the file
+
 		file.delete();
 	}
 	

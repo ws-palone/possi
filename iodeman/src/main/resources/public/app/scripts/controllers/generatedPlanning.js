@@ -14,11 +14,11 @@ angular.module('publicApp')
 
             console.log("PRINT");
 
-            $http.get(backendURL + 'planning/'+$scope.id+'/validate')
+            $http.get(backendURL + 'planning/'+$scope.id+'/print')
                 .success(function(data) {
                     console.log("SUCCESS");
                     console.log(data);
-                    document.location.href = backendURL + 'planning/' + $scope.id + '/export';
+                    document.location.href = backendURL + 'planning/' + $scope.id + '/exportFile';
                 })
                 .error(function(data) {
                     console.log("ERROR");

@@ -77,6 +77,7 @@ public class PlanningExportBuilder {
 	}
 	
 	public PlanningExportBuilder build() {
+		System.out.println("PlanningExportBuilder build");
 		Validate.notNull(timeboxes);
 		Validate.notNull(unavailabilities);
 		Validate.notNull(participants);
@@ -95,6 +96,11 @@ public class PlanningExportBuilder {
 	}
 
 	public File toXls() throws Exception {
+
+		Validate.notNull(timeboxes);
+		Validate.notNull(participants);
+		algoPlanning_new.deserialize(planning.getId());
+		algoPlanning_new.configure(planning, participants, timeboxes, unavailabilities);
 
 		int nbPeriodesParJour = algoPlanning_new.getNbPeriodesParJour();
 		List<String> sallesSelectionnees = new ArrayList<>();

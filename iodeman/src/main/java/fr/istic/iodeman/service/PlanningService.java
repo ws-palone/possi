@@ -40,8 +40,10 @@ public interface PlanningService {
 	public Collection<Priority> updatePriorities(Planning planning, Collection<Priority> priorities);
 	
 	public File exportExcel(Planning planning);
-	
-	public Collection<OralDefense> export(Integer planningId);
+
+    File exportExcelWithoutBuild(Planning planning);
+
+    public Collection<OralDefense> export(Integer planningId);
 	
 	public void validate(Planning planning);
 

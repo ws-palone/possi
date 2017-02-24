@@ -8,8 +8,6 @@ import com.google.common.io.Files;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.model.Planning;
 import javafx.collections.ObservableList;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -76,7 +74,10 @@ public class AlgoPlanningImplV3 {
 		if(isSerial) {
 			indisponibilites = new HashMap<String, List<Integer>>();
 			configureParticipants(participants);
-			detectViolation(timeboxes, unavailabilities);
+			System.out.println("Unavailabilities == null ?" + (unavailabilities == null));
+			if(unavailabilities != null) {
+				detectViolation(timeboxes, unavailabilities);
+			}
 		} else {
 			configureSalles(planning_infos.getRooms());
 			configureCreneaux();
