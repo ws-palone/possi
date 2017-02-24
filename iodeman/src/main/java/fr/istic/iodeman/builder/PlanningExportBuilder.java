@@ -193,8 +193,8 @@ public class PlanningExportBuilder {
 		for (int i = 0; i < days.size(); i++) {
 			List<Creneau> d = days.get(i);
 			if(!d.isEmpty()) {
-				// Ajout des creneaux vides
-				while(i > 0 && cpt < emptyDay.size()){
+				// Ajout des jours restants
+				while(i > 0 && rowCount > 2 && cpt < emptyDay.size()){
 					cellIndex=0;
 					row = planningSheet.createRow(rowIndex++);
 					rowCount++;
@@ -206,7 +206,7 @@ public class PlanningExportBuilder {
 				}
 
 				// on passe le jour sur la page suivante
-				while(i > 0 && rowCount % rowParPage != 1){
+				while(i > 0 && rowCount > 2 && rowCount % rowParPage != 1){
 					planningSheet.createRow(rowIndex++);
 					rowCount++;
 				}
