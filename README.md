@@ -1,2 +1,2 @@
 # iode-man
-Projet de Master 2 MIAGE 2015-2016 en collaboration avec Didier CERTAIN. Gestionnaire de planification de soutenances.
+Projet de Master 1 MIAGE 2019-2020 en collaboration avec Didier CERTAIN. Gestionnaire de planification de soutenances.
