@@ -11,6 +11,7 @@ import java.util.Collection;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.resolver.PersonResolver;
 
 public class ParticipantsCSVImport implements ParticipantsImport {
@@ -24,6 +25,7 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 	public Collection<Participant> execute(File file) throws Exception {
 		
 		Collection<Participant> participants = new ArrayList<Participant>();
+		Collection<String> students = new ArrayList<String>();
 		
 		BufferedReader br = null;
         String line = "";
@@ -57,46 +59,54 @@ public class ParticipantsCSVImport implements ParticipantsImport {
                 
                 // create participants
     			Participant participant = new Participant();
-    			
-    			// Student
-    			String email = row[0].trim();
-    			String normedEmail = normalize(email);
-    			System.err.println(email);
-    			System.err.println(normedEmail);
-    			Person student = personResolver.resolve(normedEmail);
-    			
-    			if(student == null) {
-    				student = new Person();
-    				student.setEmail(normedEmail);
-    			}
-    			
-    			System.err.println("1");
-    			
-    			// following teacher
-    			email = row[4].trim();
-    			normedEmail = normalize(email);
-    			Person followingTeacher = personResolver.resolve(normedEmail);
-    			
-    			if(followingTeacher == null) {
-    				followingTeacher = new Person();
-    				followingTeacher.setEmail(normedEmail);
-    			}
-    			
-    			String tutorFullName = row[5].trim();
-    			
-    			System.err.println("2");
-				
-				participant.setTutorFullName(tutorFullName);
-				// Compagny
-				String company = row[3].trim();
-				participant.setCompany(company);
-    			
-    			participant.setStudent(student);
-    			participant.setFollowingTeacher(followingTeacher);
-    			
-    			participants.add(participant);
-    			
-    			System.err.println("3");
+				String emailStudent = row[0].trim();
+				String emailTeacher = row[4].trim();
+				String normedEmailStudent = normalize(emailStudent);
+				Person student = personResolver.resolve(normedEmailStudent);
+				String normedEmailTeacher = normalize(emailTeacher);
+				Person followingTeacher = personResolver.resolve(normedEmailTeacher);
+
+
+
+				if (!emailStudent.equals(emailTeacher) && student.getRole().equals(Role.STUDENT) && followingTeacher.getRole().equals(Role.PROF) && !students.contains(student.getUid()) && !participants.contains(participant)) {
+
+					// Student
+					System.err.println(emailStudent);
+					System.err.println(normedEmailStudent);
+
+					if (student == null) {
+						student = new Person();
+						student.setEmail(normedEmailStudent);
+					}
+
+
+					System.err.println("1");
+
+					// following teacher
+					if (followingTeacher == null) {
+						followingTeacher = new Person();
+						followingTeacher.setEmail(normedEmailTeacher);
+					}
+
+					String tutorFullName = row[5].trim();
+
+					System.err.println("2");
+
+					participant.setTutorFullName(tutorFullName);
+					// Compagny
+					String company = row[3].trim();
+					participant.setCompany(company);
+
+					participant.setStudent(student);
+					participant.setFollowingTeacher(followingTeacher);
+
+					students.add(student.getUid());
+					participants.add(participant);
+
+					System.err.println("3");
+				}else{
+					System.err.println("Email étudiant et professeur identiques.");
+				}
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
