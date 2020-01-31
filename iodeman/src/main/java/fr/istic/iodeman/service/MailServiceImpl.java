@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService{
 		
 		Validate.notNull(planning);
 		
-		String  MAIL_TYPE = "new";
+		String MAIL_TYPE = "new";
 		String MAIL_OBJECT = "Notification : Soutenance de stage";
 		String MAIL_TO = "";
 
