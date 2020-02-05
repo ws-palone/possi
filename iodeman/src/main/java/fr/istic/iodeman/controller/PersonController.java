@@ -1,5 +1,6 @@
 package fr.istic.iodeman.controller;
 
+import fr.istic.iodeman.dao.PersonDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.resolver.PersonUidResolver;
 import fr.istic.iodeman.service.LdapRepository;
+
+import java.util.Collection;
 
 @RestController
 public class PersonController {
@@ -26,6 +29,9 @@ public class PersonController {
 	
 	@Autowired
 	private LdapRepository ldap;
+
+	@Autowired
+	private PersonDAOImpl persons;
 	
 	@RequestMapping("/user")
 	public Person user(){
@@ -51,4 +57,8 @@ public class PersonController {
 	    return null;
 	}
 
+	@RequestMapping("/person/list")
+	public Collection<Person> getPerson(){
+		return persons.findAll();
+	}
 }
