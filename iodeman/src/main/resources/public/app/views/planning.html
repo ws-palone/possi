@@ -41,6 +41,8 @@
           <p>- l'étudiant est dans le LDAP</p>
 		  <p>- le fichier à importer est bien un fichier .csv</p>
 		  <p>- les séparateurs du fichier CSV sont des virgules</p>
+		  <p>Si certains champs du CSV ne sont pas affichés veuillez vérifier que les données inscrites soient correctes.
+		  Par exemple si l'adresse d'un professeur est détectée dans la colonne d'un étudiant la ligne ne sera pas prise en compte.</p>
 	  </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -56,7 +58,6 @@
 		<div ng-show="errorImport" class="alert alert-danger" role="alert">
 				Une erreur est survenue lors de l'import CSV
 			<p> Vérifiez que le séparateur dans le fichier csv est bien une virgule ","<p>
-				
 				<img style="max-width: 100%;" src="app/images/donnees.png" />
        	<br/><br/>
        	<p>Le champ "Etudiant" et "Tuteur-Entreprise" doit contenir une adresse électronique (de la forme prenom.nom@univ-rennes1.fr) qui doit être reconnue par le LDAP.</p>
