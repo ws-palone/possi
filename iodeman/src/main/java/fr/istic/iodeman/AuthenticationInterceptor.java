@@ -26,12 +26,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	     if(sessionTicket != null){
 	    	 isValidated = true;
 	     }
-	     
-	     if(!isValidated && !isInWhiteList(request)){
-    		 //response.sendRedirect(Application.getURL(request)+"/loginFailed");
-	    	 response.sendError(403);
-    		 return false;
-    	 }
+//	     Fixme Ne pas oublier de decommenter
+//	     if(!isValidated && !isInWhiteList(request)){
+//    		 //response.sendRedirect(Application.getURL(request)+"/loginFailed");
+//	    	 response.sendError(403);
+//    		 return false;
+//    	 }
 	     
         return super.preHandle(request, response, handler);
     }
@@ -39,13 +39,14 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     private boolean isInWhiteList(HttpServletRequest request) {
     	
     	String path = request.getServletPath();
-    	
+    	boolean b = path.contains("/person/list");
     	return (
     			path == null 
     			|| path.equals("") 
     			|| path.equals("/") 
     			|| path.contains("login")
     			|| path.contains("logout")
+				|| path.contains("/person/list")
     	);
     	
     }
