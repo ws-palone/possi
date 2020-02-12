@@ -5,6 +5,7 @@ import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Unavailability;
+import org.apache.catalina.Manager;
 import org.apache.commons.io.FileUtils;
 import org.hibernate.*;
 import org.hibernate.criterion.Projections;
@@ -14,6 +15,8 @@ import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -24,7 +27,12 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 
 	@Value("${PERSIST_PATH}")
 	private String PERSIST_PATH;
-	
+
+	private Integer etat = 1;
+	//private int i;
+
+
+
 	public Integer persist(Planning planning) {
 		Session session = getNewSession();
 		Transaction transaction = null;
@@ -61,6 +69,22 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		Planning planning = (Planning)session.get(Planning.class, id);
 		session.close();
 		return planning;
+	}
+
+	@Override
+	public List<Planning> findByEtat() {
+		//EntityManager em =  ;
+		Session session = getNewSession();
+		List planningsPublics= session.createCriteria(Planning.class)
+				.add(Restrictions.eq("etat",1))
+				.list();
+		session.close();
+		return planningsPublics;
+		/*
+		TypedQuery<Planning> query = em.createQuery(
+				"SELECT p FROM Planning AS p WHERE p.etat = 1", Planning.class);
+		List<Planning> results = query.getResultList();
+		return results;*/
 	}
 
 	public void delete(Planning entity) {

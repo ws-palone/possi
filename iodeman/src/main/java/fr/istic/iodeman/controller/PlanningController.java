@@ -6,6 +6,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import fr.istic.iodeman.SessionComponent;
+import fr.istic.iodeman.dao.PlanningDAO;
 import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.service.PlanningService;
@@ -44,12 +45,20 @@ public class PlanningController {
 	private UnavailabilityService unavailabilityService;
 
 	@Autowired
+	private PlanningDAO planningDAO;
+
+	@Autowired
 	private SessionComponent session;
 	
 	@RequestMapping("/list")
 	public List<Planning> listAll(){
 
 		return planningService.findAllByUid(session.getUserUID());
+	}
+
+	@RequestMapping("/planningList")
+	public List<Planning>  ckeckAllPlanning(){
+		return planningService.findPlanningByEtat();
 	}
 
 	@RequestMapping("/find/{id}")
@@ -70,10 +79,11 @@ public class PlanningController {
 			@RequestParam("dayPeriodStart") @DateTimeFormat(pattern="HH:mm") Date dayPeriodStart,
 			@RequestParam("dayPeriodEnd") @DateTimeFormat(pattern="HH:mm") Date dayPeriodEnd,
 			@RequestParam("nbMaxOralDefensePerDay") Integer nbMaxOralDefensePerDay,
-			@RequestParam("rooms") List<String> rooms
+			@RequestParam("rooms") List<String> rooms,
+			@RequestParam("etat") Integer etat
 			) {
-		
-		session.teacherOnly();
+		// fixme à decommenter
+		//session.teacherOnly();
 		
 		//URL_TEST : http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/planning/create?name=toto&periodStart=2015-01-01&periodEnd=2015-01-07&oralDefenseDuration=60&oralDefenseInterlude=15&lunchBreakStart=12:15&lunchBreakEnd=14:00&dayPeriodStart=08:00&dayPeriodEnd=18:15&nbMaxOralDefensePerDay=6&rooms=i51
 		
@@ -113,7 +123,7 @@ public class PlanningController {
 					.toDate()
 		);
 		
-		return planningService.create(user, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
+		return planningService.create(user, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection, etat);
 	}
 	
 	@RequestMapping("/update")
@@ -130,6 +140,7 @@ public class PlanningController {
 			@RequestParam(value="dayPeriodEnd", required=false) @DateTimeFormat(pattern="HH:mm") Date dayPeriodEnd,
 			@RequestParam(value="nbMaxOralDefensePerDay", required=false) Integer nbMaxOralDefensePerDay,
 			@RequestParam(value="rooms", required=false) List<String> rooms,
+			@RequestParam(value="false", required = false) Integer etat,
 			@RequestParam(value="csvFile", required=false) String csvFile
 			) {
 		
@@ -164,15 +175,15 @@ public class PlanningController {
 					.toDate()
 		) : null;
 		
-		planningService.update(planning, name, csvFile, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection);
+		planningService.update(planning, name, csvFile, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection, etat);
 		
 		return planning;
 	}
 	
 	@RequestMapping("/{id}/participants")
 	public Collection<Participant> getParticipants(@PathVariable("id") Integer id) {
-		
-		session.teacherOnly();
+		// FIXME: 09/02/2020 a decomenter
+	//	session.teacherOnly();
 		
 		Planning planning = planningService.findById(id);
 		
@@ -186,8 +197,8 @@ public class PlanningController {
 	
 	@RequestMapping("/{id}/participants/unavailabilities")
 	public Collection<ParticipantDTO> getParticipantsAndUnavailabilitiesNumber(@PathVariable("id") Integer id) {
-		
-		session.teacherOnly();
+		// fixme à decomenter
+		//session.teacherOnly();
 		
 		Planning planning = planningService.findById(id);
 		
@@ -201,7 +212,8 @@ public class PlanningController {
 	
 	@RequestMapping("/{id}/priorities")
 	public Collection<Priority> getPriorities(@PathVariable("id") Integer id) {
-		session.teacherOnly();
+		// >Fixme à decommenter
+		//session.teacherOnly();
 		Planning planning = planningService.findById(id);
 		
 		if (planning != null) {

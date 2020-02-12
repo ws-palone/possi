@@ -19,6 +19,8 @@ public interface PlanningDAO {
 	public void update(Planning planning);
 	
 	public Planning findById(Integer ID);
+
+	public List<Planning> findByEtat();
 	
 	public Collection<Participant> findParticipants(Planning planning);
 	

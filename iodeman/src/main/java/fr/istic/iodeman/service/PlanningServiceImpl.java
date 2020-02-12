@@ -43,31 +43,39 @@ public class PlanningServiceImpl implements PlanningService {
 	@Autowired
 	private PersonMailResolver personResolver;
 
-	@Autowired
-	private PersonDAO personDAO;
+	//@Autowired
+	//private PersonDAO personDAO;
 
 	@Autowired
 	private UnavailabilityDAO unavailabilityDAO;
-
-	public List<Planning> findAll() {
-		return planningDAO.findAll();
-	}
 
 	public PlanningServiceImpl(){
 		planningDAO = new PlanningDAOImpl();
 		unavailabilityDAO = new UnavailabilityDAOImpl();
 		priorityDAO =  new PriorityDAOImpl();
 		personResolver = new PersonMailResolver();
-		personDAO = new PersonDAOImpl();
+		//personDAO = new PersonDAOImpl();
 	}
+
+
+/*
+	@Override
+	public List<Planning> findAll(Planning planningByEtat) {
+		return null;
+	}
+*/
 	public Planning findById(Integer id) {
 		return planningDAO.findById(id);
 	}
 
+	/*public List<Planning> findAll(Planning byEtat) {
+		return planningDAO.findAll();
+	}*/
+
 	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration,
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-			Collection<Room> rooms) {
+			Collection<Room> rooms, Integer etat) {
 
 		Validate.notNull(admin);
 		Validate.notEmpty(name);
@@ -93,6 +101,7 @@ public class PlanningServiceImpl implements PlanningService {
 		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
 		planning.setRooms(rooms);
 		planning.setIs_ref(1);
+		planning.setEtat(0);
 
 		planning.setPriorities(Lists.newArrayList(
 				new Priority("ENTREPRISE", 1),
@@ -106,7 +115,7 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
-	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, Integer oralDefenseInterlude, TimeBox lunchBreak, TimeBox dayPeriod, Integer nbMaxOralDefensePerDay, Collection<Room> rooms, String csvFile) {
+	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, Integer oralDefenseInterlude, TimeBox lunchBreak, TimeBox dayPeriod, Integer nbMaxOralDefensePerDay, Collection<Room> rooms,Integer etat, String csvFile) {
 		Validate.notNull(admin);
 		Validate.notEmpty(name);
 		Validate.notEmpty(csvFile);
@@ -114,6 +123,7 @@ public class PlanningServiceImpl implements PlanningService {
 		Validate.notNull(oralDefenseDuration);
 		Validate.isTrue(oralDefenseDuration > 0);
 		Validate.notNull(dayPeriod);
+		Validate.notNull(etat);
 
 		period.validate();
 		dayPeriod.validate();
@@ -145,10 +155,13 @@ public class PlanningServiceImpl implements PlanningService {
 		return planning;
 	}
 
+
+
+	@Override
 	public void update(Planning planning, String name, String csvFile, TimeBox period,
 			Integer oralDefenseDuration, Integer oralDefenseInterlude,
 			TimeBox lunchBreak, TimeBox dayPeriod,
-			Integer nbMaxOralDefensePerDay, Collection<Room> rooms) {
+			Integer nbMaxOralDefensePerDay,  Collection<Room> rooms, Integer etat) {
 
 		Validate.notNull(planning);
 
@@ -183,6 +196,10 @@ public class PlanningServiceImpl implements PlanningService {
 
 		if (rooms != null) {
 			planning.setRooms(rooms);
+		}
+
+		if (etat!= null){
+			planning.setEtat(etat);
 		}
 
 		planningDAO.update(planning);
@@ -347,11 +364,11 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
-	public File exportExcel(Planning planning) {		
-		
+	public File exportExcel(Planning planning) {
+
 		// verify the planning is not null
 		Validate.notNull(planning);
-		
+
 		// retrieving of the unavailabilities
 		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
 
@@ -367,9 +384,9 @@ public class PlanningServiceImpl implements PlanningService {
 			System.out.println("Erreur de l'exportation lors de la fonction exportExcel: "+e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		//Validate.isTrue(file.exists());
-		
+
 		return file;
 	}
 
@@ -399,42 +416,42 @@ public class PlanningServiceImpl implements PlanningService {
 
 	@Override
 	public Collection<OralDefense> export(Integer planningId) {
-		
-		// retrieving the planning 
+
+		// retrieving the planning
 		Planning planning = planningDAO.findById(planningId);
 		Validate.notNull(planning);
-		
+
 		// retrieving of the unavailabilities
 		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
-				
+
 		// initialize builder
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
 		builder.setUnavailabilities(unavailabilities);
-		
+
 		// build & return
 		return builder.split().build().getOralDefenses();
-		
+
 	}
 
 	@Override
 	public void validate(Planning planning) {
-		
+
 		Validate.notNull(planning);
-		
+
 		// initialize builder
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
-		
+
 		builder.split().validate(); // throw exception if not validated
-		
+
 	}
 
 	@Override
 	public Collection<ParticipantDTO> findParticipantsAndUnavailabilitiesNumber(Planning planning) {
 		// retrieving of participants
 		Collection<Participant> participants = planningDAO.findParticipants(planning);
-		
+
 		// parsing for getting uids or person
 		Collection<String> uids = Lists.newArrayList();
 		for(Participant p : participants){
@@ -445,13 +462,13 @@ public class PlanningServiceImpl implements PlanningService {
 				uids.add(p.getFollowingTeacher().getUid());
 			}
 		}
-		
+
 		// retrieved map<Person, Integer> from parsing result
 		Map<String, Integer> map = (HashMap<String, Integer>)planningDAO.findParticipantsAndUnavailabilitiesNumber(planning, uids);
-		
+
 		// create collection of ParticipantDTO
 		Collection<ParticipantDTO> participantsDTO = Lists.newArrayList();
-		
+
 		for(Participant p : participants){
 			// DTO structure
 			ParticipantDTO participantDTO = new ParticipantDTO();
@@ -462,8 +479,8 @@ public class PlanningServiceImpl implements PlanningService {
 			participantDTO.setTutorFullName(p.getTutorFullName());
 			participantDTO.setCompany(p.getCompany());
 			participantsDTO.add(participantDTO);
-			
-			// student data 
+
+			// student data
 			studentDTO.setPerson(p.getStudent());
 			studentDTO.setUnavailabilitiesNumber(
 					getUnavailabilitiesNumber(
@@ -471,7 +488,7 @@ public class PlanningServiceImpl implements PlanningService {
 							map
 					)
 			);
-			
+
 			// followingTeacher data
 			followingTeacherDTO.setPerson(p.getFollowingTeacher());
 			followingTeacherDTO.setUnavailabilitiesNumber(
@@ -481,18 +498,18 @@ public class PlanningServiceImpl implements PlanningService {
 					)
 			);
 		}
-		
+
 		// if the result is not null
 		if (participantsDTO != null) return participantsDTO;
-		
+
 		return Lists.newArrayList();
 	}
-	
+
 	private Integer getUnavailabilitiesNumber(String uid, Map<String, Integer> map){
 		Integer nb = 0;
 		if (map.containsKey(uid)){
 			nb = map.get(uid);
-		} 
+		}
 		return nb;
 	}
 
@@ -504,6 +521,27 @@ public class PlanningServiceImpl implements PlanningService {
 
 	}
 
+	@Override
+	public List<Planning>  findPlanningByEtat() {
+		return planningDAO.findByEtat();
+	}
 
+	/*@Override
+	public Planning findByEtat() {
+		return null;
+	}*/
+
+
+
+
+
+
+	/*@Override
+	public Optional<Planning> findPlanningByEtat() {
+		if (etat == true){
+			return Optional.empty();
+		}
+		return Optional.empty();
+	}*/
 
 }

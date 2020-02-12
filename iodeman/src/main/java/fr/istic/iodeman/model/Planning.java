@@ -9,11 +9,14 @@ import java.util.Collection;
 
 
 @Entity
+
 public class Planning{
 	
 	@Id
 	@GeneratedValue
 	private Integer id;
+
+	private Integer etat;
 
 	private String name;
 
@@ -89,6 +92,7 @@ public class Planning{
 		this.priorities = p.getPriorities();
 		this.oralDefenses = p.getOralDefenses();
 		this.admin = p.getAdmin();
+		this.etat = p.getEtat();
 	}
 
 
@@ -96,6 +100,10 @@ public class Planning{
 	public Integer getId() {
 		return id;
 	}
+	public Integer getEtat() {
+		return etat;
+	}
+
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -166,11 +174,15 @@ public class Planning{
 	public void setPriorities(Collection<Priority> priorities) {
 		this.priorities = priorities;
 	}
+
 	public Collection<OralDefense> getOralDefenses() {
 		return oralDefenses;
 	}
 	public void setOralDefenses(Collection<OralDefense> oralDefenses) {
 		this.oralDefenses = oralDefenses;
+	}
+	public void setEtat(Integer etat) {
+		this.etat = etat;
 	}
 	public Person getAdmin() {
 		return admin;

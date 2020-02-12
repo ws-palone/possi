@@ -12,24 +12,24 @@ import java.util.Map;
 
 public interface PlanningService {
 
-	public List<Planning> findAll();
+	//public List<Planning> findAll(Planning byEtat);
 	
 	public Planning findById(Integer id);
 	
 	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, 
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-			Collection<Room> rooms);
+			Collection<Room> rooms, Integer etat);
 
 	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration,
 						   Integer oralDefenseInterlude, TimeBox lunchBreak,
 						   TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-						   Collection<Room> rooms, String csvFile);
+						   Collection<Room> rooms,Integer etat, String csvFile);
 	
 	public void update(Planning planning, String name,String csvFile, TimeBox period, Integer oralDefenseDuration,
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-			Collection<Room> rooms);
+			Collection<Room> rooms, Integer etat);
 	
 	public Planning importPartcipants(Planning planning, File file) throws Exception;
 	
@@ -60,15 +60,25 @@ public interface PlanningService {
 	public Map<Integer, List<Creneau>> exportJSON(Planning planning);
 
 	// duplicate a specific plannig to PLAN-DRAF
-	public Integer duplicate(Integer id);
 
+	public Integer duplicate(Integer id);
 
 	public Integer duplicateDraft(Integer id);
 
 	// find drafts of a specific plannig
-	public List<Planning> findAllDrafts(Integer id);
 
+	public List<Planning> findAllDrafts(Integer id);
 	public void switchReference(Integer idDraft);
 
     public void updateUnvailibilities(Integer id, JSONArray jsonObject);
+
+	//public Planning findPlanningByEtat();
+
+	//public Optional<Planning> findPlanningByEtat();
+
+	public List<Planning>  findPlanningByEtat();
+
+	//Planning findByEtat();
+
+	//Object update(Planning planning, String name, String nameCsv, TimeBox period, Integer oralDefenseDuration, Integer oralDefenseInterlude, TimeBox lunchBreak, TimeBox dayPeriod, Integer nbMaxOralDefensePerDay, Collection<Room> rooms);
 }
