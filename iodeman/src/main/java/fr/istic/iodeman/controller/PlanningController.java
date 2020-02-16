@@ -56,7 +56,7 @@ public class PlanningController {
 		return planningService.findAllByUid(session.getUserUID());
 	}
 
-	@RequestMapping("/planningList")
+	@RequestMapping("/list/public")
 	public List<Planning>  ckeckAllPlanning(){
 		return planningService.findPlanningByEtat();
 	}

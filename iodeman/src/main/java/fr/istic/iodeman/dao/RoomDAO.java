@@ -1,11 +1,13 @@
 package fr.istic.iodeman.dao;
 
-import java.util.List;
-
 import fr.istic.iodeman.model.Room;
+
+import java.util.List;
 
 public interface RoomDAO {
 	public void persist(Room r);
+	// FIXME: 16/02/2020 créer des rooms en partant d'une liste
+	public void persit(List<String> names);
 	
 	public Room findById(int id);
 	

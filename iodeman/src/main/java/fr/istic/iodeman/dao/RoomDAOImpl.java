@@ -1,13 +1,12 @@
 package fr.istic.iodeman.dao;
 
-import java.util.List;
-
+import fr.istic.iodeman.model.Room;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Room;
+import java.util.List;
 
 @Repository
 public class RoomDAOImpl extends AbstractHibernateDAO implements RoomDAO {
@@ -19,6 +18,24 @@ public class RoomDAOImpl extends AbstractHibernateDAO implements RoomDAO {
 			transaction = session.beginTransaction();
 			session.persist(room);
 			session.getTransaction().commit();	
+		} catch (Exception e){
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	// FIXME: 16/02/2020 créer des rooms en partant d'une liste
+	@Override
+	public void persit(List<String> names) {
+		Session session = getNewSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			names.forEach(n ->{
+				session.persist(n);
+				session.getTransaction().commit();
+			});
 		} catch (Exception e){
 			if (transaction!=null) transaction.rollback();
 			e.printStackTrace();
