@@ -3,33 +3,41 @@ package fr.istic.iodeman.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Collection;
+import java.util.Collections;
 
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.service.ParticipantService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.service.PlanningService;
 
-@Controller
+@RestController
 public class FileUploadController {
 
 	@Autowired
 	PlanningService planningService;
+
+	@Autowired
+	ParticipantService participantService;
 	
 	@Autowired
 	private SessionComponent session;
 	
-    @SuppressWarnings("finally")
-	@RequestMapping(value="/upload", method=RequestMethod.POST)
+/*    @SuppressWarnings("finally")
+	@RequestMapping(value="/uploadj", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile, @RequestParam(value="redirectURL", required=false) String redirectURL){    	
     	
-    	session.teacherOnly();
+    	//session.teacherOnly();
     	// path to save the input file
     	String name = "/tmp/"+new DateTime();
     	String nameCsv = "";
@@ -67,6 +75,42 @@ public class FileUploadController {
     	
     	return "redirect:/#/planning/"+planningId+"?import=ok";
 
-    }
+    }*/
+
+	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	public Collection<Participant> uploadParticipants(@RequestParam("file") MultipartFile inputFile) throws Exception {
+		String name = "/tmp/"+new DateTime();
+		String nameCsv = "";
+		File outputFile = new File(name);
+
+		if (!inputFile.isEmpty()) {
+			try {
+				nameCsv = inputFile.getOriginalFilename();
+				byte[] bytes = inputFile.getBytes();
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(outputFile));
+				stream.write(bytes);
+				stream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Collections.emptyList();
+			}
+		}
+		return participantService.importPartcipants(outputFile);
+	}
+
+	//create planning
+
+
+	@RequestMapping(value="/saveCSV", method=RequestMethod.POST)
+	public void saveParticipants (@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile) throws Exception {
+		String name = "/tmp/"+new DateTime();
+		String nameCsv = "";
+		File outputFile = new File(name);
+		Planning planning = planningService.findById(new Integer(planningId));
+		Collection<Participant> participants = participantService.importPartcipants(outputFile);
+		planning.setParticipants(participants);
+		participantService.saveParticipants(participants);
+		planningService.update(planning, planning.getName(), nameCsv, planning.getPeriod(), planning.getOralDefenseDuration(), planning.getOralDefenseInterlude(), planning.getLunchBreak(), planning.getDayPeriod(), planning.getNbMaxOralDefensePerDay(),planning.getRooms(), null);
+	}
 
 }

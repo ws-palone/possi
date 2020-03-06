@@ -35,9 +35,6 @@ public class PlanningServiceImpl implements PlanningService {
 	private PlanningDAO planningDAO;
 
 	@Autowired
-	private ParticipantDAO participantDAO;
-
-	@Autowired
 	private PriorityDAO priorityDAO;
 
 	@Autowired
@@ -210,20 +207,9 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningDAO.findAll(uid);
 	}
 
-	public Planning importPartcipants(Planning planning, File file) throws Exception {
-
-		ParticipantsImport participantsImport = new ParticipantsCSVImport();
-		participantsImport.configure(personResolver);
-		Collection<Participant> participants = participantsImport.execute(file);
-
-		for(Participant p : participants){
-			participantDAO.persist(p);
-		}
-
+	public Planning addParticipants(Planning planning, Collection<Participant> participants){
 		planning.setParticipants(participants);
-
 		planningDAO.update(planning);
-
 		return planning;
 	}
 
