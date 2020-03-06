@@ -9,8 +9,6 @@ import fr.istic.iodeman.dto.ParticipantDTO;
 import fr.istic.iodeman.dto.PersonDTO;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.resolver.PersonMailResolver;
-import fr.istic.iodeman.strategy.ParticipantsCSVImport;
-import fr.istic.iodeman.strategy.ParticipantsImport;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.possijar.Creneau;

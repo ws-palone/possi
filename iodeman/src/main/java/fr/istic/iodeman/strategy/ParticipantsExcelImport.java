@@ -5,6 +5,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import fr.istic.iodeman.error.ErrorImport;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -78,7 +79,12 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 		
 		return participants;
 	}
-	
+
+	@Override
+	public Collection<ErrorImport> getErrorsImport() {
+		return null;
+	}
+
 	private String normalize(String input){
 		return Normalizer.normalize(input, Normalizer.Form.NFC).replaceAll("[^\\p{ASCII}]", "");
 	}

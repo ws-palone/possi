@@ -1,6 +1,7 @@
 package fr.istic.iodeman.service;
 
 import fr.istic.iodeman.dao.ParticipantDAO;
+import fr.istic.iodeman.error.ErrorImport;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.ParticipantsCSVImport;
@@ -33,5 +34,13 @@ public class ParticipantServiceImpl implements ParticipantService {
         ParticipantsImport participantsImport = new ParticipantsCSVImport();
         participantsImport.configure(personResolver);
         return participantsImport.execute(file);
+    }
+
+    @Override
+    public Collection<ErrorImport> checkError(File file) throws Exception {
+        ParticipantsImport participantsImport = new ParticipantsCSVImport();
+        participantsImport.configure(personResolver);
+        participantsImport.execute(file);
+        return participantsImport.getErrorsImport();
     }
 }

@@ -8,9 +8,9 @@ import java.util.Collections;
 
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.service.ParticipantService;
+import fr.istic.iodeman.strategy.ImportResponse;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +32,9 @@ public class FileUploadController {
 	
 	@Autowired
 	private SessionComponent session;
+
 	
-/*    @SuppressWarnings("finally")
+/*  @SuppressWarnings("finally")
 	@RequestMapping(value="/uploadj", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile, @RequestParam(value="redirectURL", required=false) String redirectURL){    	
     	
@@ -77,8 +78,8 @@ public class FileUploadController {
 
     }*/
 
-	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public Collection<Participant> uploadParticipants(@RequestParam("file") MultipartFile inputFile) throws Exception {
+	@RequestMapping(value="/upload/participants", method=RequestMethod.POST)
+	public ImportResponse uploadParticipants(@RequestParam("file") MultipartFile inputFile) throws Exception {
 		String name = "/tmp/"+new DateTime();
 		String nameCsv = "";
 		File outputFile = new File(name);
@@ -92,16 +93,17 @@ public class FileUploadController {
 				stream.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				return Collections.emptyList();
+				return null;
 			}
 		}
-		return participantService.importPartcipants(outputFile);
+		ImportResponse importResponse = new ImportResponse();
+		importResponse.setData(participantService.importPartcipants(outputFile));
+		importResponse.setErrors(participantService.checkError(outputFile));
+
+		return importResponse;
 	}
 
-	//create planning
-
-
-	@RequestMapping(value="/saveCSV", method=RequestMethod.POST)
+	@RequestMapping(value="/save/CSV", method=RequestMethod.POST)
 	public void saveParticipants (@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile) throws Exception {
 		String name = "/tmp/"+new DateTime();
 		String nameCsv = "";

@@ -55,6 +55,12 @@ public class Participant {
 	}
 	public void setCompany(String company) {
 		this.company = company;
-	}	
-	
+	}
+
+	@Override
+	public String toString() {
+		return  "Etudiant : "  + student.getFirstName() + " " + student.getLastName() + ", " +
+				"Enseignant référent : " + followingTeacher.getFirstName() + " " + followingTeacher.getLastName() + ", " +
+				"Entreprise : " + tutorFullName.toString() + " / " + company;
+	}
 }
