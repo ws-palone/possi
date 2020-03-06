@@ -86,23 +86,23 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 				participant.setFollowingTeacher(followingTeacher);
 
 				if (emailStudent.equals(emailTeacher)){
-					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " : "  + "L'étudiant et le professeur référent ont le même mail. (doublon)");
+					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " du CSV : "  + "L'étudiant et le professeur référent ont le même mail. (doublon)");
 					errorsImport.add(error);
 				}
 				else if (!student.getRole().equals(Role.STUDENT)){
-					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " : "  + "La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.");
+					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " du CSV : "  + "La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.");
 					errorsImport.add(error);
 				}
 				else if (!followingTeacher.getRole().equals(Role.PROF)){
-					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " : "  + "La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu");
+					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " du CSV : "  + "La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu");
 					errorsImport.add(error);
 				}
 				else if (students.contains(student.getUid())){
-					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " : "  + "L'étudiant est déjà présent dans cet import.");
+					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " du CSV : "  + "L'étudiant est déjà présent dans cet import.");
 					errorsImport.add(error);
 				}
 				else if (participants.contains(participant)) {
-					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " : "  + "La soutenance existe déjà dans cet import.");
+					ErrorImport error = new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " du CSV : "  + "La soutenance existe déjà dans cet import.");
 					errorsImport.add(error);
 				}
 				else {
