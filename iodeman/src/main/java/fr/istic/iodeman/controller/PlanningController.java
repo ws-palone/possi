@@ -64,7 +64,6 @@ public class PlanningController {
 
 	@RequestMapping("/find/{id}")
 	public Planning findById(@PathVariable("id") Integer id) {
-		
 		return planningService.findById(id);
 	}
 	

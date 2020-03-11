@@ -1,9 +1,8 @@
 package fr.istic.iodeman.cas;
 
+import edu.yale.its.tp.cas.client.ServiceTicketValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import edu.yale.its.tp.cas.client.ServiceTicketValidator;
 
 @Component
 public class TicketValidatorFactory {
@@ -22,9 +21,9 @@ public class TicketValidatorFactory {
 	
 	private ServiceTicketValidator sv;
 	
-	/*private final String SERVER_NAME = "https://sso-cas.univ-rennes1.fr/";
-	private final String SERVER_NAME_LOGIN = "https://sso-cas.univ-rennes1.fr/login";
-	private final String SERVER_NAME_VALIDATE = "https://sso-cas.univ-rennes1.fr/serviceValidate";*/
+	//private final String SERVER_NAME = "https://sso-cas.univ-rennes1.fr/";
+//	private final String SERVER_NAME_LOGIN = "https://sso-cas.univ-rennes1.fr/login";
+//	private final String SERVER_NAME_VALIDATE = "https://sso-cas.univ-rennes1.fr/serviceValidate";
 		
 	public ServiceTicketValidator getServiceTicketValidator(String ticket) {
 		

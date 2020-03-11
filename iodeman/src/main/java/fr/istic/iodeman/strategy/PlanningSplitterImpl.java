@@ -1,18 +1,16 @@
 package fr.istic.iodeman.strategy;
 
-import java.util.List;
-
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.utils.AlgoPlanningUtils;
+import java.util.List;
 
 public class PlanningSplitterImpl implements PlanningSplitter {
 

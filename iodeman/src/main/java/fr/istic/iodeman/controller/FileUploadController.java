@@ -65,7 +65,7 @@ public class FileUploadController {
     	Planning planning = planningService.findById(new Integer(planningId));
     	try {
 			planningService.importPartcipants(planning, outputFile);
-			planningService.update(planning, planning.getName(), nameCsv, planning.getPeriod(), planning.getOralDefenseDuration(), planning.getOralDefenseInterlude(), planning.getLunchBreak(), planning.getDayPeriod(), planning.getNbMaxOralDefensePerDay(),planning.getRooms());
+			planningService.update(planning, planning.getName(), nameCsv, planning.getPeriod(), planning.getOralDefenseDuration(), planning.getOralDefenseInterlude(), planning.getLunchBreak(), planning.getDayPeriod(), planning.getNbMaxOralDefensePerDay(),planning.getRooms(), planning.getEtat());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/#/planning/"+planningId+"?import=nok";

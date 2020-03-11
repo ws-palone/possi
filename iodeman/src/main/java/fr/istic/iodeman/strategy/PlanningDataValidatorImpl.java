@@ -1,21 +1,19 @@
 package fr.istic.iodeman.strategy;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
-
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Planning;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
+import org.apache.commons.lang.Validate;
+import org.joda.time.DateTime;
+
+import java.util.Collection;
+import java.util.List;
 
 public class PlanningDataValidatorImpl implements PlanningDataValidator{
 

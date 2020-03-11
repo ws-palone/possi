@@ -1,10 +1,10 @@
 package fr.istic.iodeman.strategy;
 
-import java.io.File;
-import java.util.Collection;
-
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.TimeBox;
+
+import java.io.File;
+import java.util.Collection;
 
 public interface PlanningExport {
 	public void configure(Collection<TimeBox> timeboxes);

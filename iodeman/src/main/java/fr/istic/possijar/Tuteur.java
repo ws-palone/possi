@@ -1,7 +1,5 @@
 package fr.istic.possijar;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import java.io.Serializable;
 /**
  * 

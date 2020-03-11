@@ -26,11 +26,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	    	 isValidated = true;
 	     }
 //	     Fixme Ne pas oublier de decommenter
-//	     if(!isValidated && !isInWhiteList(request)){
-//    		 //response.sendRedirect(Application.getURL(request)+"/loginFailed");
-//	    	 response.sendError(403);
-//    		 return false;
-//    	 }
+	   //  if(!isValidated && !isInWhiteList(request)){
+// 			response.sendRedirect(Application.getURL(request)+"/loginFailed");
+    	// response.sendError(403);
+    	//	 return false;
+   //	 }
 	     
         return super.preHandle(request, response, handler);
     }

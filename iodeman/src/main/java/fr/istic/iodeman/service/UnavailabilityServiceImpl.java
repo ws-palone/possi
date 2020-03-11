@@ -1,20 +1,10 @@
 package fr.istic.iodeman.service;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import fr.istic.iodeman.dao.PlanningDAOImpl;
-import fr.istic.iodeman.dao.UnavailabilityDAOImpl;
-import fr.istic.possijar.Creneau;
-import org.apache.commons.lang.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.Lists;
-
 import fr.istic.iodeman.dao.PlanningDAO;
+import fr.istic.iodeman.dao.PlanningDAOImpl;
 import fr.istic.iodeman.dao.UnavailabilityDAO;
+import fr.istic.iodeman.dao.UnavailabilityDAOImpl;
 import fr.istic.iodeman.dto.AgendaDTO;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Planning;
@@ -26,6 +16,14 @@ import fr.istic.iodeman.strategy.ExportJsonAgenda;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
+import fr.istic.possijar.Creneau;
+import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UnavailabilityServiceImpl implements UnavailabilityService{

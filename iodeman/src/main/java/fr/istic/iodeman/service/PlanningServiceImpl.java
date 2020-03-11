@@ -82,7 +82,7 @@ public class PlanningServiceImpl implements PlanningService {
 		planning.setPriorities(Lists.newArrayList(
 				new Priority("ENTREPRISE", 1),
 				new Priority("ENSEIGNANT", 2),
-				new Priority("HORAIRES", 3)
+        		new Priority("HORAIRES", 3)
 		));
 
 		planning.setParticipants(participantService.saveParticipants(planning.getParticipants()));
@@ -95,7 +95,7 @@ public class PlanningServiceImpl implements PlanningService {
 	public void update(Planning planning, String name, String csvFile, TimeBox period,
 			Integer oralDefenseDuration, Integer oralDefenseInterlude,
 			TimeBox lunchBreak, TimeBox dayPeriod,
-			Integer nbMaxOralDefensePerDay, Collection<Room> rooms, Integer etat) {
+			Integer nbMaxOralDefensePerDay,  Collection<Room> rooms, Integer etat) {
 
 		Validate.notNull(planning);
 
@@ -445,22 +445,5 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningDAO.findByEtat();
 	}
 
-	/*@Override
-	public Planning findByEtat() {
-		return null;
-	}*/
-
-
-
-
-
-
-	/*@Override
-	public Optional<Planning> findPlanningByEtat() {
-		if (etat == true){
-			return Optional.empty();
-		}
-		return Optional.empty();
-	}*/
 
 }
