@@ -1,16 +1,16 @@
 package fr.istic.iodeman.strategy;
 
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.resolver.PersonResolver;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+
 import java.io.File;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.resolver.PersonResolver;
 
 public class ParticipantsExcelImport implements ParticipantsImport {
 

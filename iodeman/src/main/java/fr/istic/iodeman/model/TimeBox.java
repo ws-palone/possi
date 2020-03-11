@@ -1,10 +1,9 @@
 package fr.istic.iodeman.model;
 
-import java.util.Date;
+import org.apache.commons.lang.Validate;
 
 import javax.persistence.Embeddable;
-
-import org.apache.commons.lang.Validate;
+import java.util.Date;
 
 @Embeddable
 public class TimeBox {

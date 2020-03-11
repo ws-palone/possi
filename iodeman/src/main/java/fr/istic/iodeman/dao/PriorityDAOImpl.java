@@ -1,13 +1,11 @@
 package fr.istic.iodeman.dao;
 
-import java.util.List;
-
+import fr.istic.iodeman.model.Priority;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Priority;
+import java.util.List;
 
 @Repository
 public class PriorityDAOImpl extends AbstractHibernateDAO implements PriorityDAO {

@@ -7,9 +7,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.Collection;
 
-
 @Entity
-
 public class Planning{
 	
 	@Id
@@ -73,11 +71,13 @@ public class Planning{
 	private Person admin;
 
 
+
 	public Planning(){}
 
 	public Planning(Planning p){
 		this.id = p.getId();
 		this.name = p.getName();
+		this.etat = p.getEtat();
 		this.csv_file = p.getCsv_file();
 		this.period = p.getPeriod();
 		this.oralDefenseDuration = p.getOralDefenseDuration();
@@ -92,10 +92,8 @@ public class Planning{
 		this.priorities = p.getPriorities();
 		this.oralDefenses = p.getOralDefenses();
 		this.admin = p.getAdmin();
-		this.etat = p.getEtat();
+
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -194,6 +192,7 @@ public class Planning{
 
 	public String getCsv_file() { return csv_file;	}
 	public void setCsv_file(String csv_file) {this.csv_file = csv_file;	}
-	
+
+
 	
 }

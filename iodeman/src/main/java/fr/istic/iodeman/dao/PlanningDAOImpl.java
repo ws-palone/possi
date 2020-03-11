@@ -28,7 +28,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	@Value("${PERSIST_PATH}")
 	private String PERSIST_PATH;
 
-	private Integer etat = 1;
+	//private Integer etat = 1;
 	//private int i;
 
 
@@ -73,18 +73,12 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 
 	@Override
 	public List<Planning> findByEtat() {
-		//EntityManager em =  ;
 		Session session = getNewSession();
 		List planningsPublics= session.createCriteria(Planning.class)
 				.add(Restrictions.eq("etat",1))
 				.list();
 		session.close();
 		return planningsPublics;
-		/*
-		TypedQuery<Planning> query = em.createQuery(
-				"SELECT p FROM Planning AS p WHERE p.etat = 1", Planning.class);
-		List<Planning> results = query.getResultList();
-		return results;*/
 	}
 
 	public void delete(Planning entity) {
@@ -341,7 +335,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 
 	@Override
 	public void switchReference(Integer idDraft) {
-		Session session = getNewSession();
+		/*Session session = getNewSession();
 
 		//Au niveau du draft
 		Planning draft = this.findById(idDraft);
@@ -379,7 +373,7 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 		sql_query_planning.setParameter("new_ref", new_id);
 		sql_query_planning.executeUpdate();
 
-		session.close();
+		session.close();*/
 	}
 
 	@Override

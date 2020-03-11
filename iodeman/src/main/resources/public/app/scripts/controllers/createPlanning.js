@@ -44,6 +44,7 @@ angular.module('publicApp')
 
 	$scope.planning = {
 			name: '',
+			etat: '',
 			periodStart: '',
 			periodEnd: '',
 			oralDefenseDuration: '',
@@ -86,6 +87,7 @@ angular.module('publicApp')
 		$scope.planning.lunchBreakEnd = addZero($scope.inputLunchBreakEnd.getHours()) + ":" + addZero($scope.inputLunchBreakEnd.getMinutes());
 		$scope.planning.oralDefenseDuration = inputDuration.val();
 		$scope.planning.oralDefenseInterlude = inputInterlude.val();
+		$scope.etat = input.val();
 
 		console.log($scope.planning);
 

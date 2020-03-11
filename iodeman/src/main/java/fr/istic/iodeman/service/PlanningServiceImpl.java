@@ -77,7 +77,7 @@ public class PlanningServiceImpl implements PlanningService {
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms, Integer etat) {
 
-		Validate.notNull(admin);
+		//Validate.notNull(admin);
 		Validate.notEmpty(name);
 		Validate.notNull(period);
 		Validate.notNull(oralDefenseDuration);
@@ -526,22 +526,5 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningDAO.findByEtat();
 	}
 
-	/*@Override
-	public Planning findByEtat() {
-		return null;
-	}*/
-
-
-
-
-
-
-	/*@Override
-	public Optional<Planning> findPlanningByEtat() {
-		if (etat == true){
-			return Optional.empty();
-		}
-		return Optional.empty();
-	}*/
 
 }

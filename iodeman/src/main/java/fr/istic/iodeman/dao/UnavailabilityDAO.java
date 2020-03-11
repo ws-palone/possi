@@ -1,10 +1,10 @@
 package fr.istic.iodeman.dao;
 
-import java.util.Date;
-import java.util.List;
-
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.possijar.Creneau;
+
+import java.util.Date;
+import java.util.List;
 
 public interface UnavailabilityDAO {
 	

@@ -1,13 +1,13 @@
 package fr.istic.iodeman.service;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import fr.istic.iodeman.dto.AgendaDTO;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.possijar.Creneau;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public interface UnavailabilityService {
 	

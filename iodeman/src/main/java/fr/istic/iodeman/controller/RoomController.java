@@ -22,7 +22,6 @@ public class RoomController {
 
 	@RequestMapping("/list")
 	public List<Room> listAll(){
-
 		return roomService.findAll();
 	}
 

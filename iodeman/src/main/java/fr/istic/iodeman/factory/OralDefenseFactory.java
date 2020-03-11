@@ -1,14 +1,9 @@
 package fr.istic.iodeman.factory;
 
-import java.util.Collection;
-
 import com.google.common.collect.Lists;
+import fr.istic.iodeman.model.*;
 
-import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
+import java.util.Collection;
 
 public class OralDefenseFactory {
 

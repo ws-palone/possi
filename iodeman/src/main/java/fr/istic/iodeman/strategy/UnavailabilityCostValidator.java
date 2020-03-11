@@ -1,10 +1,10 @@
 package fr.istic.iodeman.strategy;
 
-import java.util.Collection;
-
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Priority;
 import fr.istic.iodeman.model.Unavailability;
+
+import java.util.Collection;
 
 public interface UnavailabilityCostValidator {
 	

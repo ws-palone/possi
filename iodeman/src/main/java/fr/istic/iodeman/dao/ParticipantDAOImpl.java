@@ -1,13 +1,11 @@
 package fr.istic.iodeman.dao;
 
-import java.util.List;
-
+import fr.istic.iodeman.model.Participant;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.utils.HibernateUtil;
+import java.util.List;
 
 @Repository
 public class ParticipantDAOImpl extends AbstractHibernateDAO implements ParticipantDAO{

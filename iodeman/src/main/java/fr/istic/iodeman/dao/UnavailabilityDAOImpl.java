@@ -1,10 +1,7 @@
 package fr.istic.iodeman.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.Unavailability;
 import fr.istic.possijar.Creneau;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -14,7 +11,9 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Unavailability;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class UnavailabilityDAOImpl extends AbstractHibernateDAO implements UnavailabilityDAO {

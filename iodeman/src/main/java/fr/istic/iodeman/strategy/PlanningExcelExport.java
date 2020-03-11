@@ -1,8 +1,13 @@
 package fr.istic.iodeman.strategy;
 
-import java.io.File;
-import java.util.Collection;
-
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Lists;
+import fr.istic.iodeman.model.OralDefense;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.Room;
+import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import jxl.Workbook;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
@@ -10,19 +15,11 @@ import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
-
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Lists;
-
-import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.utils.AlgoPlanningUtils;
+import java.io.File;
+import java.util.Collection;
 
 public class PlanningExcelExport implements PlanningExport {
 

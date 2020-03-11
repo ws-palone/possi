@@ -1,8 +1,8 @@
 package fr.istic.iodeman.model;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 
 @Entity

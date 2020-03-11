@@ -1,19 +1,16 @@
 package fr.istic.iodeman.strategy;
 
-import java.util.Collection;
-
-import org.apache.commons.lang.Validate;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-
 import fr.istic.iodeman.model.OralDefense;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Priority;
-import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.model.Unavailability;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
+import org.apache.commons.lang.Validate;
+
+import java.util.Collection;
 
 public class UnavailabilityCostValidatorImpl implements UnavailabilityCostValidator {
 	

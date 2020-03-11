@@ -1,10 +1,10 @@
 package fr.istic.iodeman.strategy;
 
-import java.io.File;
-import java.util.Collection;
-
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.resolver.PersonResolver;
+
+import java.io.File;
+import java.util.Collection;
 
 
 public interface ParticipantsImport {

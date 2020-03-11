@@ -1,7 +1,8 @@
 package fr.istic.iodeman;
 
-import javax.servlet.http.HttpSession;
-
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.model.Role;
+import fr.istic.iodeman.resolver.PersonUidResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Role;
-import fr.istic.iodeman.resolver.PersonUidResolver;
+import javax.servlet.http.HttpSession;
 
 @Component
 public class SessionComponent {

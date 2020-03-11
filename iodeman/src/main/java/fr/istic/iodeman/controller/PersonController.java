@@ -1,17 +1,16 @@
 package fr.istic.iodeman.controller;
 
+import fr.istic.iodeman.SessionComponent;
 import fr.istic.iodeman.dao.PersonDAOImpl;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.resolver.PersonMailResolver;
+import fr.istic.iodeman.resolver.PersonUidResolver;
+import fr.istic.iodeman.service.LdapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import fr.istic.iodeman.SessionComponent;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.resolver.PersonMailResolver;
-import fr.istic.iodeman.resolver.PersonUidResolver;
-import fr.istic.iodeman.service.LdapRepository;
 
 import java.util.Collection;
 

@@ -1,15 +1,14 @@
 package fr.istic.iodeman.dao;
 
 
-import java.util.List;
-
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.utils.HibernateUtil;
+import java.util.List;
 
 @Repository
 public class PersonDAOImpl extends AbstractHibernateDAO implements PersonDAO {

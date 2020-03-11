@@ -1,18 +1,14 @@
 package fr.istic.iodeman.strategy;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Role;
 import fr.istic.iodeman.resolver.PersonResolver;
+
+import java.io.*;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class ParticipantsCSVImport implements ParticipantsImport {
 
