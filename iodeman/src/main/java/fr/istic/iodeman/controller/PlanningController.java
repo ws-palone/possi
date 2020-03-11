@@ -51,10 +51,11 @@ public class PlanningController {
 	@Autowired
 	private SessionComponent session;
 	
-	@RequestMapping("/list")
-	public List<Planning> listAll(){
-
-		return planningService.findAllByUid(session.getUserUID());
+	@RequestMapping("/list/{uid}")
+	public List<Planning> listAll(@PathVariable("uid") String uid){
+//		Fixme: A revoir
+//		return planningService.findAllByUid(session.getUserUID());
+		return planningService.findAllByUid(uid);
 	}
 
 	@RequestMapping("/list/public")
