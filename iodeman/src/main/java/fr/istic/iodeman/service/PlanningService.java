@@ -30,8 +30,8 @@ public interface PlanningService {
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
 			Collection<Room> rooms, Integer etat);
-	
-	public Planning importPartcipants(Planning planning, File file) throws Exception;
+
+	public Planning addParticipants(Planning planning, Collection<Participant> participants) throws Exception;
 	
 	public Collection<Participant> findParticipants(Planning planning);
 	

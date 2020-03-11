@@ -1,16 +1,17 @@
 package fr.istic.iodeman.strategy;
 
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.resolver.PersonResolver;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-
 import java.io.File;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import fr.istic.iodeman.error.ErrorImport;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.resolver.PersonResolver;
 
 public class ParticipantsExcelImport implements ParticipantsImport {
 
@@ -78,7 +79,12 @@ public class ParticipantsExcelImport implements ParticipantsImport {
 		
 		return participants;
 	}
-	
+
+	@Override
+	public Collection<ErrorImport> getErrorsImport() {
+		return null;
+	}
+
 	private String normalize(String input){
 		return Normalizer.normalize(input, Normalizer.Form.NFC).replaceAll("[^\\p{ASCII}]", "");
 	}
