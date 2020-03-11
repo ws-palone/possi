@@ -17,6 +17,7 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 
+//	Todo à supprimer
 	//@Autowired
 	//private SessionComponent session;
 
@@ -26,12 +27,11 @@ public class RoomController {
 		return roomService.findAll();
 	}
 
-	@RequestMapping("/create")
-	public Room create(@RequestParam("name") String name) {
-		// FIXME: 16/02/2020 a decomenter
-		//session.teacherOnly();
-		return roomService.findOrCreate(name);
-	}
+//	Todo à supprimer
+//	@RequestMapping("/create")
+//	public Room create(@RequestParam("name") String name) {
+//		return roomService.findOrCreate(name);
+//	}
 
 	@RequestMapping("/delete")
 	public Room create(@RequestParam("id") int id) {
@@ -41,7 +41,7 @@ public class RoomController {
 	}
 
 	// FIXME: 16/02/2020 créer des rooms en partant d'une liste
-	@RequestMapping(value = "/createMany", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public  List<Room> create(@RequestBody List<String> names){
 		return roomService.findOrCreateManyRooms(names);
 	}

@@ -16,16 +16,8 @@ public interface PlanningService {
 	
 	public Planning findById(Integer id);
 	
-	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration, 
-			Integer oralDefenseInterlude, TimeBox lunchBreak,
-			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-			Collection<Room> rooms, Integer etat);
+	public Planning save(Planning planning);
 
-	public Planning create(Person admin, String name, TimeBox period, Integer oralDefenseDuration,
-						   Integer oralDefenseInterlude, TimeBox lunchBreak,
-						   TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-						   Collection<Room> rooms,Integer etat, String csvFile);
-	
 	public void update(Planning planning, String name,String csvFile, TimeBox period, Integer oralDefenseDuration,
 			Integer oralDefenseInterlude, TimeBox lunchBreak,
 			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,

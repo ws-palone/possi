@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -67,64 +68,23 @@ public class PlanningController {
 		return planningService.findById(id);
 	}
 	
-	@RequestMapping("/create")
-	public Planning createPlanning(
-			@RequestParam("name") String name,
-			@RequestParam("periodStart") @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
-			@RequestParam("periodEnd") @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd,
-			@RequestParam("oralDefenseDuration") Integer oralDefenseDuration,
-			@RequestParam("oralDefenseInterlude") Integer oralDefenseInterlude, 
-			@RequestParam("lunchBreakStart") @DateTimeFormat(pattern="HH:mm") Date lunchBreakStart,
-			@RequestParam("lunchBreakEnd") @DateTimeFormat(pattern="HH:mm") Date lunchBreakEnd, 
-			@RequestParam("dayPeriodStart") @DateTimeFormat(pattern="HH:mm") Date dayPeriodStart,
-			@RequestParam("dayPeriodEnd") @DateTimeFormat(pattern="HH:mm") Date dayPeriodEnd,
-			@RequestParam("nbMaxOralDefensePerDay") Integer nbMaxOralDefensePerDay,
-			@RequestParam("rooms") List<String> rooms,
-			@RequestParam("etat") Integer etat
-			) {
+	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Planning createPlanning(@RequestBody Planning planning) {
 		// fixme à decommenter
 		//session.teacherOnly();
-		
+
 		//URL_TEST : http://iode-man-debian.istic.univ-rennes1.fr:8080/iodeman/planning/create?name=toto&periodStart=2015-01-01&periodEnd=2015-01-07&oralDefenseDuration=60&oralDefenseInterlude=15&lunchBreakStart=12:15&lunchBreakEnd=14:00&dayPeriodStart=08:00&dayPeriodEnd=18:15&nbMaxOralDefensePerDay=6&rooms=i51
-		
+
+		// fixme à decommenter
 		// check if the current user is a teacher
-		Person user = session.getUser();
+//		Person user = session.getUser();
 		//Validate.notNull(user);
 		//Validate.isTrue(user.getRole() == Role.PROF);
-		
-		Collection<Room> roomsCollection = Collections2.transform(rooms, new Function<String, Room>() {
-			@Override
-			public Room apply(String roomName) {
-				return roomService.findOrCreate(roomName);
-			}
-		});
-		
-		TimeBox period = new TimeBox(periodStart, periodEnd);
-		
-		TimeBox dayPeriod = new TimeBox(
-				new DateTime(periodStart)
-					.withHourOfDay(new DateTime(dayPeriodStart).getHourOfDay())
-					.withMinuteOfHour(new DateTime(dayPeriodStart).getMinuteOfHour())
-					.toDate(),
-				new DateTime(periodStart)
-					.withHourOfDay(new DateTime(dayPeriodEnd).getHourOfDay())
-					.withMinuteOfHour(new DateTime(dayPeriodEnd).getMinuteOfHour())
-					.toDate()
-		);
-		
-		TimeBox lunch = new TimeBox(
-				new DateTime(periodStart)
-					.withHourOfDay(new DateTime(lunchBreakStart).getHourOfDay())
-					.withMinuteOfHour(new DateTime(lunchBreakStart).getMinuteOfHour())
-					.toDate(),
-				new DateTime(periodStart)
-					.withHourOfDay(new DateTime(lunchBreakEnd).getHourOfDay())
-					.withMinuteOfHour(new DateTime(lunchBreakEnd).getMinuteOfHour())
-					.toDate()
-		);
-		
-		return planningService.create(user, name, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection, etat);
+
+		return planningService.save(planning);
 	}
+
+
 	
 	@RequestMapping("/update")
 	public Planning updatePlanning(

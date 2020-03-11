@@ -103,16 +103,4 @@ public class FileUploadController {
 		return importResponse;
 	}
 
-	@RequestMapping(value="/save/CSV", method=RequestMethod.POST)
-	public void saveParticipants (@RequestParam("planningId") int planningId, @RequestParam("file") MultipartFile inputFile) throws Exception {
-		String name = "/tmp/"+new DateTime();
-		String nameCsv = "";
-		File outputFile = new File(name);
-		Planning planning = planningService.findById(new Integer(planningId));
-		Collection<Participant> participants = participantService.importPartcipants(outputFile);
-		planning.setParticipants(participants);
-		participantService.saveParticipants(participants);
-		planningService.update(planning, planning.getName(), nameCsv, planning.getPeriod(), planning.getOralDefenseDuration(), planning.getOralDefenseInterlude(), planning.getLunchBreak(), planning.getDayPeriod(), planning.getNbMaxOralDefensePerDay(),planning.getRooms(), null);
-	}
-
 }
