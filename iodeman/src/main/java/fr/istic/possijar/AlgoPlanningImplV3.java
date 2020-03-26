@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.istic.possijar;
 
@@ -58,21 +58,21 @@ public class AlgoPlanningImplV3 {
 
 
 	public void configure(Planning planning_infos,
-			Collection<Participant> participants,
-			Collection<TimeBox> timeboxes,
-			Collection<Unavailability> unavailabilities) {
-		
+						  Collection<Participant> participants,
+						  Collection<TimeBox> timeboxes,
+						  Collection<Unavailability> unavailabilities) {
+
 		resolveTimeBox = new HashMap<String, Integer>();
 		int idTimeBox = 0;
 		for(TimeBox t : timeboxes) {
 			resolveTimeBox.put(t.getFrom().getDate() + " " + t.getFrom().getHours() + " " + t.getFrom().getMinutes(), idTimeBox++);
 		}
-		
+
 		priorites = planning_infos.getPriorities();
 
 		nbPeriodesEnTout = timeboxes.size();
 		getNbDePeriodesParJour(timeboxes);
-		
+
 		if(isSerial) {
 			indisponibilites = new HashMap<String, List<Integer>>();
 			configureParticipants(participants);
@@ -91,17 +91,17 @@ public class AlgoPlanningImplV3 {
 	}
 
 	Map<String, Integer> resolveTimeBox;
-	
+
 	private void detectViolation(Collection<TimeBox> timeboxes, Collection<Unavailability> unavailabilities) {
 
 		for(Unavailability u : unavailabilities) {
 			String email = u.getPerson().getEmail();
-			
-			
+
+
 			//System.err.println();
 			int periode = resolveTimeBox.get(u.getPeriod().getFrom().getDate() + " " + u.getPeriod().getFrom().getHours() + " " + u.getPeriod().getFrom().getMinutes());
 			List<Creneau> creneaux = planning.get(periode);
-			
+
 			if(enseignants.get(email)==null) {
 				//System.err.println(etudiants);
 				for(Student s : etudiants) {
@@ -112,10 +112,10 @@ public class AlgoPlanningImplV3 {
 					}
 				}
 			}
-			
+
 			//System.err.println("A la période " + periode);
 			//System.err.println("Nous avons " + email + " indispo");
-			
+
 			Iterator<Creneau> it = creneaux.iterator();
 			while(it.hasNext()) {
 				Creneau c = it.next();
@@ -162,7 +162,7 @@ public class AlgoPlanningImplV3 {
 
 
 	private void configureUnavailabilities(Collection<TimeBox> timeboxes,
-			Collection<Unavailability> unavailabilities) {
+										   Collection<Unavailability> unavailabilities) {
 		getNbDePeriodesParJour(timeboxes);
 		Map<String, Integer> resolveTimeBox = TimeBoxHelper.parseTimebox(timeboxes);
 		for(Unavailability u : unavailabilities) {
@@ -182,13 +182,13 @@ public class AlgoPlanningImplV3 {
 			} else {
 				Iterator<Student> it = etudiants.iterator();
 				loop:
-					while(it.hasNext()) {
-						Student s = it.next();
-						if(s.getName().equals(email)) {
-							s.getTuteur().addIndisponibilite(TimeBoxHelper.find(resolveTimeBox, u.getPeriod()));
-							break loop;
-						}
+				while(it.hasNext()) {
+					Student s = it.next();
+					if(s.getName().equals(email)) {
+						s.getTuteur().addIndisponibilite(TimeBoxHelper.find(resolveTimeBox, u.getPeriod()));
+						break loop;
 					}
+				}
 			}
 		}
 	}
@@ -227,7 +227,7 @@ public class AlgoPlanningImplV3 {
 			Enseignant e = (Enseignant) enseignants.get(teacher);
 			if(e==null) {
 				e = new Enseignant(teacher);
-				e.setDefaultDisponibilites(nbPeriodesEnTout); 
+				e.setDefaultDisponibilites(nbPeriodesEnTout);
 				enseignants.list.add(e);
 			}
 
@@ -245,9 +245,9 @@ public class AlgoPlanningImplV3 {
 	}
 
 	public void configure(ObservableList<String> sallesSelectionnees,
-			Calendar c, int nbPeriodesEnTout, int nbPeriodesParJour, String pathContraintesEns,
-			String pathContraintesTut, String pathDonnees,
-			String contrainteForte) {
+						  Calendar c, int nbPeriodesEnTout, int nbPeriodesParJour, String pathContraintesEns,
+						  String pathContraintesTut, String pathDonnees,
+						  String contrainteForte) {
 		configureSalles(sallesSelectionnees);
 		this.nbPeriodesEnTout = nbPeriodesEnTout;
 		this.nbPeriodesParJour = nbPeriodesParJour;
@@ -280,7 +280,7 @@ public class AlgoPlanningImplV3 {
 	}
 
 	private void addRelationBetweenTeacherAndTutor(String teacher,
-			String tutor, Enseignant e, Tuteur t) {
+												   String tutor, Enseignant e, Tuteur t) {
 		e.incNbSoutenances();
 		e.incNbSoutenancesCandide();
 		e.addRelation(tuteurs.get(tutor));
@@ -303,7 +303,7 @@ public class AlgoPlanningImplV3 {
 			}
 		}
 	}
-	
+
 	public boolean insertImpossible(Creneau c) {
 		for(int periode = 0; periode < nbPeriodesEnTout; periode++) {
 			List<Creneau> creneaux = planning.get(periode);
@@ -320,7 +320,7 @@ public class AlgoPlanningImplV3 {
 							if(size<sallesSelectionnees.size()) {
 								c.setPeriode(periode);
 								c.setSalle(size+1);
-								
+
 								Set<String> keys = resolveTimeBox.keySet();
 								for(String k : keys) {
 									//System.err.println("compare " + resolveTimeBox.get(k) + " avec " + c.getPeriode());
@@ -329,7 +329,7 @@ public class AlgoPlanningImplV3 {
 										c.setHoraire(k);
 									}
 								}
-								
+
 								salles.add(c);
 								return true;
 							}
@@ -367,37 +367,37 @@ public class AlgoPlanningImplV3 {
 		}
 
 		insertion:
-			while(!inserted) {
-				if(log==0) {
-					System.err.println(l.list);
-				}
-				if(l.list.isEmpty()) {
-					insertInComplementaryList(act, tmp, e, t, l);
-					inserted = true;
-					break insertion;
-				}
-				if(log==0) {
-					System.err.println("Acteur - dispo " + l.list);
-				}
-				act = l.getActeurLeMoinsDisponible();
-				Creneau c = getCreneauBetweenTeacherAndTutor(act, l, e, t);
-				if(log==0) {
-					System.err.println(c);
-				}
-				if(c==null) {
-					if(log==0) {
-						System.err.println("On remove " + act);
-					}
-					l.list.remove(act);
-				} else {
-					if(log==0) {
-						System.err.println("On insère dans la liste");
-					}
-					inserted = true;
-					insertInRealList(c);
-					nbInserted++;
-				}
+		while(!inserted) {
+			if(log==0) {
+				System.err.println(l.list);
 			}
+			if(l.list.isEmpty()) {
+				insertInComplementaryList(act, tmp, e, t, l);
+				inserted = true;
+				break insertion;
+			}
+			if(log==0) {
+				System.err.println("Acteur - dispo " + l.list);
+			}
+			act = l.getActeurLeMoinsDisponible();
+			Creneau c = getCreneauBetweenTeacherAndTutor(act, l, e, t);
+			if(log==0) {
+				System.err.println(c);
+			}
+			if(c==null) {
+				if(log==0) {
+					System.err.println("On remove " + act);
+				}
+				l.list.remove(act);
+			} else {
+				if(log==0) {
+					System.err.println("On insère dans la liste");
+				}
+				inserted = true;
+				insertInRealList(c);
+				nbInserted++;
+			}
+		}
 	}
 
 	private Creneau getCreneauBetweenTeacherAndTutor(Acteur act, ListActeur l, Enseignant e, Tuteur t) {
@@ -434,7 +434,7 @@ public class AlgoPlanningImplV3 {
 		e.addDisponibilite(c.getPeriode());
 		t.addDisponibilite(c.getPeriode());
 		c.getCandide().addDisponibiliteCandide(c.getPeriode());
-		
+
 		Set<String> keys = resolveTimeBox.keySet();
 		for(String k : keys) {
 			//System.err.println("compare " + resolveTimeBox.get(k) + " avec " + c.getPeriode());
@@ -449,7 +449,7 @@ public class AlgoPlanningImplV3 {
 		if(c.getCandide().aFaitToutesLesSoutenances()) {
 			enseignants.list.remove(c.getCandide());
 		}
-		
+
 
 		insertCreneauInPlanning(c);
 	}
@@ -492,7 +492,7 @@ public class AlgoPlanningImplV3 {
 	}
 
 	private void testerSiActeurARealiserToutesSesSoutenances(Enseignant e,
-			Tuteur t) {
+															 Tuteur t) {
 		if(e.aFaitToutesLesSoutenances()) {
 			enseignants.list.remove(e);
 		}
@@ -601,27 +601,27 @@ public class AlgoPlanningImplV3 {
 	}
 
 	private void pondereSelonPriorites(Tuteur t,
-			Map<Integer, Integer> creneauxPonderations, Set<Integer> periodes) {
+									   Map<Integer, Integer> creneauxPonderations, Set<Integer> periodes) {
 		for(int periode : periodes) {
 			int value = creneauxPonderations.get(periode);
 
 			int ENTREPRISE = 0;
 			int ENSEIGNANT = 0;
 			int HORAIRES = 0;
-			
-			
-			
+
+
+
 			for(Priority p : priorites) {
 				switch(p.getRole()) {
-				case "ENTREPRISE": 
-					ENTREPRISE = p.getWeight()*-3;
-					break;
-				case "ENSEIGNANT": 
-					ENSEIGNANT = p.getWeight()*-2;
-					break;
-				case "HORAIRES": 
-					HORAIRES = p.getWeight()*-3;
-					break;
+					case "ENTREPRISE":
+						ENTREPRISE = p.getWeight()*-3;
+						break;
+					case "ENSEIGNANT":
+						ENSEIGNANT = p.getWeight()*-2;
+						break;
+					case "HORAIRES":
+						HORAIRES = p.getWeight()*-3;
+						break;
 				}
 			}
 
@@ -632,7 +632,7 @@ public class AlgoPlanningImplV3 {
 			while (periodeMiddle1 >= 0 || periodeMiddle2 <= nbPeriodesParJour) {
 				if(res==periodeMiddle1 || res==periodeMiddle2) {
 					creneauxPonderations.put(periode, value+HORAIRES);
-				} 
+				}
 				HORAIRES+=3;
 				periodeMiddle1--;
 				periodeMiddle2++;
@@ -656,7 +656,7 @@ public class AlgoPlanningImplV3 {
 					}
 				}
 			}
-			
+
 			value = creneauxPonderations.get(periode);
 
 			if((periode%8)!=0) {
@@ -691,7 +691,7 @@ public class AlgoPlanningImplV3 {
 	}
 
 	private void getDispoCandide(List<Acteur> listeCandide,
-			Map<Acteur, Integer> dispoCandide) {
+								 Map<Acteur, Integer> dispoCandide) {
 		for(Acteur candide : listeCandide) {
 			Enseignant ens = (Enseignant)candide;
 			//System.err.println(ens);
@@ -704,12 +704,12 @@ public class AlgoPlanningImplV3 {
 		}
 	}
 
-	public <K, V extends Comparable<? super V>> Map<K, V> 
+	public <K, V extends Comparable<? super V>> Map<K, V>
 	sortByValue( Map<K, V> map ) {
 		List<Map.Entry<K, V>> list =
 				new LinkedList<>( map.entrySet() );
 		Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-				{
+		{
 			@Override
 			public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
 			{
@@ -720,7 +720,7 @@ public class AlgoPlanningImplV3 {
 				}
 				return res;
 			}
-				} );
+		} );
 
 		Map<K, V> result = new LinkedHashMap<>();
 		for (Map.Entry<K, V> entry : list)
@@ -734,12 +734,12 @@ public class AlgoPlanningImplV3 {
 		return result;
 	}
 
-	public <K, V extends Comparable<? super V>> Map<K, V> 
+	public <K, V extends Comparable<? super V>> Map<K, V>
 	sortInvertedByValue( Map<K, V> map ) {
 		List<Map.Entry<K, V>> list =
 				new LinkedList<>( map.entrySet() );
 		Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-				{
+		{
 			@Override
 			public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
 			{
@@ -753,7 +753,7 @@ public class AlgoPlanningImplV3 {
 					return 1;
 				}
 			}
-				} );
+		} );
 
 		Map<K, V> result = new LinkedHashMap<>();
 		for (Map.Entry<K, V> entry : list)
@@ -784,7 +784,7 @@ public class AlgoPlanningImplV3 {
 			List<Creneau> creneaux = planning.get(periode);
 			if(creneaux.size()>0) {
 				sb.append(creneaux.get(0).getHoraire() + ",");
-			} 
+			}
 			for(Creneau c : creneaux) {
 				sb.append(c.getStudent() + ","
 						+ c.getTuteur() + ","
@@ -832,11 +832,11 @@ public class AlgoPlanningImplV3 {
 				ObjectOutput o1 = new ObjectOutputStream(b1);
 				ObjectOutput o2 = new ObjectOutputStream(b2);
 				ObjectOutput o3 = new ObjectOutputStream(b3);
-				){
+		){
 			o1.writeObject(planning);
 			o1.writeObject(impossibleAInserer);
 			o1.writeObject(sallesSelectionnees);
-		}  
+		}
 		catch(IOException ex){
 			System.err.println(ex);
 		}
@@ -844,9 +844,9 @@ public class AlgoPlanningImplV3 {
 
 	public void deserialize(int idPlanning) {
 		File f = new File(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
-        System.out.println(PERSIST_PATH);
-        System.out.println(f.getAbsolutePath());
-        if(f.exists()) {
+		System.out.println(PERSIST_PATH);
+		System.out.println(f.getAbsolutePath());
+		if(f.exists()) {
 			isSerial = true;
 			try(
 					InputStream f1 = new FileInputStream(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
@@ -874,31 +874,29 @@ public class AlgoPlanningImplV3 {
 	}
 
 
-	public void updateCrenaux(List<Unavailability> unavailabilities, Map<String, Integer> timeBoxResolved, int idPlanning) {
+	public Map<Integer, Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, int idPlanning) {
 		deserialize(idPlanning);
 
 		Map<Integer, List<Creneau>> creneauxAux = new HashMap<>(planning);
 		Map<Integer, Creneau> creneauxToUpdate = new HashMap<>();
-
-//		List<Unavailability> unavailabilities = unavailabilityService.findById(planning.getId(), "koikoffi");
-
-//		Map<String, Integer> timeBoxResolved = TimeBoxHelper.getTimeBoxResolved(planning);
-		Set<Integer> unavailabilitySet = new HashSet<>();
+		Map<Creneau, Set<Integer>> unavailabilitiesByCreneau = new HashMap<>();
+		Map<String, Integer> timeBoxResolved = TimeBoxHelper.parseTimebox(timeBoxes);
 
 		for (Unavailability u : unavailabilities) {
 			Integer k = TimeBoxHelper.find(timeBoxResolved, u.getPeriod());
 			if (k != null) {
-				unavailabilitySet.add(k);
 				List<Creneau> creneauList = planning.get(k);
 				for(Creneau creneau : creneauList) {
 					if (creneau.getEnseignant().getName().equals("koitrin.koffi@etudiant.univ-rennes1.fr") || creneau.getCandide().getName().equals("koitrin.koffi@etudiant.univ-rennes1.fr")) {
 						creneauxToUpdate.put(k, creneau);
+						unavailabilitiesByCreneau.put(creneau, new HashSet<>());
+						unavailabilitiesByCreneau.get(creneau).add(k);
 
 						Enseignant secondActor = creneau.getEnseignant().getName().equals("koitrin.koffi@etudiant.univ-rennes1.fr") ? creneau.getCandide() : creneau.getEnseignant();
 
 						secondActor.getDisponibilites().put(k, true);
 
-						unavailabilitySet.addAll(
+						unavailabilitiesByCreneau.get(creneau).addAll(
 								secondActor.getDisponibilites()
 										.entrySet()
 										.stream()
@@ -911,24 +909,25 @@ public class AlgoPlanningImplV3 {
 			}
 		}
 
-		Set<Integer> keySet = creneauxAux.keySet();
-
-		keySet.removeAll(unavailabilitySet);
-		List<Integer> list = Collections.list(Collections.enumeration(keySet));
-
-		Collections.shuffle(list);
-//		Todo suivre le cas pour la modification d'indisponibilité d'un enseignant
-
-		Iterator<Integer> iterator = list.iterator();
-		boolean found = false;
-
 		for (Map.Entry<Integer, Creneau> c : creneauxToUpdate.entrySet()) {
+
+			Set<Integer> keySet = creneauxAux.keySet();
+
+			keySet.removeAll(unavailabilitiesByCreneau.get(c));
+			List<Integer> list = Collections.list(Collections.enumeration(keySet));
+
+			Collections.shuffle(list);
+
+			Iterator<Integer> iterator = list.iterator();
+			boolean found = false;
+
 			while (iterator.hasNext() && !found) {
 				Integer k = iterator.next();
 				List<Creneau> creneauList = planning.get(k);
 				if (creneauList.size() < 3) {
 					c.getValue().getCandide().getDisponibilites().put(k, false);
 					c.getValue().getEnseignant().getDisponibilites().put(k, false);
+					c.getValue().setPeriode(k);
 
 					planning.get(c.getKey()).remove(c.getValue());
 					c.getValue().setSalle(creneauList.size()+1);
@@ -939,6 +938,8 @@ public class AlgoPlanningImplV3 {
 		}
 
 		serialize(idPlanning);
+
+		return creneauxToUpdate;
 	}
 
 	public int getNbPeriodesParJour() {

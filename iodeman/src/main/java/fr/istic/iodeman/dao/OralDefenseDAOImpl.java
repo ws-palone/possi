@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -60,6 +61,22 @@ public class OralDefenseDAOImpl extends AbstractHibernateDAO implements OralDefe
 		OralDefense oralDefense = (OralDefense)session.get(OralDefense.class, id);
 		session.close();
 		return oralDefense;
+	}
+
+	@Override
+	public void update(OralDefense oralDefense) {
+		Session session = getNewSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.update(oralDefense);
+			session.getTransaction().commit();
+		} catch (Exception e){
+			if (transaction!=null) transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 
 }

@@ -25,8 +25,11 @@ public class OralDefense {
 	})
 	private TimeBox timebox;
 
-	@OneToMany
-	private Collection<Person> jury;
+	@OneToOne
+	private Person secondTeacher;
+
+	@ManyToOne
+	private Planning planning;
 	
 	public Integer getId() {
 		return id;
@@ -53,11 +56,18 @@ public class OralDefense {
 	public void setTimebox(TimeBox timebox) {
 		this.timebox = timebox;
 	}
-	public Collection<Person> getJury() {
-		return jury;
+	public Person getSecondTeacher() {
+		return secondTeacher;
 	}
-	public void setJury(Collection<Person> jury) {
-		this.jury = jury;
+	public void setSecondTeacher(Person secondTeacher) {
+		this.secondTeacher = secondTeacher;
 	}
-	
+
+	public Planning getPlanning() {
+		return planning;
+	}
+
+	public void setPlanning(Planning planning) {
+		this.planning = planning;
+	}
 }

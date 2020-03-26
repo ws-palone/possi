@@ -63,8 +63,8 @@ public class Planning{
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Priority> priorities;
 
-	@JsonIgnore
-	@OneToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
 	private Collection<OralDefense> oralDefenses;
 
 	@ManyToOne
