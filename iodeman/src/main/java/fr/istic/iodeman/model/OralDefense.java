@@ -1,5 +1,7 @@
 package fr.istic.iodeman.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -29,6 +31,7 @@ public class OralDefense {
 	private Person secondTeacher;
 
 	@ManyToOne
+	@JsonIgnore
 	private Planning planning;
 	
 	public Integer getId() {

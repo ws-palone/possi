@@ -475,6 +475,7 @@ public class PlanningExportBuilder {
 		Collection<List<Creneau>> creneaux = this.algoPlanning_new.getPlanning().values().stream().filter(c -> c.size() > 0).collect(Collectors.toList());
 		Collection<OralDefense> oralDefenses = new ArrayList<>();
 		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
+		roomsSelected.sort(Comparator.comparing(Room::getId));
 		for (List<Creneau> creneauList : creneaux) {
 			for (Creneau creneau : creneauList) {
 				OralDefense oralDefense = new OralDefense();
@@ -516,6 +517,7 @@ public class PlanningExportBuilder {
 	public Collection<OralDefense> updatePlanning(List<Unavailability> unavailabilities) {
 		Map<Integer, Creneau> creneauUpdated = algoPlanning_new.updateCrenaux(unavailabilities, this.timeboxes, this.planning.getId());
 		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
+		roomsSelected.sort(Comparator.comparing(Room::getId));
 		List<OralDefense> newOralDefenses = new ArrayList<>();
 		for (Map.Entry<Integer, Creneau> entry : creneauUpdated.entrySet()) {
 			boolean found = false;
