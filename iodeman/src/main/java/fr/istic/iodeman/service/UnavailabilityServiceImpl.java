@@ -30,13 +30,13 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 
 	@Autowired
 	private UnavailabilityDAO unavailabilityDAO;
-	
+
 	@Autowired
 	private PlanningDAO planningDAO;
-	
+
 	@Autowired
 	private PersonUidResolver personUidResolver;
-	
+
 	@Autowired
 	private MailService mailService;
 
@@ -51,46 +51,36 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		return unavailabilityDAO.findById(idPlanning, uid);
 	}
 
-	public Unavailability create(Integer idPlanning, String uid, TimeBox period) {
+	public Collection<Unavailability> save(Integer idPlanning, Collection<Unavailability> unavailabilities) {
 		//Validation
 		Validate.notNull(idPlanning);
-		Validate.notEmpty(uid);
-		Validate.notNull(period);
-				period.validate();
+		if (!unavailabilities.isEmpty()) {
+			Planning planning = planningDAO.findById(idPlanning);
+			Validate.notNull(planning);
 
-		System.out.println(uid);
-		Person person = personUidResolver.resolve(uid);
-		Validate.notNull(person);
+			if (planning.getIs_ref() == 0){
+				Integer refId = planning.getRef_id();
+				planning = planningDAO.findById(refId);
+			}
 
-		Planning planning = planningDAO.findById(idPlanning);
-		Validate.notNull(planning);
+			for (Unavailability unavailability : unavailabilities) {
+				unavailability.setPlanning(planning);
+				unavailabilityDAO.persist(unavailability);
+			}
 
-		if (planning.getIs_ref() == 0){
-			Integer refId = planning.getRef_id();
-			planning = planningDAO.findById(refId);
 		}
-
-		Unavailability unavailability = new Unavailability();
-		unavailability.setPeriod(period);
-		unavailability.setPerson(person);
-		unavailability.setPlanning(planning);
-
-		unavailabilityDAO.persist(unavailability);
-
-		//mailService.notifyNewUnavailability(unavailability);
-		
-		return unavailability;
+		return unavailabilities;
 	}
 
 	@Override
 	public Unavailability delete(Integer id) {
 		Validate.notNull(id);
-		
+
 		Unavailability unavailability = unavailabilityDAO.findById(id);
 		Validate.notNull(unavailability);
-		
+
 		unavailabilityDAO.delete(unavailability);
-		
+
 		return unavailability;
 	}
 
@@ -98,47 +88,41 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	public Collection<AgendaDTO> exportAgenda(Integer planningId, String personId) {
 		// retrieving of all unavailabilities of the given person for the given planning
 		List<Unavailability> unavailabilities = this.findById(planningId, personId);
-		
+
 		// retrieving of the planning 
 		Planning planning = planningDAO.findById(planningId);
-		
+
 		// generation of all timeboxes for the given planning
 		PlanningSplitter planningSplitter = new PlanningSplitterImpl();
 		Collection<TimeBox> timeboxes = planningSplitter.execute(planning);
-		
+
 		// 
 		ExportAgenda exportAgenda = new ExportJsonAgenda();
 		Collection<AgendaDTO> agendaDtos = exportAgenda.execute(timeboxes, unavailabilities);
-		
+
 		return agendaDtos;
 	}
 
 	@Override
-	public Collection<Unavailability> delete(Integer planningId, String uid, TimeBox period) {
-		
-		// retrieving of the planning 
-		Planning planning = planningDAO.findById(planningId);
-		Validate.notNull(planning);
-		
-		// retrieving of all unavailabilities of the given person for the given planning
-		List<Unavailability> unavailabilities = this.findById(planningId, uid);
-		
+	public Collection<Unavailability> delete(Integer idPlanning, Collection<Unavailability> unavailabilities) {
 		Collection<Unavailability> deleted = Lists.newArrayList();
-		
-		// delete all the unavailabilities that make the period unavailable
-		for(Unavailability ua : unavailabilities) {
-			if (!AlgoPlanningUtils.isAvailable(ua, period)) {
+
+		//Validation
+		Validate.notNull(idPlanning);
+		if (!unavailabilities.isEmpty()) {
+			Planning planning = planningDAO.findById(idPlanning);
+			Validate.notNull(planning);
+
+			// delete all the unavailabilities that make the period unavailable
+			for(Unavailability ua : unavailabilities) {
+				ua.setPlanning(planning);
 				unavailabilityDAO.delete(ua);
 				deleted.add(ua);
 			}
 		}
-		
-		for(Unavailability ua : deleted) {
-			//mailService.notifyUnavailabityRemoved(ua);
-		}
-		
+
 		return deleted;
-		
+
 	}
 
 	@Override

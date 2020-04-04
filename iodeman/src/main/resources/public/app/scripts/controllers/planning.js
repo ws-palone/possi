@@ -30,6 +30,7 @@ angular.module('publicApp')
 			$timeout(verifyAdmin(), 100);
 		});
 		$http.get(backendURL+'planning/'+$scope.id+'/exported').success(function (data) {
+			console.log(data);
 			$scope.isGenerated = data;
 		});
 	});
@@ -61,6 +62,7 @@ angular.module('publicApp')
 		}
 	})
 	.error(function(data) {
+		console.log(data);
 		$scope.noParticipants = true;
 	});
 

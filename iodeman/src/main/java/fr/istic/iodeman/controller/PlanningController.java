@@ -135,7 +135,7 @@ public class PlanningController {
 					.toDate()
 		) : null;
 		
-		planningService.update(planning, name, csvFile, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection, etat);
+//		planningService.update(planning, name, csvFile, period, oralDefenseDuration, oralDefenseInterlude, lunch, dayPeriod, nbMaxOralDefensePerDay, roomsCollection, etat);
 		
 		return planning;
 	}
@@ -208,6 +208,14 @@ public class PlanningController {
 		session.acceptOnly(planning.getAdmin());
 		
 		planningService.validate(planning);
+	}
+
+	@RequestMapping(value = "/{id}/generate")
+	public void generate(@PathVariable("id") Integer id) {
+
+		planningService.generate(id);
+
+//		planningService.updatePlanningOralDefense(unavailabilityService.findById(1, "koikoffi"));
 	}
 
 	@RequestMapping(value = "/{id}/print")

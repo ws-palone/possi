@@ -292,7 +292,7 @@ public class AlgoPlanningImplV3 {
 	public void execute() {
 		if(!isSerial) {
 			for(int i = 0; i < nbSoutenances; i++) {
-				insertCreneau();
+				insertCreneau(i);
 			}
 		} else {
 			for(int i = 0; i < impossibleAInserer.size(); i++) {
@@ -341,7 +341,7 @@ public class AlgoPlanningImplV3 {
 		return false;
 	}
 
-	public void insertCreneau() {
+	public void insertCreneau(int numero) {
 		boolean inserted = false;
 
 		Acteur act = getActeurLeMoinsDisponible();
@@ -394,6 +394,7 @@ public class AlgoPlanningImplV3 {
 					System.err.println("On insère dans la liste");
 				}
 				inserted = true;
+				c.setNumero(numero);
 				insertInRealList(c);
 				nbInserted++;
 			}
@@ -874,46 +875,55 @@ public class AlgoPlanningImplV3 {
 	}
 
 
-	public Map<Integer, Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, int idPlanning) {
+	public List<Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, int idPlanning) {
 		deserialize(idPlanning);
 
-		Map<Integer, List<Creneau>> creneauxAux = new HashMap<>(planning);
-		Map<Integer, Creneau> creneauxToUpdate = new HashMap<>();
-		Map<Creneau, Set<Integer>> unavailabilitiesByCreneau = new HashMap<>();
-		Map<String, Integer> timeBoxResolved = TimeBoxHelper.parseTimebox(timeBoxes);
+		String userEmail = unavailabilities.get(0).getPerson().getEmail();
+		Set<Integer> newUnavailabilities = new HashSet<>();
+		List<Creneau> personCreneaux = configureAvantUpdate(userEmail, unavailabilities, newUnavailabilities, TimeBoxHelper.parseTimebox(timeBoxes));
 
-		for (Unavailability u : unavailabilities) {
-			Integer k = TimeBoxHelper.find(timeBoxResolved, u.getPeriod());
-			if (k != null) {
-				List<Creneau> creneauList = planning.get(k);
-				for(Creneau creneau : creneauList) {
-					if (creneau.getEnseignant().getName().equals("koitrin.koffi@etudiant.univ-rennes1.fr") || creneau.getCandide().getName().equals("koitrin.koffi@etudiant.univ-rennes1.fr")) {
-						creneauxToUpdate.put(k, creneau);
-						unavailabilitiesByCreneau.put(creneau, new HashSet<>());
-						unavailabilitiesByCreneau.get(creneau).add(k);
+		List<Creneau> creneauxToUpdate = new ArrayList<>();
 
-						Enseignant secondActor = creneau.getEnseignant().getName().equals("koitrin.koffi@etudiant.univ-rennes1.fr") ? creneau.getCandide() : creneau.getEnseignant();
+		for(Creneau creneau : personCreneaux) {
+			Enseignant actor = creneau.getEnseignant().getName().equals(userEmail) ? creneau.getEnseignant() : creneau.getCandide();
+			actor.resetDisponibilites(planning.size(), newUnavailabilities);
+			Iterator<Integer> iterator = newUnavailabilities.iterator();
+			boolean found = false;
+			while (iterator.hasNext() && !found) {
+				Integer k = iterator.next();
+				if (creneau.getPeriode() == k) {
+					creneauxToUpdate.add(creneau);
+					found = true;
+//						unavailabilitiesByCreneau.put(creneau, new HashSet<>());
+//						unavailabilitiesByCreneau.get(creneau).add(k);
+//
+//						Enseignant secondActor = creneau.getEnseignant().getName().equals(userEmail) ? creneau.getCandide() : creneau.getEnseignant();
+//
+//						secondActor.getDisponibilites().put(k, true);
 
-						secondActor.getDisponibilites().put(k, true);
+//						unavailabilitiesByCreneau.get(creneau).addAll(
+//								secondActor.getDisponibilites()
+//										.entrySet()
+//										.stream()
+//										.filter(d -> !d.getValue())
+//										.map(Map.Entry::getKey)
+//										.collect(Collectors.toSet()));
 
-						unavailabilitiesByCreneau.get(creneau).addAll(
-								secondActor.getDisponibilites()
-										.entrySet()
-										.stream()
-										.filter(d -> !d.getValue())
-										.map(Map.Entry::getKey)
-										.collect(Collectors.toSet()));
-
-					}
 				}
 			}
 		}
 
-		for (Map.Entry<Integer, Creneau> c : creneauxToUpdate.entrySet()) {
 
-			Set<Integer> keySet = creneauxAux.keySet();
+		for (Creneau c : creneauxToUpdate) {
 
-			keySet.removeAll(unavailabilitiesByCreneau.get(c));
+			Set<Integer> keySet =  (new HashMap<>(planning)).keySet();
+			Enseignant enseignant = c.getEnseignant();
+			Enseignant candidate = c.getCandide();
+
+			Set<Integer> unavailabilitiesByCreneau = new HashSet<>(enseignant.getDisponibilites().entrySet().stream().filter(e -> !e.getValue()).map(Map.Entry::getKey).collect(Collectors.toSet()));
+			unavailabilitiesByCreneau.addAll(candidate.getDisponibilites().entrySet().stream().filter(e -> !e.getValue()).map(Map.Entry::getKey).collect(Collectors.toSet()));
+
+			keySet.removeAll(unavailabilitiesByCreneau);
 			List<Integer> list = Collections.list(Collections.enumeration(keySet));
 
 			Collections.shuffle(list);
@@ -925,13 +935,16 @@ public class AlgoPlanningImplV3 {
 				Integer k = iterator.next();
 				List<Creneau> creneauList = planning.get(k);
 				if (creneauList.size() < 3) {
-					c.getValue().getCandide().getDisponibilites().put(k, false);
-					c.getValue().getEnseignant().getDisponibilites().put(k, false);
-					c.getValue().setPeriode(k);
+					planning.get(c.getPeriode()).remove(c);
 
-					planning.get(c.getKey()).remove(c.getValue());
-					c.getValue().setSalle(creneauList.size()+1);
-					creneauList.add(c.getValue());
+					Enseignant secondActor = enseignant.getName().equals(userEmail) ? candidate : enseignant;
+					secondActor.getDisponibilites().put(c.getPeriode(), true);
+					candidate.getDisponibilites().put(k, false);
+					enseignant.getDisponibilites().put(k, false);
+					c.setPeriode(k);
+
+					c.setSalle(creneauList.size()+1);
+					creneauList.add(c);
 					found = true;
 				}
 			}
@@ -940,6 +953,20 @@ public class AlgoPlanningImplV3 {
 		serialize(idPlanning);
 
 		return creneauxToUpdate;
+	}
+
+	private List<Creneau> configureAvantUpdate(String nom, List<Unavailability> unavailabilities, Set<Integer> unavailabilitiesResolved, Map<String, Integer> timeBoxResolved) {
+		List<Creneau> creneaux = new ArrayList<>();
+		for (List<Creneau> list : planning.values()) {
+			for (Creneau creneau : list) {
+				if (creneau.getCandide().getName().equals(nom) || creneau.getEnseignant().getName().equals(nom)) {
+					creneaux.add(creneau);
+					unavailabilitiesResolved.add(creneau.getPeriode());
+				}
+			}
+		}
+		unavailabilitiesResolved.addAll(unavailabilities.stream().map(u -> TimeBoxHelper.find(timeBoxResolved, u.getPeriod())).collect(Collectors.toSet()));
+		return creneaux;
 	}
 
 	public int getNbPeriodesParJour() {

@@ -84,7 +84,7 @@ public class PlanningExportBuilder {
 		algoPlanning_new.deserialize(planning.getId());
 		algoPlanning_new.configure(planning, participants, timeboxes, unavailabilities);
 		algoPlanning_new.execute();
-//		algoPlanning_new.serialize(planning.getId());
+		algoPlanning_new.serialize(planning.getId());
 		//oralDefenses = algoPlanning.execute();
 		//algoJuryAssignation.configure(oralDefenses, unavailabilities);
 		//oralDefenses = algoJuryAssignation.execute();
@@ -479,7 +479,7 @@ public class PlanningExportBuilder {
 		for (List<Creneau> creneauList : creneaux) {
 			for (Creneau creneau : creneauList) {
 				OralDefense oralDefense = new OralDefense();
-				oralDefense.setTimebox(this.timeboxes.get(creneau.getPeriode()));
+				oralDefense.setTimeBox(this.timeboxes.get(creneau.getPeriode()));
 
 				Iterator<Participant> iterator = this.participants.iterator();
 				boolean found = false;
@@ -493,6 +493,7 @@ public class PlanningExportBuilder {
 				oralDefense.setRoom(roomsSelected.get(creneau.getSalle() - 1));
 				oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
 				oralDefense.setPlanning(this.planning);
+				oralDefense.setNumber(creneau.getNumero());
 				oralDefenses.add(oralDefense);
 			}
 		}
@@ -515,18 +516,18 @@ public class PlanningExportBuilder {
 	}
 
 	public Collection<OralDefense> updatePlanning(List<Unavailability> unavailabilities) {
-		Map<Integer, Creneau> creneauUpdated = algoPlanning_new.updateCrenaux(unavailabilities, this.timeboxes, this.planning.getId());
+		List<Creneau> creneauUpdated = algoPlanning_new.updateCrenaux(unavailabilities, this.timeboxes, this.planning.getId());
 		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
 		roomsSelected.sort(Comparator.comparing(Room::getId));
 		List<OralDefense> newOralDefenses = new ArrayList<>();
-		for (Map.Entry<Integer, Creneau> entry : creneauUpdated.entrySet()) {
+		for (Creneau c : creneauUpdated) {
 			boolean found = false;
 			Iterator<OralDefense> iterator = planning.getOralDefenses().iterator();
 			while(iterator.hasNext() && !found) {
 				OralDefense oralDefense = iterator.next();
-				if (oralDefense.getTimebox().equals(this.timeboxes.get(entry.getKey()))) {
-					oralDefense.setTimebox(this.timeboxes.get(entry.getValue().getPeriode()));
-					oralDefense.setRoom(roomsSelected.get(entry.getValue().getSalle() - 1));
+				if (oralDefense.getNumber() == c.getNumero()) {
+					oralDefense.setTimeBox(this.timeboxes.get(c.getPeriode()));
+					oralDefense.setRoom(roomsSelected.get(c.getSalle() - 1));
 					newOralDefenses.add(oralDefense);
 					found = true;
 				}

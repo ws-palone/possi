@@ -51,7 +51,7 @@ public class UnavailabilityCostValidatorImpl implements UnavailabilityCostValida
 			
 			for (Unavailability ua : uaMatched) {
 				
-				if (!AlgoPlanningUtils.isAvailable(ua, oralDefense.getTimebox())) {
+				if (!AlgoPlanningUtils.isAvailable(ua, oralDefense.getTimeBox())) {
 					
 					// register the UA that has not been respected
 					notRespectedUA.add(ua);

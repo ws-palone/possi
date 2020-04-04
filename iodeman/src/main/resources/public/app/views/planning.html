@@ -7,7 +7,7 @@
 					<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
 				</a>
 				{{ planning.name }}
-					<a ng-hide="noParticipants || isGenerated" ng-click="validate()" class="btn btn-raised btn-sm btn-success">Générer planning</a>
+					<a ng-click="validate()" class="btn btn-raised btn-sm btn-success">Générer planning</a>
 					<!--<a ng-hide="noParticipants" title="Supprimer le dernier planning généré" confirmed-click="reinitialize()"
 							ng-confirm-click="Êtes vous sûr de vouloir supprimer le dernier planning généré ?" class="btn btn-raised btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>-->
 				<div ng-hide="noParticipants" class="csv_file_name">Fichier csv : {{planning.csv_file}}</div>

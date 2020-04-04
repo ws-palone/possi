@@ -20,8 +20,8 @@ public class OralDefenseFactory {
 		OralDefense oralDefense = new OralDefense();
 		oralDefense.setComposition(composition);
 		oralDefense.setRoom(room);
-		oralDefense.setTimebox(timebox);
-		oralDefense.setJury(jury);
+		oralDefense.setTimeBox(timebox);
+//		oralDefense.setSecondTeacher(jury);
 		
 		return oralDefense;
 		

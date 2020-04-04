@@ -28,4 +28,10 @@ public class OralDefenseServiceImpl implements OralDefenseService {
         }
         return oralDefenses;
     }
+
+    @Override
+    public void delete(Collection<OralDefense> oralDefenses) {
+        for (OralDefense oralDefense : oralDefenses)
+            oralDefenseDAO.delete(oralDefense);
+    }
 }

@@ -8,4 +8,6 @@ public interface OralDefenseService {
     Collection<OralDefense> save(Collection<OralDefense> oralDefenses);
 
     Collection<OralDefense> update(Collection<OralDefense> oralDefenses);
+
+   void delete(Collection<OralDefense> oralDefenses);
 }
