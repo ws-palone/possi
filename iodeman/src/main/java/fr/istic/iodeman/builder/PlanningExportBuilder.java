@@ -3,6 +3,7 @@ package fr.istic.iodeman.builder;
 
 import com.google.common.collect.Lists;
 import fr.istic.iodeman.model.*;
+import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.*;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import fr.istic.possijar.AlgoPlanningImplV3;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlanningExportBuilder {
 
@@ -30,9 +32,7 @@ public class PlanningExportBuilder {
 	private Planning planning;
 	private Collection<Unavailability> unavailabilities;
 	private Collection<Participant> participants;
-	
-	private Collection<TimeBox> timeboxes;
-	private Collection<OralDefense> oralDefenses;
+	private List<TimeBox> timeboxes;
 
 	private ArrayList<Short> defcouleur = new ArrayList<Short>()
 	{{
@@ -471,8 +471,33 @@ public class PlanningExportBuilder {
 		return this.timeboxes;
 	}
 	
-	public Collection<OralDefense> getOralDefenses() {
-		return this.oralDefenses;
+	public Collection<OralDefense> getOralDefenses(PersonMailResolver personMailResolver) {
+		Collection<List<Creneau>> creneaux = this.algoPlanning_new.getPlanning().values().stream().filter(c -> c.size() > 0).collect(Collectors.toList());
+		Collection<OralDefense> oralDefenses = new ArrayList<>();
+		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
+		roomsSelected.sort(Comparator.comparing(Room::getId));
+		for (List<Creneau> creneauList : creneaux) {
+			for (Creneau creneau : creneauList) {
+				OralDefense oralDefense = new OralDefense();
+				oralDefense.setTimeBox(this.timeboxes.get(creneau.getPeriode()));
+
+				Iterator<Participant> iterator = this.participants.iterator();
+				boolean found = false;
+				while (iterator.hasNext() && !found) {
+					Participant participant = iterator.next();
+					if (participant.getStudent().getEmail().equals(creneau.getStudent().getName())) {
+						oralDefense.setComposition(participant);
+						found = true;
+					}
+				}
+				oralDefense.setRoom(roomsSelected.get(creneau.getSalle() - 1));
+				oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
+				oralDefense.setPlanning(this.planning);
+				oralDefense.setNumber(creneau.getNumero());
+				oralDefenses.add(oralDefense);
+			}
+		}
+		return oralDefenses;
 	}
 
 	public HSSFCellStyle getColor( HSSFWorkbook workbook, String email){
@@ -488,5 +513,26 @@ public class PlanningExportBuilder {
 			couleurParProf.put(email, style);
 		}
 		return couleurParProf.get(email);
+	}
+
+	public Collection<OralDefense> updatePlanning(List<Unavailability> unavailabilities) {
+		List<Creneau> creneauUpdated = algoPlanning_new.updateCrenaux(unavailabilities, this.timeboxes, this.planning.getId());
+		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
+		roomsSelected.sort(Comparator.comparing(Room::getId));
+		List<OralDefense> newOralDefenses = new ArrayList<>();
+		for (Creneau c : creneauUpdated) {
+			boolean found = false;
+			Iterator<OralDefense> iterator = planning.getOralDefenses().iterator();
+			while(iterator.hasNext() && !found) {
+				OralDefense oralDefense = iterator.next();
+				if (oralDefense.getNumber() == c.getNumero()) {
+					oralDefense.setTimeBox(this.timeboxes.get(c.getPeriode()));
+					oralDefense.setRoom(roomsSelected.get(c.getSalle() - 1));
+					newOralDefenses.add(oralDefense);
+					found = true;
+				}
+			}
+		}
+		return newOralDefenses;
 	}
 }

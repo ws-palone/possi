@@ -15,4 +15,6 @@ public interface OralDefenseDAO {
 	public void delete(OralDefense oral);
 
 	public void deleteAll();
+
+	void update(OralDefense oralDefense);
 }

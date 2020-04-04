@@ -170,7 +170,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 				List<OralDefense> juryFollowings = followings.get(jury);
 				Integer nbFollowings = juryFollowings.size();
 				
-				if (!isFree(candidate.getOralDefense().getTimebox(), jury)) {
+				if (!isFree(candidate.getOralDefense().getTimeBox(), jury)) {
 					System.out.println("remove "+jury.getFirstName());
 					return false;
 				}
@@ -183,7 +183,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 						}
 					});
 
-					if (!AlgoPlanningUtils.isAvailable(uaJury, candidate.getOralDefense().getTimebox())) {
+					if (!AlgoPlanningUtils.isAvailable(uaJury, candidate.getOralDefense().getTimeBox())) {
 						return false;
 					}
 					
@@ -269,14 +269,14 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 			int nbFollowed = followings.get(p).size();
 			if (nbAssignations < nbFollowed 
 					&& !p.equals(followingTeacher)
-					&& isFree(selected.getOralDefense().getTimebox(), p)) {
+					&& isFree(selected.getOralDefense().getTimeBox(), p)) {
 				return p;
 			}
 		}
 		
 		// hack to assign a jury if each jury has reached his maximum number of assignations
 		for(Person p : possibilities) {
-			if (!p.equals(followingTeacher) && isFree(selected.getOralDefense().getTimebox(), p)) {
+			if (!p.equals(followingTeacher) && isFree(selected.getOralDefense().getTimeBox(), p)) {
 				return p;
 			}
 		}
@@ -290,7 +290,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		if (juryAssignations != null) {
 			// check if the jury is not assignated to another oral defense on this timebox
 			for(OralDefense assignated : juryAssignations) {
-				if (timebox.getFrom().equals(assignated.getTimebox().getFrom())) {
+				if (timebox.getFrom().equals(assignated.getTimeBox().getFrom())) {
 					System.out.println("remove "+jury.getFirstName());
 					return false;
 				}
@@ -300,7 +300,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		List<OralDefense> juryFollowings = followings.get(jury);
 		// check if the jury is not present at another oral defense as follower on this timebox
 		for(OralDefense followed : juryFollowings) {
-			if (timebox.getFrom().equals(followed.getTimebox().getFrom())) {
+			if (timebox.getFrom().equals(followed.getTimeBox().getFrom())) {
 				System.out.println("remove "+jury.getFirstName());
 				return false;
 			}
@@ -319,7 +319,7 @@ public class AlgoJuryAssignationImpl implements AlgoJuryAssignation {
 		
 		OralDefense od = candidate.getOralDefense();
 		
-		od.setJury(Lists.newArrayList(jury));
+//		od.setSecondTeacher(Lists.newArrayList(jury));
 		
 		List<OralDefense> juryAssignations = assignations.get(jury);
 		if (juryAssignations == null) {

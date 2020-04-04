@@ -1,6 +1,5 @@
 package fr.istic.iodeman.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -63,8 +62,8 @@ public class Planning{
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Priority> priorities;
 
-	@JsonIgnore
-	@OneToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
 	private Collection<OralDefense> oralDefenses;
 
 	@ManyToOne

@@ -1,7 +1,8 @@
 package fr.istic.iodeman.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.Collection;
 
 
 @Entity
@@ -23,11 +24,25 @@ public class OralDefense {
 		@AttributeOverride(name = "from", column = @Column(name = "period_from")),
 		@AttributeOverride(name = "to", column = @Column(name = "period_to"))
 	})
-	private TimeBox timebox;
+	private TimeBox timeBox;
 
-	@OneToMany
-	private Collection<Person> jury;
-	
+	@OneToOne
+	private Person secondTeacher;
+
+	@ManyToOne
+	@JsonIgnore
+	private Planning planning;
+
+	private Integer number;
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -47,17 +62,24 @@ public class OralDefense {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-	public TimeBox getTimebox() {
-		return timebox;
+	public TimeBox getTimeBox() {
+		return timeBox;
 	}
-	public void setTimebox(TimeBox timebox) {
-		this.timebox = timebox;
+	public void setTimeBox(TimeBox timeBox) {
+		this.timeBox = timeBox;
 	}
-	public Collection<Person> getJury() {
-		return jury;
+	public Person getSecondTeacher() {
+		return secondTeacher;
 	}
-	public void setJury(Collection<Person> jury) {
-		this.jury = jury;
+	public void setSecondTeacher(Person secondTeacher) {
+		this.secondTeacher = secondTeacher;
 	}
-	
+
+	public Planning getPlanning() {
+		return planning;
+	}
+
+	public void setPlanning(Planning planning) {
+		this.planning = planning;
+	}
 }

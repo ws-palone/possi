@@ -7,14 +7,14 @@ import java.util.Date;
 
 @Embeddable
 public class TimeBox {
-	
+
 	private Date from;
 	private Date to;
-	
+
 	public TimeBox() {
-		
+
 	}
-	
+
 	public TimeBox(Date from, Date to) {
 		setFrom(from);
 		setTo(to);
@@ -32,11 +32,20 @@ public class TimeBox {
 	public void setTo(Date to) {
 		this.to = to;
 	}
-	
+
 	public void validate() {
-		
+
 		Validate.notNull(from);
 		Validate.notNull(to);
 		Validate.isTrue(from.before(to) || from.equals(to));
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof TimeBox) {
+			TimeBox timeBox = (TimeBox) o;
+			return this.from.equals(timeBox.getFrom()) && this.to.equals(timeBox.getTo());
+		}
+		return false;
 	}
 }

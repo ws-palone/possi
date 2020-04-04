@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import fr.istic.iodeman.model.OralDefense;
-import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Room;
 import fr.istic.iodeman.model.TimeBox;
 import fr.istic.iodeman.utils.AlgoPlanningUtils;
@@ -90,7 +89,7 @@ public class PlanningExcelExport implements PlanningExport {
 
 		buildColumnHeader();
 		buildHeaderLines();
-		fillThePlanning();
+//		fillThePlanning();
 
 		// write in the file then close it
 		workbook.write();
@@ -106,7 +105,7 @@ public class PlanningExcelExport implements PlanningExport {
 		Function<OralDefense, DateTime> getDate = new Function<OralDefense, DateTime>() {
 			
 			public DateTime apply(OralDefense o) {
-				return (new DateTime(o.getTimebox().getFrom())).withTimeAtStartOfDay();
+				return (new DateTime(o.getTimeBox().getFrom())).withTimeAtStartOfDay();
 			}
 		};
 
@@ -233,96 +232,96 @@ public class PlanningExcelExport implements PlanningExport {
 
 	}
 
-	private void fillThePlanning() throws Exception{			
-
-		/**
-		 * BEGIN Style
-		 */
-		// border
-		WritableCellFormat cellFormat = new WritableCellFormat();
-		cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
-		/**
-		 * END style
-		 */
-		
-		int line_top = 3;
-		int currentDay = 0;
-		int currentTimeBox = 0; 
-		int lineIndex = line_top;
-
-		DateTime lastTimebox = null;
-		Boolean firstPass = true;
-
-		for(TimeBox timebox : timeboxes){
-			// current timebox date
-			DateTime timeboxDate = new DateTime(timebox.getFrom());
-
-			// back up of the first timebox in order to know when the day changes
-			if (firstPass) lastTimebox = timeboxDate;
-
-
-			// to see if we have changed of timebox
-			if (!timeboxDate.isEqual(lastTimebox)) {
-				currentTimeBox++;
-				//				lineIndex = (line_top + (currentTimeBox * numberOfpersons));
-			}
-
-			// if the day changed? Changement of the column index 
-			if (!(timeboxDate.withTimeAtStartOfDay()).isEqual(lastTimebox.withTimeAtStartOfDay())){
-				currentDay++;
-				currentTimeBox = 0;
-			}
-
-			for(OralDefense o : Lists.newArrayList(oralDefenses)){
-				// oral defense date
-				DateTime odDate = new DateTime(o.getTimebox().getFrom());
-
-				// it matches
-				if (odDate.isEqual(timeboxDate)) {
-					// column index for the room
-					int indexRoom = (1+(currentDay*rooms.size()));
-
-					// awarding of the right room
-					for(Room room : rooms){
-						// it matches
-
-						if (o.getRoom().getName().equals(room.getName())) { // TODO compare ID!!
-							// student
-							lineIndex = (line_top + (currentTimeBox * numberOfpersons));
-							Person student = o.getComposition().getStudent();
-							sheet.addCell(new Label(indexRoom, lineIndex, student.getFirstName() + " "+ student.getLastName(), cellFormat));
-							
-							// following teacher
-							lineIndex++;	
-							Person followingTeacher = o.getComposition().getFollowingTeacher();
-							sheet.addCell(new Label(indexRoom, lineIndex, followingTeacher.getFirstName()+ " "+ followingTeacher.getLastName(), cellFormat));
-							
-							// jury
-							lineIndex++;	
-							if (o.getJury().size() > 0){
-								Person jury = Lists.newArrayList(o.getJury()).get(0);
-								sheet.addCell(new Label(indexRoom, lineIndex, jury.getFirstName() + " "+ jury.getLastName(), cellFormat));
-							}
-							
-							// tuteur
-							lineIndex++;
-							String tutorCompany = o.getComposition().getTutorFullName() + " - "+o.getComposition().getCompany();
-							sheet.addCell(new Label(indexRoom, lineIndex, tutorCompany, cellFormat));
-						
-
-							// we remove the oral defense
-							oralDefenses.remove(o);
-						}
-
-						indexRoom++;
-					}
-				}
-
-			}
-			lastTimebox = new DateTime(timebox.getFrom()); 
-			// at the end of the first pass
-			firstPass = false;
-		}
-
-	}
+//	private void fillThePlanning() throws Exception{
+//
+//		/**
+//		 * BEGIN Style
+//		 */
+//		// border
+//		WritableCellFormat cellFormat = new WritableCellFormat();
+//		cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+//		/**
+//		 * END style
+//		 */
+//
+//		int line_top = 3;
+//		int currentDay = 0;
+//		int currentTimeBox = 0;
+//		int lineIndex = line_top;
+//
+//		DateTime lastTimebox = null;
+//		Boolean firstPass = true;
+//
+//		for(TimeBox timebox : timeboxes){
+//			// current timebox date
+//			DateTime timeboxDate = new DateTime(timebox.getFrom());
+//
+//			// back up of the first timebox in order to know when the day changes
+//			if (firstPass) lastTimebox = timeboxDate;
+//
+//
+//			// to see if we have changed of timebox
+//			if (!timeboxDate.isEqual(lastTimebox)) {
+//				currentTimeBox++;
+//				//				lineIndex = (line_top + (currentTimeBox * numberOfpersons));
+//			}
+//
+//			// if the day changed? Changement of the column index
+//			if (!(timeboxDate.withTimeAtStartOfDay()).isEqual(lastTimebox.withTimeAtStartOfDay())){
+//				currentDay++;
+//				currentTimeBox = 0;
+//			}
+//
+//			for(OralDefense o : Lists.newArrayList(oralDefenses)){
+//				// oral defense date
+//				DateTime odDate = new DateTime(o.getTimebox().getFrom());
+//
+//				// it matches
+//				if (odDate.isEqual(timeboxDate)) {
+//					// column index for the room
+//					int indexRoom = (1+(currentDay*rooms.size()));
+//
+//					// awarding of the right room
+//					for(Room room : rooms){
+//						// it matches
+//
+//						if (o.getRoom().getName().equals(room.getName())) { // TODO compare ID!!
+//							// student
+//							lineIndex = (line_top + (currentTimeBox * numberOfpersons));
+//							Person student = o.getComposition().getStudent();
+//							sheet.addCell(new Label(indexRoom, lineIndex, student.getFirstName() + " "+ student.getLastName(), cellFormat));
+//
+//							// following teacher
+//							lineIndex++;
+//							Person followingTeacher = o.getComposition().getFollowingTeacher();
+//							sheet.addCell(new Label(indexRoom, lineIndex, followingTeacher.getFirstName()+ " "+ followingTeacher.getLastName(), cellFormat));
+//
+//							// jury
+//							lineIndex++;
+//							if (o.getSecondTeacher().size() > 0){
+//								Person jury = Lists.newArrayList(o.getSecondTeacher()).get(0);
+//								sheet.addCell(new Label(indexRoom, lineIndex, jury.getFirstName() + " "+ jury.getLastName(), cellFormat));
+//							}
+//
+//							// tuteur
+//							lineIndex++;
+//							String tutorCompany = o.getComposition().getTutorFullName() + " - "+o.getComposition().getCompany();
+//							sheet.addCell(new Label(indexRoom, lineIndex, tutorCompany, cellFormat));
+//
+//
+//							// we remove the oral defense
+//							oralDefenses.remove(o);
+//						}
+//
+//						indexRoom++;
+//					}
+//				}
+//
+//			}
+//			lastTimebox = new DateTime(timebox.getFrom());
+//			// at the end of the first pass
+//			firstPass = false;
+//		}
+//
+//	}
 }

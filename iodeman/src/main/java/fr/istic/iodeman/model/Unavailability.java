@@ -10,8 +10,7 @@ public class Unavailability {
 
 
 	@Id
-	@GeneratedValue
-
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	
 	@ManyToOne

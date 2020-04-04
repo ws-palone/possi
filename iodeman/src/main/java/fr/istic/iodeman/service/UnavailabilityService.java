@@ -13,11 +13,11 @@ public interface UnavailabilityService {
 	
 	public List<Unavailability> findById(Integer id, String uid);
 
-	public Unavailability create(Integer id, String uidperson, TimeBox period);
+	public Collection<Unavailability> save(Integer planningId, Collection<Unavailability> unavailabilities);
 
 	public Unavailability delete(Integer id);
 	
-	public Collection<Unavailability> delete(Integer planningId, String uid, TimeBox period);
+	public Collection<Unavailability> delete(Integer planningId, Collection<Unavailability> unavailabilities);
 	
 	public Collection<AgendaDTO> exportAgenda(Integer planningId, String personId);
 	

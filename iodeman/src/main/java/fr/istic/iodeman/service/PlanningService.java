@@ -18,10 +18,7 @@ public interface PlanningService {
 	
 	public Planning save(Planning planning);
 
-	public void update(Planning planning, String name,String csvFile, TimeBox period, Integer oralDefenseDuration,
-			Integer oralDefenseInterlude, TimeBox lunchBreak,
-			TimeBox dayPeriod, Integer nbMaxOralDefensePerDay,
-			Collection<Room> rooms, Integer etat);
+	public Planning update(Planning planning);
 
 	public Planning addParticipants(Planning planning, Collection<Participant> participants) throws Exception;
 	
@@ -35,9 +32,11 @@ public interface PlanningService {
 
     File exportExcelWithoutBuild(Planning planning);
 
-    public Collection<OralDefense> export(Integer planningId);
-	
-	public void validate(Planning planning);
+    public Planning generate(Integer planningId);
+
+    Planning updateByPersonUnavailabilities(int planningId, String personUid);
+
+    public void validate(Planning planning);
 
 	public List<Planning> findAllByUid(String uid);
 	

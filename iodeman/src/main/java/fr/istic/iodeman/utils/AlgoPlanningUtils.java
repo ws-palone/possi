@@ -64,7 +64,7 @@ public class AlgoPlanningUtils {
 		
 		Comparator<OralDefense> byStartingDate = new Comparator<OralDefense>() {
 			public int compare(OralDefense o1, OralDefense o2) {
-				return o1.getTimebox().getFrom().compareTo(o2.getTimebox().getFrom());
+				return o1.getTimeBox().getFrom().compareTo(o2.getTimeBox().getFrom());
 			}
 		};
 

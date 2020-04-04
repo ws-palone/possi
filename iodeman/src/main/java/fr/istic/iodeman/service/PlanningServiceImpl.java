@@ -39,6 +39,9 @@ public class PlanningServiceImpl implements PlanningService {
 	ParticipantService participantService;
 
 	@Autowired
+	OralDefenseService oralDefenseService;
+
+	@Autowired
 	private PersonMailResolver personResolver;
 
 	//@Autowired
@@ -92,47 +95,47 @@ public class PlanningServiceImpl implements PlanningService {
 		return planning;
 	}
 
-	public void update(Planning planning, String name, String csvFile, TimeBox period,
-			Integer oralDefenseDuration, Integer oralDefenseInterlude,
-			TimeBox lunchBreak, TimeBox dayPeriod,
-			Integer nbMaxOralDefensePerDay,  Collection<Room> rooms, Integer etat) {
+	public Planning update(Planning planning) {
 
-		Validate.notNull(planning);
+//		Validate.notNull(planning);
+//
+//		if (name != null && !name.equals("")) {
+//			planning.setName(name);
+//		}
+//		if (csvFile != null && !csvFile.equals("")) {
+//			planning.setCsv_file(csvFile);
+//		}
+//
+//		if (period != null) {
+//			period.validate();
+//			planning.setPeriod(period);
+//		}
+//
+//		if (oralDefenseDuration != null && oralDefenseDuration > 0) {
+//			planning.setOralDefenseDuration(oralDefenseDuration);
+//		}
+//
+//		if (dayPeriod != null) {
+//			dayPeriod.validate();
+//			planning.setDayPeriod(dayPeriod);
+//		}
+//
+//		if (lunchBreak != null) {
+//			lunchBreak.validate();
+//			planning.setLunchBreak(lunchBreak);
+//		}
+//
+//		planning.setOralDefenseInterlude(oralDefenseInterlude);
+//		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
+//
+//		if (rooms != null) {
+//			planning.setRooms(rooms);
+//		}
 
-		if (name != null && !name.equals("")) {
-			planning.setName(name);
-		}
-		if (csvFile != null && !csvFile.equals("")) {
-			planning.setCsv_file(csvFile);
-		}
-
-		if (period != null) {
-			period.validate();
-			planning.setPeriod(period);
-		}
-
-		if (oralDefenseDuration != null && oralDefenseDuration > 0) {
-			planning.setOralDefenseDuration(oralDefenseDuration);
-		}
-
-		if (dayPeriod != null) {
-			dayPeriod.validate();
-			planning.setDayPeriod(dayPeriod);
-		}
-
-		if (lunchBreak != null) {
-			lunchBreak.validate();
-			planning.setLunchBreak(lunchBreak);
-		}
-
-		planning.setOralDefenseInterlude(oralDefenseInterlude);
-		planning.setNbMaxOralDefensePerDay(nbMaxOralDefensePerDay);
-
-		if (rooms != null) {
-			planning.setRooms(rooms);
-		}
 
 		planningDAO.update(planning);
+
+		return planning;
 
 	}
 
@@ -253,33 +256,33 @@ public class PlanningServiceImpl implements PlanningService {
 
 	@Override
 	public void updateUnvailibilities(Integer planning_id, JSONArray jsonarray) {
-		for (int i = 0; i < jsonarray.length(); i++) {
-			//Récuperation depuis le fichier le json
-			JSONObject jsonobject = jsonarray.getJSONObject(i);
-			String student = jsonobject.getJSONObject("student").getString("name");
-			Integer periode = jsonobject.getInt("periode");
-
-			//Recuperation de la personne
-			PersonDAO person = new PersonDAOImpl();
-			Person p = person.findByEmail(student);
-
-			//Recuperation du planning
-			Planning planning = this.findById(planning_id);
-
-			//BDD
-			PlanningSplitter splitter = new PlanningSplitterImpl();
-			List<TimeBox> timeboxes = splitter.execute(planning);
-			TimeBox tb = timeboxes.get(periode);
-			timeboxes.remove(tb);
-
-			UnavailabilityService unavailabilityService = new UnavailabilityServiceImpl();
-			unavailabilityService.deleteAll(p.getId(), planning_id);
-
-			for (TimeBox timebox: timeboxes) {
-				unavailabilityService.create(planning_id, p.getUid(), timebox);
-			}
-
-		}
+//		for (int i = 0; i < jsonarray.length(); i++) {
+//			//Récuperation depuis le fichier le json
+//			JSONObject jsonobject = jsonarray.getJSONObject(i);
+//			String student = jsonobject.getJSONObject("student").getString("name");
+//			Integer periode = jsonobject.getInt("periode");
+//
+//			//Recuperation de la personne
+//			PersonDAO person = new PersonDAOImpl();
+//			Person p = person.findByEmail(student);
+//
+//			//Recuperation du planning
+//			Planning planning = this.findById(planning_id);
+//
+//			//BDD
+//			PlanningSplitter splitter = new PlanningSplitterImpl();
+//			List<TimeBox> timeboxes = splitter.execute(planning);
+//			TimeBox tb = timeboxes.get(periode);
+//			timeboxes.remove(tb);
+//
+//			UnavailabilityService unavailabilityService = new UnavailabilityServiceImpl();
+//			unavailabilityService.deleteAll(p.getId(), planning_id);
+//
+//			for (TimeBox timebox: timeboxes) {
+//				unavailabilityService.save(planning_id, p.getUid(), timebox);
+//			}
+//
+//		}
 	}
 
 	@Override
@@ -334,23 +337,41 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
-	public Collection<OralDefense> export(Integer planningId) {
+	public Planning generate(Integer planningId) {
 
 		// retrieving the planning
 		Planning planning = planningDAO.findById(planningId);
 		Validate.notNull(planning);
 
-		// retrieving of the unavailabilities
-		Collection<Unavailability> unavailabilities = unavailabilityDAO.findByPlanningId(planning.getId());
+		// check if the current user is the admin of this planning
+//		session.acceptOnly(planning.getAdmin());
+
 
 		// initialize builder
 		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
 		builder.setParticipants(planningDAO.findParticipants(planning));
-		builder.setUnavailabilities(unavailabilities);
+		builder.setUnavailabilities(unavailabilityDAO.findByPlanningId(planning.getId()));
 
 		// build & return
-		return builder.split().build().getOralDefenses();
+		if (!planning.getOralDefenses().isEmpty())
+			oralDefenseService.delete(planning.getOralDefenses());
 
+	 	planning.setOralDefenses(oralDefenseService.save(builder.split().build().getOralDefenses(personResolver)));
+
+	 	planningDAO.update(planning);
+
+	 	return planning;
+	}
+
+	@Override
+	public Planning updateByPersonUnavailabilities(int planningId, String personUid) {
+		Planning planning = planningDAO.findById(planningId);
+		Validate.notNull(planning);
+		PlanningExportBuilder builder = new PlanningExportBuilder(planning);
+
+		oralDefenseService.update(builder.split().updatePlanning(unavailabilityDAO.findById(planning.getId(), personUid)));
+
+		return planning;
 	}
 
 	@Override
