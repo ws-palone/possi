@@ -155,6 +155,11 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	public Planning findByName(String name) {
+		return planningDAO.findByName(name);
+	}
+
+	@Override
 	public Collection<Priority> findPriorities(Planning planning) {
 		return planningDAO.findPriorities(planning);
 	}

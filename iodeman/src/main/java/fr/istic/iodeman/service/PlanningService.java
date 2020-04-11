@@ -23,8 +23,10 @@ public interface PlanningService {
 	public Planning addParticipants(Planning planning, Collection<Participant> participants) throws Exception;
 	
 	public Collection<Participant> findParticipants(Planning planning);
-	
-	public Collection<Priority> findPriorities(Planning planning);
+
+    Planning findByName(String name);
+
+    public Collection<Priority> findPriorities(Planning planning);
 	
 	public Collection<Priority> updatePriorities(Planning planning, Collection<Priority> priorities);
 	

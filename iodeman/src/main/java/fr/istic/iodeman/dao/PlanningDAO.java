@@ -20,7 +20,9 @@ public interface PlanningDAO {
 	
 	public Planning findById(Integer ID);
 
-	public List<Planning> findByEtat();
+    Planning findByName(String name);
+
+    public List<Planning> findByEtat();
 	
 	public Collection<Participant> findParticipants(Planning planning);
 	

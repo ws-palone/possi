@@ -63,9 +63,14 @@ public class PlanningController {
 		return planningService.findPlanningByEtat();
 	}
 
-	@RequestMapping("/find/{id}")
+	@RequestMapping("/{id}")
 	public Planning findById(@PathVariable("id") Integer id) {
 		return planningService.findById(id);
+	}
+
+	@RequestMapping("/find/{name}")
+	public Planning findByName(@PathVariable("name") String name) {
+		return planningService.findByName(name);
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -72,6 +72,16 @@ public class PlanningDAOImpl extends AbstractHibernateDAO implements PlanningDAO
 	}
 
 	@Override
+	public Planning findByName(String name) {
+		Session session = getNewSession();
+		Planning planning = (Planning) session.createCriteria(Planning.class)
+				.add(Restrictions.eq("name",name))
+				.uniqueResult();
+		session.close();
+		return planning;
+	}
+
+	@Override
 	public List<Planning> findByEtat() {
 		Session session = getNewSession();
 		List planningsPublics= session.createCriteria(Planning.class)
