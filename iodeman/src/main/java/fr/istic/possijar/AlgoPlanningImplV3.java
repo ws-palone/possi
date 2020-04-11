@@ -37,6 +37,7 @@ public class AlgoPlanningImplV3 {
 
 	/* DONNEES */
 	private ListActeur enseignants;
+	private ListActeur enseignantsAux;
 	private ListActeur tuteurs;
 	private List<Student> etudiants;
 	private Map<Integer, List<Creneau>> planning;
@@ -49,6 +50,7 @@ public class AlgoPlanningImplV3 {
 
 	public AlgoPlanningImplV3() {
 		enseignants = new ListActeur();
+		enseignantsAux = new ListActeur();
 		tuteurs = new ListActeur();
 		etudiants = new ArrayList<Student>();
 		planning = new HashMap<Integer, List<Creneau>>();
@@ -229,6 +231,7 @@ public class AlgoPlanningImplV3 {
 				e = new Enseignant(teacher);
 				e.setDefaultDisponibilites(nbPeriodesEnTout);
 				enseignants.list.add(e);
+				enseignantsAux.list.add(e);
 			}
 
 			Tuteur t = (Tuteur) tuteurs.get(tutor);
@@ -431,6 +434,7 @@ public class AlgoPlanningImplV3 {
 		Enseignant e = c.getEnseignant();
 		Tuteur t = c.getTuteur();
 		Student s = c.getStudent();
+		c.setCouleur(enseignantsAux.list.indexOf(c.getEnseignant()));
 
 		e.addDisponibilite(c.getPeriode());
 		t.addDisponibilite(c.getPeriode());

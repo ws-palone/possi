@@ -2,6 +2,8 @@ package fr.istic.iodeman.builder;
 
 
 import com.google.common.collect.Lists;
+import fr.istic.iodeman.dao.ColorDAO;
+import fr.istic.iodeman.dao.ColorDAOImpl;
 import fr.istic.iodeman.model.*;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.*;
@@ -475,6 +477,7 @@ public class PlanningExportBuilder {
 		Collection<List<Creneau>> creneaux = this.algoPlanning_new.getPlanning().values().stream().filter(c -> c.size() > 0).collect(Collectors.toList());
 		Collection<OralDefense> oralDefenses = new ArrayList<>();
 		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
+		ColorDAO colorDAO = new ColorDAOImpl();
 		roomsSelected.sort(Comparator.comparing(Room::getId));
 		for (List<Creneau> creneauList : creneaux) {
 			for (Creneau creneau : creneauList) {
@@ -494,6 +497,7 @@ public class PlanningExportBuilder {
 				oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
 				oralDefense.setPlanning(this.planning);
 				oralDefense.setNumber(creneau.getNumero());
+				oralDefense.setColor(colorDAO.findById(creneau.getCouleur()));
 				oralDefenses.add(oralDefense);
 			}
 		}

@@ -35,6 +35,9 @@ public class OralDefense {
 
 	private Integer number;
 
+	@ManyToOne
+	private Color color;
+
 	public Integer getNumber() {
 		return number;
 	}
@@ -81,5 +84,13 @@ public class OralDefense {
 
 	public void setPlanning(Planning planning) {
 		this.planning = planning;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 }
