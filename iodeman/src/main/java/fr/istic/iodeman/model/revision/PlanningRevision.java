@@ -1,5 +1,6 @@
-package fr.istic.iodeman.model;
+package fr.istic.iodeman.model.revision;
 
+import fr.istic.iodeman.model.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -7,13 +8,39 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Planning{
+public class PlanningRevision {
 	
 	@Id
 	@GeneratedValue
-	private Integer id;
-
+	private Long id;
 	private String name;
+	private Integer oralDefenseDuration;
+	private Integer oralDefenseInterlude;
+	private Integer nbMaxOralDefensePerDay;
+	private Integer is_ref;
+	private Integer ref_id;
+	private Planning planning;
+	private String revision;
+
+	@ManyToOne
+	private PersonRevision admin;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany
+	private Collection<RoomRevision> rooms;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany
+	private Collection<ParticipantRevision> participants;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(cascade = CascadeType.PERSIST)
+	private Collection<PriorityRevision> priorities;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
+	private Collection<OralDefenseRevision> oralDefenses;
+
 
 	@Embedded
 	@AttributeOverrides( {
@@ -22,16 +49,13 @@ public class Planning{
 	})
 	private TimeBox period;
 
-	private Integer oralDefenseDuration;
-
-	private Integer oralDefenseInterlude;
-
 	@Embedded
 	@AttributeOverrides( {
 		@AttributeOverride(name = "from", column = @Column(name = "lunchBreak_from")),
 		@AttributeOverride(name = "to", column = @Column(name = "lunchBreak_to"))
 	})
 	private TimeBox lunchBreak;
+
 	@Embedded
 	@AttributeOverrides( {
 		@AttributeOverride(name = "from", column = @Column(name = "dayPeriod_from")),
@@ -39,37 +63,9 @@ public class Planning{
 	})
 	private TimeBox dayPeriod;
 
-	private Integer nbMaxOralDefensePerDay;
+	public PlanningRevision(){}
 
-	private Integer is_ref;
-
-	private Integer ref_id;
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany
-	private Collection<Room> rooms;
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany
-	private Collection<Participant> participants;
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = CascadeType.PERSIST)
-	private Collection<Priority> priorities;
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
-	private Collection<OralDefense> oralDefenses;
-
-	@ManyToOne
-	private Person admin;
-
-
-
-	public Planning(){}
-
-	public Planning(Planning p){
-		this.id = p.getId();
+	public PlanningRevision(Planning p){
 		this.name = p.getName();
 		this.period = p.getPeriod();
 		this.oralDefenseDuration = p.getOralDefenseDuration();
@@ -79,22 +75,18 @@ public class Planning{
 		this.nbMaxOralDefensePerDay = p.getNbMaxOralDefensePerDay();
 		this.is_ref = p.getIs_ref();
 		this.ref_id = p.getRef_id();
-		this.rooms = p.getRooms();
-		this.participants = p.getParticipants();
-		this.priorities = p.getPriorities();
-		this.oralDefenses = p.getOralDefenses();
-		this.admin = p.getAdmin();
-
+		this.planning = p;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -102,6 +94,7 @@ public class Planning{
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public TimeBox getPeriod() {
 		return period;
 	}
@@ -109,70 +102,100 @@ public class Planning{
 	public void setPeriod(TimeBox period) {
 		this.period = period;
 	}
+
 	public Integer getOralDefenseDuration() {
 		return oralDefenseDuration;
 	}
+
 	public void setOralDefenseDuration(Integer oralDefenseDuration) {
 		this.oralDefenseDuration = oralDefenseDuration;
 	}
+
 	public Integer getOralDefenseInterlude() {
 		return oralDefenseInterlude;
 	}
+
 	public void setOralDefenseInterlude(Integer oralDefenseInterlude) {
 		this.oralDefenseInterlude = oralDefenseInterlude;
 	}
+
 	public TimeBox getLunchBreak() {
 		return lunchBreak;
 	}
+
 	public void setLunchBreak(TimeBox lunchBreak) {
 		this.lunchBreak = lunchBreak;
 	}
+
 	public TimeBox getDayPeriod() {
 		return dayPeriod;
 	}
+
 	public void setDayPeriod(TimeBox dayPeriod) {
 		this.dayPeriod = dayPeriod;
 	}
+
 	public Integer getNbMaxOralDefensePerDay() {
 		return nbMaxOralDefensePerDay;
 	}
+
 	public void setNbMaxOralDefensePerDay(Integer nbMaxOralDefensePerDay) {
 		this.nbMaxOralDefensePerDay = nbMaxOralDefensePerDay;
 	}
+
 	public void setIs_ref(Integer is_ref) { this.is_ref = is_ref; }
+
 	public void setRef_id(Integer ref_id) {	this.ref_id = ref_id;}
+
 	public Integer getIs_ref() { return is_ref;	}
+
 	public Integer getRef_id() { return ref_id; }
-	public Collection<Room> getRooms() {
+
+	public Collection<RoomRevision> getRooms() {
 		return rooms;
 	}
-	public void setRooms(Collection<Room> rooms) {
+
+	public void setRooms(Collection<RoomRevision> rooms) {
 		this.rooms = rooms;
 	}
-	public Collection<Participant> getParticipants() {
+
+	public Collection<ParticipantRevision> getParticipants() {
 		return participants;
 	}
-	public void setParticipants(Collection<Participant> participants) {
+
+	public void setParticipants(Collection<ParticipantRevision> participants) {
 		this.participants = participants;
 	}
-	public Collection<Priority> getPriorities() {
+
+	public Collection<PriorityRevision> getPriorities() {
 		return priorities;
 	}
-	public void setPriorities(Collection<Priority> priorities) {
+
+	public void setPriorities(Collection<PriorityRevision> priorities) {
 		this.priorities = priorities;
 	}
 
-	public Collection<OralDefense> getOralDefenses() {
+	public Collection<OralDefenseRevision> getOralDefenses() {
 		return oralDefenses;
 	}
-	public void setOralDefenses(Collection<OralDefense> oralDefenses) {
+
+	public void setOralDefenses(Collection<OralDefenseRevision> oralDefenses) {
 		this.oralDefenses = oralDefenses;
 	}
-	public Person getAdmin() {
+
+	public PersonRevision getAdmin() {
 		return admin;
 	}
-	public void setAdmin(Person admin) {
+
+	public void setAdmin(PersonRevision admin) {
 		this.admin = admin;
 	}
-	
+
+	public Planning getPlanning() {
+		return planning;
+	}
+
+	public void setPlanning(Planning planning) {
+		this.planning = planning;
+	}
 }

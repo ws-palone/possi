@@ -3,7 +3,7 @@ package fr.istic.iodeman.strategy;
 import java.io.File;
 import java.util.Collection;
 
-import fr.istic.iodeman.error.ErrorImport;
+import fr.istic.iodeman.dto.ExtractParticipantErrorDTO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.resolver.PersonResolver;
 
@@ -14,6 +14,6 @@ public interface ParticipantsImport {
 	
 	public Collection<Participant> execute(File file) throws Exception ;
 
-	public Collection<ErrorImport> getErrorsImport();
+	public Collection<ExtractParticipantErrorDTO> getErrorsImport();
 
 }

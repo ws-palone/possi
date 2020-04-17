@@ -1,6 +1,7 @@
 package fr.istic.iodeman.utils;
 
 import fr.istic.iodeman.model.TimeBox;
+import org.joda.time.DateTime;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,5 +22,26 @@ public class TimeBoxHelper {
         return list.get(timeBox.getFrom().getDate() + " " + timeBox.getFrom().getHours() + " " + timeBox.getFrom().getMinutes());
     }
 
-//    Todo Ajouter une fonction pour redonner les timebox en fonction des crenaux
+    public static boolean isOnLunchBreak(TimeBox lunchBreak, TimeBox timeBox) {
+
+        if (lunchBreak != null && timeBox != null) {
+
+            TimeBox lunchPeriod = new TimeBox(
+                    (new DateTime(timeBox.getFrom()))
+                            .withTimeAtStartOfDay()
+                            .plusMinutes(new DateTime(lunchBreak.getFrom()).minuteOfDay().get())
+                            .toDate(),
+                    (new DateTime(timeBox.getFrom()))
+                            .withTimeAtStartOfDay()
+                            .plusMinutes(new DateTime(lunchBreak.getTo()).minuteOfDay().get())
+                            .toDate()
+            );
+
+            return !AlgoPlanningUtils.isAvailable(lunchPeriod, timeBox);
+
+        }
+
+        return true;
+
+    }
 }

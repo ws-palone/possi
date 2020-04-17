@@ -772,8 +772,6 @@ public class AlgoPlanningImplV3 {
 		return result;
 	}
 
-
-
 	public File getFile() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		Set<Integer> periodes = planning.keySet();
@@ -820,7 +818,6 @@ public class AlgoPlanningImplV3 {
 		Files.write(sb.toString(), f, Charsets.UTF_8);
 		return f;
 	}
-
 
 	public void serialize(int idPlanning) {
 
@@ -878,7 +875,6 @@ public class AlgoPlanningImplV3 {
 		}
 	}
 
-
 	public List<Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, int idPlanning) {
 		deserialize(idPlanning);
 
@@ -898,21 +894,6 @@ public class AlgoPlanningImplV3 {
 				if (creneau.getPeriode() == k) {
 					creneauxToUpdate.add(creneau);
 					found = true;
-//						unavailabilitiesByCreneau.put(creneau, new HashSet<>());
-//						unavailabilitiesByCreneau.get(creneau).add(k);
-//
-//						Enseignant secondActor = creneau.getEnseignant().getName().equals(userEmail) ? creneau.getCandide() : creneau.getEnseignant();
-//
-//						secondActor.getDisponibilites().put(k, true);
-
-//						unavailabilitiesByCreneau.get(creneau).addAll(
-//								secondActor.getDisponibilites()
-//										.entrySet()
-//										.stream()
-//										.filter(d -> !d.getValue())
-//										.map(Map.Entry::getKey)
-//										.collect(Collectors.toSet()));
-
 				}
 			}
 		}

@@ -1,7 +1,0 @@
-{
-  "name": "public",
-  "private": true,
-  "devDependencies": {
-    "angular-flash-alert": "^2.0.0"
-  }
-}

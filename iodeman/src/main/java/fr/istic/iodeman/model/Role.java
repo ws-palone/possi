@@ -2,5 +2,6 @@ package fr.istic.iodeman.model;
 
 public enum Role {
 	STUDENT,
-	PROF
+	TEACHER,
+	ADMIN;
 }

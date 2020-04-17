@@ -7,6 +7,13 @@ import java.util.List;
 
 public interface PlanningSplitter {
 
-	public List<TimeBox> execute(Planning planning);
-	
+	PlanningSplitter execute(Planning planning);
+
+	List<TimeBox> getTimeBoxes();
+
+	List<TimeBox> getTimeBoxesWithoutLunchBreak();
+
+	List<TimeBox> getLunchBreakTimeBoxes();
+
+	int getNbDays();
 }

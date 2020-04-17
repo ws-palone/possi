@@ -9,7 +9,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import fr.istic.iodeman.error.ErrorImport;
+import fr.istic.iodeman.dto.ExtractParticipantErrorDTO;
 import fr.istic.iodeman.model.Participant;
 import fr.istic.iodeman.model.Person;
 import fr.istic.iodeman.model.Role;
@@ -19,7 +19,7 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 
 	private PersonResolver personResolver;
 
-	private Collection<ErrorImport> errorsImport = new ArrayList<ErrorImport>();
+	private Collection<ExtractParticipantErrorDTO> errorsImport = new ArrayList<ExtractParticipantErrorDTO>();
 
 	public void configure(PersonResolver personResolver) {
 		this.personResolver = personResolver;
@@ -86,19 +86,19 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 				participant.setFollowingTeacher(followingTeacher);
 
 				if (emailStudent.equals(emailTeacher)){
-					errorsDisplayer("L'étudiant et le professeur référent ont le même mail. (doublon)", participant, lineNumber);
+					errorsDisplayer("L'étudiant et le professeur référent ont le même mail. (doublon)", lineNumber);
 				}
 				else if (!student.getRole().equals(Role.STUDENT)){
-					errorsDisplayer("La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.", participant, lineNumber);
+					errorsDisplayer("La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.", lineNumber);
 				}
-				else if (!followingTeacher.getRole().equals(Role.PROF)){
-					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", participant, lineNumber);
+				else if (!followingTeacher.getRole().equals(Role.TEACHER)){
+					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", lineNumber);
 				}
 				else if (students.contains(student.getUid())){
-					errorsDisplayer("L'étudiant est déjà présent dans cet import.", participant, lineNumber);
+					errorsDisplayer("L'étudiant est déjà présent dans cet import.", lineNumber);
 				}
 				else if (participants.contains(participant)) {
-					errorsDisplayer("La soutenance existe déjà dans cet import.", participant, lineNumber);
+					errorsDisplayer("La soutenance existe déjà dans cet import.", lineNumber);
 				}
 				else {
 					students.add(student.getUid());
@@ -126,12 +126,12 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 		return Normalizer.normalize(input, Normalizer.Form.NFC).replaceAll("[^\\p{ASCII}]", "");
 	}
 
-	private void errorsDisplayer (String s, Participant participant, int lineNumber){
-		ErrorImport ei =  new ErrorImport("Ligne " + lineNumber + " : "  + participant.toString(), "Ligne " + lineNumber + " du CSV : "  + s);
+	private void errorsDisplayer (String s, int lineNumber){
+		ExtractParticipantErrorDTO ei =  new ExtractParticipantErrorDTO( "Ligne " + lineNumber + " du CSV : "  + s);
 		errorsImport.add(ei);
 	}
 
-	public Collection<ErrorImport> getErrorsImport() {
+	public Collection<ExtractParticipantErrorDTO> getErrorsImport() {
 		return errorsImport;
 	}
 
