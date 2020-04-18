@@ -12,8 +12,8 @@ import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.stereotype.Service;
 
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Role;
+import fr.istic.iodeman.models.Person;
+import fr.istic.iodeman.models.Role;
 
 @Service
 public class LdapRepositoryImpl implements LdapRepository {

@@ -1,16 +1,12 @@
 package fr.istic.iodeman.controllers;
 
-import fr.istic.iodeman.dao.PersonDAO;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Role;
+import fr.istic.iodeman.models.Person;
+import fr.istic.iodeman.models.Planning;
+import fr.istic.iodeman.repositories.PersonRepository;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.resolver.PersonUidResolver;
 import fr.istic.iodeman.services.PlanningService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,12 +23,12 @@ public class PersonController {
 
 	private final PlanningService planningService;
 
-	private final PersonDAO personDAO;
+	private final PersonRepository personRepository;
 
-	public PersonController(PersonUidResolver resolverUID, PersonMailResolver resolverMail, PersonDAO personDAO, PlanningService planningService) {
+	public PersonController(PersonUidResolver resolverUID, PersonMailResolver resolverMail, PersonRepository personRepository, PlanningService planningService) {
 		this.resolverUID = resolverUID;
 		this.resolverMail = resolverMail;
-		this.personDAO = personDAO;
+		this.personRepository = personRepository;
 		this.planningService = planningService;
 	}
 
@@ -41,15 +37,19 @@ public class PersonController {
 	    return resolverUID.resolve(uid);
 	}
 
+	@PostMapping
+	public Iterable<Person> create(@RequestBody Collection<Person> persons) {
+		return personRepository.saveAll(persons);
+	}
 
 	@GetMapping
-	public Collection<Person> getPerson(){
-		return personDAO.findAll();
+	public Iterable<Person> getPerson(){
+		return personRepository.findAll();
 	}
 
 	@GetMapping("/{uid}/plannings")
 	public List<Planning> planningsByPerson(@PathVariable("uid") String uid){
 //		Fixme: A revoir
-		return planningService.findAllByUid(uid);
+		return planningService.findAdminBy(uid);
 	}
 }

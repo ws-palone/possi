@@ -1,7 +1,7 @@
 package fr.istic.iodeman.dto;
 
-import fr.istic.iodeman.model.TimeBox;
-import fr.istic.iodeman.model.Unavailability;
+import fr.istic.iodeman.models.TimeBox;
+import fr.istic.iodeman.models.Unavailability;
 
 import java.util.Collection;
 

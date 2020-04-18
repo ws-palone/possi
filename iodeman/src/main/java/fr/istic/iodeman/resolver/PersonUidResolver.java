@@ -1,29 +1,29 @@
 package fr.istic.iodeman.resolver;
 
-import fr.istic.iodeman.dao.PersonDAO;
-import fr.istic.iodeman.dao.PersonDAOImpl;
-import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.models.Person;
+import fr.istic.iodeman.repositories.PersonRepository;
 import fr.istic.iodeman.services.LdapRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PersonUidResolver implements PersonResolver {
 
-	@Autowired
-	private PersonDAO personDAO;
+	private final PersonRepository personRepository;
 	
-	@Autowired
-	private LdapRepository ldapRepository;
-	
+	private final LdapRepository ldapRepository;
+
+	public PersonUidResolver(PersonRepository personRepository, LdapRepository ldapRepository) {
+		this.personRepository = personRepository;
+		this.ldapRepository = ldapRepository;
+	}
+
 	public Person resolve(String uid) {
-		personDAO = new PersonDAOImpl();
-		Person person = personDAO.findByUid(uid);
+		Person person = personRepository.findByUid(uid);
 		
 		if (person == null) {
 			person = ldapRepository.searchByUID(uid);
 			if (person != null) {
-				personDAO.persist(person);
+				return personRepository.save(person);
 			}
 		}
 		

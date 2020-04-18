@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Collection;
 
 import fr.istic.iodeman.dto.ExtractParticipantErrorDTO;
-import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.models.Participant;
 import fr.istic.iodeman.resolver.PersonResolver;
 
 

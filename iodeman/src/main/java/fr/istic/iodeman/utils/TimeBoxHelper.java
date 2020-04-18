@@ -1,6 +1,6 @@
 package fr.istic.iodeman.utils;
 
-import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.models.TimeBox;
 import org.joda.time.DateTime;
 
 import java.util.Collection;

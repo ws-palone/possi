@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import fr.istic.iodeman.dto.ExtractParticipantErrorDTO;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Person;
-import fr.istic.iodeman.model.Role;
+import fr.istic.iodeman.models.Participant;
+import fr.istic.iodeman.models.Person;
+import fr.istic.iodeman.models.Role;
 import fr.istic.iodeman.resolver.PersonResolver;
 
 public class ParticipantsCSVImport implements ParticipantsImport {

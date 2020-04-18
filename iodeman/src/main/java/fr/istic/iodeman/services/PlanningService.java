@@ -1,37 +1,32 @@
 package fr.istic.iodeman.services;
 
-import fr.istic.iodeman.dto.ParticipantDTO;
-import fr.istic.iodeman.model.*;
 
-import java.util.Collection;
+import fr.istic.iodeman.models.Planning;
+import org.springframework.data.history.Revisions;
+
 import java.util.List;
 
 public interface PlanningService {
 
-	Planning findById(Integer id);
-	
+	Planning findById(Long id);
+
 	Planning save(Planning planning);
 
 	Planning update(Planning planning);
 
-	Collection<Participant> findParticipants(Planning planning);
+	List<Planning> findAdminBy(String uid);
 
-    Planning findByName(String name);
+	Planning findByName(String name);
 
-    Collection<Priority> findPriorities(Planning planning);
+	Planning generate(Long planningId);
 
-    Planning generate(Integer planningId);
+	void createRevision(Long id);
 
-    void updateByPersonUnavailabilities(int planningId, String personUid);
+	void updateByPersonUnavailabilities(Long planningId, String personUid);
 
-    void validate(Planning planning);
-
-	List<Planning> findAllByUid(String uid);
-	
-	Collection<ParticipantDTO> findParticipantsAndUnavailabilitiesNumber(Planning planning);
-	
 	void delete(Planning planning);
 
-    List<Planning> findAll();
+	Iterable<Planning> findAll();
 
+    Revisions<Long, Planning> findRevision(Long id);
 }

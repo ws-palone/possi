@@ -1,6 +1,6 @@
 package fr.istic.iodeman.controllers;
 
-import fr.istic.iodeman.model.Room;
+import fr.istic.iodeman.models.Room;
 import fr.istic.iodeman.services.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +17,13 @@ public class RoomController {
 	}
 
 	@RequestMapping
-	public List<Room> listAll(){
-		return roomService.findAll();
+	public Iterable<Room> listAll(){
+		return roomService.findAll ();
 	}
 
 
 	@DeleteMapping("/{id}")
-	public Room delete(@PathVariable("id") int id) {
+	public Room delete(@PathVariable("id") Long id) {
 		// fixme verifier si c'est un admin
 		//session.teacherOnly();
 		return roomService.delete(id);

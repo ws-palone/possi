@@ -1,6 +1,6 @@
 package fr.istic.iodeman.resolver;
 
-import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.models.Person;
 
 public interface PersonResolver {
 

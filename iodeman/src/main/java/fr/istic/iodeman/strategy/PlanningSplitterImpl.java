@@ -2,8 +2,8 @@ package fr.istic.iodeman.strategy;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.models.Planning;
+import fr.istic.iodeman.models.TimeBox;
 import fr.istic.iodeman.utils.TimeBoxHelper;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;

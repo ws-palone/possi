@@ -1,7 +1,7 @@
 package fr.istic.iodeman.services;
 
-import fr.istic.iodeman.dao.OralDefenseDAO;
-import fr.istic.iodeman.model.OralDefense;
+import fr.istic.iodeman.models.OralDefense;
+import fr.istic.iodeman.repositories.OralDefenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,28 +10,20 @@ import java.util.Collection;
 @Service
 public class OralDefenseServiceImpl implements OralDefenseService {
 
-    @Autowired
-    private OralDefenseDAO oralDefenseDAO;
+    private final OralDefenseRepository oralDefenseRepository;
 
-    @Override
-    public Collection<OralDefense> save(Collection<OralDefense> oralDefenses) {
-        for (OralDefense oralDefense : oralDefenses) {
-            oralDefenseDAO.persist(oralDefense);
-        }
-        return oralDefenses;
+    public OralDefenseServiceImpl(OralDefenseRepository oralDefenseRepository) {
+        this.oralDefenseRepository = oralDefenseRepository;
     }
 
     @Override
-    public Collection<OralDefense> update(Collection<OralDefense> oralDefenses) {
-        for (OralDefense oralDefense : oralDefenses) {
-            oralDefenseDAO.update(oralDefense);
-        }
-        return oralDefenses;
+    public Iterable<OralDefense> save(Collection<OralDefense> oralDefenses) {
+        return oralDefenseRepository.saveAll(oralDefenses);
     }
+
 
     @Override
     public void delete(Collection<OralDefense> oralDefenses) {
-        for (OralDefense oralDefense : oralDefenses)
-            oralDefenseDAO.delete(oralDefense);
+        oralDefenseRepository.deleteAll(oralDefenses);
     }
 }

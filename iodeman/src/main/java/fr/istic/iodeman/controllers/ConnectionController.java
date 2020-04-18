@@ -2,7 +2,7 @@ package fr.istic.iodeman.controllers;
 
 
 import fr.istic.iodeman.dto.AuthenticationResponseDTO;
-import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.models.Person;
 import fr.istic.iodeman.resolver.PersonUidResolver;
 import fr.istic.iodeman.utils.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;

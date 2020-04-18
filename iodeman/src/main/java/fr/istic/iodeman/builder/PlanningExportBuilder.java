@@ -1,27 +1,22 @@
 package fr.istic.iodeman.builder;
 
 
-import fr.istic.iodeman.dao.ColorDAO;
-import fr.istic.iodeman.dao.ColorDAOImpl;
-import fr.istic.iodeman.model.*;
+import fr.istic.iodeman.models.*;
+import fr.istic.iodeman.repositories.ColorRepository;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.*;
-import fr.istic.iodeman.utils.AlgoPlanningUtils;
 import fr.istic.possijar.AlgoPlanningImplV3;
 import fr.istic.possijar.Creneau;
 import org.apache.commons.lang.Validate;
-import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellUtil;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class PlanningExportBuilder {
 
 	private PlanningSplitter splitter = new PlanningSplitterImpl();
@@ -31,6 +26,8 @@ public class PlanningExportBuilder {
 	private Collection<Unavailability> unavailabilities;
 	private Collection<Participant> participants;
 	private List<TimeBox> timeboxes;
+
+	private final ColorRepository colorRepository;
 
 	private ArrayList<Short> defcouleur = new ArrayList<Short>()
 	{{
@@ -47,12 +44,16 @@ public class PlanningExportBuilder {
     }};
 
 	private Map<String,HSSFCellStyle> couleurParProf = new HashMap<>();
-	
-	public PlanningExportBuilder(Planning p) {
-		Validate.notNull(p);
-		planning = p;
+
+	public PlanningExportBuilder(ColorRepository colorRepository) {
+		this.colorRepository = colorRepository;
 	}
-	
+
+	public void setPlanning(Planning planning) {
+		Validate.notNull(planning);
+		this.planning = planning;
+	}
+
 	public PlanningExportBuilder setUnavailabilities(Collection<Unavailability> unavailabilities) {
 		this.unavailabilities = new ArrayList<>(unavailabilities);
 		return this;
@@ -464,7 +465,6 @@ public class PlanningExportBuilder {
 		Collection<List<Creneau>> creneaux = this.algoPlanning_new.getPlanning().values().stream().filter(c -> c.size() > 0).collect(Collectors.toList());
 		Collection<OralDefense> oralDefenses = new ArrayList<>();
 		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
-		ColorDAO colorDAO = new ColorDAOImpl();
 		roomsSelected.sort(Comparator.comparing(Room::getId));
 		for (List<Creneau> creneauList : creneaux) {
 			for (Creneau creneau : creneauList) {
@@ -484,26 +484,11 @@ public class PlanningExportBuilder {
 				oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
 				oralDefense.setPlanning(this.planning);
 				oralDefense.setNumber(creneau.getNumero());
-				oralDefense.setColor(colorDAO.findById(creneau.getCouleur()));
+				oralDefense.setColor(colorRepository.findById(creneau.getCouleur()).get());
 				oralDefenses.add(oralDefense);
 			}
 		}
 		return oralDefenses;
-	}
-
-	public HSSFCellStyle getColor( HSSFWorkbook workbook, String email){
-		String color="";
-		if(!couleurParProf.containsKey(email)){
-			Short shortColor = defcouleur.get((couleurParProf.size())%defcouleur.size());
-
-			HSSFCellStyle style = workbook.createCellStyle();
-			style.setWrapText(true);
-			style.setFillForegroundColor(shortColor);
-			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-			couleurParProf.put(email, style);
-		}
-		return couleurParProf.get(email);
 	}
 
 	public Collection<OralDefense> updatePlanning(List<Unavailability> unavailabilities) {

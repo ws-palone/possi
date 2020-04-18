@@ -5,8 +5,8 @@ package fr.istic.possijar;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import fr.istic.iodeman.model.*;
-import fr.istic.iodeman.model.Planning;
+import fr.istic.iodeman.models.*;
+import fr.istic.iodeman.models.Planning;
 import fr.istic.iodeman.utils.TimeBoxHelper;
 import javafx.collections.ObservableList;
 
@@ -118,15 +118,17 @@ public class AlgoPlanningImplV3 {
 			//System.err.println("A la période " + periode);
 			//System.err.println("Nous avons " + email + " indispo");
 
-			Iterator<Creneau> it = creneaux.iterator();
-			while(it.hasNext()) {
-				Creneau c = it.next();
-				if((c.getCandide() != null && c.getCandide().getName().equals(email))
-						|| (c.getEnseignant() != null && c.getEnseignant().getName().equals(email))
-						|| (c.getTuteur() != null && c.getTuteur().getName().equals(email))) {
-					System.err.println("Impossible a insérer : " + c);
-					impossibleAInserer.add(c);
-					it.remove();
+			if (creneaux != null) {
+				Iterator<Creneau> it = creneaux.iterator();
+				while(it.hasNext()) {
+					Creneau c = it.next();
+					if((c.getCandide() != null && c.getCandide().getName().equals(email))
+							|| (c.getEnseignant() != null && c.getEnseignant().getName().equals(email))
+							|| (c.getTuteur() != null && c.getTuteur().getName().equals(email))) {
+						System.err.println("Impossible a insérer : " + c);
+						impossibleAInserer.add(c);
+						it.remove();
+					}
 				}
 			}
 			putIndisponibilite(email, periode);
@@ -819,7 +821,7 @@ public class AlgoPlanningImplV3 {
 		return f;
 	}
 
-	public void serialize(int idPlanning) {
+	public void serialize(long idPlanning) {
 
 		File dir = new File(PERSIST_PATH + "/" + idPlanning);
 		dir.mkdirs();
@@ -844,7 +846,7 @@ public class AlgoPlanningImplV3 {
 		}
 	}
 
-	public void deserialize(int idPlanning) {
+	public void deserialize(long idPlanning) {
 		File f = new File(PERSIST_PATH + "/" + idPlanning + "/planning.ser");
 		System.out.println(PERSIST_PATH);
 		System.out.println(f.getAbsolutePath());
@@ -875,7 +877,7 @@ public class AlgoPlanningImplV3 {
 		}
 	}
 
-	public List<Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, int idPlanning) {
+	public List<Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, long idPlanning) {
 		deserialize(idPlanning);
 
 		String userEmail = unavailabilities.get(0).getPerson().getEmail();

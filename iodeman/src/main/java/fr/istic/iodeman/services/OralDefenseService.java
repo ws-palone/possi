@@ -1,13 +1,12 @@
 package fr.istic.iodeman.services;
 
-import fr.istic.iodeman.model.OralDefense;
+
+import fr.istic.iodeman.models.OralDefense;
 
 import java.util.Collection;
 
 public interface OralDefenseService {
-    Collection<OralDefense> save(Collection<OralDefense> oralDefenses);
+    Iterable<OralDefense> save(Collection<OralDefense> oralDefenses);
 
-    Collection<OralDefense> update(Collection<OralDefense> oralDefenses);
-
-   void delete(Collection<OralDefense> oralDefenses);
+    void delete(Collection<OralDefense> oralDefenses);
 }

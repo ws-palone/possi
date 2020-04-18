@@ -1,9 +1,9 @@
 package fr.istic.iodeman.services;
 
-import fr.istic.iodeman.dao.PlanningDAO;
-import fr.istic.iodeman.dao.RoomDAO;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Room;
+import fr.istic.iodeman.models.Planning;
+import fr.istic.iodeman.models.Room;
+import fr.istic.iodeman.repositories.PlanningRepository;
+import fr.istic.iodeman.repositories.RoomRepository;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 
@@ -14,45 +14,42 @@ import java.util.List;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-	private final RoomDAO roomDAO;
+	private final RoomRepository roomRepository;
 	
-	private final PlanningDAO planningDAO;
+	private final PlanningRepository planningRepository;
 
-	public RoomServiceImpl(RoomDAO roomDAO, PlanningDAO planningDAO) {
-		this.roomDAO = roomDAO;
-		this.planningDAO = planningDAO;
+	public RoomServiceImpl(RoomRepository roomRepository, PlanningRepository planningRepository) {
+		this.roomRepository = roomRepository;
+		this.planningRepository = planningRepository;
 	}
 
-	// FIXME: 16/02/2020 créer des rooms en partant d'une liste
+	@Override
 	public List<Room> findOrCreateManyRooms(List<String> names) {
 		List<Room>rooms = new ArrayList<>();
 		for (String name : names) {
-			Room room = roomDAO.findByName(name);
+			Room room = roomRepository.findByName(name);
 			if (room == null) {
 				room = new Room();
-				room.setName(name);
-				roomDAO.persist(room);
-				rooms.add(room);
-				System.out.println(room.getId());
+				room.setName(name);;
+				rooms.add(roomRepository.save(room));
 			}
 		}
 		return  rooms;
-
 	}
 
 	@Override
-	public List<Room> findAll() {
-		return roomDAO.findAll();
+	public Iterable<Room> findAll() {
+		return roomRepository.findAll();
 	}
 
 	@Override
-	public Room delete(int roomID) {
+	public Room delete(Long roomId) {
 		boolean isNotInPlanning = true;
 
-		Room room = roomDAO.findById(roomID);
+		Room room = roomRepository.findById(roomId).get();
 		Validate.notNull(room);
 		
-		List<Planning> plannings = planningDAO.findAll();
+		Iterable<Planning> plannings = planningRepository.findAll();
 		
 		System.out.println(room.getName());
 		
@@ -67,7 +64,7 @@ public class RoomServiceImpl implements RoomService {
 		}
 
 		if(isNotInPlanning){
-			roomDAO.delete(room);
+			roomRepository.delete(room);
 			return room;
 		}
 		

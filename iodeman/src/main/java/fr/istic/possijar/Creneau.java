@@ -102,7 +102,7 @@ public class Creneau implements Serializable {
 		this.couleur = couleur;
     }
 
-	public int getCouleur() {
+	public long getCouleur() {
 		return couleur;
 	}
 }

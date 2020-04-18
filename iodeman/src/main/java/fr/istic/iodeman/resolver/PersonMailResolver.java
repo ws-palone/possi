@@ -1,25 +1,27 @@
 package fr.istic.iodeman.resolver;
 
-import fr.istic.iodeman.dao.PersonDAO;
-import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.models.Person;
+import fr.istic.iodeman.repositories.PersonRepository;
 import fr.istic.iodeman.services.LdapRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PersonMailResolver implements PersonResolver {
 
-	@Autowired
-	private PersonDAO personDAO;
+	private final PersonRepository personRepository;
 	
-	@Autowired
-	private LdapRepository ldapRepository;
-	
+	private final LdapRepository ldapRepository;
+
+	public PersonMailResolver(PersonRepository personRepository, LdapRepository ldapRepository) {
+		this.personRepository = personRepository;
+		this.ldapRepository = ldapRepository;
+	}
+
 	public Person resolve(String mail) {
 		
 		System.err.println("Mail : On cherche pour " + mail);
 		
-		Person person = personDAO.findByEmail(mail);
+		Person person = personRepository.findByEmail(mail);
 		
 		System.err.println("On cherche via personDAO " + person);
 		
@@ -35,7 +37,7 @@ public class PersonMailResolver implements PersonResolver {
 			}
 			if (person != null) {
 				System.err.println("On a trouvé, donc on persiste");
-				personDAO.persist(person);
+				return personRepository.save(person);
 			}
 		}
 		

@@ -5,10 +5,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.Room;
-import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.models.Participant;
+import fr.istic.iodeman.models.Planning;
+import fr.istic.iodeman.models.Room;
+import fr.istic.iodeman.models.TimeBox;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 

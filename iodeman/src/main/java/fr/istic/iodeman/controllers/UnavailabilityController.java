@@ -2,7 +2,8 @@ package fr.istic.iodeman.controllers;
 
 import fr.istic.iodeman.dto.UnavailabilityAgendaDTO;
 import fr.istic.iodeman.dto.UnavailabilityToUpdateDTO;
-import fr.istic.iodeman.model.Unavailability;
+import fr.istic.iodeman.models.Unavailability;
+import fr.istic.iodeman.repositories.UnavailabilityRepository;
 import fr.istic.iodeman.services.PlanningService;
 import fr.istic.iodeman.services.UnavailabilityService;
 import fr.istic.iodeman.strategy.PlanningSplitter;
@@ -18,6 +19,7 @@ public class UnavailabilityController {
 
 	private final UnavailabilityService unavailabilityService;
 
+
 	private final PlanningService planningService;
 
 	public UnavailabilityController(UnavailabilityService unavailabilityService, PlanningService planningService) {
@@ -25,13 +27,8 @@ public class UnavailabilityController {
 		this.planningService = planningService;
 	}
 
-	@GetMapping("/{id}")
-	public List<Unavailability> findById(@PathVariable("id") Integer id, @RequestParam("person") String uidperson ){
-		return unavailabilityService.findById(id, uidperson);
-	}
-
 	@PostMapping(value = "/update/{planningId}")
-	public Collection<Unavailability> update(@RequestBody UnavailabilityToUpdateDTO unavailability, @PathVariable("planningId") Integer planningId) {
+	public Collection<Unavailability> update(@RequestBody UnavailabilityToUpdateDTO unavailability, @PathVariable("planningId") Long planningId) {
 
 		unavailabilityService.save(planningId, unavailability.getToAdd());
 		unavailabilityService.delete(planningId, unavailability.getToRemove());
@@ -48,8 +45,8 @@ public class UnavailabilityController {
 		return unavailabilityService.findById(planningId, uid);
 	}
 
-	@RequestMapping("/agenda/{planningId}/{personUid}")
-	public UnavailabilityAgendaDTO exportAgenda(@PathVariable("planningId") Integer planningId, @PathVariable("personUid") String personUid){
+	@GetMapping("/agenda/{planningId}/{personUid}")
+	public UnavailabilityAgendaDTO exportAgenda(@PathVariable("planningId") Long planningId, @PathVariable("personUid") String personUid){
 		UnavailabilityAgendaDTO unavailabilityAgendaDTO = new UnavailabilityAgendaDTO();
 		PlanningSplitter planningSplitter = new PlanningSplitterImpl();
 		unavailabilityAgendaDTO.setTimeBoxes(planningSplitter.execute(planningService.findById(planningId)).getTimeBoxes());

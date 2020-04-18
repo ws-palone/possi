@@ -1,6 +1,6 @@
 package fr.istic.iodeman.dto;
 
-import fr.istic.iodeman.model.Participant;
+import fr.istic.iodeman.models.Participant;
 
 import java.util.Collection;
 

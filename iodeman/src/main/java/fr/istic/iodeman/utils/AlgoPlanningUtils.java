@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import fr.istic.iodeman.model.*;
+import fr.istic.iodeman.models.*;
 import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;

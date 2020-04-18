@@ -1,22 +1,20 @@
 package fr.istic.iodeman.services;
 
-import fr.istic.iodeman.model.Unavailability;
+
+import fr.istic.iodeman.models.Unavailability;
 
 import java.util.Collection;
 import java.util.List;
 
 public interface UnavailabilityService {
-	
-	List<Unavailability> findById(Integer id, String uid);
 
-	void save(Integer planningId, Collection<Unavailability> unavailabilities);
+	List<Unavailability> findById(Long idPlanning, String uid);
 
-	Unavailability delete(Integer id);
-	
-	Collection<Unavailability> delete(Integer planningId, Collection<Unavailability> unavailabilities);
+	void save(Long idPlanning, Collection<Unavailability> unavailabilities);
 
-	void deleteByPlanning(Integer planningId);
+	void delete(Long id);
 
-	void deleteAll(Integer id, Integer ref_id);
+	void delete(Long idPlanning, Collection<Unavailability> unavailabilities);
 
+	void deleteByPlanning(Long planningId);
 }

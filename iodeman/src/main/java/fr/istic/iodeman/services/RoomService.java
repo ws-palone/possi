@@ -1,15 +1,15 @@
 package fr.istic.iodeman.services;
 
-import fr.istic.iodeman.model.Room;
+
+import fr.istic.iodeman.models.Room;
 
 import java.util.List;
 
 public interface RoomService {
 
 	List<Room> findOrCreateManyRooms(List<String> names);
-	
-	List<Room> findAll();
-	
-	Room delete(int roomID);
-	
+
+	Iterable<Room> findAll();
+
+	Room delete(Long roomId);
 }

@@ -3,7 +3,7 @@ package fr.istic.iodeman.dto;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import fr.istic.iodeman.model.TimeBox;
+import fr.istic.iodeman.models.TimeBox;
 
 public class AgendaDTO {
 	private String line;
