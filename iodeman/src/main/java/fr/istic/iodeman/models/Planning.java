@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Audited
 public class Planning extends AuditModel {
 	
 	@Id
@@ -43,20 +42,17 @@ public class Planning extends AuditModel {
 	private TimeBox dayPeriod;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Collection<Room> rooms;
 
-	@NotAudited
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private Collection<Priority> priorities;
 
-	@NotAudited
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
 	private Collection<OralDefense> oralDefenses;
 
-	@NotAudited
 	@ManyToOne
 	private Person admin;
 
