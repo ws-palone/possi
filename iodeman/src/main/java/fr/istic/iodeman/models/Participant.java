@@ -1,6 +1,5 @@
 package fr.istic.iodeman.models;
 
-import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +8,6 @@ import javax.persistence.ManyToOne;
 
 
 @Entity
-@Audited
 public class Participant extends AuditModel {
 	
 	@Id
@@ -23,7 +21,7 @@ public class Participant extends AuditModel {
 	private String tutorFullName;
 	
 	private String company;
-	
+
 	public Long getId() {
 		return id;
 	}

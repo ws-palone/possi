@@ -881,14 +881,16 @@ public class AlgoPlanningImplV3 {
 		deserialize(idPlanning);
 
 		String userEmail = unavailabilities.get(0).getPerson().getEmail();
-		Set<Integer> newUnavailabilities = new HashSet<>();
-		List<Creneau> personCreneaux = configureAvantUpdate(userEmail, unavailabilities, newUnavailabilities, TimeBoxHelper.parseTimebox(timeBoxes));
+		Set<Integer> allUnavailabilities = new HashSet<>();
+		Map<String, Integer> timeBoxResolved = TimeBoxHelper.parseTimebox(timeBoxes);
+		Set<Integer> newUnavailabilities = unavailabilities.stream().map(u -> TimeBoxHelper.find(timeBoxResolved, u.getPeriod())).collect(Collectors.toSet());
+		List<Creneau> personCreneaux = configureAvantUpdate(userEmail, unavailabilities, allUnavailabilities, timeBoxResolved);
 
 		List<Creneau> creneauxToUpdate = new ArrayList<>();
 
-		for(Creneau creneau : personCreneaux) {
+		for (Creneau creneau : personCreneaux) {
 			Enseignant actor = creneau.getEnseignant().getName().equals(userEmail) ? creneau.getEnseignant() : creneau.getCandide();
-			actor.resetDisponibilites(planning.size(), newUnavailabilities);
+			actor.resetDisponibilites(planning.size(), allUnavailabilities);
 			Iterator<Integer> iterator = newUnavailabilities.iterator();
 			boolean found = false;
 			while (iterator.hasNext() && !found) {

@@ -11,7 +11,6 @@ import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
-import org.springframework.data.history.Revisions;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -83,8 +82,8 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
-	public List<Planning> findAdminBy(String uid){
-		return planningRepository.findByAdmin_Uid(uid);
+	public List<Planning> findPersonBy(String uid){
+		return planningRepository.findByPerson(uid);
 	}
 
 	@Override
@@ -153,10 +152,6 @@ public class PlanningServiceImpl implements PlanningService {
 		return planningRepository.findAll();
 	}
 
-	@Override
-	public Revisions<Long, Planning> findRevision(Long id) {
-		return planningRepository.findRevisions(id);
-	}
 
 
 }

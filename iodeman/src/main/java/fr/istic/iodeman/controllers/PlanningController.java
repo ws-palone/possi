@@ -9,6 +9,7 @@ import org.springframework.data.history.Revision;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestMapping("/plannings")
 @RestController
@@ -30,17 +31,21 @@ public class PlanningController {
 
 	@GetMapping("/{id}")
 	public Planning findById(@PathVariable("id") Long id) {
-		return planningService.findById(id);
+		Planning planning =  planningService.findById(id);
+		Collection<OralDefense> oralDefenses = planning.getOralDefenses();
+		for (OralDefense oralDefense : oralDefenses) {
+			oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getComposition().getFollowingTeacher().getUid())
+					.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+			oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), oralDefense.getSecondTeacher().getUid())
+					.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+		}
+		return planning;
 	}
 
 	@GetMapping("/{id}/revisions")
 	public Collection<RevisionsDTO> findRevision(@PathVariable("id") Long id) {
-		List<Revision<Long, Planning>> revisions = planningService.findRevision(id).getContent();
-		Collection<RevisionsDTO> revisionsDTOS = new ArrayList<>();
-		for (Revision<Long, Planning> revision : revisions) {
-			revisionsDTOS.add(new RevisionsDTO(revision.getRequiredRevisionNumber(), revision.getEntity()));
-		}
-		return revisionsDTOS;
+//		Todo retourner les versions d'un planning
+		return null;
 	}
 
 	@GetMapping("/find/{name}")

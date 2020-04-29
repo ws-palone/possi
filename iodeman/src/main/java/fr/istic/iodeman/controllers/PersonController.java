@@ -50,6 +50,6 @@ public class PersonController {
 	@GetMapping("/{uid}/plannings")
 	public List<Planning> planningsByPerson(@PathVariable("uid") String uid){
 //		Fixme: A revoir
-		return planningService.findAdminBy(uid);
+		return planningService.findPersonBy(uid);
 	}
 }

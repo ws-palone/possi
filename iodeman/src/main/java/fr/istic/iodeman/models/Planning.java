@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Audited
 public class Planning extends AuditModel {
 	
 	@Id
@@ -52,7 +51,6 @@ public class Planning extends AuditModel {
 
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.PERSIST)
-	@NotAudited
 	private Collection<Priority> priorities;
 
 	@LazyCollection(LazyCollectionOption.FALSE)

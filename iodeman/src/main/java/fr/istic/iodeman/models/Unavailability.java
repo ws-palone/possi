@@ -1,13 +1,11 @@
 package fr.istic.iodeman.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
 
 @Entity
-@Audited
 public class Unavailability extends AuditModel {
 
 	@Id

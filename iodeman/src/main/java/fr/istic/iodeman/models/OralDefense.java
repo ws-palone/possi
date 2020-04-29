@@ -1,14 +1,13 @@
 package fr.istic.iodeman.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 
 @Entity
-@Audited
 public class OralDefense extends AuditModel {
 	
 	@Id
@@ -40,6 +39,9 @@ public class OralDefense extends AuditModel {
 	@ManyToOne
 	@NotAudited
 	private Color color;
+
+	@Transient
+	private Collection<TimeBox> unavailabilities;
 
 	public Integer getNumber() {
 		return number;
@@ -103,5 +105,13 @@ public class OralDefense extends AuditModel {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public Collection<TimeBox> getUnavailabilities() {
+		return unavailabilities;
+	}
+
+	public void setUnavailabilities(Collection<TimeBox> unavailabilities) {
+		this.unavailabilities = unavailabilities;
 	}
 }

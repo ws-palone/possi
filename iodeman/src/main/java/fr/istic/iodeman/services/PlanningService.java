@@ -14,7 +14,7 @@ public interface PlanningService {
 
 	Planning update(Planning planning);
 
-	List<Planning> findAdminBy(String uid);
+	List<Planning> findPersonBy(String uid);
 
 	Planning findByName(String name);
 
@@ -27,6 +27,4 @@ public interface PlanningService {
 	void delete(Planning planning);
 
 	Iterable<Planning> findAll();
-
-    Revisions<Long, Planning> findRevision(Long id);
 }
