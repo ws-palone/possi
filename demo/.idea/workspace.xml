@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b3c21b5a-13df-411d-ab7c-a643d2e6b4ff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/dao/DaoCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/dao/DaoProduit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Produit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/AuthenticationInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/AuthenticationInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/SessionComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/SessionComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/builder/PlanningExportBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/builder/PlanningExportBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/cas/TicketValidatorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/cas/TicketValidatorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/FileUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/FileUploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/PersonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/PersonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/PlanningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/PlanningController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/controller/RoomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/OralDefenseDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/OralDefenseDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/OralDefenseDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/OralDefenseDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/ParticipantDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/ParticipantDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/ParticipantDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/ParticipantDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PersonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PersonDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PersonDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PersonDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PlanningDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PlanningDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PlanningDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PlanningDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PriorityDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PriorityDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PriorityDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/PriorityDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/UnavailabilityDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/UnavailabilityDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/UnavailabilityDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/dao/UnavailabilityDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/factory/OralDefenseFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/factory/OralDefenseFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/OralDefense.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/OralDefense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/Planning.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/Planning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/TimeBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/TimeBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/Unavailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/model/Unavailability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/resolver/PersonMailResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/resolver/PersonMailResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/resolver/PersonUidResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/resolver/PersonUidResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/service/PlanningServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/service/PlanningServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/service/UnavailabilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/service/UnavailabilityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/service/UnavailabilityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/service/UnavailabilityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/ParticipantsCSVImport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/ParticipantsCSVImport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/ParticipantsExcelImport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/ParticipantsExcelImport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/ParticipantsImport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/ParticipantsImport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningDataValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningDataValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningDataValidatorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningDataValidatorImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningExcelExport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningExcelExport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningExport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningExport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningSplitter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningSplitter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningSplitterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/PlanningSplitterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/UnavailabilityCostValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/UnavailabilityCostValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/UnavailabilityCostValidatorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/iodeman/strategy/UnavailabilityCostValidatorImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/possijar/Planning.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/possijar/Planning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/possijar/Tuteur.java" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/java/fr/istic/possijar/Tuteur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/resources/public/app/scripts/controllers/createPlanning.js" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/resources/public/app/scripts/controllers/createPlanning.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../iodeman/src/main/resources/public/app/views/createPlanning.html" beforeDir="false" afterPath="$PROJECT_DIR$/../iodeman/src/main/resources/public/app/views/createPlanning.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1YB4APIgGw9Lb8RoTbTFjiIx0db" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.demo.model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.DemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b3c21b5a-13df-411d-ab7c-a643d2e6b4ff" name="Default Changelist" comment="" />
+      <created>1582402509232</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582402509232</updated>
+      <workItem from="1582402541026" duration="5491000" />
+      <workItem from="1583334544343" duration="1786000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../../teaching-jxs-angular/pokedemo/node_modules/karma/config.tpl.js" />
+      </list>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="488" y="87" key="#com.intellij.ide.util.MemberChooser" timestamp="1582403408353">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="488" y="87" key="#com.intellij.ide.util.MemberChooser/0.0.1366.768@0.0.1366.768" timestamp="1582403408353" />
+    <state width="1322" height="386" key="GridCell.Tab.0.bottom" timestamp="1582403578188">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582403578188" />
+    <state width="1322" height="386" key="GridCell.Tab.0.center" timestamp="1582403578188">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1582403578188" />
+    <state width="1322" height="386" key="GridCell.Tab.0.left" timestamp="1582403578187">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1582403578187" />
+    <state width="1322" height="386" key="GridCell.Tab.0.right" timestamp="1582403578188">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1582403578188" />
+    <state width="1322" height="386" key="GridCell.Tab.1.bottom" timestamp="1582403578189">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.1.bottom/0.0.1366.768@0.0.1366.768" timestamp="1582403578189" />
+    <state width="1322" height="386" key="GridCell.Tab.1.center" timestamp="1582403578188">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.1.center/0.0.1366.768@0.0.1366.768" timestamp="1582403578188" />
+    <state width="1322" height="386" key="GridCell.Tab.1.left" timestamp="1582403578188">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.1.left/0.0.1366.768@0.0.1366.768" timestamp="1582403578188" />
+    <state width="1322" height="386" key="GridCell.Tab.1.right" timestamp="1582403578188">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="386" key="GridCell.Tab.1.right/0.0.1366.768@0.0.1366.768" timestamp="1582403578188" />
+  </component>
+</project>

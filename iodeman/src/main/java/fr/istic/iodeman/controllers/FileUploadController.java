@@ -4,8 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import fr.istic.iodeman.services.ParticipantService;
 import fr.istic.iodeman.dto.ExtractParticipantResponseDTO;
+import fr.istic.iodeman.services.OralDefenseService;
 import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +19,12 @@ public class FileUploadController {
 	PlanningService planningService;
 
 	final
-	ParticipantService participantService;
+	OralDefenseService oralDefenseService;
 	
 
-	public FileUploadController(PlanningService planningService, ParticipantService participantService) {
+	public FileUploadController(PlanningService planningService, OralDefenseService oralDefenseService) {
 		this.planningService = planningService;
-		this.participantService = participantService;
+		this.oralDefenseService = oralDefenseService;
 	}
 
 	@PostMapping(value="/upload/participants")
@@ -44,7 +44,7 @@ public class FileUploadController {
 			}
 		}
 
-		return participantService.extractParticipantFromCSV(outputFile);
+		return oralDefenseService.extractParticipantFromCSV(outputFile);
 	}
 
 }

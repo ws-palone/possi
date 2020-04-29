@@ -60,7 +60,7 @@ public class AlgoPlanningImplV3 {
 
 
 	public void configure(Planning planning_infos,
-						  Collection<Participant> participants,
+						  Collection<OralDefense> participants,
 						  Collection<TimeBox> timeboxes,
 						  Collection<Unavailability> unavailabilities) {
 
@@ -223,8 +223,8 @@ public class AlgoPlanningImplV3 {
 		}
 	}
 
-	private void configureParticipants(Collection<Participant> participants) {
-		for(Participant p : participants) {
+	private void configureParticipants(Collection<OralDefense> participants) {
+		for(OralDefense p : participants) {
 			String teacher = p.getFollowingTeacher().getEmail();
 			String tutor = p.getTutorFullName();
 

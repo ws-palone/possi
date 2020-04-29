@@ -74,7 +74,7 @@ public class AlgoPlanningUtils {
 		
 	}
 	
-	public static Collection<Unavailability> extractUnavailabilities(Collection<Unavailability> unavailabilities, final Participant participant, final Role role) {
+	public static Collection<Unavailability> extractUnavailabilities(Collection<Unavailability> unavailabilities, final OralDefense participant, final Role role) {
 		
 		if (unavailabilities != null && !unavailabilities.isEmpty()) {
 			return Collections2.filter(unavailabilities, new Predicate<Unavailability>() {

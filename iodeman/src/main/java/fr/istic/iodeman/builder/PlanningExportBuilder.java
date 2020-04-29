@@ -24,7 +24,7 @@ public class PlanningExportBuilder {
 	private PlanningDataValidator validator = new PlanningDataValidatorImpl();
 	private Planning planning;
 	private Collection<Unavailability> unavailabilities;
-	private Collection<Participant> participants;
+	private Collection<OralDefense> oralDefenses;
 	private List<TimeBox> timeboxes;
 
 	private final ColorRepository colorRepository;
@@ -59,8 +59,8 @@ public class PlanningExportBuilder {
 		return this;
 	}
 	
-	public PlanningExportBuilder setParticipants(Collection<Participant> participants) {
-		this.participants = new ArrayList<>(participants);
+	public PlanningExportBuilder setOralDefenses(Collection<OralDefense> oralDefenses) {
+		this.oralDefenses = new ArrayList<>(oralDefenses);
 		return this;
 	}
 	
@@ -70,7 +70,7 @@ public class PlanningExportBuilder {
 	}
 	
 	public PlanningExportBuilder validate() {
-		this.validator.configure(planning, participants, timeboxes);
+		this.validator.configure(planning, oralDefenses, timeboxes);
 		this.validator.validate();
 		return this;
 	}
@@ -79,9 +79,9 @@ public class PlanningExportBuilder {
 		System.out.println("PlanningExportBuilder build");
 		Validate.notNull(timeboxes);
 		Validate.notNull(unavailabilities);
-		Validate.notNull(participants);
+		Validate.notNull(oralDefenses);
 		algoPlanning_new.deserialize(planning.getId());
-		algoPlanning_new.configure(planning, participants, timeboxes, unavailabilities);
+		algoPlanning_new.configure(planning, oralDefenses, timeboxes, unavailabilities);
 		algoPlanning_new.execute();
 		algoPlanning_new.serialize(planning.getId());
 		//oralDefenses = algoPlanning.execute();
@@ -468,24 +468,21 @@ public class PlanningExportBuilder {
 		roomsSelected.sort(Comparator.comparing(Room::getId));
 		for (List<Creneau> creneauList : creneaux) {
 			for (Creneau creneau : creneauList) {
-				OralDefense oralDefense = new OralDefense();
-				oralDefense.setTimeBox(this.timeboxes.get(creneau.getPeriode()));
 
-				Iterator<Participant> iterator = this.participants.iterator();
+				Iterator<OralDefense> iterator = this.oralDefenses.iterator();
 				boolean found = false;
 				while (iterator.hasNext() && !found) {
-					Participant participant = iterator.next();
-					if (participant.getStudent().getEmail().equals(creneau.getStudent().getName())) {
-						oralDefense.setComposition(participant);
+					OralDefense oralDefense = iterator.next();
+					if (oralDefense.getStudent().getEmail().equals(creneau.getStudent().getName())) {
+						oralDefense.setTimeBox(this.timeboxes.get(creneau.getPeriode()));
+						oralDefense.setNumber(creneau.getNumero());
+						oralDefense.setColor(colorRepository.findById(creneau.getCouleur()).get());
+						oralDefense.setRoom(roomsSelected.get(creneau.getSalle()));
+						oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
 						found = true;
 					}
+					oralDefenses.add(oralDefense);
 				}
-				oralDefense.setRoom(roomsSelected.get(creneau.getSalle() - 1));
-				oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
-				oralDefense.setPlanning(this.planning);
-				oralDefense.setNumber(creneau.getNumero());
-				oralDefense.setColor(colorRepository.findById(creneau.getCouleur()).get());
-				oralDefenses.add(oralDefense);
 			}
 		}
 		return oralDefenses;

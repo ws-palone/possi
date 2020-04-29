@@ -1,6 +1,5 @@
 package fr.istic.iodeman.services;
 
-import com.google.common.collect.Lists;
 import fr.istic.iodeman.builder.PlanningExportBuilder;
 import fr.istic.iodeman.models.*;
 import fr.istic.iodeman.repositories.PersonRepository;
@@ -26,8 +25,6 @@ public class PlanningServiceImpl implements PlanningService {
 
 	private final PriorityRepository priorityRepository;
 
-	private final ParticipantService participantService;
-
 	private final OralDefenseService oralDefenseService;
 
 	private final PersonMailResolver personResolver;
@@ -36,12 +33,11 @@ public class PlanningServiceImpl implements PlanningService {
 
 	private final PlanningExportBuilder builder;
 
-	public PlanningServiceImpl(PersonRepository personRepository, PlanningRepository planningRepository, UnavailabilityRepository unavailabilityRepository, PriorityRepository priorityRepository, ParticipantService participantService, OralDefenseService oralDefenseService, PersonMailResolver personResolver, PlanningExportBuilder builder) {
+	public PlanningServiceImpl(PersonRepository personRepository, PlanningRepository planningRepository, UnavailabilityRepository unavailabilityRepository, PriorityRepository priorityRepository, OralDefenseService oralDefenseService, PersonMailResolver personResolver, PlanningExportBuilder builder) {
 		this.personRepository = personRepository;
 		this.planningRepository = planningRepository;
 		this.unavailabilityRepository = unavailabilityRepository;
 		this.priorityRepository = priorityRepository;
-		this.participantService = participantService;
 		this.oralDefenseService = oralDefenseService;
 		this.personResolver = personResolver;
 		this.planningSplitter = new PlanningSplitterImpl();
@@ -66,9 +62,9 @@ public class PlanningServiceImpl implements PlanningService {
 		priorityRepository.findAll().forEach(priorities::add);
 		planning.setPriorities(priorities);
 
-		Collection<Participant> participants = new ArrayList<>();
-		participantService.saveParticipants(planning.getParticipants()).forEach(participants::add);
-		planning.setParticipants(participants);
+		Collection<OralDefense> participants = new ArrayList<>();
+		oralDefenseService.save(planning.getOralDefenses()).forEach(participants::add);
+		planning.setOralDefenses(participants);
 
 		int timeBoxes = planningSplitter.execute(planning).getTimeBoxes().size();
 		planning.setNbMaxOralDefensePerDay(timeBoxes / planningSplitter.getNbDays());
@@ -100,17 +96,13 @@ public class PlanningServiceImpl implements PlanningService {
 
 		// initialize builder
 		builder.setPlanning(planning);
-		builder.setParticipants(planning.getParticipants());
+		builder.setOralDefenses(planning.getOralDefenses());
 		builder.setUnavailabilities(unavailabilityRepository.findByPlanning(planning));
 
 		// build & return
 		builder.split().build();
 
-		if (!planning.getOralDefenses().isEmpty())
-			oralDefenseService.delete(planning.getOralDefenses());
-		Collection<OralDefense> oralDefenses = new ArrayList<>();
-		oralDefenseService.save(builder.split().build().getOralDefenses(personResolver)).forEach(oralDefenses::add);
-		planning.setOralDefenses(builder.split().build().getOralDefenses(personResolver));
+		oralDefenseService.save(builder.split().build().getOralDefenses(personResolver));
 
 		return planning;
 	}
@@ -123,7 +115,7 @@ public class PlanningServiceImpl implements PlanningService {
 
 		// initialize builder
 		builder.setPlanning(planning);
-		builder.setParticipants(planning.getParticipants());
+		builder.setOralDefenses(planning.getOralDefenses());
 		builder.setUnavailabilities(unavailabilityRepository.findByPlanning(planning));
 
 		Collection<OralDefense> oralDefenses = new ArrayList<>();

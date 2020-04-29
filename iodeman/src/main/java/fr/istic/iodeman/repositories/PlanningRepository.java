@@ -11,8 +11,8 @@ public interface PlanningRepository extends CrudRepository<Planning, Long> {
     @Query("select distinct p from Planning p " +
             "join fetch p.oralDefenses o " +
             "where o.secondTeacher.uid = ?1 or " +
-            "o.composition.student.uid = ?1 or " +
-            "o.composition.followingTeacher.uid = ?1 or " +
+            "o.student.uid = ?1 or " +
+            "o.followingTeacher.uid = ?1 or " +
             "p.admin.uid = ?1")
     List<Planning> findByPerson(String uid);
 }

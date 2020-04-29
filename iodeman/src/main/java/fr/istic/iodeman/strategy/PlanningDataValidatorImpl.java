@@ -5,7 +5,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import fr.istic.iodeman.models.Participant;
+import fr.istic.iodeman.models.OralDefense;
 import fr.istic.iodeman.models.Planning;
 import fr.istic.iodeman.models.Room;
 import fr.istic.iodeman.models.TimeBox;
@@ -18,15 +18,15 @@ import java.util.List;
 public class PlanningDataValidatorImpl implements PlanningDataValidator{
 
 	private Planning planning;
-	private Collection<Participant> participants;
+	private Collection<OralDefense> oralDefenses;
 	private Collection<TimeBox> timeboxes;
 	
 	@Override
 	public void configure(Planning planning,
-			Collection<Participant> participants, Collection<TimeBox> timeboxes) {
+			Collection<OralDefense> participants, Collection<TimeBox> timeboxes) {
 		
 		this.planning = planning;
-		this.participants = participants;
+		this.oralDefenses = participants;
 		this.timeboxes = timeboxes;
 	}
 
@@ -44,11 +44,11 @@ public class PlanningDataValidatorImpl implements PlanningDataValidator{
 		Validate.notEmpty(timeboxes);
 				
 		// verify that we have participants
-		Validate.notNull(participants);
-		Validate.notEmpty(participants);
+		Validate.notNull(oralDefenses);
+		Validate.notEmpty(oralDefenses);
 				
 		// verify that we have enough timeboxes and rooms to create an oral defense for each participant
-		Validate.isTrue(timeboxes.size() * planning.getRooms().size() >= participants.size());
+		Validate.isTrue(timeboxes.size() * planning.getRooms().size() >= oralDefenses.size());
 		
 		List<Room> rooms = Lists.newArrayList(planning.getRooms());
 		
@@ -91,7 +91,7 @@ public class PlanningDataValidatorImpl implements PlanningDataValidator{
 		}
 		
 		// verify that be have enough timeboxes for all the participants
-		Validate.isTrue(nbBoxes >= participants.size());
+		Validate.isTrue(nbBoxes >= oralDefenses.size());
 
 	}
 

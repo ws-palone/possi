@@ -1,19 +1,19 @@
 package fr.istic.iodeman.dto;
 
-import fr.istic.iodeman.models.Participant;
+import fr.istic.iodeman.models.OralDefense;
 
 import java.util.Collection;
 
 public class ExtractParticipantResponseDTO {
 
-    private Collection<Participant>data;
+    private Collection<OralDefense> data;
     private Collection<ExtractParticipantErrorDTO>errors;
 
-    public Collection<Participant> getData() {
+    public Collection<OralDefense> getData() {
         return data;
     }
 
-    public void setData(Collection<Participant> data) {
+    public void setData(Collection<OralDefense> data) {
         this.data = data;
     }
 

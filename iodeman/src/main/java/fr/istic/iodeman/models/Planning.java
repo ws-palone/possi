@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Audited
 public class Planning extends AuditModel {
 	
 	@Id
@@ -42,21 +43,20 @@ public class Planning extends AuditModel {
 	private TimeBox dayPeriod;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Room> rooms;
 
+	@NotAudited
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany
-	private Collection<Participant> participants;
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private Collection<Priority> priorities;
 
+	@NotAudited
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
 	private Collection<OralDefense> oralDefenses;
 
+	@NotAudited
 	@ManyToOne
 	private Person admin;
 
@@ -135,14 +135,6 @@ public class Planning extends AuditModel {
 
 	public void setRooms(Collection<Room> rooms) {
 		this.rooms = rooms;
-	}
-
-	public Collection<Participant> getParticipants() {
-		return participants;
-	}
-
-	public void setParticipants(Collection<Participant> participants) {
-		this.participants = participants;
 	}
 
 	public Collection<Priority> getPriorities() {

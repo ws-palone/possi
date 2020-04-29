@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import fr.istic.iodeman.dto.ExtractParticipantErrorDTO;
-import fr.istic.iodeman.models.Participant;
+import fr.istic.iodeman.models.OralDefense;
 import fr.istic.iodeman.models.Person;
 import fr.istic.iodeman.models.Role;
 import fr.istic.iodeman.resolver.PersonResolver;
@@ -25,9 +25,9 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 		this.personResolver = personResolver;
 	}
 	
-	public Collection<Participant> execute(File file) throws Exception {
+	public Collection<OralDefense> execute(File file) throws Exception {
 		
-		Collection<Participant> participants = new ArrayList<Participant>();
+		Collection<OralDefense> participants = new ArrayList<OralDefense>();
 		Collection<String> students = new ArrayList<String>();
 		
 		BufferedReader br = null;
@@ -56,7 +56,7 @@ public class ParticipantsCSVImport implements ParticipantsImport {
                 String stu_prenom = row[2].trim();
                 
                 // create participants
-    			Participant participant = new Participant();
+    			OralDefense participant = new OralDefense();
 				String emailStudent = row[0].trim();
 				String emailTeacher = row[4].trim();
 				String normedEmailStudent = normalize(emailStudent);

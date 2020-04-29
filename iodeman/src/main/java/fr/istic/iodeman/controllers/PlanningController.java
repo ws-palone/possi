@@ -34,10 +34,12 @@ public class PlanningController {
 		Planning planning =  planningService.findById(id);
 		Collection<OralDefense> oralDefenses = planning.getOralDefenses();
 		for (OralDefense oralDefense : oralDefenses) {
-			oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getComposition().getFollowingTeacher().getUid())
-					.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
-			oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), oralDefense.getSecondTeacher().getUid())
-					.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+			if(oralDefense.getNumber() != null) {
+				oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getFollowingTeacher().getUid())
+						.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+				oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), oralDefense.getSecondTeacher().getUid())
+						.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+			}
 		}
 		return planning;
 	}

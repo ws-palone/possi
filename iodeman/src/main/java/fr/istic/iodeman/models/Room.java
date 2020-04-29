@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@Audited
 public class Room extends AuditModel implements Comparable<Room>{
 	@Id
 	@GeneratedValue
