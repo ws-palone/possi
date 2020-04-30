@@ -44,7 +44,7 @@ public class Planning extends AuditModel {
 	private Collection<Room> rooms;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private Collection<Priority> priorities;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
