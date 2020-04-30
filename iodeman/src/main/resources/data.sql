@@ -41,6 +41,10 @@ INSERT INTO room VALUES (34, '2020-04-18 17:12:47.146', '2020-04-18 17:12:47.146
 --
 
 INSERT INTO person VALUES (1, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'koitrin.koffi@etudiant.univ-rennes1.fr', 'Koitrin', 'KOFFI', 2, 'koikoffi');
+INSERT INTO person VALUES (1, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'celie.rault@etudiant.univ-rennes1.fr', 'Célie', 'RAULT', 2, 'crault');
+INSERT INTO person VALUES (1, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'arthur.poilane@etudiant.univ-rennes1.fr', 'Arthur', 'POILANE', 2, '17007223');
+INSERT INTO person VALUES (1, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'oklin.kone@etudiant.univ-rennes1.fr', 'Oklin', 'KONE', 2, 'okone');
+INSERT INTO person VALUES (1, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'othniel.konan@etudiant.univ-rennes1.fr', 'Othniel', 'KONAN', 2, 'kkonan');
 INSERT INTO person VALUES (2, '2020-04-18 17:11:25.525', '2020-04-18 17:11:25.525', 'maxime.meunier@etudiant.univ-rennes1.fr', 'Maxime', 'MEUNIER', 0, '14008414');
 INSERT INTO person VALUES (3, '2020-04-18 17:11:25.527', '2020-04-18 17:11:25.527', 'yoann.letaillanter@etudiant.univ-rennes1.fr', 'Yoann', 'LE TAILLANTER', 0, '14007427');
 INSERT INTO person VALUES (4, '2020-04-18 17:11:25.529', '2020-04-18 17:11:25.529', 'thibault.leroux@etudiant.univ-rennes1.fr', 'Thibault', 'LE ROUX', 0, '14008282');
@@ -49,7 +53,7 @@ INSERT INTO person VALUES (6, '2020-04-18 17:11:25.533', '2020-04-18 17:11:25.53
 INSERT INTO person VALUES (7, '2020-04-18 17:11:25.536', '2020-04-18 17:11:25.536', 'mariia.iermolenko@etudiant.univ-rennes1.fr', 'Mariia', 'IERMOLENKO', 0, '15011078');
 INSERT INTO person VALUES (8, '2020-04-18 17:11:25.539', '2020-04-18 17:11:25.539', 'julie.guegnaud@etudiant.univ-rennes1.fr', 'Julie', 'GUEGNAUD', 0, '14010287');
 INSERT INTO person VALUES (9, '2020-04-18 17:11:25.542', '2020-04-18 17:11:25.542', 'mickael.foursov@univ-rennes1.fr', 'Mickael', 'FOURSOV', 1, 'foursov');
-INSERT INTO person VALUES (10, '2020-04-18 17:11:25.545', '2020-04-18 17:11:25.545', 'Gilles.Lesventes@univ-rennes1.fr', 'Gilles', 'LESVENTES', 1, 'lesvente');
+INSERT INTO person VALUES (10, '2020-04-18 17:11:25.545', '2020-04-18 17:11:25.545', 'gilles.lesventes@univ-rennes1.fr', 'Gilles', 'LESVENTES', 1, 'lesvente');
 INSERT INTO person VALUES (11, '2020-04-18 17:11:25.547', '2020-04-18 17:11:25.547', 'corentin.cocoual@etudiant.univ-rennes1.fr', 'Corentin', 'COCOUAL', 0, '14006103');
 INSERT INTO person VALUES (12, '2020-04-18 17:11:25.549', '2020-04-18 17:11:25.549', 'sebastien.ferre@univ-rennes1.fr', 'Sebastien', 'FERRE', 1, 'sferre');
 INSERT INTO person VALUES (13, '2020-04-18 17:11:25.552', '2020-04-18 17:11:25.552', 'alexandre.berteaux@etudiant.univ-rennes1.fr', 'Alexandre', 'BERTEAUX', 0, '14008681');
@@ -64,8 +68,8 @@ INSERT INTO person VALUES (21, '2020-04-18 17:11:25.575', '2020-04-18 17:11:25.5
 INSERT INTO person VALUES (22, '2020-04-18 17:11:25.577', '2020-04-18 17:11:25.577', 'hugo.vallee@etudiant.univ-rennes1.fr', 'Hugo', 'VALLEE', 0, '11003199');
 INSERT INTO person VALUES (23, '2020-04-18 17:11:25.579', '2020-04-18 17:11:25.579', 'thierno-ousmane.sow@etudiant.univ-rennes1.fr', 'Thierno Ousmane', 'SOW', 0, '15009722');
 INSERT INTO person VALUES (24, '2020-04-18 17:11:25.581', '2020-04-18 17:11:25.581', 'jeremy.viallatte@etudiant.univ-rennes1.fr', 'Jeremy', 'VIALLATTE', 0, '14006680');
-INSERT INTO person VALUES (25, '2020-04-18 17:11:25.582', '2020-04-18 17:11:25.582', 'Charles.Queguiner@univ-rennes1.fr', 'Charles', 'QUEGUINER', 1, 'queguine');
-INSERT INTO person VALUES (26, '2020-04-18 17:11:25.585', '2020-04-18 17:11:25.585', 'Marc.Bousse@univ-rennes1.fr', 'Marc', 'BOUSSE', 1, 'bousse');
+INSERT INTO person VALUES (25, '2020-04-18 17:11:25.582', '2020-04-18 17:11:25.582', 'charles.queguiner@univ-rennes1.fr', 'Charles', 'QUEGUINER', 1, 'queguine');
+INSERT INTO person VALUES (26, '2020-04-18 17:11:25.585', '2020-04-18 17:11:25.585', 'marc.bousse@univ-rennes1.fr', 'Marc', 'BOUSSE', 1, 'bousse');
 INSERT INTO person VALUES (27, '2020-04-18 17:11:25.588', '2020-04-18 17:11:25.588', 'hugo.bocquet@etudiant.univ-rennes1.fr', 'Hugo', 'BOCQUET', 0, '14007993');
 INSERT INTO person VALUES (28, '2020-04-18 17:11:25.59', '2020-04-18 17:11:25.59', 'manal.afif@etudiant.univ-rennes1.fr', 'Manal', 'AFIF', 0, '29003413');
 INSERT INTO person VALUES (29, '2020-04-18 17:11:25.591', '2020-04-18 17:11:25.591', 'leon.perrier@etudiant.univ-rennes1.fr', 'Leon', 'Perrier', 0, '10045079');

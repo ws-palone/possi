@@ -2,14 +2,12 @@ package fr.istic.iodeman.services;
 
 import fr.istic.iodeman.builder.PlanningExportBuilder;
 import fr.istic.iodeman.models.*;
-import fr.istic.iodeman.repositories.PersonRepository;
-import fr.istic.iodeman.repositories.PlanningRepository;
-import fr.istic.iodeman.repositories.PriorityRepository;
-import fr.istic.iodeman.repositories.UnavailabilityRepository;
+import fr.istic.iodeman.repositories.*;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,9 +29,11 @@ public class PlanningServiceImpl implements PlanningService {
 
 	private final PlanningSplitter planningSplitter;
 
-	private final PlanningExportBuilder builder;
+	private final ColorRepository colorRepository;
 
-	public PlanningServiceImpl(PersonRepository personRepository, PlanningRepository planningRepository, UnavailabilityRepository unavailabilityRepository, PriorityRepository priorityRepository, OralDefenseService oralDefenseService, PersonMailResolver personResolver, PlanningExportBuilder builder) {
+	private  PlanningExportBuilder builder;
+
+	public PlanningServiceImpl(PersonRepository personRepository, PlanningRepository planningRepository, UnavailabilityRepository unavailabilityRepository, PriorityRepository priorityRepository, OralDefenseService oralDefenseService, PersonMailResolver personResolver, ColorRepository colorRepository) {
 		this.personRepository = personRepository;
 		this.planningRepository = planningRepository;
 		this.unavailabilityRepository = unavailabilityRepository;
@@ -41,7 +41,7 @@ public class PlanningServiceImpl implements PlanningService {
 		this.oralDefenseService = oralDefenseService;
 		this.personResolver = personResolver;
 		this.planningSplitter = new PlanningSplitterImpl();
-		this.builder = builder;
+		this.colorRepository = colorRepository;
 	}
 
 	@Override
@@ -62,14 +62,22 @@ public class PlanningServiceImpl implements PlanningService {
 		priorityRepository.findAll().forEach(priorities::add);
 		planning.setPriorities(priorities);
 
-		Collection<OralDefense> participants = new ArrayList<>();
-		oralDefenseService.save(planning.getOralDefenses()).forEach(participants::add);
-		planning.setOralDefenses(participants);
+		Collection<OralDefense> oralDefenses = planning.getOralDefenses();
+
+		planning.setOralDefenses(null);
 
 		int timeBoxes = planningSplitter.execute(planning).getTimeBoxes().size();
 		planning.setNbMaxOralDefensePerDay(timeBoxes / planningSplitter.getNbDays());
 
-		return planningRepository.save(planning);
+		planning = planningRepository.save(planning);
+
+		for (OralDefense oralDefense : oralDefenses) {
+			oralDefense.setPlanning(planning);
+		}
+
+		oralDefenseService.save(oralDefenses);
+
+		return this.findById(planning.getId());
 	}
 
 	@Override
@@ -95,6 +103,7 @@ public class PlanningServiceImpl implements PlanningService {
 		Validate.notNull(planning);
 
 		// initialize builder
+		builder = new PlanningExportBuilder(colorRepository);
 		builder.setPlanning(planning);
 		builder.setOralDefenses(planning.getOralDefenses());
 		builder.setUnavailabilities(unavailabilityRepository.findByPlanning(planning));
@@ -114,6 +123,7 @@ public class PlanningServiceImpl implements PlanningService {
 		Validate.notNull(planning);
 
 		// initialize builder
+		builder = new PlanningExportBuilder(colorRepository);
 		builder.setPlanning(planning);
 		builder.setOralDefenses(planning.getOralDefenses());
 		builder.setUnavailabilities(unavailabilityRepository.findByPlanning(planning));
@@ -129,6 +139,7 @@ public class PlanningServiceImpl implements PlanningService {
 	public void updateByPersonUnavailabilities(Long planningId, String personUid) {
 		Planning planning = this.findById(planningId);
 		Validate.notNull(planning);
+		builder = new PlanningExportBuilder(colorRepository);
 		builder.setPlanning(planning);
 		oralDefenseService.save(builder.split().updatePlanning(unavailabilityRepository.findByPlanningAndPerson(planning, personRepository.findByUid(personUid))));
 

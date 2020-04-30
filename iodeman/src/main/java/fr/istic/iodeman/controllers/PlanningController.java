@@ -5,7 +5,6 @@ import fr.istic.iodeman.models.*;
 import fr.istic.iodeman.services.PlanningService;
 import fr.istic.iodeman.services.UnavailabilityService;
 import org.apache.commons.lang.Validate;
-import org.springframework.data.history.Revision;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;

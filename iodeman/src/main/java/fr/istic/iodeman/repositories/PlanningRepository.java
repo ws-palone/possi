@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface PlanningRepository extends CrudRepository<Planning, Long> {
     Planning findByName(String name);
+
     @Query("select distinct p from Planning p " +
-            "join fetch p.oralDefenses o " +
-            "where o.secondTeacher.uid = ?1 or " +
+            "join p.oralDefenses o " +
+            "where p.admin.uid = ?1 or " +
             "o.student.uid = ?1 or " +
-            "o.followingTeacher.uid = ?1 or " +
-            "p.admin.uid = ?1")
+            "o.followingTeacher.uid = ?1"
+    )
     List<Planning> findByPerson(String uid);
 }

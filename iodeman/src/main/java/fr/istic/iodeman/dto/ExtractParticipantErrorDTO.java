@@ -2,14 +2,14 @@ package fr.istic.iodeman.dto;
 
 public class ExtractParticipantErrorDTO {
 
-    private String participant;
+    private String typeError;
 
     public ExtractParticipantErrorDTO(String p){
-        this.participant = p;
+        this.typeError = p;
     }
 
-    public String getParticipant() {
-        return participant;
+    public String getTypeError() {
+        return typeError;
     }
 
 }

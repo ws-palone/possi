@@ -2,8 +2,6 @@ package fr.istic.iodeman.models;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 import org.springframework.data.history.RevisionMetadata;
 
 import javax.persistence.*;
@@ -50,7 +48,7 @@ public class Planning extends AuditModel {
 	private Collection<Priority> priorities;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "planning", cascade = CascadeType.REMOVE)
 	private Collection<OralDefense> oralDefenses;
 
 	@ManyToOne

@@ -1,7 +1,6 @@
 package fr.istic.iodeman.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -44,7 +43,6 @@ public class OralDefense extends AuditModel {
 	private Integer number;
 
 	@ManyToOne
-	@NotAudited
 	private Color color;
 
 	@Transient

@@ -16,7 +16,6 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
 public class PlanningExportBuilder {
 
 	private PlanningSplitter splitter = new PlanningSplitterImpl();
@@ -477,7 +476,7 @@ public class PlanningExportBuilder {
 						oralDefense.setTimeBox(this.timeboxes.get(creneau.getPeriode()));
 						oralDefense.setNumber(creneau.getNumero());
 						oralDefense.setColor(colorRepository.findById(creneau.getCouleur()).get());
-						oralDefense.setRoom(roomsSelected.get(creneau.getSalle()));
+						oralDefense.setRoom(roomsSelected.get(creneau.getSalle() - 1));
 						oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
 						found = true;
 					}
