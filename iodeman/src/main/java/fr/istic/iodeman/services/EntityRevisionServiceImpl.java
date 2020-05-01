@@ -85,6 +85,6 @@ public class EntityRevisionServiceImpl implements EntityRevisionService {
 
     @Override
     public List<PlanningRevision> getRevision(Long id) {
-        return planningRevisionRepository.findAllByPlanning_Id(id);
+        return planningRevisionRepository.findAllByPlanning_IdOrderByCreatedAt(id);
     }
 }

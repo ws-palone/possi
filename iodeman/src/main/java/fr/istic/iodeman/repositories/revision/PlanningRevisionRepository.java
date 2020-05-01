@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface PlanningRevisionRepository extends CrudRepository<PlanningRevision, Long> {
-    List<PlanningRevision> findAllByPlanning_Id(Long id);
+    List<PlanningRevision> findAllByPlanning_IdOrderByCreatedAt(Long id);
 }

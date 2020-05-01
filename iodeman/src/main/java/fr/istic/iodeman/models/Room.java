@@ -1,6 +1,5 @@
 package fr.istic.iodeman.models;
 
-import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

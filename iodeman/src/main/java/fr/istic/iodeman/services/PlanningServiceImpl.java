@@ -7,8 +7,6 @@ import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
-import org.hibernate.envers.RevisionEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

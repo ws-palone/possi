@@ -16,13 +16,24 @@ import com.unboundid.ldap.sdk.SearchResultEntry;
 import com.unboundid.ldap.sdk.SearchScope;
 import com.unboundid.util.ssl.SSLUtil;
 import com.unboundid.util.ssl.TrustAllTrustManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
-public class LdapDataImpl implements LdapData{
+@Component
+public class LdapDataImpl {
+	private String ldapUrl;
+
+	private String ldapBase;
+
 	private SSLUtil sslUtil;
 	private SSLSocketFactory sslSocketFactory ;
 	private LDAPConnection c;
 	
-	public LdapDataImpl() {
+	public LdapDataImpl(Environment env) {
+		ldapBase = env.getProperty("ldap.base");
+		ldapUrl = env.getProperty("ldap.url");
 		sslUtil = new SSLUtil(new TrustAllTrustManager());
 		try {
 			sslSocketFactory = sslUtil.createSSLSocketFactory();
@@ -32,7 +43,7 @@ public class LdapDataImpl implements LdapData{
 		}
 		c = new LDAPConnection(sslSocketFactory);
 		try {
-			c.connect("ldap.univ-rennes1.fr", 636);
+			c.connect(this.ldapUrl, 636);
 		} catch (LDAPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,24 +54,25 @@ public class LdapDataImpl implements LdapData{
 		return this.c;
 	}
 
-	@Override
 	public Map<String, String> getPersonByUid(String uid) {
-		Map<String,String> infosPerson = new HashMap<String,String>();
-		Filter filter = Filter.createEqualityFilter("uid", uid);
-		SearchRequest searchRequest = new SearchRequest("ou=People,dc=univ-rennes1,dc=fr", SearchScope.SUB, filter, "*");
-	    this.searchFactory(searchRequest, infosPerson);
-		return infosPerson;
-		
+		return getPersonAux(uid, false);
 	}
 
-	@Override
 	public Map<String, String> getPersonByEmail(String email) {
+		return getPersonAux(email, true);
+	}
+
+	private Map<String, String> getPersonAux(String search, boolean mail) {
 		Map<String,String> infosPerson = new HashMap<String,String>();
-		Filter filter = Filter.createEqualityFilter("mail", email);
-		SearchRequest searchRequest = new SearchRequest("ou=People,dc=univ-rennes1,dc=fr", SearchScope.SUB, filter, "*");
-		 this.searchFactory(searchRequest, infosPerson);
+		Filter filter;
+		if (mail)
+		 filter = Filter.createEqualityFilter("mail", search);
+		else
+		 filter = Filter.createEqualityFilter("uid", search);
+
+		SearchRequest searchRequest = new SearchRequest(ldapBase, SearchScope.SUB, filter, "*");
+		this.searchFactory(searchRequest, infosPerson);
 		return infosPerson;
-		
 	}
 	
 	private void searchFactory(SearchRequest searchRequest, Map<String,String> infosPerson) {

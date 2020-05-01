@@ -1,5 +1,7 @@
 package fr.istic.iodeman.controllers;
 
+import fr.istic.iodeman.ldap.LdapData;
+import fr.istic.iodeman.ldap.LdapDataImpl;
 import fr.istic.iodeman.models.Person;
 import fr.istic.iodeman.models.Planning;
 import fr.istic.iodeman.repositories.PersonRepository;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/persons")
 @RestController
