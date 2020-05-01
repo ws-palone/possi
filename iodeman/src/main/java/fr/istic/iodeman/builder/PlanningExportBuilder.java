@@ -5,12 +5,12 @@ import fr.istic.iodeman.models.*;
 import fr.istic.iodeman.repositories.ColorRepository;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.*;
-import fr.istic.possijar.AlgoPlanningImplV3;
+import fr.istic.possijar.AlgoPlanningImplV4;
 import fr.istic.possijar.Creneau;
+import fr.istic.possijar.Enseignant;
 import org.apache.commons.lang.Validate;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.*;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class PlanningExportBuilder {
 
 	private PlanningSplitter splitter = new PlanningSplitterImpl();
-	private AlgoPlanningImplV3 algoPlanning_new = new AlgoPlanningImplV3();
+	private AlgoPlanningImplV4 algoPlanning_new = new AlgoPlanningImplV4();
 	private PlanningDataValidator validator = new PlanningDataValidatorImpl();
 	private Planning planning;
 	private Collection<Unavailability> unavailabilities;
@@ -30,17 +30,17 @@ public class PlanningExportBuilder {
 
 	private ArrayList<Short> defcouleur = new ArrayList<Short>()
 	{{
-        add(IndexedColors.GREY_25_PERCENT.getIndex());
-        add(IndexedColors.YELLOW.getIndex());
-        add(IndexedColors.PALE_BLUE.getIndex());
-        add(IndexedColors.LIGHT_GREEN.getIndex());
-        add(IndexedColors.LIGHT_ORANGE.getIndex());
-        add(IndexedColors.WHITE.getIndex());
-        add(IndexedColors.LIGHT_TURQUOISE.getIndex());
-        add(IndexedColors.LIGHT_YELLOW.getIndex());
-        add(IndexedColors.CORAL.getIndex());
-        add(IndexedColors.LEMON_CHIFFON.getIndex());
-    }};
+		add(IndexedColors.GREY_25_PERCENT.getIndex());
+		add(IndexedColors.YELLOW.getIndex());
+		add(IndexedColors.PALE_BLUE.getIndex());
+		add(IndexedColors.LIGHT_GREEN.getIndex());
+		add(IndexedColors.LIGHT_ORANGE.getIndex());
+		add(IndexedColors.WHITE.getIndex());
+		add(IndexedColors.LIGHT_TURQUOISE.getIndex());
+		add(IndexedColors.LIGHT_YELLOW.getIndex());
+		add(IndexedColors.CORAL.getIndex());
+		add(IndexedColors.LEMON_CHIFFON.getIndex());
+	}};
 
 	private Map<String,HSSFCellStyle> couleurParProf = new HashMap<>();
 
@@ -57,30 +57,30 @@ public class PlanningExportBuilder {
 		this.unavailabilities = new ArrayList<>(unavailabilities);
 		return this;
 	}
-	
+
 	public PlanningExportBuilder setOralDefenses(Collection<OralDefense> oralDefenses) {
 		this.oralDefenses = new ArrayList<>(oralDefenses);
 		return this;
 	}
-	
+
 	public PlanningExportBuilder split() {
-		timeboxes = splitter.execute(planning).getTimeBoxesWithoutLunchBreak();
+		timeboxes = splitter.execute(planning).getTimeBoxes();
 		return this;
 	}
-	
+
 	public PlanningExportBuilder validate() {
 		this.validator.configure(planning, oralDefenses, timeboxes);
 		this.validator.validate();
 		return this;
 	}
-	
+
 	public PlanningExportBuilder build() {
 		System.out.println("PlanningExportBuilder build");
 		Validate.notNull(timeboxes);
 		Validate.notNull(unavailabilities);
 		Validate.notNull(oralDefenses);
 		algoPlanning_new.deserialize(planning.getId());
-		algoPlanning_new.configure(planning, oralDefenses, timeboxes, unavailabilities);
+		algoPlanning_new.configure(planning, oralDefenses, timeboxes, splitter.getTimeBoxesWithoutLunchBreak(), splitter.getLunchBreakTimeBoxes(), unavailabilities);
 		algoPlanning_new.execute();
 		algoPlanning_new.serialize(planning.getId());
 		//oralDefenses = algoPlanning.execute();
@@ -88,7 +88,7 @@ public class PlanningExportBuilder {
 		//oralDefenses = algoJuryAssignation.execute();
 		return this;
 	}
-	
+
 	public File toCSV() throws Exception {
 		return algoPlanning_new.getFile();
 	}
@@ -477,7 +477,11 @@ public class PlanningExportBuilder {
 						oralDefense.setNumber(creneau.getNumero());
 						oralDefense.setColor(colorRepository.findById(creneau.getCouleur()).get());
 						oralDefense.setRoom(roomsSelected.get(creneau.getSalle() - 1));
-						oralDefense.setSecondTeacher(personMailResolver.resolve(creneau.getCandide().getName()));
+						Enseignant secondTeacher = creneau.getCandide();
+						if (secondTeacher != null)
+							oralDefense.setSecondTeacher(personMailResolver.resolve(secondTeacher.getName()));
+						else
+							oralDefense.setSecondTeacher(null);
 						found = true;
 					}
 					oralDefenses.add(oralDefense);

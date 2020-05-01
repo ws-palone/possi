@@ -36,8 +36,11 @@ public class PlanningController {
 			if(oralDefense.getNumber() != null) {
 				oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getFollowingTeacher().getUid())
 						.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
-				oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), oralDefense.getSecondTeacher().getUid())
-						.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+				Person secondTeacher = oralDefense.getSecondTeacher();
+				if (secondTeacher != null) {
+					oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), secondTeacher.getUid())
+							.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+				}
 			}
 		}
 		return planning;

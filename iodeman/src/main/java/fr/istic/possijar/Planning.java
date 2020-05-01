@@ -84,7 +84,7 @@ public class Planning implements Initializable {
 	
 	final FileChooser fileChooser = new FileChooser();
 	
-	AlgoPlanningImplV3 algo = new AlgoPlanningImplV3();
+	AlgoPlanningImplV4 algo = new AlgoPlanningImplV4();
 	
 
 	public Planning(Stage primaryStage) throws IOException {
