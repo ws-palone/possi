@@ -2,9 +2,12 @@ package fr.istic.iodeman.controllers;
 
 import fr.istic.iodeman.dto.RevisionsDTO;
 import fr.istic.iodeman.models.*;
+import fr.istic.iodeman.models.revision.PlanningRevision;
+import fr.istic.iodeman.services.EntityRevisionService;
 import fr.istic.iodeman.services.PlanningService;
 import fr.istic.iodeman.services.UnavailabilityService;
 import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -18,9 +21,12 @@ public class PlanningController {
 
 	private final UnavailabilityService unavailabilityService;
 
-	public PlanningController(PlanningService planningService, UnavailabilityService unavailabilityService) {
+	private final EntityRevisionService entityRevisionService;
+
+	public PlanningController(PlanningService planningService, UnavailabilityService unavailabilityService, EntityRevisionService entityRevisionService) {
 		this.planningService = planningService;
 		this.unavailabilityService = unavailabilityService;
+		this.entityRevisionService = entityRevisionService;
 	}
 
 	@GetMapping
@@ -31,15 +37,17 @@ public class PlanningController {
 	@GetMapping("/{id}")
 	public Planning findById(@PathVariable("id") Long id) {
 		Planning planning =  planningService.findById(id);
-		Collection<OralDefense> oralDefenses = planning.getOralDefenses();
-		for (OralDefense oralDefense : oralDefenses) {
-			if(oralDefense.getNumber() != null) {
-				oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getFollowingTeacher().getUid())
-						.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
-				Person secondTeacher = oralDefense.getSecondTeacher();
-				if (secondTeacher != null) {
-					oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), secondTeacher.getUid())
+		if (planning != null) {
+			Collection<OralDefense> oralDefenses = planning.getOralDefenses();
+			for (OralDefense oralDefense : oralDefenses) {
+				if(oralDefense.getNumber() != null) {
+					oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getFollowingTeacher().getUid())
 							.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+					Person secondTeacher = oralDefense.getSecondTeacher();
+					if (secondTeacher != null) {
+						oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), secondTeacher.getUid())
+								.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+					}
 				}
 			}
 		}
@@ -47,9 +55,9 @@ public class PlanningController {
 	}
 
 	@GetMapping("/{id}/revisions")
-	public Collection<RevisionsDTO> findRevision(@PathVariable("id") Long id) {
+	public Collection<PlanningRevision> findRevision(@PathVariable("id") Long id) {
 //		Todo retourner les versions d'un planning
-		return null;
+		return entityRevisionService.getRevision(id);
 	}
 
 	@GetMapping("/find/{name}")

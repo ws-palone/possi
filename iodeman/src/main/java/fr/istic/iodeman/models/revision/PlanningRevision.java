@@ -1,5 +1,6 @@
 package fr.istic.iodeman.models.revision;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.istic.iodeman.models.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -39,6 +40,7 @@ public class PlanningRevision extends AuditModel {
     private TimeBox dayPeriod;
 
     @ManyToOne
+    @JsonIgnore
     private Planning planning;
 
     @LazyCollection(LazyCollectionOption.FALSE)
