@@ -7,6 +7,7 @@ import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.PlanningSplitter;
 import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
+import org.hibernate.envers.RevisionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,11 @@ public class PlanningServiceImpl implements PlanningService {
 
 	private final ColorRepository colorRepository;
 
+	private final EntityRevisionService entityRevisionService;
+
 	private  PlanningExportBuilder builder;
 
-	public PlanningServiceImpl(PersonRepository personRepository, PlanningRepository planningRepository, UnavailabilityRepository unavailabilityRepository, PriorityRepository priorityRepository, OralDefenseService oralDefenseService, PersonMailResolver personResolver, ColorRepository colorRepository) {
+	public PlanningServiceImpl(PersonRepository personRepository, PlanningRepository planningRepository, UnavailabilityRepository unavailabilityRepository, PriorityRepository priorityRepository, OralDefenseService oralDefenseService, PersonMailResolver personResolver, ColorRepository colorRepository, EntityRevisionService entityRevisionService) {
 		this.personRepository = personRepository;
 		this.planningRepository = planningRepository;
 		this.unavailabilityRepository = unavailabilityRepository;
@@ -42,6 +45,7 @@ public class PlanningServiceImpl implements PlanningService {
 		this.personResolver = personResolver;
 		this.planningSplitter = new PlanningSplitterImpl();
 		this.colorRepository = colorRepository;
+		this.entityRevisionService = entityRevisionService;
 	}
 
 	@Override
@@ -75,14 +79,24 @@ public class PlanningServiceImpl implements PlanningService {
 			oralDefense.setPlanning(planning);
 		}
 
-		oralDefenseService.save(oralDefenses);
 
-		return this.findById(planning.getId());
+		Iterator<OralDefense> iterator = oralDefenseService.save(oralDefenses).iterator();
+		oralDefenses = new ArrayList<>();
+		while (iterator.hasNext())
+			oralDefenses.add(iterator.next());
+
+		planning.setOralDefenses(oralDefenses);
+
+		entityRevisionService.createRevision(planning);
+
+		return planning;
 	}
 
 	@Override
 	public Planning update(Planning planning) {
-		return planningRepository.save(planning);
+		planning = planningRepository.save(planning);
+		entityRevisionService.createRevision(planning);
+		return planning;
 	}
 
 	@Override

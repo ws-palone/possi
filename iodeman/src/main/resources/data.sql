@@ -44,7 +44,7 @@ INSERT INTO person VALUES (1, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.49
 INSERT INTO person VALUES (31, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'celie.rault@etudiant.univ-rennes1.fr', 'Célie', 'RAULT', 2, 'crault');
 INSERT INTO person VALUES (32, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'arthur.poilane@etudiant.univ-rennes1.fr', 'Arthur', 'POILANE', 2, '17007223');
 INSERT INTO person VALUES (33, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'oklin.kone@etudiant.univ-rennes1.fr', 'Oklin', 'KONE', 2, 'okone');
-INSERT INTO person VALUES (34, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'othniel.konan@etudiant.univ-rennes1.fr', 'Othniel', 'KONAN', 2, 'kkonan');
+INSERT INTO person VALUES (34, '2020-04-18 17:11:25.497', '2020-04-18 17:11:25.497', 'kouassi-othniel.konan@etudiant.univ-rennes1.fr', 'Othniel', 'KONAN', 2, 'kkonan');
 INSERT INTO person VALUES (2, '2020-04-18 17:11:25.525', '2020-04-18 17:11:25.525', 'maxime.meunier@etudiant.univ-rennes1.fr', 'Maxime', 'MEUNIER', 0, '14008414');
 INSERT INTO person VALUES (3, '2020-04-18 17:11:25.527', '2020-04-18 17:11:25.527', 'yoann.letaillanter@etudiant.univ-rennes1.fr', 'Yoann', 'LE TAILLANTER', 0, '14007427');
 INSERT INTO person VALUES (4, '2020-04-18 17:11:25.529', '2020-04-18 17:11:25.529', 'thibault.leroux@etudiant.univ-rennes1.fr', 'Thibault', 'LE ROUX', 0, '14008282');

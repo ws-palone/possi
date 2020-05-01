@@ -1,5 +1,6 @@
 package fr.istic.iodeman.models;
 
+import fr.istic.iodeman.models.revision.PlanningRevision;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.history.RevisionMetadata;
@@ -50,6 +51,9 @@ public class Planning extends AuditModel {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "planning", cascade = CascadeType.REMOVE)
 	private Collection<OralDefense> oralDefenses;
+
+	@OneToMany(mappedBy = "planning", cascade = CascadeType.REMOVE)
+	private Collection<PlanningRevision> revisions;
 
 	@ManyToOne
 	private Person admin;
@@ -161,5 +165,13 @@ public class Planning extends AuditModel {
 
 	public void setEditVersion(RevisionMetadata<Integer> editVersion) {
 		this.editVersion = editVersion;
+	}
+
+	public Collection<PlanningRevision> getRevisions() {
+		return revisions;
+	}
+
+	public void setRevisions(Collection<PlanningRevision> revisions) {
+		this.revisions = revisions;
 	}
 }

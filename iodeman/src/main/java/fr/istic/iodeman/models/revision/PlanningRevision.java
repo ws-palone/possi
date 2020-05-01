@@ -38,16 +38,19 @@ public class PlanningRevision extends AuditModel {
     })
     private TimeBox dayPeriod;
 
+    @ManyToOne
+    private Planning planning;
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     private Collection<RoomRevision> rooms;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Priority> priorities;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "planning", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "planning", cascade = CascadeType.REMOVE)
     private Collection<OralDefenseRevision> oralDefenses;
 
     @ManyToOne
@@ -67,7 +70,7 @@ public class PlanningRevision extends AuditModel {
         this.lunchBreak = p.getLunchBreak();
         this.dayPeriod = p.getDayPeriod();
         this.nbMaxOralDefensePerDay = p.getNbMaxOralDefensePerDay();
-        this.priorities = p.getPriorities();
+        this.planning = p;
     }
 
     public Long getId() {
@@ -172,5 +175,13 @@ public class PlanningRevision extends AuditModel {
 
     public void setRevInfo(RevInfo revInfo) {
         this.revInfo = revInfo;
+    }
+
+    public Planning getPlanning() {
+        return planning;
+    }
+
+    public void setPlanning(Planning planning) {
+        this.planning = planning;
     }
 }
