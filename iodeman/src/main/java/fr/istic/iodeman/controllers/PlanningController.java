@@ -1,17 +1,15 @@
 package fr.istic.iodeman.controllers;
 
-import fr.istic.iodeman.dto.RevisionsDTO;
 import fr.istic.iodeman.models.*;
 import fr.istic.iodeman.models.revision.PlanningRevision;
 import fr.istic.iodeman.services.EntityRevisionService;
+import fr.istic.iodeman.services.OralDefenseService;
 import fr.istic.iodeman.services.PlanningService;
 import fr.istic.iodeman.services.UnavailabilityService;
 import org.apache.commons.lang.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequestMapping("/plannings")
 @RestController
@@ -23,10 +21,13 @@ public class PlanningController {
 
 	private final EntityRevisionService entityRevisionService;
 
-	public PlanningController(PlanningService planningService, UnavailabilityService unavailabilityService, EntityRevisionService entityRevisionService) {
+	private final OralDefenseService oralDefenseService;
+
+	public PlanningController(PlanningService planningService, UnavailabilityService unavailabilityService, EntityRevisionService entityRevisionService, OralDefenseService oralDefenseService) {
 		this.planningService = planningService;
 		this.unavailabilityService = unavailabilityService;
 		this.entityRevisionService = entityRevisionService;
+		this.oralDefenseService = oralDefenseService;
 	}
 
 	@GetMapping
@@ -37,21 +38,7 @@ public class PlanningController {
 	@GetMapping("/{id}")
 	public Planning findById(@PathVariable("id") Long id) {
 		Planning planning =  planningService.findById(id);
-		if (planning != null) {
-			Collection<OralDefense> oralDefenses = planning.getOralDefenses();
-			for (OralDefense oralDefense : oralDefenses) {
-				if(oralDefense.getNumber() != null) {
-					oralDefense.setUnavailabilities(unavailabilityService.findById(planning.getId(), oralDefense.getFollowingTeacher().getUid())
-							.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
-					Person secondTeacher = oralDefense.getSecondTeacher();
-					if (secondTeacher != null) {
-						oralDefense.getUnavailabilities().addAll(unavailabilityService.findById(planning.getId(), secondTeacher.getUid())
-								.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
-					}
-				}
-			}
-		}
-		return planning;
+		return unavailabilityService.setUnavailabilityByOralDefenses(planning);
 	}
 
 	@GetMapping("/{id}/revisions")
@@ -71,6 +58,21 @@ public class PlanningController {
 		return planningService.save(planning);
 	}
 
+	@PutMapping
+	public Planning updatePlanning(@RequestBody Planning planning) {
+		// fixme verifier si c'est un admin
+		return planningService.update(planning);
+	}
+	@PutMapping("/{id}/oraldefenses")
+	public Iterable<OralDefense> updatePlanningOralDefenses(@PathVariable Long id, @RequestBody Collection<OralDefense> oralDefenses) {
+		// fixme verifier si c'est un admin
+		Planning planning = planningService.findById(id);
+		for (OralDefense o : oralDefenses)
+			o.setPlanning(planning);
+		Iterable<OralDefense> o = oralDefenseService.save(oralDefenses);
+		planningService.update(planning);
+		return o;
+	}
 
 	@GetMapping("/{id}/generate")
 	public Planning generate(@PathVariable("id") Long id) {

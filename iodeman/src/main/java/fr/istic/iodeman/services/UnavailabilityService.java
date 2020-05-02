@@ -1,6 +1,7 @@
 package fr.istic.iodeman.services;
 
 
+import fr.istic.iodeman.models.Planning;
 import fr.istic.iodeman.models.Unavailability;
 
 import java.util.Collection;
@@ -17,4 +18,6 @@ public interface UnavailabilityService {
 	void delete(Long idPlanning, Collection<Unavailability> unavailabilities);
 
 	void deleteByPlanning(Long planningId);
+
+    Planning setUnavailabilityByOralDefenses(Planning planning);
 }

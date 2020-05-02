@@ -9,6 +9,7 @@ import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.*;
 
 @Service
@@ -166,7 +167,4 @@ public class PlanningServiceImpl implements PlanningService {
 	public Iterable<Planning> findAll() {
 		return planningRepository.findAll();
 	}
-
-
-
 }

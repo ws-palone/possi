@@ -1,6 +1,6 @@
 package fr.istic.iodeman.services;
 
-import com.google.common.collect.Lists;
+import fr.istic.iodeman.models.OralDefense;
 import fr.istic.iodeman.models.Person;
 import fr.istic.iodeman.models.Planning;
 import fr.istic.iodeman.models.Unavailability;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UnavailabilityServiceImpl implements UnavailabilityService{
@@ -76,4 +77,41 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 		unavailabilityRepository.deleteByPlanning(planningService.findById(planningId));
 	}
 
+	@Override
+	public Planning setUnavailabilityByOralDefenses(Planning planning) {
+
+		if (planning != null) {
+			Collection<OralDefense> oralDefenses = planning.getOralDefenses();
+			for (OralDefense oralDefense : oralDefenses) {
+				if(oralDefense.getNumber() != null) {
+					Person followingTeacher = oralDefense.getFollowingTeacher();
+					oralDefense.setUnavailabilities(this.findById(planning.getId(), followingTeacher.getUid())
+							.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+
+					addOtherOralDefenseAsUnavailabilities(oralDefense, oralDefenses, followingTeacher);
+
+					Person secondTeacher = oralDefense.getSecondTeacher();
+					if (secondTeacher != null) {
+						oralDefense.getUnavailabilities().addAll(this.findById(planning.getId(), secondTeacher.getUid())
+								.stream().map(Unavailability::getPeriod).collect(Collectors.toList()));
+
+						addOtherOralDefenseAsUnavailabilities(oralDefense, oralDefenses, secondTeacher);
+					}
+				}
+			}
+		}
+		return planning;
+	}
+
+	private void addOtherOralDefenseAsUnavailabilities(OralDefense oralDefense, Collection<OralDefense> oralDefenses, Person teacher) {
+		for (OralDefense o : oralDefenses) {
+			if (!o.equals(oralDefense)) {
+				Person secondTeacher = o.getSecondTeacher();
+				if ((secondTeacher != null && secondTeacher.getUid().equals(teacher.getUid())) ||
+						o.getFollowingTeacher().getUid().equals(teacher.getUid())) {
+					oralDefense.getUnavailabilities().add(o.getTimeBox());
+				}
+			}
+		}
+	}
 }

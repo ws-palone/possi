@@ -83,9 +83,6 @@ public class PlanningExportBuilder {
 		algoPlanning_new.configure(planning, oralDefenses, timeboxes, splitter.getTimeBoxesWithoutLunchBreak(), splitter.getLunchBreakTimeBoxes(), unavailabilities);
 		algoPlanning_new.execute();
 		algoPlanning_new.serialize(planning.getId());
-		//oralDefenses = algoPlanning.execute();
-		//algoJuryAssignation.configure(oralDefenses, unavailabilities);
-		//oralDefenses = algoJuryAssignation.execute();
 		return this;
 	}
 
