@@ -2,7 +2,6 @@ package fr.istic.possijar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 
@@ -17,11 +16,11 @@ public class ListActeur implements Serializable {
 	List<Acteur> list;
 	
 	public ListActeur() {
-		list = new ArrayList<Acteur>();
+		list = new ArrayList<>();
 	}
 	
 	public ListActeur(List<Acteur> l) {
-		this.list = new ArrayList<Acteur>(l);
+		this.list = new ArrayList<>(l);
 	}
 
 	public Acteur get(String name) {

@@ -2,7 +2,6 @@ package fr.istic.possijar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,20 +24,15 @@ public abstract class Acteur implements Serializable {
 	public Acteur(String name) {
 		this.name = name;
 		nbSoutenances = 0;
-		relations = new ArrayList<Acteur>();
+		relations = new ArrayList<>();
 	}
 	public Acteur(){
 		nbSoutenances = 0;
-		relations = new ArrayList<Acteur>();
+		relations = new ArrayList<>();
 	}
 
 	public Map<Integer, Boolean> getDisponibilites() {
 		return disponibilites;
-	}
-
-	public void setDisponibilites(Map<Integer, Boolean> disponibilites) {
-		//System.err.println(getName() + " " + disponibilites);
-		this.disponibilites = disponibilites;
 	}
 
 	public int getNbSoutenances() {
@@ -47,10 +41,6 @@ public abstract class Acteur implements Serializable {
 	
 	public void incNbSoutenances() {
 		this.nbSoutenances += 1;
-	}
-
-	public void setNbSoutenances(int nbSoutenances) {
-		this.nbSoutenances = nbSoutenances;
 	}
 
 	public List<Acteur> getRelations() {
@@ -65,18 +55,10 @@ public abstract class Acteur implements Serializable {
 		this.relations.remove(a);
 	}
 
-	public void setRelations(List<Acteur> relations) {
-		this.relations = relations;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	public int getDisponibilitesSoutenances() {
 		return getPeriodesLibres()-getNbSoutenances();
 	}
@@ -115,7 +97,7 @@ public abstract class Acteur implements Serializable {
 	}
 	
 	public void setDefaultDisponibilites(int nbPeriodesEnTout) {
-		disponibilites = new HashMap<Integer, Boolean>();
+		disponibilites = new HashMap<>();
 		for(int i = 0 ; i < nbPeriodesEnTout; i++) {
 			disponibilites.put(i, true);
 		}

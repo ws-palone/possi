@@ -3,15 +3,11 @@
  */
 package fr.istic.possijar;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import fr.istic.iodeman.models.*;
 import fr.istic.iodeman.models.Planning;
 import fr.istic.iodeman.utils.TimeBoxHelper;
-import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,7 +19,6 @@ public class AlgoPlanningImplV4 {
 
 
 	/* VARIABLES */
-	private int nbJours;
 	private int nbPeriodesParJour;
 	private int nbPeriodesEnTout;
 	private int nbSalles;
@@ -54,10 +49,10 @@ public class AlgoPlanningImplV4 {
 		enseignants = new ListActeur();
 		enseignantsAux = new ListActeur();
 		tuteurs = new ListActeur();
-		etudiants = new ArrayList<Student>();
-		planning = new HashMap<Integer, List<Creneau>>();
-		impossibleAInserer = new ArrayList<Creneau>();
-		sallesSelectionnees = new ArrayList<String>();
+		etudiants = new ArrayList<>();
+		planning = new HashMap<>();
+		impossibleAInserer = new ArrayList<>();
+		sallesSelectionnees = new ArrayList<>();
 		heuresNormales = new HashSet<>();
 		heuresDePause = new HashSet<>();
 	}
@@ -84,11 +79,11 @@ public class AlgoPlanningImplV4 {
 		getNbDePeriodesParJour(timeboxes);
 
 		if(isSerial) {
-			indisponibilites = new HashMap<String, List<Integer>>();
+			indisponibilites = new HashMap<>();
 			configureParticipants(participants);
 			System.out.println("Unavailabilities == null ?" + (unavailabilities == null));
 			if(unavailabilities != null) {
-				detectViolation(timeboxes, unavailabilities);
+				detectViolation(unavailabilities);
 			}
 		} else {
 			configureSalles(planning_infos.getRooms());
@@ -102,7 +97,11 @@ public class AlgoPlanningImplV4 {
 
 	Map<String, Integer> resolveTimeBox;
 
-	private void detectViolation(Collection<TimeBox> timeboxes, Collection<Unavailability> unavailabilities) {
+	public Map<Integer, List<Creneau>> getPlanning() {
+		return planning;
+	}
+
+	private void detectViolation(Collection<Unavailability> unavailabilities) {
 
 		for(Unavailability u : unavailabilities) {
 			String email = u.getPerson().getEmail();
@@ -152,7 +151,7 @@ public class AlgoPlanningImplV4 {
 		List<Integer> periodes = indisponibilites.get(email);
 		boolean isNew = false;
 		if(periodes == null) {
-			periodes = new ArrayList<Integer>();
+			periodes = new ArrayList<>();
 			isNew = true;
 		}
 		periodes.add(periode);
@@ -226,7 +225,7 @@ public class AlgoPlanningImplV4 {
 
 	private void configureCreneaux() {
 		for(int periode = 0; periode < nbPeriodesEnTout ; periode++) {
-			List<Creneau> salles = new ArrayList<Creneau>();
+			List<Creneau> salles = new ArrayList<>();
 			planning.put(periode, salles);
 		}
 	}
@@ -257,41 +256,6 @@ public class AlgoPlanningImplV4 {
 		}
 	}
 
-	public void configure(ObservableList<String> sallesSelectionnees,
-						  Calendar c, int nbPeriodesEnTout, int nbPeriodesParJour, String pathContraintesEns,
-						  String pathContraintesTut, String pathDonnees,
-						  String contrainteForte) {
-		configureSalles(sallesSelectionnees);
-		this.nbPeriodesEnTout = nbPeriodesEnTout;
-		this.nbPeriodesParJour = nbPeriodesParJour;
-		//this.contrainteForte = contrainteForte;
-
-		enseignants = new ListActeur();
-		tuteurs = new ListActeur();
-		etudiants = new ArrayList<Student>();
-		planning = new HashMap<Integer, List<Creneau>>();
-		impossibleAInserer = new ArrayList<Creneau>();
-		this.sallesSelectionnees = new ArrayList<String>();
-
-		configureCreneaux();
-		CSVParser parser = new CSVParser();
-		parser.readDispo(pathContraintesEns, Role.Enseignant, enseignants, nbPeriodesParJour);
-		parser.readDispo(pathContraintesTut, Role.Tuteur, tuteurs, nbPeriodesParJour);
-		nbSoutenances = parser.readCSV(pathDonnees, enseignants, tuteurs, etudiants, nbPeriodesEnTout);
-
-	}
-
-	private void configureSalles(ObservableList<String> rooms) {
-		nbSalles = rooms.size();
-		if(log==0) {
-			System.err.println(rooms);
-		}
-		sallesSelectionnees.clear();
-		for(String r : rooms) {
-			sallesSelectionnees.add(r);
-		}
-	}
-
 	private void addRelationBetweenTeacherAndTutor(String teacher,
 												   String tutor, Enseignant e, Tuteur t) {
 		e.incNbSoutenances();
@@ -312,7 +276,7 @@ public class AlgoPlanningImplV4 {
 				if(insertImpossible(impossibleAInserer.get(i))) {
 					impossibleAInserer.remove(i);
 					i--;
-				};
+				}
 			}
 		}
 	}
@@ -370,7 +334,7 @@ public class AlgoPlanningImplV4 {
 			t = (Tuteur)act;
 		}
 		if(log==0) {
-			System.err.println("");
+			System.err.println();
 			System.err.println("On récupère les acteurs en relations les moins disponibles");
 		}
 
@@ -385,7 +349,7 @@ public class AlgoPlanningImplV4 {
 				System.err.println(l.list);
 			}
 			if(l.list.isEmpty()) {
-				insertInComplementaryList(act, tmp, e, t, l);
+				insertInComplementaryList(tmp, e, t);
 				inserted = true;
 				break insertion;
 			}
@@ -393,7 +357,7 @@ public class AlgoPlanningImplV4 {
 				System.err.println("Acteur - dispo " + l.list);
 			}
 			act = l.getActeurLeMoinsDisponible();
-			Creneau c = getCreneauBetweenTeacherAndTutor(act, l, e, t);
+			Creneau c = getCreneauBetweenTeacherAndTutor(act, e, t);
 			if(log==0) {
 				System.err.println(c);
 			}
@@ -414,7 +378,7 @@ public class AlgoPlanningImplV4 {
 		}
 	}
 
-	private Creneau getCreneauBetweenTeacherAndTutor(Acteur act, ListActeur l, Enseignant e, Tuteur t) {
+	private Creneau getCreneauBetweenTeacherAndTutor(Acteur act, Enseignant e, Tuteur t) {
 		if(log==0) {
 			System.err.println("On teste avec " + act);
 		}
@@ -471,7 +435,7 @@ public class AlgoPlanningImplV4 {
 		insertCreneauInPlanning(c);
 	}
 
-	private void insertInComplementaryList(Acteur act, Acteur tmp, Enseignant e, Tuteur t, ListActeur l) {
+	private void insertInComplementaryList(Acteur tmp, Enseignant e, Tuteur t) {
 		if(log==0) {
 			System.err.println("Impossible d'insérer l'acteur. On le place dans une liste complémentaire");
 		}
@@ -480,16 +444,16 @@ public class AlgoPlanningImplV4 {
 		} else {
 			t = (Tuteur)tmp;
 		}
-		l = new ListActeur(tmp.getRelations());
+		ListActeur l = new ListActeur(tmp.getRelations());
 		if(log==0) {
 			System.err.println("Liste " + l);
 		}
-		act = l.getActeurLeMoinsDisponible();
+		Acteur act = l.getActeurLeMoinsDisponible();
 
 		if(act instanceof Enseignant) {
-			e = (Enseignant)act;
+			e = (Enseignant) act;
 		} else {
-			t = (Tuteur)act;
+			t = (Tuteur) act;
 		}
 
 		if(log==0) {
@@ -569,9 +533,9 @@ public class AlgoPlanningImplV4 {
 		Map<Integer, Boolean> dispoEnseignant = e.getDisponibilites();
 		Map<Integer, Boolean> dispoTuteur = t.getDisponibilites();
 
-		List<Acteur> listeCandide = new ArrayList<Acteur>(enseignants.list);
+		List<Acteur> listeCandide = new ArrayList<>(enseignants.list);
 		listeCandide.remove(e);
-		Map<Acteur, Integer> dispoCandide = new HashMap<Acteur, Integer>();
+		Map<Acteur, Integer> dispoCandide = new HashMap<>();
 		getDispoCandide(listeCandide, dispoCandide);
 
 		Enseignant c = null;
@@ -580,7 +544,7 @@ public class AlgoPlanningImplV4 {
 			System.err.println(listeCandide);
 		}
 
-		Map<Integer, Integer> creneauxPonderations = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> creneauxPonderations = new HashMap<>();
 
 		Set<Integer> indisponibiliteEns = dispoEnseignant.entrySet().stream().filter(entry -> !entry.getValue()).map(Map.Entry::getKey).collect(Collectors.toSet());
 
@@ -738,19 +702,14 @@ public class AlgoPlanningImplV4 {
 	sortByValue( Map<K, V> map ) {
 		List<Map.Entry<K, V>> list =
 				new LinkedList<>( map.entrySet() );
-		Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-		{
-			@Override
-			public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
-			{
-				//System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
-				int res = (o1.getValue()).compareTo( o2.getValue() );
-				if(res==0) {
-					return o1.getKey().toString().compareTo(o2.getKey().toString());
-				}
-				return res;
+		list.sort((o1, o2) -> {
+			//System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
+			int res = (o1.getValue()).compareTo(o2.getValue());
+			if (res == 0) {
+				return o1.getKey().toString().compareTo(o2.getKey().toString());
 			}
-		} );
+			return res;
+		});
 
 		Map<K, V> result = new LinkedHashMap<>();
 		for (Map.Entry<K, V> entry : list)
@@ -768,22 +727,17 @@ public class AlgoPlanningImplV4 {
 	sortInvertedByValue( Map<K, V> map ) {
 		List<Map.Entry<K, V>> list =
 				new LinkedList<>( map.entrySet() );
-		Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-		{
-			@Override
-			public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
-			{
-				//System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
-				int res = (o1.getValue()).compareTo( o2.getValue() );
-				if(res==0) {
-					return o1.getKey().toString().compareTo(o2.getKey().toString());
-				} else if(res==1) {
-					return -1;
-				} else{
-					return 1;
-				}
+		list.sort((o1, o2) -> {
+			//System.err.println(o1.getValue() + " compare to " + o2.getValue() + " ---> " + (o1.getValue()).compareTo( o2.getValue() ));
+			int res = (o1.getValue()).compareTo(o2.getValue());
+			if (res == 0) {
+				return o1.getKey().toString().compareTo(o2.getKey().toString());
+			} else if (res == 1) {
+				return -1;
+			} else {
+				return 1;
 			}
-		} );
+		});
 
 		Map<K, V> result = new LinkedHashMap<>();
 		for (Map.Entry<K, V> entry : list)
@@ -795,53 +749,6 @@ public class AlgoPlanningImplV4 {
 			System.err.println(result);
 		}
 		return result;
-	}
-
-	public File getFile() throws IOException {
-		StringBuilder sb = new StringBuilder();
-		Set<Integer> periodes = planning.keySet();
-		sb.append("sep=,\n");
-		for(int periode : periodes) {
-			if(periode%nbPeriodesParJour==0) {
-				sb.append(",,,,,,,,,,,\n,");
-				for(String salle : sallesSelectionnees) {
-					sb.append(salle + ",,,,,");
-				}
-				sb.append("\n");
-			}
-			List<Creneau> creneaux = planning.get(periode);
-			if(creneaux.size()>0) {
-				sb.append(creneaux.get(0).getHoraire() + ",");
-			}
-			for(Creneau c : creneaux) {
-				sb.append(c.getStudent() + ","
-						+ c.getTuteur() + ","
-						+ c.getEnseignant() + ","
-						+ c.getCandide() + ", ,");
-			}
-			if(creneaux.size()==1) {
-				sb.append(",,,,,");
-			}
-			sb.append("\n");
-		}
-
-		sb.append(",,,,,,,,,,,\n");
-		sb.append(",,,,,,,,,,,\n");
-		sb.append("Soutenances qui posent problemes :,,,,,,,,,,,\n");
-		for(Creneau c : impossibleAInserer) {
-			sb.append(c.getStudent() + ","
-					+ c.getTuteur() + ","
-					+ c.getEnseignant() + "\n");
-		}
-
-		if(log==0) {
-			System.err.println(sb.toString());
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		Date now = new Date();
-		File f = new File("Soutenances_"+sdf.format(now)+".csv");
-		Files.write(sb.toString(), f, Charsets.UTF_8);
-		return f;
 	}
 
 	public void serialize(long idPlanning) {
@@ -858,7 +765,7 @@ public class AlgoPlanningImplV4 {
 				OutputStream b3 = new BufferedOutputStream(f3);
 				ObjectOutput o1 = new ObjectOutputStream(b1);
 				ObjectOutput o2 = new ObjectOutputStream(b2);
-				ObjectOutput o3 = new ObjectOutputStream(b3);
+				ObjectOutput o3 = new ObjectOutputStream(b3)
 		){
 			o1.writeObject(planning);
 			o1.writeObject(impossibleAInserer);
@@ -884,17 +791,14 @@ public class AlgoPlanningImplV4 {
 					InputStream b3 = new BufferedInputStream(f3);
 					ObjectInput i1 = new ObjectInputStream (b1);
 					ObjectInput i2 = new ObjectInputStream (b2);
-					ObjectInput i3 = new ObjectInputStream (b3);
+					ObjectInput i3 = new ObjectInputStream (b3)
 			){
 				//deserialize the List
 				planning = (Map<Integer, List<Creneau>>)i1.readObject();
 				impossibleAInserer = (List<Creneau>)i1.readObject();
 				sallesSelectionnees = (List<String>)i1.readObject();
 			}
-			catch(ClassNotFoundException ex){
-				System.err.println(ex);
-			}
-			catch(IOException ex){
+			catch(ClassNotFoundException | IOException ex){
 				System.err.println(ex);
 			}
 		}
@@ -932,7 +836,7 @@ public class AlgoPlanningImplV4 {
 			Enseignant enseignant = c.getEnseignant();
 			Enseignant candidate = c.getCandide();
 
-			Set<Integer> unavailabilitiesByCreneau = new HashSet<>(enseignant.getDisponibilites().entrySet().stream().filter(e -> !e.getValue()).map(Map.Entry::getKey).collect(Collectors.toSet()));
+			Set<Integer> unavailabilitiesByCreneau = enseignant.getDisponibilites().entrySet().stream().filter(e -> !e.getValue()).map(Map.Entry::getKey).collect(Collectors.toSet());
 			if (candidate != null)
 				unavailabilitiesByCreneau.addAll(candidate.getDisponibilites().entrySet().stream().filter(e -> !e.getValue()).map(Map.Entry::getKey).collect(Collectors.toSet()));
 
@@ -985,19 +889,4 @@ public class AlgoPlanningImplV4 {
 		return creneaux;
 	}
 
-	public int getNbPeriodesParJour() {
-		return nbPeriodesParJour;
-	}
-
-	public List<String> getSallesSelectionnees() {
-		return sallesSelectionnees;
-	}
-
-	public Map<Integer, List<Creneau>> getPlanning() {
-		return planning;
-	}
-
-	public List<Creneau> getImpossibleAInserer() {
-		return impossibleAInserer;
-	}
 }

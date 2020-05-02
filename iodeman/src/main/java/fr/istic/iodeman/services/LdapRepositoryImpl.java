@@ -21,7 +21,7 @@ public class LdapRepositoryImpl implements LdapRepository {
 	@Autowired
 	private LdapTemplate ldap;
 	
-	private class PersonAttributeMapper implements AttributesMapper{
+	private static class PersonAttributeMapper implements AttributesMapper{
 		public Person mapFromAttributes(Attributes attrtibutes)
 				throws javax.naming.NamingException {
 			
@@ -48,14 +48,7 @@ public class LdapRepositoryImpl implements LdapRepository {
 			return person;
 		}
 	}
-	
-	public Person lookupPerson(String username) {
-		AndFilter af = new AndFilter();
-		af.and(new EqualsFilter("displayName", username));
-		List<Person> results = search(af);
-		return results.size() > 0 ? results.get(0) : null;
-    }
-	
+
 	public Person searchByUID(String uid) {
 		System.err.println("UID : On cherche pour " + uid);
 		AndFilter af = new AndFilter();

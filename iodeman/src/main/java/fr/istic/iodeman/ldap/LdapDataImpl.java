@@ -16,25 +16,21 @@ import com.unboundid.ldap.sdk.SearchResultEntry;
 import com.unboundid.ldap.sdk.SearchScope;
 import com.unboundid.util.ssl.SSLUtil;
 import com.unboundid.util.ssl.TrustAllTrustManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class LdapDataImpl {
-	private String ldapUrl;
 
 	private String ldapBase;
 
-	private SSLUtil sslUtil;
 	private SSLSocketFactory sslSocketFactory ;
 	private LDAPConnection c;
 	
 	public LdapDataImpl(Environment env) {
 		ldapBase = env.getProperty("ldap.base");
-		ldapUrl = env.getProperty("ldap.url");
-		sslUtil = new SSLUtil(new TrustAllTrustManager());
+		String ldapUrl = env.getProperty("ldap.url");
+		SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
 		try {
 			sslSocketFactory = sslUtil.createSSLSocketFactory();
 		} catch (GeneralSecurityException e) {
@@ -43,7 +39,7 @@ public class LdapDataImpl {
 		}
 		c = new LDAPConnection(sslSocketFactory);
 		try {
-			c.connect(this.ldapUrl, 636);
+			c.connect(ldapUrl, 636);
 		} catch (LDAPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,7 +59,7 @@ public class LdapDataImpl {
 	}
 
 	private Map<String, String> getPersonAux(String search, boolean mail) {
-		Map<String,String> infosPerson = new HashMap<String,String>();
+		Map<String,String> infosPerson = new HashMap<>();
 		Filter filter;
 		if (mail)
 		 filter = Filter.createEqualityFilter("mail", search);

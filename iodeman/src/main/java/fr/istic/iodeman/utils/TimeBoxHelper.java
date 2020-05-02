@@ -10,7 +10,7 @@ import java.util.Map;
 public class TimeBoxHelper {
 
     public static Map<String, Integer> parseTimebox(Collection<TimeBox> timeBoxes) {
-        Map<String, Integer> resolveTimeBox = new HashMap<String, Integer>();
+        Map<String, Integer> resolveTimeBox = new HashMap<>();
         int idTimeBox = 0;
         for(TimeBox t : timeBoxes) {
             resolveTimeBox.put(t.getFrom().getDate() + " " + t.getFrom().getHours() + " " + t.getFrom().getMinutes(), idTimeBox++);

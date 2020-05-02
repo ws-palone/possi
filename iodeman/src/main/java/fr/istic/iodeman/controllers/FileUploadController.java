@@ -10,20 +10,14 @@ import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.istic.iodeman.services.PlanningService;
-
 @RestController
 public class FileUploadController {
-
-	final
-	PlanningService planningService;
 
 	final
 	OralDefenseService oralDefenseService;
 	
 
-	public FileUploadController(PlanningService planningService, OralDefenseService oralDefenseService) {
-		this.planningService = planningService;
+	public FileUploadController(OralDefenseService oralDefenseService) {
 		this.oralDefenseService = oralDefenseService;
 	}
 

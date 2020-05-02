@@ -14,7 +14,6 @@ import fr.istic.iodeman.repositories.revision.PlanningRevisionRepository;
 import fr.istic.iodeman.repositories.revision.RevInfoRepository;
 import fr.istic.iodeman.repositories.revision.RoomRevisionRepository;
 import org.apache.commons.lang.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

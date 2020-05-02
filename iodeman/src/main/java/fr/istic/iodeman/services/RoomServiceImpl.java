@@ -30,8 +30,8 @@ public class RoomServiceImpl implements RoomService {
 			Room room = roomRepository.findByName(name);
 			if (room == null) {
 				room = new Room();
-				room.setName(name);;
-				rooms.add(roomRepository.save(room));
+				room.setName(name);
+                rooms.add(roomRepository.save(room));
 			}
 		}
 		return  rooms;
@@ -57,7 +57,7 @@ public class RoomServiceImpl implements RoomService {
 			Collection<Room> rooms = p.getRooms();
 			
 			for(Room r : rooms){
-				if(room.getId() == r.getId()){
+				if(room.getId().equals(r.getId())){
 					isNotInPlanning = false;
 				}
 			}

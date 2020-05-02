@@ -2,7 +2,6 @@ package fr.istic.iodeman.strategy;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.Normalizer;
@@ -15,11 +14,12 @@ import fr.istic.iodeman.models.Person;
 import fr.istic.iodeman.models.Role;
 import fr.istic.iodeman.resolver.PersonResolver;
 
+@SuppressWarnings("unused")
 public class ParticipantsCSVImport implements ParticipantsImport {
 
 	private PersonResolver personResolver;
 
-	private Collection<ExtractParticipantErrorDTO> errorsImport = new ArrayList<ExtractParticipantErrorDTO>();
+	private Collection<ExtractParticipantErrorDTO> errorsImport = new ArrayList<>();
 
 	public void configure(PersonResolver personResolver) {
 		this.personResolver = personResolver;
@@ -27,8 +27,8 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 	
 	public Collection<OralDefense> execute(File file) throws Exception {
 		
-		Collection<OralDefense> participants = new ArrayList<OralDefense>();
-		Collection<String> students = new ArrayList<String>();
+		Collection<OralDefense> participants = new ArrayList<>();
+		Collection<String> students = new ArrayList<>();
 		
 		BufferedReader br = null;
         String line = "";
@@ -105,8 +105,6 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 					participants.add(participant);
 				}
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
