@@ -10,7 +10,7 @@ import java.util.Collection;
 public class OralDefense extends AuditModel {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@ManyToOne

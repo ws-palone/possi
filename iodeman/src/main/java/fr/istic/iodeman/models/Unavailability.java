@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Unavailability extends AuditModel {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
 	@ManyToOne
