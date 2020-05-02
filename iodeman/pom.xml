@@ -67,11 +67,6 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.30</version>
-		</dependency>
-		<dependency>
 			<groupId>cas</groupId>
 			<artifactId>casclient</artifactId>
 			<version>2.1.1</version>
