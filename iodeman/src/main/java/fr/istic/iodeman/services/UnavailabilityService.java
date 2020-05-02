@@ -13,8 +13,6 @@ public interface UnavailabilityService {
 
 	void save(Long idPlanning, Collection<Unavailability> unavailabilities);
 
-	void delete(Long id);
-
 	void delete(Long idPlanning, Collection<Unavailability> unavailabilities);
 
 	void deleteByPlanning(Long planningId);

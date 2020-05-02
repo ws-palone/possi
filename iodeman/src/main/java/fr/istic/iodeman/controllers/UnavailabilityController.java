@@ -3,7 +3,6 @@ package fr.istic.iodeman.controllers;
 import fr.istic.iodeman.dto.UnavailabilityAgendaDTO;
 import fr.istic.iodeman.dto.UnavailabilityToUpdateDTO;
 import fr.istic.iodeman.models.Unavailability;
-import fr.istic.iodeman.repositories.UnavailabilityRepository;
 import fr.istic.iodeman.services.PlanningService;
 import fr.istic.iodeman.services.UnavailabilityService;
 import fr.istic.iodeman.strategy.PlanningSplitter;

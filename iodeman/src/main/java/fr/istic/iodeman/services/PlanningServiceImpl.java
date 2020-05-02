@@ -9,7 +9,6 @@ import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.*;
 
 @Service
@@ -127,25 +126,6 @@ public class PlanningServiceImpl implements PlanningService {
 		oralDefenseService.save(builder.split().build().getOralDefenses(personResolver));
 
 		return planning;
-	}
-
-	@Override
-	public void createRevision(Long id) {
-		// retrieving the planning
-		Planning planning = this.findById(id);
-		Validate.notNull(planning);
-
-		// initialize builder
-		builder = new PlanningExportBuilder(colorRepository);
-		builder.setPlanning(planning);
-		builder.setOralDefenses(planning.getOralDefenses());
-		builder.setUnavailabilities(unavailabilityRepository.findByPlanning(planning));
-
-		Collection<OralDefense> oralDefenses = new ArrayList<>();
-		oralDefenseService.save(builder.split().build().getOralDefenses(personResolver)).forEach(oralDefenses::add);
-		planning.setOralDefenses(oralDefenses);
-
-		planningRepository.save(planning);
 	}
 
 	@Override

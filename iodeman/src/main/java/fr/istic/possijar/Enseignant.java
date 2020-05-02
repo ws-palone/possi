@@ -34,10 +34,6 @@ public class Enseignant extends Acteur implements Serializable {
 		this.nbSoutenanceCandide += 1;
 	}
 
-	public void setNbSoutenances(int nbSoutenanceCandide) {
-		this.nbSoutenanceCandide = nbSoutenanceCandide;
-	}
-	
 	public int getDisponibilitesSoutenances() {
 		return getPeriodesLibres()-getNbSoutenances()-getNbSoutenancesCandide();
 	}

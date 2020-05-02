@@ -1,7 +1,5 @@
 package fr.istic.iodeman.strategy;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -57,15 +55,10 @@ public class PlanningDataValidatorImpl implements PlanningDataValidator{
 		
 		// get the list of the days in the timeboxes
 		List<Integer> days = ImmutableSet.copyOf(
-				Collections2.transform(timeboxes, new Function<TimeBox, Integer>() {
-					@Override
-					public Integer apply(TimeBox tb) {
-						return new DateTime(tb.getFrom()).dayOfYear().get();
-					}
-				})
+				Collections2.transform(timeboxes, tb -> new DateTime(tb.getFrom()).dayOfYear().get())
 		).asList();
 		
-		Integer nbBoxes = 0;
+		int nbBoxes = 0;
 		
 		if (nbMaxOralDefensesPerDay < 1) {
 			
@@ -75,12 +68,7 @@ public class PlanningDataValidatorImpl implements PlanningDataValidator{
 		
 			for (final Integer day : days) {
 				
-				Collection<TimeBox> timeboxesOfDay = Collections2.filter(timeboxes, new Predicate<TimeBox>() {
-					@Override
-					public boolean apply(TimeBox tb) {
-						return (day == new DateTime(tb.getFrom()).dayOfYear().get());
-					}
-				});
+				Collection<TimeBox> timeboxesOfDay = Collections2.filter(timeboxes, tb -> (day == new DateTime(tb.getFrom()).dayOfYear().get()));
 				
 				int nb = timeboxesOfDay.size() * rooms.size();
 				

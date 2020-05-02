@@ -51,11 +51,6 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	}
 
 	@Override
-	public void delete(Long id) {
-		unavailabilityRepository.deleteById(id);
-	}
-
-	@Override
 	public void delete(Long idPlanning, Collection<Unavailability> unavailabilities) {
 
 		//Validation

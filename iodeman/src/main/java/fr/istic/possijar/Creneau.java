@@ -29,28 +29,18 @@ public class Creneau implements Serializable {
 		this.student = s;
 	}
 
-	public Creneau(){
-
-	}
-
 	public Enseignant getEnseignant() {
 		return enseignant;
 	}
-	public void setEnseignant(Enseignant enseignant) {
-		this.enseignant = enseignant;
-	}
+
 	public Enseignant getCandide() {
 		return candide;
 	}
-	public void setCandide(Enseignant candide) {
-		this.candide = candide;
-	}
+
 	public Tuteur getTuteur() {
 		return tuteur;
 	}
-	public void setTuteur(Tuteur tuteur) {
-		this.tuteur = tuteur;
-	}
+
 	public int getPeriode() {
 		return periode;
 	}
@@ -60,10 +50,7 @@ public class Creneau implements Serializable {
 	public Student getStudent() {
 		return student;
 	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-	
+
 	public int getSalle() {
 		return salle;
 	}

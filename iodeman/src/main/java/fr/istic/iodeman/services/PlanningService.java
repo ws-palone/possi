@@ -2,7 +2,6 @@ package fr.istic.iodeman.services;
 
 
 import fr.istic.iodeman.models.Planning;
-import org.springframework.data.history.Revisions;
 
 import java.util.List;
 
@@ -19,8 +18,6 @@ public interface PlanningService {
 	Planning findByName(String name);
 
 	Planning generate(Long planningId);
-
-	void createRevision(Long id);
 
 	void updateByPersonUnavailabilities(Long planningId, String personUid);
 

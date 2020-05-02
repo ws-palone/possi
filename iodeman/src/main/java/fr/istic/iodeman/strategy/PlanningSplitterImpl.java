@@ -29,7 +29,7 @@ public class PlanningSplitterImpl implements PlanningSplitter {
 		this.planning = planning;
 		timeBoxes = Lists.newArrayList();
 
-		Integer duration = planning.getOralDefenseDuration();
+		int duration = planning.getOralDefenseDuration();
 
 		Validate.isTrue(duration > 0);
 

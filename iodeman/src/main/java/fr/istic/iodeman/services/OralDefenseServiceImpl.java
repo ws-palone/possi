@@ -7,7 +7,6 @@ import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.resolver.PersonResolver;
 import fr.istic.iodeman.strategy.ParticipantsCSVImport;
 import fr.istic.iodeman.strategy.ParticipantsImport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
