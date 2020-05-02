@@ -8,7 +8,7 @@ import java.util.Collection;
 @Entity
 public class Color extends AuditModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String code;
 

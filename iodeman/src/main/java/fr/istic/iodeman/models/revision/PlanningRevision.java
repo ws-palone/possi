@@ -12,7 +12,7 @@ import java.util.Collection;
 public class PlanningRevision extends AuditModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Integer oralDefenseDuration;
     private Integer oralDefenseInterlude;
