@@ -1,12 +1,19 @@
 package fr.istic.iodeman.strategy;
 
-import java.util.List;
+import fr.istic.iodeman.models.Planning;
+import fr.istic.iodeman.models.TimeBox;
 
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.TimeBox;
+import java.util.List;
 
 public interface PlanningSplitter {
 
-	public List<TimeBox> execute(Planning planning);
-	
+	PlanningSplitter execute(Planning planning);
+
+	List<TimeBox> getTimeBoxes();
+
+	List<TimeBox> getTimeBoxesWithoutLunchBreak();
+
+	List<TimeBox> getLunchBreakTimeBoxes();
+
+	int getNbDays();
 }

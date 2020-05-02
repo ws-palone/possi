@@ -1,15 +1,15 @@
 package fr.istic.iodeman.strategy;
 
-import java.util.Collection;
+import fr.istic.iodeman.models.OralDefense;
+import fr.istic.iodeman.models.Planning;
+import fr.istic.iodeman.models.TimeBox;
 
-import fr.istic.iodeman.model.Participant;
-import fr.istic.iodeman.model.Planning;
-import fr.istic.iodeman.model.TimeBox;
+import java.util.Collection;
 
 public interface PlanningDataValidator {
 
 	public void configure(Planning planning,
-			Collection<Participant> participants, Collection<TimeBox> timeboxes);
+						  Collection<OralDefense> participants, Collection<TimeBox> timeboxes);
 	
 	public void validate();
 	

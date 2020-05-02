@@ -11,3 +11,5 @@ hibernate.cfg.xml
 deploy.sh
 /bin/
 
+/src/main/resources/hibernate.cfg.xml
+*.iml

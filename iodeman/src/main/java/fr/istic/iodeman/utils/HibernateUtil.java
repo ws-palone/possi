@@ -7,7 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import fr.istic.iodeman.model.Person;
+import fr.istic.iodeman.models.Person;
 
  
  

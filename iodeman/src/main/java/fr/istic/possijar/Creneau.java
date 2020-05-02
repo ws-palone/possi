@@ -17,6 +17,8 @@ public class Creneau implements Serializable {
 	private int periode;
 	private int salle;
 	private String horaire;
+	private int numero;
+	private int couleur;
 	//list unav integer
 	
 	public Creneau(int periode, Enseignant e, Enseignant c, Tuteur t, Student s) {
@@ -83,12 +85,24 @@ public class Creneau implements Serializable {
 		return split[1] + "h" + split[2];
 	}
 
-	/**
-	 * @param keyByValue
-	 */
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
 	public void setHoraire(String key) {
 		horaire = key;
 		System.err.println("Set " + horaire + " pour " + this);
 	}
-	
+
+    public void setCouleur(int couleur) {
+		this.couleur = couleur;
+    }
+
+	public long getCouleur() {
+		return couleur;
+	}
 }

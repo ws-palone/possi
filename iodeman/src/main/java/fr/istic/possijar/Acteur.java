@@ -120,6 +120,13 @@ public abstract class Acteur implements Serializable {
 			disponibilites.put(i, true);
 		}
 	}
+
+	public void resetDisponibilites(int nbPeriodesEnTout, Set<Integer> periodes) {
+		setDefaultDisponibilites(nbPeriodesEnTout);
+		for (Integer i : periodes) {
+			addIndisponibilite(i);
+		}
+	}
 	
 	@Override
 	public String toString() {
