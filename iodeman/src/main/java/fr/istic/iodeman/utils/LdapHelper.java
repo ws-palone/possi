@@ -52,9 +52,6 @@ public class LdapHelper {
 			filter = Filter.createEqualityFilter("uid", search);
 
 		SearchRequest searchRequest = new SearchRequest(ldapBase, SearchScope.SUB, filter, "*");
-//		this.searchFactory(searchRequest, infosPerson);
-//		return infosPerson;
-
 		SearchResult searchResult;
 
 		Person person = null;

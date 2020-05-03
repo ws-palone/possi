@@ -37,13 +37,13 @@ public class PersonController {
 	    return resolverUID.resolve(uid);
 	}
 
-	@PostMapping
-	public Iterable<Person> create(@RequestBody Collection<Person> persons) {
+	@PutMapping
+	public Iterable<Person> update(@RequestBody Collection<Person> persons) {
 		return personRepository.saveAll(persons);
 	}
 
 	@GetMapping
-	public Iterable<Person> getPerson(){
+	public Iterable<Person> getPersons(){
 		return personRepository.findAll();
 	}
 
