@@ -134,7 +134,7 @@ public class PlanningServiceImpl implements PlanningService {
 		Validate.notNull(planning);
 		builder = new PlanningExportBuilder(colorRepository);
 		builder.setPlanning(planning);
-		oralDefenseService.save(builder.split().updatePlanning(unavailabilityRepository.findByPlanningAndPerson(planning, personRepository.findByUid(personUid))));
+		oralDefenseService.save(builder.split().updatePlanningByUnavailability(unavailabilityRepository.findByPlanningAndPerson(planning, personRepository.findByUid(personUid))));
 
 	}
 

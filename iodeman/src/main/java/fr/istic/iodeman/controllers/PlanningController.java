@@ -69,7 +69,7 @@ public class PlanningController {
 		Planning planning = planningService.findById(id);
 		for (OralDefense o : oralDefenses)
 			o.setPlanning(planning);
-		Iterable<OralDefense> o = oralDefenseService.save(oralDefenses);
+		Iterable<OralDefense> o = oralDefenseService.save(oralDefenses, planning);
 		planningService.update(planning);
 		return o;
 	}

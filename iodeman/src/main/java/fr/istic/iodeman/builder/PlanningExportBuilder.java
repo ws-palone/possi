@@ -5,6 +5,7 @@ import fr.istic.iodeman.models.*;
 import fr.istic.iodeman.repositories.ColorRepository;
 import fr.istic.iodeman.resolver.PersonMailResolver;
 import fr.istic.iodeman.strategy.*;
+import fr.istic.iodeman.utils.TimeBoxHelper;
 import fr.istic.possijar.AlgoPlanningImplV4;
 import fr.istic.possijar.Creneau;
 import fr.istic.possijar.Enseignant;
@@ -90,8 +91,8 @@ public class PlanningExportBuilder {
 		return oralDefenses;
 	}
 
-	public Collection<OralDefense> updatePlanning(List<Unavailability> unavailabilities) {
-		List<Creneau> creneauUpdated = algoPlanning_new.updateCrenaux(unavailabilities, this.timeboxes, this.planning.getId());
+	public Collection<OralDefense> updatePlanningByUnavailability(List<Unavailability> unavailabilities) {
+		List<Creneau> creneauUpdated = algoPlanning_new.updateCrenauxByUnavailability(unavailabilities, this.timeboxes, this.planning.getId());
 		List<Room> roomsSelected = new ArrayList<>(this.planning.getRooms());
 		roomsSelected.sort(Comparator.comparing(Room::getId));
 		List<OralDefense> newOralDefenses = new ArrayList<>();
@@ -109,5 +110,13 @@ public class PlanningExportBuilder {
 			}
 		}
 		return newOralDefenses;
+	}
+
+	public void updatePlanning(Collection<OralDefense> oralDefenses) {
+		Map<String, Integer> timeBoxResolved = TimeBoxHelper.parseTimebox(this.timeboxes);
+		Map<Integer, Integer> modification = new HashMap<>();
+		for (OralDefense o : oralDefenses)
+			modification.put(o.getNumber(), TimeBoxHelper.find(timeBoxResolved, o.getTimeBox()));
+		algoPlanning_new.updateCrenaux(planning.getId(), modification);
 	}
 }
