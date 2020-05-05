@@ -44,7 +44,14 @@ public class PlanningController {
 	@GetMapping("/{id}/revisions")
 	public Collection<PlanningRevision> findRevision(@PathVariable("id") Long id) {
 //		Todo retourner les versions d'un planning
-		return entityRevisionService.getRevision(id);
+		return entityRevisionService.getRevisions(id);
+	}
+
+	@PostMapping("/{id}/defaultrevision")
+	public Planning setDefaultPlanning(@PathVariable("id") Long id, @RequestBody Long revId) {
+		Planning planning = planningService.findById(id);
+		planning.setDefaultRevision(entityRevisionService.findRevision(revId));
+		return planningService.update(planning);
 	}
 
 	@GetMapping("/find/{name}")
@@ -61,17 +68,16 @@ public class PlanningController {
 	@PutMapping
 	public Planning updatePlanning(@RequestBody Planning planning) {
 		// fixme verifier si c'est un admin
-		return planningService.update(planning);
+		return planningService.updateWithRevision(planning);
 	}
+
 	@PutMapping("/{id}/oraldefenses")
-	public Iterable<OralDefense> updatePlanningOralDefenses(@PathVariable Long id, @RequestBody Collection<OralDefense> oralDefenses) {
+	public Planning updatePlanningOralDefenses(@PathVariable Long id, @RequestBody Collection<OralDefense> oralDefenses) {
 		// fixme verifier si c'est un admin
 		Planning planning = planningService.findById(id);
-		for (OralDefense o : oralDefenses)
-			o.setPlanning(planning);
-		Iterable<OralDefense> o = oralDefenseService.save(oralDefenses);
-		planningService.update(planning);
-		return o;
+		oralDefenseService.save(oralDefenses, planning);
+		planning.setNewUnavailabilities(false);
+		return planningService.updateWithRevision(planning);
 	}
 
 	@GetMapping("/{id}/generate")
@@ -97,4 +103,12 @@ public class PlanningController {
 		planningService.delete(planning);
 	}
 
+	@GetMapping("/{id}/createrevision")
+	public Planning createRevision(@PathVariable("id") Long id) {
+		// FIXME: si c'est le créateur du planning
+		Planning planning = planningService.findById(id);
+		planning.setNewUnavailabilities(false);
+		return planningService.updateWithRevision(planning);
+	}
 }
+

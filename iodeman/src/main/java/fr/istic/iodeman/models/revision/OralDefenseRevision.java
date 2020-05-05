@@ -57,6 +57,7 @@ public class OralDefenseRevision extends AuditModel {
         this.company = oralDefense.getCompany();
         this.color = oralDefense.getColor();
         this.number = oralDefense.getNumber();
+        this.timeBox = oralDefense.getTimeBox();
     }
 
     public Long getId() {

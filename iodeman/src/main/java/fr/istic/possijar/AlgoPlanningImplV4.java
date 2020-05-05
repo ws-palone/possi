@@ -587,8 +587,8 @@ public class AlgoPlanningImplV4 {
 		}
 
 		for(int periode : creneauxPonderations.keySet()) {
-				if(planning.get(periode).size()<nbSalles)
-						return new Creneau(periode, e, null, t, s);
+			if(planning.get(periode).size()<nbSalles)
+				return new Creneau(periode, e, null, t, s);
 		}
 
 		return null;
@@ -804,7 +804,7 @@ public class AlgoPlanningImplV4 {
 		}
 	}
 
-	public List<Creneau> updateCrenaux(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, long idPlanning) {
+	public List<Creneau> updateCrenauxByUnavailability(List<Unavailability> unavailabilities, Collection<TimeBox> timeBoxes, long idPlanning) {
 		deserialize(idPlanning);
 
 		String userEmail = unavailabilities.get(0).getPerson().getEmail();
@@ -828,7 +828,6 @@ public class AlgoPlanningImplV4 {
 				}
 			}
 		}
-
 
 		for (Creneau c : creneauxToUpdate) {
 
@@ -872,6 +871,49 @@ public class AlgoPlanningImplV4 {
 		serialize(idPlanning);
 
 		return creneauxToUpdate;
+	}
+
+	public void updateCrenaux(long idPlanning, Map<Integer, Integer> modification) {
+		deserialize(idPlanning);
+
+		Collection<List<Creneau>> creneaux = planning.values().stream().filter(c -> c.size() > 0).collect(Collectors.toList());
+
+		for (Map.Entry<Integer, Integer> entry : modification.entrySet()) {
+
+			boolean trouve = false;
+
+			int numero = entry.getKey();
+
+			int period = entry.getValue();
+
+			Iterator<List<Creneau>> listIterator = creneaux.iterator();
+			while(listIterator.hasNext() && !trouve) {
+				List<Creneau> creneauList = listIterator.next();
+				Iterator<Creneau> creneauIterator = creneauList.iterator();
+				while (creneauIterator.hasNext() && !trouve) {
+					Creneau creneau = creneauIterator.next();
+					if (creneau.getNumero() == numero) {
+						int creneauPeriod = creneau.getPeriode();
+						Enseignant enseignant = creneau.getEnseignant();
+						enseignant.getDisponibilites().put(creneauPeriod, true);
+						enseignant.getDisponibilites().put(period, false);
+						Enseignant candidde = creneau.getCandide();
+						if (candidde != null) {
+							candidde.getDisponibilites().put(creneauPeriod, true);
+							candidde.getDisponibilites().put(period, false);
+						}
+						creneau.setPeriode(period);
+						planning.get(creneauPeriod).remove(creneau);
+						List<Creneau> newCreneauList = planning.get(period);
+						newCreneauList.add(creneau);
+						creneau.setSalle(newCreneauList.size()+1);
+						trouve = true;
+					}
+				}
+			}
+		}
+
+		serialize(idPlanning);
 	}
 
 	private List<Creneau> configureAvantUpdate(String nom, List<Unavailability> unavailabilities, Set<Integer> unavailabilitiesResolved, Map<String, Integer> timeBoxResolved) {
