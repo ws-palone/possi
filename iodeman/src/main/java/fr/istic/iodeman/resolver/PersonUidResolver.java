@@ -22,10 +22,9 @@ public class PersonUidResolver implements PersonResolver {
 
 		if (person == null) {
 			person = ldapHelper.getPersonByUid(uid);
-			if (person != null && !person.getUid().isEmpty() && person.getRole() != null) {
+			if (person != null) {
 				return personRepository.save(person);
 			}
-			person = null;
 		}
 
 		return person;

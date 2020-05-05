@@ -90,7 +90,7 @@ public class LdapHelper {
 			// The search failed for some reason.
 			lse.printStackTrace();
 		}
-		return person;
+		return person.getEmail().isEmpty() ? null : person;
 	}
 
 }
