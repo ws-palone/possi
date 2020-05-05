@@ -53,6 +53,7 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	@Transactional
 	public Planning save(Planning planning) {
 		Validate.notNull(planning);
 		Validate.isTrue(planning.getOralDefenseDuration() > 0);
@@ -96,6 +97,7 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	@Transactional
 	public Planning update(Planning planning) {
 		return planningRepository.save(planning);
 	}
@@ -126,6 +128,7 @@ public class PlanningServiceImpl implements PlanningService {
 
 		oralDefenseService.save(builder.split().build().getOralDefenses(personResolver));
 		planning.setGenerated(true);
+		planning.setNewUnavailabilities(true);
 		return this.update(planning);
 	}
 
