@@ -27,10 +27,11 @@ public class PersonMailResolver implements PersonResolver {
 
 		if (person == null) {
 			person = ldapHelper.getPersonByEmail(mail);
-			if (person != null) {
+			if (person != null && !person.getUid().isEmpty() && person.getRole() != null) {
 				System.err.println("On a trouvé, donc on persiste");
 				return personRepository.save(person);
 			}
+			person = null;
 		}
 
 		return person;
