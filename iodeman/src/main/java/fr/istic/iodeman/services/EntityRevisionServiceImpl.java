@@ -8,16 +8,20 @@ import fr.istic.iodeman.models.revision.OralDefenseRevision;
 import fr.istic.iodeman.models.revision.PlanningRevision;
 import fr.istic.iodeman.models.revision.RevInfo;
 import fr.istic.iodeman.models.revision.RoomRevision;
+import fr.istic.iodeman.repositories.PlanningRepository;
 import fr.istic.iodeman.repositories.PriorityRepository;
 import fr.istic.iodeman.repositories.revision.OralDefenseRevisionRepository;
 import fr.istic.iodeman.repositories.revision.PlanningRevisionRepository;
 import fr.istic.iodeman.repositories.revision.RevInfoRepository;
 import fr.istic.iodeman.repositories.revision.RoomRevisionRepository;
 import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -27,6 +31,8 @@ public class EntityRevisionServiceImpl implements EntityRevisionService {
 
     private final PlanningRevisionRepository planningRevisionRepository;
 
+    private final PlanningRepository planningRepository;
+
     private final RevInfoRepository revInfoRepository;
 
     private final RoomRevisionRepository roomRevisionRepository;
@@ -34,17 +40,20 @@ public class EntityRevisionServiceImpl implements EntityRevisionService {
     private final PriorityRepository priorityRepository;
 
 
-    public EntityRevisionServiceImpl(OralDefenseRevisionRepository oralDefenseRevisionRepository, PlanningRevisionRepository planningRevisionRepository, RevInfoRepository revInfoRepository, RoomRevisionRepository roomRevisionRepository, PriorityRepository priorityRepository) {
+    public EntityRevisionServiceImpl(OralDefenseRevisionRepository oralDefenseRevisionRepository, PlanningRevisionRepository planningRevisionRepository, RevInfoRepository revInfoRepository, RoomRevisionRepository roomRevisionRepository, PriorityRepository priorityRepository, PlanningRepository planningRepository) {
         this.oralDefenseRevisionRepository = oralDefenseRevisionRepository;
         this.planningRevisionRepository = planningRevisionRepository;
         this.revInfoRepository = revInfoRepository;
         this.roomRevisionRepository = roomRevisionRepository;
         this.priorityRepository = priorityRepository;
+        this.planningRepository = planningRepository;
     }
 
     @Override
-    public void createRevision(Planning p) {
+    @Transactional
+    public void createRevision(Long id) {
 
+        Planning p = planningRepository.findById(id).get();
         Validate.notNull(p);
         PlanningRevision planningRevision = new PlanningRevision(p);
         RevInfo revInfo = new RevInfo();
@@ -73,7 +82,17 @@ public class EntityRevisionServiceImpl implements EntityRevisionService {
         Collection<OralDefenseRevision> oralDefenseRevisions = new ArrayList<>();
 
         for (OralDefense oralDefense : oralDefenses) {
+            System.out.println(oralDefense.getNumber());
             OralDefenseRevision oralDefenseRevision = new OralDefenseRevision(oralDefense);
+            Iterator<RoomRevision> iterator = roomRevisions.iterator();
+            boolean found = false;
+            while (iterator.hasNext() && !found) {
+                RoomRevision roomRevision = iterator.next();
+                if (roomRevision.getName().equals(oralDefense.getRoom().getName())) {
+                    oralDefenseRevision.setRoom(roomRevision);
+                    found = true;
+                }
+            }
             oralDefenseRevision.setPlanning(planningRevision);
             oralDefenseRevisions.add(oralDefenseRevision);
         }
@@ -83,7 +102,18 @@ public class EntityRevisionServiceImpl implements EntityRevisionService {
     }
 
     @Override
-    public List<PlanningRevision> getRevision(Long id) {
+    public List<PlanningRevision> getRevisions(Long id) {
         return planningRevisionRepository.findAllByPlanning_IdOrderByCreatedAt(id);
+    }
+
+    @Override
+    public PlanningRevision findRevision(Long id) {
+        return planningRevisionRepository.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    public PlanningRevision getLastRevision(Long id) {
+        return planningRevisionRepository.findByPlanning_IdOrderByCreatedAtDesc(id).get(0);
     }
 }

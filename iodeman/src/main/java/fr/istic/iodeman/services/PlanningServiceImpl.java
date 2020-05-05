@@ -9,6 +9,7 @@ import fr.istic.iodeman.strategy.PlanningSplitterImpl;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -48,8 +49,7 @@ public class PlanningServiceImpl implements PlanningService {
 
 	@Override
 	public Planning findById(Long id) {
-		Optional<Planning> planning =  planningRepository.findById(id);
-		return planning.orElse(null);
+		return  planningRepository.findById(id).get();
 	}
 
 	@Override
@@ -85,16 +85,19 @@ public class PlanningServiceImpl implements PlanningService {
 
 		planning.setOralDefenses(oralDefenses);
 
-		entityRevisionService.createRevision(planning);
+		return planning;
+	}
 
+	@Override
+	public Planning updateWithRevision(Planning planning) {
+		planning = this.update(planning);
+		entityRevisionService.createRevision(planning.getId());
 		return planning;
 	}
 
 	@Override
 	public Planning update(Planning planning) {
-		planning = planningRepository.save(planning);
-		entityRevisionService.createRevision(planning);
-		return planning;
+		return planningRepository.save(planning);
 	}
 
 	@Override
@@ -108,6 +111,7 @@ public class PlanningServiceImpl implements PlanningService {
 	}
 
 	@Override
+	@Transactional
 	public Planning generate(Long planningId) {
 
 		// retrieving the planning
@@ -120,12 +124,9 @@ public class PlanningServiceImpl implements PlanningService {
 		builder.setOralDefenses(planning.getOralDefenses());
 		builder.setUnavailabilities(unavailabilityRepository.findByPlanning(planning));
 
-		// build & return
-		builder.split().build();
-
 		oralDefenseService.save(builder.split().build().getOralDefenses(personResolver));
-
-		return planning;
+		planning.setGenerated(true);
+		return this.update(planning);
 	}
 
 	@Override
@@ -135,7 +136,8 @@ public class PlanningServiceImpl implements PlanningService {
 		builder = new PlanningExportBuilder(colorRepository);
 		builder.setPlanning(planning);
 		oralDefenseService.save(builder.split().updatePlanningByUnavailability(unavailabilityRepository.findByPlanningAndPerson(planning, personRepository.findByUid(personUid))));
-
+		planning.setNewUnavailabilities(true);
+		this.update(planning);
 	}
 
 	@Override

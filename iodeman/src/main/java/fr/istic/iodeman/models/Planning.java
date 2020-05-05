@@ -18,6 +18,8 @@ public class Planning extends AuditModel {
 	private Integer oralDefenseInterlude;
 	private String name;
 	private Integer nbMaxOralDefensePerDay;
+	private Boolean generated = false;
+	private Boolean newUnavailabilities = true;
 
 	@Embedded
 	@AttributeOverrides( {
@@ -58,8 +60,8 @@ public class Planning extends AuditModel {
 	@ManyToOne
 	private Person admin;
 
-	@Transient
-	private RevisionMetadata<Integer> editVersion;
+	@OneToOne
+	private PlanningRevision defaultRevision;
 
 	public Planning(){}
 
@@ -159,19 +161,35 @@ public class Planning extends AuditModel {
 		this.admin = admin;
 	}
 
-	public RevisionMetadata<Integer> getEditVersion() {
-		return editVersion;
-	}
-
-	public void setEditVersion(RevisionMetadata<Integer> editVersion) {
-		this.editVersion = editVersion;
-	}
-
 	public Collection<PlanningRevision> getRevisions() {
 		return revisions;
 	}
 
 	public void setRevisions(Collection<PlanningRevision> revisions) {
 		this.revisions = revisions;
+	}
+
+	public PlanningRevision getDefaultRevision() {
+		return defaultRevision;
+	}
+
+	public void setDefaultRevision(PlanningRevision defaultRevision) {
+		this.defaultRevision = defaultRevision;
+	}
+
+	public Boolean getGenerated() {
+		return generated;
+	}
+
+	public void setGenerated(Boolean generated) {
+		this.generated = generated;
+	}
+
+	public Boolean getNewUnavailabilities() {
+		return newUnavailabilities;
+	}
+
+	public void setNewUnavailabilities(Boolean newUnavailabilities) {
+		this.newUnavailabilities = newUnavailabilities;
 	}
 }

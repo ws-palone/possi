@@ -9,6 +9,7 @@ import fr.istic.iodeman.repositories.UnavailabilityRepository;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,6 +69,7 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteByPlanning(Long planningId) {
 		unavailabilityRepository.deleteByPlanning(planningService.findById(planningId));
 	}

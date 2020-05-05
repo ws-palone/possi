@@ -27,12 +27,16 @@ public class LdapHelper {
 	private LDAPConnection connection;
 
 	public LdapHelper(String ldapUrl, String ldapBase) throws GeneralSecurityException, LDAPException {
+		try {
 		this.ldapUrl = ldapUrl;
 		this.ldapBase = ldapBase;
 		SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
 		sslSocketFactory = sslUtil.createSSLSocketFactory();
 		connection = new LDAPConnection(sslSocketFactory);
 		connection.connect(this.ldapUrl, 636);
+		} catch (Exception e) {
+			
+		}
 	}
 
 	public Person getPersonByUid(String uid) {

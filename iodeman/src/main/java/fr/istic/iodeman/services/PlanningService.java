@@ -11,6 +11,8 @@ public interface PlanningService {
 
 	Planning save(Planning planning);
 
+	Planning updateWithRevision(Planning planning);
+
 	Planning update(Planning planning);
 
 	List<Planning> findPersonBy(String uid);
