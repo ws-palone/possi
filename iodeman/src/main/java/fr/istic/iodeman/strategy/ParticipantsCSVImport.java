@@ -88,10 +88,10 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 				if (emailStudent.equals(emailTeacher)){
 					errorsDisplayer("L'étudiant et le professeur référent ont le même mail. (doublon)", lineNumber);
 				}
-				else if (!student.getRole().equals(Role.STUDENT)){
+				else if (student == null || !student.getRole().equals(Role.STUDENT)){
 					errorsDisplayer("La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.", lineNumber);
 				}
-				else if (!followingTeacher.getRole().equals(Role.TEACHER)){
+				else if (followingTeacher == null || !followingTeacher.getRole().equals(Role.TEACHER)){
 					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", lineNumber);
 				}
 				else if (students.contains(student.getUid())){
