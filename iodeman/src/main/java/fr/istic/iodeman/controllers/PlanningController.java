@@ -47,7 +47,7 @@ public class PlanningController {
 		return entityRevisionService.getRevisions(id);
 	}
 
-	@PostMapping("/{id}/defaultrevision")
+	@PutMapping("/{id}/defaultrevision")
 	public Planning setDefaultPlanning(@PathVariable("id") Long id, @RequestBody Long revId) {
 		Planning planning = planningService.findById(id);
 		planning.setDefaultRevision(entityRevisionService.findRevision(revId));
@@ -83,7 +83,7 @@ public class PlanningController {
 	@GetMapping("/{id}/generate")
 	public Planning generate(@PathVariable("id") Long id) {
 		// FIXME: si c'est le créateur du planning
-		return planningService.generate(id);
+		return unavailabilityService.setUnavailabilityByOralDefenses(planningService.generate(id));
 	}
 
 
