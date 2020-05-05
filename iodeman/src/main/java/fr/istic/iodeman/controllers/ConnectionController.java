@@ -34,12 +34,12 @@ public class ConnectionController {
 
 			try {
 				authenticationManager.authenticate(
-						new UsernamePasswordAuthenticationToken(person.getEmail(), person.getUid())
+						new UsernamePasswordAuthenticationToken(person.getUid(), person.getEmail())
 				);
 			} catch (BadCredentialsException e) {
 				throw new Exception("uid incorrect", e);
 			}
-			return new AuthenticationResponseDTO(person, jwtTokenUtil.generateToken(person.getEmail()));
+			return new AuthenticationResponseDTO(person, jwtTokenUtil.generateToken(person.getUid()));
 		}
 		return new AuthenticationResponseDTO();
 	}
