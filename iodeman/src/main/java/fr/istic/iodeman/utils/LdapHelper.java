@@ -78,7 +78,7 @@ public class LdapHelper {
 					else if (name.equals("uid"))
 						person.setUid(value);
 					else if (name.equals("employeeType")) {
-						if (value.equals("personnel_titulaire_enseignantChercheur"))
+						if (value.contains("enseignant") || value.contains("personnel"))
 							person.setRole(Role.TEACHER);
 						else
 							person.setRole(Role.STUDENT);
