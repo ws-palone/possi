@@ -84,7 +84,7 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 				else if (followingTeacher == null) {
 					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", lineNumber);
 				}
-				else if (followingTeacher.getRole() != Role.TEACHER){
+				else if (followingTeacher.getRole() != Role.TEACHER || followingTeacher.getRole() != Role.ADMIN ){
 					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", lineNumber);
 				}
 				else if (students.contains(student.getUid())){
