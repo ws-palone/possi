@@ -64,19 +64,6 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 				String normedEmailTeacher = normalize(emailTeacher);
 				Person followingTeacher = personResolver.resolve(normedEmailTeacher);
 
-				// Student
-				System.err.println(emailStudent);
-				System.err.println(normedEmailStudent);
-				if (student == null) {
-					student = new Person();
-					student.setEmail(normedEmailStudent);
-				}
-
-				// following teacher
-				if (followingTeacher == null) {
-					followingTeacher = new Person();
-					followingTeacher.setEmail(normedEmailTeacher);
-				}
 				String tutorFullName = row[5].trim();
 				participant.setTutorFullName(tutorFullName);
 				// Compagny
@@ -91,13 +78,13 @@ public class ParticipantsCSVImport implements ParticipantsImport {
 				else if (student == null) {
 					errorsDisplayer("La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.", lineNumber);
 				}
-				else if (!student.getRole().equals(Role.STUDENT)){
+				else if (student.getRole() != Role.STUDENT){
 					errorsDisplayer("La personne renseigné dans le champ étudiant n'est pas un étudiant reconnu.", lineNumber);
 				}
 				else if (followingTeacher == null) {
 					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", lineNumber);
 				}
-				else if (!followingTeacher.getRole().equals(Role.TEACHER)){
+				else if (followingTeacher.getRole() != Role.TEACHER){
 					errorsDisplayer("La personne renseigné dans le champ professeur référent n'est pas un professeur reconnu", lineNumber);
 				}
 				else if (students.contains(student.getUid())){
