@@ -10,17 +10,16 @@ public class PersonUidResolver implements PersonResolver {
 
 	private final PersonRepository personRepository;
 
-	private final LdapHelper ldapHelper;
 
-	public PersonUidResolver(PersonRepository personRepository, LdapHelper ldapHelper) {
+	public PersonUidResolver(PersonRepository personRepository) {
 		this.personRepository = personRepository;
-		this.ldapHelper = ldapHelper;
 	}
 
 	public Person resolve(String uid) {
 		Person person = personRepository.findByUid(uid);
 
 		if (person == null) {
+			LdapHelper ldapHelper = new LdapHelper();
 			person = ldapHelper.getPersonByUid(uid);
 			if (person != null) {
 				return personRepository.save(person);

@@ -19,23 +19,17 @@ import fr.istic.iodeman.models.Person;
 import fr.istic.iodeman.models.Role;
 
 public class LdapHelper {
-	private String ldapUrl;
-
-	private String ldapBase;
-
 	private SSLSocketFactory sslSocketFactory ;
 	private LDAPConnection connection;
 
-	public LdapHelper(String ldapUrl, String ldapBase) throws GeneralSecurityException, LDAPException {
+	public LdapHelper() {
 		try {
-		this.ldapUrl = ldapUrl;
-		this.ldapBase = ldapBase;
 		SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
 		sslSocketFactory = sslUtil.createSSLSocketFactory();
 		connection = new LDAPConnection(sslSocketFactory);
-		connection.connect(this.ldapUrl, 636);
+		connection.connect("ldap.univ-rennes1.fr", 636);
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 
@@ -48,14 +42,13 @@ public class LdapHelper {
 	}
 
 	private Person getPersonAux(String search, boolean mail) {
-		Map<String,String> infosPerson = new HashMap<String,String>();
 		Filter filter;
 		if (mail)
 			filter = Filter.createEqualityFilter("mail", search);
 		else
 			filter = Filter.createEqualityFilter("uid", search);
 
-		SearchRequest searchRequest = new SearchRequest(ldapBase, SearchScope.SUB, filter, "*");
+		SearchRequest searchRequest = new SearchRequest("ou=People,dc=univ-rennes1,dc=fr", SearchScope.SUB, filter, "*");
 		SearchResult searchResult;
 
 		Person person = null;

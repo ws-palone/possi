@@ -10,11 +10,8 @@ public class PersonMailResolver implements PersonResolver {
 
 	private final PersonRepository personRepository;
 
-	private final LdapHelper ldapHelper;
-
-	public PersonMailResolver(PersonRepository personRepository, LdapHelper ldapHelper) {
+	public PersonMailResolver(PersonRepository personRepository) {
 		this.personRepository = personRepository;
-		this.ldapHelper = ldapHelper;
 	}
 
 	public Person resolve(String mail) {
@@ -26,6 +23,7 @@ public class PersonMailResolver implements PersonResolver {
 		System.err.println("On cherche via personDAO " + person);
 
 		if (person == null) {
+			LdapHelper ldapHelper = new LdapHelper();
 			person = ldapHelper.getPersonByEmail(mail);
 			if (person != null) {
 				return personRepository.save(person);
