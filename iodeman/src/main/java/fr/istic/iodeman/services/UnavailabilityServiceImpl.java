@@ -31,7 +31,7 @@ public class UnavailabilityServiceImpl implements UnavailabilityService{
 
 	@Override
 	public List<Unavailability> findById(Long idPlanning, String uid) {
-		Person person = personRepository.findDistinctByUid(uid);
+		Person person = personRepository.findByUidIgnoreCase(uid);
 		Planning planning = planningService.findById(idPlanning);
 		Validate.notNull(person);
 		Validate.notNull(planning);
