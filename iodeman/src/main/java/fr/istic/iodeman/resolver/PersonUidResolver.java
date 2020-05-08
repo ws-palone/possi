@@ -19,7 +19,7 @@ public class PersonUidResolver implements PersonResolver {
 
 		uid = uid.trim();
 
-		Person person = personRepository.findByUid(uid);
+		Person person = personRepository.findDistinctByUid(uid);
 
 		if (person == null) {
 			LdapHelper ldapHelper = new LdapHelper();

@@ -18,7 +18,7 @@ public class PersonMailResolver implements PersonResolver {
 
 		mail = mail.trim();
 
-		Person person = personRepository.findByEmail(mail);
+		Person person = personRepository.findDistinctByEmail(mail);
 
 		if (person == null) {
 			LdapHelper ldapHelper = new LdapHelper();
