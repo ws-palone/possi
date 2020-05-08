@@ -16,12 +16,17 @@ public class PersonUidResolver implements PersonResolver {
 	}
 
 	public Person resolve(String uid) {
+
+		uid = uid.trim();
+
 		Person person = personRepository.findByUid(uid);
 
 		if (person == null) {
 			LdapHelper ldapHelper = new LdapHelper();
 			person = ldapHelper.getPersonByUid(uid);
 			if (person != null) {
+				person.setUid(person.getUid().trim());
+				person.setEmail(person.getEmail().trim());
 				return personRepository.save(person);
 			}
 		}

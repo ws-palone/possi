@@ -16,16 +16,16 @@ public class PersonMailResolver implements PersonResolver {
 
 	public Person resolve(String mail) {
 
-		System.err.println("Mail : On cherche pour " + mail);
+		mail = mail.trim();
 
 		Person person = personRepository.findByEmail(mail);
-
-		System.err.println("On cherche via personDAO " + person);
 
 		if (person == null) {
 			LdapHelper ldapHelper = new LdapHelper();
 			person = ldapHelper.getPersonByEmail(mail);
 			if (person != null) {
+				person.setUid(person.getUid().trim());
+				person.setEmail(person.getEmail().trim());
 				return personRepository.save(person);
 			}
 		}
